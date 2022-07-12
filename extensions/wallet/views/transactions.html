@@ -1,0 +1,199 @@
+    
+    <div class="page view-grid active">                                             
+
+        <div class="wallets hide-scroll"> 
+
+            <div class="wallet active" data-id="0" data-action="slickGoTo">
+                <div class="info">
+                    <h3 class="id">Active</h3>
+                    <div class="label">
+                        <span class="privacy">Private</span> / 
+                        <span class="owner">Not logged</span>
+                    </div>
+                </div>            
+                <div class="results">
+                    <div class="field">
+                        <span class="label">Total:</span>
+                        <span class="total">0,00</span>
+                        <span class="display-currency"></span>
+                    </div>
+                    <div class="field">
+                        <span class="label">Margin:</span>
+                        <span class="margin">0,00</span>
+                        <span class="display-currency"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wallet sold" data-id="1" data-action="slickGoTo">
+                <div class="info">
+                    <h3 class="name">Sold</h3>
+                    <div class="label">
+                        <span class="privacy">Private</span> / 
+                        <span class="owner"></span>
+                    </div>
+                </div>            
+                <div class="results">
+                    <div class="field">
+                        <span class="label">Margin:</span>
+                        <span class="total">0,00</span>
+                        <span class="display-currency"></span>
+                    </div>
+                    <div class="field">
+                        <span class="label">Margin Percentage:</span>
+                        <span class="margin">0%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="wallet funds" data-id="2" data-action="slickGoTo">
+                <div class="info">
+                    <h3 class="name">Funds</h3>
+                    <div class="label"></div>
+                </div>            
+                <div class="results">
+                    <div class="field">
+                        <span class="label">Funds:</span>
+                        <span class="funds-total">0.00</span>
+                        <span class="display-currency"></span>
+                    </div>    
+                    <div class="field">
+                        <span class="label">These are your virtual funds</span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="inline-actions edit-actions inline-container">
+            <div class="inline">        
+            </div>
+        </div>
+        <div class="page-views">
+
+            <div class="wallet-items active"></div>
+
+            <div class="wallet-items sold">
+                <p>You don't have any sold transactions yet.</p>
+            </div>
+
+            <div class="wallet-items funds">                                    
+                <p class="info">You don't have any static funds added yet.</p>
+            </div>        
+        </div>
+
+    </div>
+    
+    
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=6.0.0"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.0"></script>  
+     
+    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.0"></script>
+    <script type="text/javascript" src="/extensions/wallet/media/js/autosuggestions.js?v=3.0.0"></script>   
+    
+    <script type="text/javascript"> 
+        
+        function wallet_slick(){
+             $('.page-views').not('.slick-initialized').slick({
+                 arrows:false,
+                 dots:false,
+                 infinite: true,
+                 initialSlide:0
+             }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+                 if (currentSlide !== nextSlide) { 
+
+                     $('.wallets .wallet').removeClass('active');
+                     switch (nextSlide){
+                         case 0:                           
+                             $('.wallet[data-id="0"]').addClass('active'); 
+                             $('.wallets').stop().animate({scrollLeft:0}, 800, 'swing'); 
+                             $('.wallet-popup').attr('data-popup','add-new-stock');
+                             break;
+                         case 1: 
+                             $('.wallet[data-id="1"]').addClass('active'); 
+                             $('.wallets').stop().animate({scrollLeft:200}, 700, 'swing'); 
+                             $('.wallet-popup').attr('data-popup','add-new-stock');
+                             break;
+                         case 2: 
+                             $('.wallet[data-id="2"]').addClass('active'); 
+                             $('.wallets').stop().animate({scrollLeft:400}, 700, 'swing'); 
+                             $('.wallet-popup').attr('data-popup','funds-update');
+                             break;
+                     }
+                     reload();
+                 }
+             }); 
+        }
+        wallet_slick();
+        $(document).on('click','.wallet[data-action="slickGoTo"]',function(e){ $('.page-views').slick('slickGoTo',$(this).attr('data-id')); e.preventDefault(); });
+
+
+        //$('.wallets .wallet').removeClass('active'); 
+        //$('.wallet[data-id="funds"]').addClass('active'); 
+        //$('.wallets').stop().animate({scrollLeft:400}, 700, 'swing');
+        //$('.wallet-popup').attr('data-popup','funds-update');
+        
+
+        
+        $(document).ready(function(){
+                  
+            // UI 
+            button({ 
+                class: 'icon-btn icon-search2' }, 
+                function(){ location.href='/entities/find-by?with-popup'; });
+                        
+            button({ 
+                class: 'icon-btn icon-shopping_cart' }, 
+                function(){ 
+                if ($('.page-views').slick('slickCurrentSlide') === 2){
+                    funds_popup();    // => actions_item.js
+                }else{
+                    buy_sell_popup(); // => actions_item.js  
+                }    
+            }); 
+            
+            switcher({ 
+                key: 'editable',  
+                class: 'icon-create', 
+                value: settings.editable  ? settings.editable :  'false'},
+                function(){ editable();  // => ui.js                                              
+            }); 
+            
+        
+            changer({ 
+                title: 'Layout', 
+                key: 'wallet_layout', 
+                values: { 'grid': 'Grid', 'list':'List', 'list-small': 'Table (prices)', 'list-small-results': 'Table (results)'},
+                click: function(el){ 
+                    updateSettings('wallet_layout',$(el).find('select').val());
+                    $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                },
+                load: function(el){
+                    $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                }
+            });
+            changer({ 
+                title: 'Switch behavior', 
+                key: 'wallet_switch_behavior', 
+                values: { 'itself': 'Itself', 'others':'others'},
+                click: function(el){
+                    updateSettings('wallet_switch_behavior',$(el).find('select').val());
+                }
+            });
+            changer({ 
+                title: 'Trend size', 
+                key: 'wallet_trend_size', 
+                values: { '5-days': '5 Days', '5-weeks':'5 Weeks', '6-months': '6 Months' },
+                click: function(el){
+                    updateSettings('wallet_trend_size',$(el).find('select').val());
+                    init();
+                }
+            });          
+                        
+            
+        
+            init();              // => actions_wallet.js
+            smooth_scrolling();  // => ui.js
+                        
+        });
+        
+    </script>   

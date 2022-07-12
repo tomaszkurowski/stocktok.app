@@ -1,0 +1,248 @@
+    <div class="page observed active">
+         <div class="edit-view-actions inline-actions inline-container">
+            <div class="inline"></div>
+        </div> 
+        <div class="page-view" data-view="observed">
+            <div class="search-results view-grid"></div>
+        </div>          
+    </div>
+
+    <div class="entity-template hide">
+
+        <div class="mystock-container item active live">
+            <div class="mystock">
+                <div class="mystock-view">
+                    <div class="symbol">XYZ</div>
+                    <div class="logo-container"></div>
+                    <div class="current view-action">
+                        <span class="label updated-at"></span>
+                        <div class="info">
+                            <span class="price current-price">0.00</span>
+                            <span class="currency market-currency">USD</span>
+                        </div>
+                        <!--
+                        <div class="additionals">                                    
+                            <span class="price previous-price">-</span>
+                            <span class="percentage daily-change with-brackets">-</span>
+                            <div class="icon icon-arrow-up"></div>
+                        </div>
+                        -->
+                    </div>
+                    <div class="stock-graph-container view-action">
+                        <span class="label">5-days trend</span>                                     
+                        <div class="stock-graph-line"></div>
+                    </div>
+
+                    <div class="name"></div>            
+                    <div class="actions">
+                        <div class="btn" data-action="buy-more">
+                            <span class="icon icon-account_balance_wallet"></span>
+                        </div>
+                        <div class="btn actions-observed secondary" data-action="remove-from-observed">
+                            <span class="icon icon-bookmarks"></span>
+                        </div>                
+                    </div>
+                </div>
+            </div>            
+        </div>    
+    </div>
+
+
+
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=6.0.0"></script> 
+    <script type="text/javascript"> 
+
+
+        $(document).ready(function(){
+            
+            button({ 
+                class: 'icon-btn icon-search2' }, 
+                function(){ location.href='/entities/find-by?with-popup'; });
+                
+            switcher({ 
+                key: 'editable',  
+                class: 'icon-create', 
+                value: settings.editable  ? settings.editable :  'false'},
+                function(){ editable();  // => ui.js                                              
+            }); 
+
+
+            changer({ 
+                title: 'Layout', 
+                key: 'wallet_observed_layout', 
+                values: { 'grid': 'Grid', 'box':'Box' },
+                click: function(el){ 
+                    updateSettings('wallet_observed_layout',$(el).find('select').val());
+                    $('.page').removeClass('view-grid view-box').addClass('view-'+$(el).find('select').val());
+                },
+                load: function(el){
+                    $('.page').removeClass('view-grid view-box').addClass('view-'+settings.wallet_observed_layout);
+                }
+            });
+            changer({ 
+                title: 'Trend size', 
+                key: 'wallet_observed_trend_size', 
+                values: { '5-days': '5 Days', '5-weeks':'5 Weeks', '6-months': '6 Months' },
+                click: function(el){
+                    updateSettings('wallet_observed_trend_size',$(el).find('select').val());
+                    get_my_observed();
+                }
+            }); 
+        });
+
+        function reload_price(item){
+
+            var element = $(".live[data-symbol="+item.s.toLowerCase()+"]");
+            $(element).find('.current-price').text(format_price(item.p)); 
+            $(element).find('.updated-at').text(format_datetime(item.t));
+
+        }    
+
+        function get_my_observed(){
+
+            if (config.debug) console.log('My observed entities:');
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/wallet/observed' 
+                },
+                type:     'GET',
+                dataType: 'JSON',
+                cache:    false,
+
+                success: function(response){
+                    if (config.debug) console.log(response);                
+
+                    var stock_graphs = new Array();                
+                    var entity_template;
+                    var destination = '.search-results';
+                    var symbols = [];
+
+                    $(destination).html('');
+                    $(destination).removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+settings.observed_layout);
+                    $('#observed_layout').val(settings.observed_layout);
+
+                    if (!response.items || response.items.length === 0){
+                        $(destination).html('<div class="info-page"><div class="icon icon-clear"></div><h1>No observed items</h1><p>You have no observed entities yet</p><div class="btn primary" onclick="location.href=\'/entities\'">Find entities</div></div>')
+                        return;
+                    }
+
+                    $.each(response.items, function(i,entity){
+
+                        // IOS Fix for dates NaN
+                        var last_updated_at = '-';
+                        if (entity.last_updated_at){
+                            var last_updated_at_raw = entity.last_updated_at;
+                            var t = last_updated_at_raw.split(/[- :]/);
+                            var dt = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+                            var d = new Date(dt);
+                            last_updated_at = d.getDate()+'.'+(d.getMonth()+1)+', '+(d.getHours()<10?'0':'')+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes();                     
+                        }  
+
+                        var price                   = parseFloat(entity.price).toFixed(3).slice(0,-1); 
+                        var price_change            = parseFloat(entity.price_change).toFixed(3).slice(0,-1);
+                        var price_change_percentage = parseFloat(entity.price_change_percentage).toFixed(3).slice(0,-1);
+
+                        var market_currency = 'usd';
+                        if (entity.market==='gpw') market_currency = 'pln';
+
+                        // Data to Template
+
+                        entity_template = $('.entity-template > .mystock-container').clone();
+
+                        $(entity_template).attr('data-id',entity.id);
+
+                        $(entity_template).attr('data-symbol',entity.symbol);
+                        $(entity_template).attr('data-market',entity.market);
+                        $(entity_template).attr('data-price',entity.price);
+
+                        $(entity_template).find('.symbol').html(entity.symbol);
+                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
+                        $(entity_template).find('.name').html(entity.name);
+
+                        if (price_change>0) $(entity_template).find('.current').attr('data-results','with profit');
+                        else $(entity_template).find('.current').attr('data-results','with lost');
+
+                        $(entity_template).find('.updated-at').html(last_updated_at);
+                        $(entity_template).find('.current-price').html(price);
+                        $(entity_template).find('.stock-graph-container .label').text(settings.wallet_observed_trend_size+' Trend');
+                        $('#observed_trend_size').val(settings.wallet_observed_trend_size);
+
+                        /*
+                        $(entity_template).find('.additionals .price').html(price_change);
+                        $(entity_template).find('.additionals .percentage').html(price_change_percentage);                    
+                        */
+
+                        $(entity_template).find('.market-currency').html(market_currency);
+
+                        $(entity_template).find('.stock-graph-line').attr('id','stock-graph-'+entity.id);                    
+
+                        $(destination).append($(entity_template));
+
+                        // TRENDS
+
+                        if (entity.trend){
+
+                            var data;
+                            switch (settings.wallet_observed_trend_size){                            
+                                case '5-weeks':  data = entity.trend.weekly.length ? entity.trend.weekly.reverse() : null; break;
+                                case '6-months': data = entity.trend.monthly.length ? entity.trend.monthly.reverse() : null; break;
+                                default:         data = entity.trend.daily.length ? entity.trend.daily.reverse() : null; break;
+                            }
+
+                            var options = {
+                                series: [{ data: data }],
+                                colors: [settings.design.color_base],
+                                chart: {
+                                    height: 50,
+                                    type: 'area',
+                                    zoom: { enabled: false },                        
+                                    toolbar: { show: false },
+                                    sparkline: { enabled: true },
+                                },
+                                dataLabels: { enabled: false },
+                                stroke: {
+                                    curve: 'smooth',
+                                    width: 2
+                                },
+                                grid: { row: { colors: ['transparent'] } },
+                                tooltip: { enabled: false }
+                            };
+                            stock_graphs[entity.id] = new ApexCharts(document.querySelector('#stock-graph-'+entity.id), options);
+                            stock_graphs[entity.id].render();
+                        }
+
+                        symbols.push(entity.symbol.toUpperCase());
+                    });
+
+                    // Live
+                    /*
+                    var live = new WebSocket('wss://staging.stocktok.pl:8443');
+                    live.onopen = function(e) {
+                        var message = { action: "subscribe", tickers: symbols };
+                        live.send(JSON.stringify(message));
+                        if (config.debug) console.log("Live Connection established!");
+                    };
+
+                    live.onmessage = function(msg) {
+                        var data = msg.data;
+                        var item = JSON.parse(data);
+                        if (item.hasOwnProperty('s')){                         
+                            reload_price(item);
+                            //if (config.debug) console.log(item.s+': '+item.p);
+                        }                                
+                    };
+                    live.onerror = function(e){ console.log(e); };
+                    /* */
+
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            });
+
+        }
+        get_my_observed();
+
+
+    </script>

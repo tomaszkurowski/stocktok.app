@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stocktok</title>
+      
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    
+    <link rel="stylesheet" href="./css/styles.css?v=15" />
+    <link rel="stylesheet" href="./css/icons.css?v3" />
+    <link rel="stylesheet" href="./css/addtohomescreen.css?v3" />
+    
+    <link rel="icon" type="image/png" href="./img/icons/favicon.png" />
+
+    <meta name="theme-color" content="#69349c" />
+    <meta name="description" content="PWA App for your Stocks Wallet." />
+
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="./img/icons/icon-144x144.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-status-bar-style" content="black" />
+    <meta name="mobile-web-app-title" content="Stocktok" />
+	
+    <link rel="manifest" href="./manifest.json">    
+
+    <script type="text/javascript">
+        function get_started(){    
+            localStorage.setItem('note_iossafari','showed');
+            window.location.href = "/me/login";
+        }
+    </script>
+    
+</head>
+<body>
+    <div class="browser-note">
+        <h2>IOS Safari note</h2>
+        <p>
+        There are two technology trend-features inside app:
+        </p>
+        <ul>
+            <li>PWA</li>
+            <li>Webauthn (Device authorization with fingerprint, faceID, PIN)</li>                
+        </ul>
+        <p>
+            They should be working fine in Chrome/Firefox/Edge browsers.<br /><br />
+            
+            Safarii unfortunatelly is still working on them and they are implemented only partially. 
+            PWA will not have button "add to homescreen" (so you can add app only manually). 
+            Webauthn works only with external (USB) devices.
+        </p>
+        <div class="button" onClick="get_started()">Get started</div>        
+    </div>
+</body>
+</html>
+

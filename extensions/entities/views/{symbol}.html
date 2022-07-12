@@ -1,0 +1,923 @@
+    
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.0"></script>
+    
+    <div class="page stock-view active">
+
+        <div class="widget box results-info collapsed">
+            <div class="results-info-title">
+                
+                <div class="logo"></div>
+                <h2></h2>
+                
+                <div class="price-preview">
+                    <div class="info">
+                        <span class="price"></span>
+                        <span class="currency"></span>
+                    </div>
+                    <div class="date"></div>
+                </div>
+                
+                <div class="actions-all">
+                    <div class="actions">
+                       <div class="icon-btn btn-edit icon-settings"></div> 
+                    </div>
+                    <div class="icon icon-btn icon-expand_more1 widget-collapse"></div>
+                </div>
+
+            </div>
+            <div class="content">                    
+                <div class="results-info-table">
+                    <div class="label label-current-price">Price</div>
+                    <div class="value current-price"></div>
+
+                    <div class="label label-current-volume">Volume</div>
+                    <div class="value current-volume">-</div>  
+
+                    <div class="label label-previous-price">Previous</div>
+                    <div class="value previous-price"></div>
+
+                    <div class="label label-open-price">Open</div>
+                    <div class="value open-price">-</div>                            
+
+                    <div class="label label-daily-change">Daily</div>
+                    <div class="value daily-change">-</div>
+
+                    <div class="label label-daily-change-percentage">Daily %</div>
+                    <div class="value daily-change-percentage percentage">-</div>
+
+                    <div class="label label-daily-max">Day Max</div>
+                    <div class="value daily-max">-</div>
+
+                    <div class="label label-daily-min">Day Min</div>
+                    <div class="value daily-min">-</div>
+                </div>
+
+                <div class="edit">
+                    <h3>Choose fields you would like to see here:</h3>
+                    <div class="form hidden-fields">
+                        <div class="field">
+                            <input type="checkbox" id="v-current-price" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-current-price">Current Price</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-current-volume" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-current-volume">Current Volume</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-previous-price" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-previous-price">Previous Price</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-open-price" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-open-price">Open Price</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-daily-max" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-daily-max">Daily Max</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-daily-min" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-daily-min">Daily Min</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-daily-change" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-daily-change">Daily Change</label>
+                        </div>
+                        <div class="field">
+                            <input type="checkbox" id="v-daily-change-percentage" data-role="none" checked="CHECKED" class="checkbox" />
+                            <label for="v-daily-change-percentage">Daily Change %</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-views stock-page-views">        
+
+              
+            
+            <div class="page-view active" data-view="dashboard">                            
+                <div class="chart stock-price-container">  
+                    <div id="stock-price" class="stock-price active"></div>                                
+                </div>
+                <div class="range-selector">                   
+                    <div class="labels">
+                        <span data-id="1">Today</span>
+                        <span data-id="2">1W</span>
+                        <span data-id="3">3M</span>
+                        <span data-id="4">6M</span>
+                        <span data-id="5">1Y</span>
+                        <span data-id="6">All</span>
+                    </div>
+
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
+                    </div>
+                </div>
+                <div class="edit-view-actions inline-container">                                
+                    <div class="inline"> 
+
+
+                        <!-- Select changers -->
+                        <div class="changer-v2">
+                            <label for="graph_type">Graph type:</label>
+                            <select id="graph_type" onChange="updateSettings('graph_type',$(this).val()); generate_graph();"> <!-- stockactions.js -->
+                                <option value="line">Line</option>
+                                <option value="ohlc">OHLC</option>
+                                <option value="area">Area</option>
+                            </select>
+                        </div>  
+                        <div class="changer-v2">
+                            <label for="graph_touch">On touch:</label>
+                            <select id="graph_touch" onChange="updateSettings('graph_touch',$(this).val()); change_graph_touch()"> <!-- At the bottom -->
+                                <option value="tooltip">Show Tooltip</option>
+                                <option value="ruler">Show Ruler</option>
+                                <option value="void">Do nothing</option>
+                            </select>
+                        </div>
+                        <div class="changer-v2">
+                            <label for="graph_line">Graph line:</label>
+                            <select id="graph_line" onChange="updateSettings('graph_line',$(this).val()); generate_graph();"> <!-- stockactions.js -->
+                                <option value="1">Thin</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Bold</option>
+                            </select>
+                        </div>                                        
+                        <div class="changer-v2">
+                            <label for="graph_grid">Grid type:</label>
+                            <select id="graph_grid" onChange="updateSettings('graph_grid',$(this).val()); change_graph_grid()"> <!-- At the bottom -->
+                                <option value="x">Only X axis</option>
+                                <option value="y">Only Y axis</option>
+                                <option value="xy">XY axis</option>
+                                <option value="-">No grid</option>
+                            </select>
+                        </div>
+
+                        <!-- Yes/No Changers -->
+                        <div class="changer-v2">
+                            <label>Fullscreen:</label>
+                            <label class="switch-slider">
+                                <input id="graph_fullscreen" type="checkbox" onClick="updateSettings('graph_fullscreen',this.checked); change_graph_fullscreen()"> <!-- At the bottom -->
+                                <span class="switch"></span>
+                            </label>
+                        </div>                     
+                        <div class="changer-v2">
+                            <label>Show Labels:</label>
+                            <label class="switch-slider">
+                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> <!-- At the bottom -->
+                                <span class="switch"></span>
+                            </label>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>                          
+            
+            <div class="page-view" data-view="info">
+                <div class="entity-main-info-container"></div>
+            </div>
+
+            
+             <div class="page-view" data-view="financial">
+                 <div class="widgets" id="financial-graphs">
+
+                    <div class="widget shareholders">
+                        <div class="header">
+                            <h2 class="title">Shareholders</h2>
+                            <div class="actions">
+                                <div class="icon-btn btn-edit icon-settings"></div>
+                                <div class="icon-btn btn-move icon-move"></div>
+                            </div>
+                        </div>
+                        <div class="content">                        
+                            <div class="graph" id="graph-shareholders"></div>                                         
+                            <div class="edit"></div>
+                        </div>
+                    </div>
+
+                 </div>
+                 <div class="add-widget" data-type="financial_graph">
+                     <div class="icon-btn icon-add"></div>                     
+                 </div>
+            </div>
+            
+            <div class="page-view" data-view="website">
+                <div class="website"></div>
+            </div>
+            
+            <!--
+            <div class="page-view" data-view="news">
+                <div class="box news-container">
+                    <div id="news">News, soon ..</div>
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+    <div class="template-widget hide" data-type="financial_graph">
+
+        <div class="widget" data-type="financial_graph">
+            <div class="header">
+                <div class="title">
+                    <h2>New Widget</h2>
+                    <div class="tooltip">
+                        <span class="x"></span> <span class="y"></span>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="icon-btn btn-edit icon-settings"></div>
+                    <div class="icon-btn btn-delete icon-bin"></div>
+                </div>
+            </div>
+            <div class="content">
+
+                <div class="graph"></div>
+                <div class="edit edit-box">
+                    <h3>Choose graph parameters</h3>
+                    <div class="field">
+                        <div class="label">Date Range</div>
+                        <select class="select" data-id="range">
+                            <option disabled selected value> -- select an option -- </option>
+                            <option value="quarterly">Quaterly</option>
+                            <option value="yearly">Yearly</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <div class="label">Scope</div>
+                        <select class="select" data-id="scope">
+                            <option disabled selected value> -- select an option -- </option>
+                            <option value="totalRevenue">Total Revenue</option>
+                            <option value="grossProfit">Total Profit</option>
+                            <option value="ebit">Total EBIT</option>
+                            <option value="ebitda">Total EBITDA</option>
+                            <option value="incomeTaxExpense">Income Tax Expense</option>
+                            <option value="operatingIncome">Operating Income</option>
+                        </select>
+                    </div>
+
+                    <div class="separator"></div>
+                    <div class="field">
+                        <div class="label">Chart</div>
+                        <select class="select" data-id="chartType">
+                            <option disabled selected value> -- select an option -- </option>
+                            <option value="line">Line</option>
+                            <option value="bar">Bars</option>
+                        </select>
+                    </div>
+
+                    <div class="separator"></div>
+
+                </div>
+            </div>
+        </div> 
+    </div>
+
+    <div class="template-info-tab hide tab-container tab-info">
+        <div class="tab-header">
+            <h2>Title</h2>
+            <div class="expand icon-expand_more"></div>
+        </div>
+        <div class="tab-content"></div>
+    </div>
+    <div class="template-info-tab-row hide" onClick="$(this).toggleClass('expanded');">
+        <div class="row">
+            <div class="tooltip-btn icon-info"></div> 
+            <div class="field">
+                <span class="field-value"></span>
+            </div>
+            <div class="value"></div>         
+        </div>
+        <div class="tooltip-info"></div>
+    </div>
+
+
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+            //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js    
+            switcher({ key: 'editable',  class: 'icon-create', value: settings.editable  ? settings.editable :  'false'},function(){ editable(); stock_graph_adaptive_height(); if (stock_chart){ stock_chart.reflow(); }}); // => ui.js                                    
+        });
+    
+    </script>
+    
+    <script type="text/javascript">
+
+        $('.page-views').not('.slick-initialized').slick({
+            arrows:false,
+            dots:false,
+            infinite: true,
+            initialSlide:0,
+            adaptiveHeight:true,
+            swipe:false
+        }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+            if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }
+            $("main").animate({scrollTop: 0}, "slow");
+        }); 
+        swiper({ initial: 0 });
+        
+        
+
+
+        function stock_graph_adaptive_height(){
+
+            if ($('.results-info').hasClass('editable')) return;
+
+            var optimal_graph_height = 10;
+
+            optimal_graph_height += $('.footer-container').outerHeight();
+            optimal_graph_height += $('.range-selector').outerHeight();
+
+            if (!$('body').hasClass('stock-price-pro-mode')){
+                optimal_graph_height += $('.results-info').outerHeight(); 
+                optimal_graph_height += 25; 
+            }
+
+            optimal_graph_height += 20; // FullScreen: 20, Not Fullscreen: 45,                
+
+            optimal_graph_height += ($('.editable .edit-view-actions').outerHeight() ? $('.editable .edit-view-actions').outerHeight()+15 : 0);         
+
+            $('.chart.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
+        }
+        $(document).on('click','[data-label="view_stock_edit"]',function(){
+            stock_graph_adaptive_height();
+            stock_chart.reflow();
+        });
+
+
+        // Results Info - Collapse/Expand
+        $(document).on('click','.widget-collapse',function(){
+            $(this).parents('.widget').toggleClass('collapsed');
+
+            // Remember collapse state
+            var widgets = JSON.parse(localStorage.getItem('widgets'));
+            if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
+
+            widgets.results_info.collapsed = 'false';                
+            if ($(this).parents('.widget').hasClass('collapsed')){ widgets.results_info.collapsed = 'true'; }
+
+            localStorage.setItem('widgets',JSON.stringify(widgets));
+            stock_chart.reflow();
+            stock_graph_adaptive_height();
+            stock_chart.reflow();
+            
+        });
+        $(document).ready(function(){
+            var widgets = JSON.parse(localStorage.getItem('widgets'));
+            if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('collapsed') && widgets.results_info.collapsed === 'false'){
+                $('.widget.results-info').removeClass('collapsed');
+            }else{
+                $('.widget.results-info').addClass('collapsed');
+            }        
+        });
+
+        // Results Info - Visible Fields
+        $(document).on('click','.results-info .edit .form.hidden-fields input',function(){
+            var id = $(this).attr('id').substring(2); // v-{field}
+            $('.results-info').find('.'+id).toggleClass('hide');
+            $('.results-info').find('.label-'+id).toggleClass('hide');
+
+            // Remember visible fields
+            var widgets = JSON.parse(localStorage.getItem('widgets'));
+            if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
+
+            var hidden_fields = [];
+            $('.results-info .edit .form.hidden-fields input').each(function(key,element){
+                if (!$(element).is(':checked')){ hidden_fields.push($(element).attr('id').substring(2)); }
+            });
+            widgets.results_info.hidden_fields = hidden_fields;
+            localStorage.setItem('widgets',JSON.stringify(widgets));        
+
+        });
+
+        $(document).ready(function(){
+            var widgets = JSON.parse(localStorage.getItem('widgets'));
+            if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('hidden_fields')){
+                $.each(widgets.results_info.hidden_fields,function(key,id){
+                    $('.results-info').find('.'+id).toggleClass('hide');
+                    $('.results-info').find('.label-'+id).toggleClass('hide');
+                    $('.results-info .edit input#v-'+id).prop('checked',false);
+                });
+            }
+
+            // Set changer-v2 selected option values
+            $(':not(.slick-cloned) .changer-v2 select').each(function(){
+
+                var id = $(this).attr('id');
+                if (settings.hasOwnProperty($(this).attr('id'))){
+                    $(this).val(settings[id]);
+
+                }
+                console.log('value selected: '+id+' '+settings[id]);
+                console.log(settings);
+            });
+
+
+        });
+
+        function change_graph_touch(){
+
+            switch (settings.graph_touch){
+                case 'tooltip':
+                    stock_chart.update({ 
+                        xAxis: { crosshair: { snap: true } },
+                        yAxis: { crosshair: { snap: true } },
+                        tooltip: { enabled: true },
+                    });
+                    break;
+                case 'ruler':
+                    stock_chart.update({ 
+                        xAxis: { crosshair: { snap:false } },
+                        yAxis: { crosshair: { snap:false } },
+                        tooltip: { enabled: false },
+                    });
+                    break;
+                case 'void':
+                    stock_chart.update({ 
+                        xAxis: { crosshair: false },
+                        yAxis: { crosshair: false },
+                        tooltip: { enabled: false },
+                    });
+                    break;
+            }
+            stock_chart.reflow();
+        }
+
+        function change_graph_grid(){
+            // Grid lines are controlled in CSS
+            $('#stock-price').attr('grid',settings.graph_grid);
+        }
+        change_graph_grid();
+
+        function change_graph_fullscreen(){
+            $('body').toggleClass('stock-price-pro-mode');
+            stock_graph_adaptive_height();
+            stock_chart.reflow();
+        }
+
+        function change_graph_tools(){
+            stock_chart.update({
+                stockTools: {
+                    gui: {
+                        visible: settings.graph_tools === 1 ? true : false,
+                        placed: settings.graph_tools === 1 ? true : false
+                    }
+                }
+            });
+            stock_chart.reflow();
+        }
+        function change_graph_labels(){
+            stock_chart.update({ 
+                xAxis: {
+                    title:  { enabled: settings.graph_labels },
+                    labels: { enabled: settings.graph_labels },
+                    tickLength: 3
+                },
+                yAxis: {
+                    title:  { enabled: settings.graph_labels },
+                    labels: { enabled: settings.graph_labels },
+                    tickLength: settings.graph_labels === true ? 3 : 0
+                }
+            });    
+            stock_chart.reflow();
+        }
+
+        $(document).on('input','#stock_chart_range',function(){
+            var val = $(this).val();
+            $('.range-selector .labels span').removeClass('selected');
+            $('.range-selector .labels span[data-id='+val+']').addClass('selected');
+
+            settings.stock_chart_range = val;
+            localStorage.setItem('settings',JSON.stringify(settings));
+
+            stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);
+        });
+
+    </script>
+    <script type="text/javascript">
+        //var path = window.location.pathname.substring(1).split('/');
+        //$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q="+path[2]+"&callback=hndlr&sort=date");
+    </script>
+
+
+    <script type="text/javascript">
+        
+        var market = mvc.view;
+        var symbol = mvc.controller;
+                    
+        $(document).ready(function(){            
+            $.ajax({
+                url: config.api_url,
+                data: { endpoint: '/entity', symbol: symbol, market:market },
+                type: 'GET',
+                dataType: 'JSON',
+                cache:false, // @TODO: Online/Offline
+                success: function(response){
+                    console.log('entity');
+                    console.log(response);
+                    stock = response.entity;
+
+                    if (market==='gpw') stock.currency = 'PLN';
+                    else stock.currency = 'USD';
+
+                    $('.heading.stock-view .results-info-title h2').text(stock.symbol);
+                    $('.heading.stock-view-menu h2').text(stock.symbol);
+                    $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);                    
+
+                    $('.stock-view .results-info h2').text(stock.name);               
+                    $('.stock-view .results-info .logo').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
+                    $('.stock-view .results-info .price-preview .currency').text(stock.currency);
+                    $('.stock-view .results-info .price-preview .date').text(format_date(Date.parse(stock.last_updated_at)));
+                    
+                    
+                    $('.page.stock-view .symbol').text(stock.symbol);
+
+                    $('.range-selector .labels span').removeClass('selected');
+                    $('.range-selector .labels span[data-id='+settings.stock_chart_range+']').addClass('selected');   
+                    $('.range-selector input').val(settings.stock_chart_range);
+
+
+                    reload_stock_price();
+
+                   // Live
+                    var live = new WebSocket('wss://stocktok.online:8443');
+                    live.onopen = function(e) {
+
+                        stock.currencies = [];
+
+                        symbols = [stock.symbol.toUpperCase()];                    
+                        symbols.push('USDPLN');
+
+                        var message = { action: "subscribe", tickers: symbols };
+                        live.send(JSON.stringify(message));
+
+                        if (config.debug) console.log("Live Connection established!");
+                        
+                        var liveInterval = window.setInterval(function(){
+                            reload_stock_price();
+                        }, 1000);
+
+                    };
+
+                    live.onmessage = function(msg) {
+
+                        var data = msg.data;
+                        var item = JSON.parse(data);
+
+                        if (item.hasOwnProperty('s')){                                        
+                            if (stock.symbol.toUpperCase()===item.s){ 
+                                stock.price = item.p;   
+                                stock.last_updated_at = format_datetime(item.t);
+
+                            }                      
+                        }                                
+                    };
+                    live.onerror = function(e){
+                        console.log(e);
+                    };
+                    /* */
+
+
+
+
+
+                    stock_graph_adaptive_height();
+                    stock_chart = Highcharts.stockChart('stock-price', {
+                        global: {
+                            useUTC: false
+                          },
+
+                        rangeSelector: { 
+                            selected: settings.stock_chart_range,
+                            verticalAlign: 'bottom',
+                            floating:true,
+                            //dropdown:'never',
+                            //buttonPosition: { align: 'right' },
+                            //inputPosition: { align: 'right' },
+                            y:30,
+                            buttons: [
+                            {
+                                type: 'day', count: 1, text: '1d',
+                                dataGrouping: { units: [['hour', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
+                            },
+                            {
+                                type: 'week', count: 1, text: '1w',
+                                dataGrouping: { units: [['hour', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
+                            },
+                            {
+                                type: 'month', count: 3, text: '3m',
+                                dataGrouping: { units: [['day', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
+                            }, {
+                                type: 'month', count: 6, text: '6m',
+                                dataGrouping: { units: [['day', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
+                            }, 
+                            /*{
+                                type: 'ytd', text: 'YTD',
+                                dataGrouping: { units: [['day', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',5); }}
+                            },
+                            */    
+                            {
+                                type: 'year', count: 1, text: '1y',
+                                dataGrouping: { units: [['day', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
+                            }, {
+                                type: 'all', text: 'All',
+                                dataGrouping: { units: [['month', [1]]] },
+                                events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
+                            }]
+                        }, 
+                        scrollbar: { enabled: false },
+                        navigator: { enabled: false },
+                        xAxis: {
+                            title:  { enabled: settings.graph_labels },
+                            labels: { enabled: settings.graph_labels },
+                            tickLength: 5,
+                            tickPixelInterval: 75,
+                            crosshair: true,
+                            snap:false,
+                            opposite: true
+                        },
+                        yAxis: {
+                            title:  { enabled: settings.graph_labels },
+                            labels: { enabled: settings.graph_labels },
+                            tickLength: (settings.graph_labels === true ? 5 : 0),
+                            crosshair: true,
+                            snap:false
+                        },
+                        tooltip: {
+                            positioner: function () {
+                                if ($('body').hasClass('stock-price-pro-mode')) return { x: 50, y: 0 }
+                                else return { x: 10, y: 0 };                                                        
+                            },
+                            pointFormatter:function(){
+                                $('.stock-view .results-info .price-preview').addClass('tooltip-hover');
+                                $('.stock-view .results-info .price-preview .price').text(format_price(this.y,2));
+                                $('.stock-view .results-info .price-preview .date').text(format_date(this.x));                    
+                                return '';
+                            },
+                            split: false,
+                            followTouchMove: true,
+                            followPointer:false
+                        },
+                        colors:[settings.design.color_base],
+                        series: [{ name: 'Main', data:[] }],
+                        chart:{
+                            spacing:[10,15,5,5],
+                            spacingBottom:40,
+                            type: 'line'
+                        },
+                        stockTools:{
+                            gui:{
+                                visible: settings.graph_tools,
+                                placed: settings.graph_tools,
+                                buttons:[ 
+                                    'simpleShapes', 
+                                    'lines', 
+                                    'crookedLines', 
+                                    'measure', 
+                                    'advanced', 
+                                //    'toggleAnnotations', 
+                                //    'separator', 
+                                    'verticalLabels', 
+                                    'flags', 
+                                //    'separator',                             
+                                //    'typeChange' 
+                                //    'fullScreen',                                 
+                                //    'zoomChange', // Not working    
+                                //    'indicators',  // on hold       
+                                //    'currentPriceIndicator', 
+                                //    'saveChart' // Next phase
+                                ]
+                            }
+                        },
+                        plotOptions: {
+                            series: {
+                                lineWidth: 1,
+                                states: {
+                                    hover: { enabled: false }
+                                },
+                                events:{
+                                    mouseOut: function(){
+                                        $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
+                                        reload_stock_price();
+                                    }
+                                }
+                            }
+                        }
+                        //annotations: [{
+                        //    labels: [{
+                        //        point: {
+                        //            xAxis: 0,
+                        //            yAxis: 0,
+                        //            x: '865839600000',
+                        //            y: 250,
+                        //            text: 'Purchase'
+                        //        }
+                        //    }]
+                        //}]                    
+                    });
+
+
+                    
+                    // GET Entity info
+                    $.ajax({
+                        url: config.api_url,
+                        data: { 
+                            endpoint: '/entity/info',
+                            symbol: (stock.market!=='gpw') ? stock.symbol : stock.symbol_short,
+                            market: stock.market
+                        },
+                        type: 'get',
+                        dataType: 'JSON',
+                        cache: false,
+                        success: function(response){
+
+                            if (response.success === false){
+                                $('.entity-financial-container').html('Data not imported yet.');                                
+                                
+                                
+                                $('.slick-initialized').slick('slickRemove',1); $('.range-icons .icon-info').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                $('.slick-initialized').slick('slickRemove',2); $('.range-icons .icon-finance').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                $('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                 
+                                //$('.page-views').slick('slickGoTo',0);
+                                
+                                return;
+                            }                                                        
+                            
+                            entity.info=response;
+
+                            if (config.debug) console.log('Entity Info:');
+                            if (config.debug) console.log(response);
+                            $('.entity-main-info-container').html('');
+
+                            // MAIN INFO
+                            if (entity.info.General){ main_info_tab('General','general',entity.info.General); }
+                            if (entity.info.Highlists) main_info_tab('Highlights','highlights',entity.info.Highlights);
+                            if (entity.info.Technicals) main_info_tab('Technicals','technicals',entity.info.Technicals);
+                            if (entity.info.Valuation) main_info_tab('Valuation','valuation',entity.info.Valuation);
+                            if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores',entity.info.ESGScores);
+                            if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings',entity.info.AnalystRatings);
+
+
+                            // WEBSITE
+                            if (entity.info.General && entity.info.General.WebURL){                                
+                                $('[data-view="website"] .website').html('<iframe class="hide-scroll"  scroll="no" src="'+entity.info.General.WebURL+'" style="width:100%; border:none; height:calc(100vh - 180px)" frameborder="0" onload="if (this.contentWindow.length<=0){ $(\'.slick-initialized\').slick(\'slickRemove\',3); $(\'.range-icons .icon-read\').remove(); $(\'.page-views-slider input\').attr(\'max\',parseInt(($(\'.page-views-slider input\').attr(\'max\')-1))).css(\'width\',($(\'.page-views-slider input\').width()-30)+\'px\'); }"/>');
+                            }else{
+                                $('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                //$('.page-views').slick('slickGoTo',1);
+                            }
+
+
+                            // FINANCIAL GRAPHS
+                            var widgets = {};
+                            if (localStorage.getItem('widgets')){
+                                widgets = JSON.parse(localStorage.getItem('widgets'));              
+
+                            }else{ // Defaults
+
+                                widgets['financial_graph'] = {                                
+                                    1: {
+                                        range: 'yearly',
+                                        scope: 'totalRevenue',
+                                        chartType: 'line'
+                                    }                            
+                                };
+
+                            }  
+                            localStorage.setItem('widgets',JSON.stringify(widgets));
+
+                            $.each(widgets.financial_graph, function(id,widget){
+                                widget_financial_graph(id, widget);                            
+                            });
+
+
+                            // FINANCIALS GRAPHS - Shareholders
+                            if (entity.info.hasOwnProperty('Holders') && entity.info.Holders!==null){
+                                var categories  = [];
+                                var data        = [];
+                                $.each(entity.info.Holders.Institutions, function(label,value){ 
+                                    categories.push(value.name); 
+                                    data.push(value.totalShares);
+                                });                                                
+                                console.log(categories);
+                                var options = {
+                                    series: data, 
+                                    labels: categories,
+                                    chart: {                                
+                                        type: 'donut',                                                                
+                                        sparkline:{ enabled: true },
+                                        fill: {
+                                            type: 'gradient'
+                                        }
+                                    },
+                                    plotOptions: {
+                                        pie: {
+                                          donut:{
+                                              labels: { 
+                                                  show:true,
+                                                  value:{
+                                                    formatter: function(value, opts){
+                                                        return parseFloat(value).toFixed(2)+ '%';                                
+                                                    }
+                                                  } 
+                                              }
+                                          }
+                                        }
+                                    },
+                                    stroke:{ colors: [settings.design.color_bg], width:1 }
+                                };
+
+                                var chart = new ApexCharts(document.querySelector("#graph-shareholders"), options);
+                                chart.render();
+                            }else{
+                                $('.widget.shareholders').hide();
+                            }
+
+
+                            if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+
+
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+
+
+                    // GET Historical
+                    $.ajax({
+                        url: config.api_url,
+                        data: { 
+                            endpoint: '/entity/historical',
+                            symbol: stock.symbol,
+                            market: stock.market
+                        },
+                        type: 'GET',
+                        dataType: 'JSON',
+                        cache: false,
+                        success: function(response){
+                            if (config.debug) console.log('Historical Prices:');
+                            if (config.debug) console.log(response);
+                            stock.historical = response;                         
+                            generate_graph();                                                                                                
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+
+                    // GET Intraday
+                    $.ajax({
+                        url: config.api_url,
+                        data: { 
+                            endpoint: '/entity/intraday',
+                            symbol: stock.symbol,
+                            market: stock.market,
+                            ohlc: true
+                        },
+                        type: 'GET',
+                        dataType: 'JSON',
+                        cache: false,
+                        success: function(response){  
+                            if (config.debug) console.log('Intraday prices:');
+                            if (config.debug) console.log(response);
+                            stock.intraday = response;                          
+                            generate_graph();                                                
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });
+
+
+
+
+                    // Here add options custom configuration from user
+                    if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
+                    $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
+                    $('#graph_tools').prop('checked', settings.graph_tools);
+                    $('#graph_labels').prop('checked', settings.graph_labels);
+
+
+
+                    if (config.debug) console.log('Main info:');
+                    if (config.debug) console.log(response.stock);
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            });
+        
+            
+        
+
+        });
+    </script>

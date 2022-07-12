@@ -1,0 +1,95 @@
+.prevent-ipad-rubberscroll, .prevent-ipad-rubberscroll body { position: fixed; overflow: hidden; }
+.prevent-ipad-rubberscroll main { width: 100vw; height: 100vh; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+
+
+@media only screen and (min-width: 766px) {
+    .range-selector { width:360px; align-self:flex-end; }
+    .chart.stock-price-container{
+        border-bottom-left-radius: 15px;
+        overflow: hidden;
+    }   
+}
+
+@media only screen and (min-width: 996px) {
+    .view-grid .mystock-container, .view-box .mystock-container {
+        width: calc(20% - 10px);
+        margin:5px;
+    }
+    .stock-view .results-info table {
+        max-width:500px;
+    }
+    .heading .icon-btn {
+        font-size:36px;
+    }
+    .footer .hamburger {
+        font-size:32px;
+    }
+    .wallet-header-grip {
+        bottom:15px;
+        right:calc(50% - 26px);
+        font-size:50px;
+    }
+    .actions .btn { padding:8px 15px; }
+    .actions .btn .icon{ font-size:20px; }
+    .popup.active { bottom:62px; }
+    
+    .entity-main-info-container { display:flex; flex-wrap:wrap; }
+    .entity-main-info-container .tab-container { width:calc(33.333333% - 10px); margin:0 5px 10px; }
+    
+    nav {
+        height:100vh;
+        right:0;
+    }
+    nav .load-menu { margin-bottom:12.5px;}
+    .app-body {
+        background-color: var(--color-bg);
+    }
+    .app {
+        display:flex;
+        flex-wrap:nowrap;
+    }
+    .footer-container {
+        border:0; 
+    }
+    
+    .nav-active .footer-container {
+        right:238px;
+    }
+    
+    .stock-view .results-info-table .label, .stock-view .results-info-table .value {
+        width:10%;
+        flex-basis:10%;
+    }
+    
+    .widgets {
+        display:flex;
+        flex-wrap:wrap;
+        width: calc(100% - 30px);
+        
+    }
+    .widgets .widget {
+        width:calc(50% - 20px);
+        flex-basis:calc(50% - 20px);
+        margin:10px;
+    }
+    
+    .entities h2 { text-align:left; }
+    .entities .box { width: calc(20% - 10px); }
+    
+    .items-container .item {
+        width: calc(20% - 10px);
+    }
+    
+    .players .box { width: calc(20% - 10px); }
+    
+}
+@media only screen and (min-width: 1445px) {
+    .view-grid .mystock-container, .view-box .mystock-container {
+        width: calc(12.5% - 10px);
+    }
+    .widgets .widget {
+        width:calc(33% - 20px);
+        flex-basis:calc(33% - 20px);
+        margin:10px;
+    }
+}

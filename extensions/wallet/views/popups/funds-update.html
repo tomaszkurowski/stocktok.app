@@ -1,0 +1,63 @@
+<div class="popup active funds-update">
+    <div class="popup-body padding-side-regular">
+                
+        <div class="header">                    
+            <h2>Update Balance</h2>
+            <!-- label is useless for longtime user, put to config one day.. -->
+            <div class="label">Stocktok is just virtual financial manager.<b>Its not based on real money.</b><br /></div>                    
+        </div>
+
+        <div class="form update-funds">                                                           
+            <div class="validation">Some of fields are empty</div>
+            <div class="field input focus">
+                <label for="balance">Add/Remove Funds (+/-)</label>
+                <input type="number" id="balance" name="balance" data-role="none" />
+            </div>
+            <div class="field input focus">
+                <textarea id="comment" placeholder="Optional comment"></textarea>
+            </div>
+        </div>                               
+
+    </div>
+</div> 
+
+<script type="text/javascript">
+    
+    
+    button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){
+
+        $('.popup-btn.step2-btn').remove();
+        
+        var balance = $('.form.update-funds #balance').val();
+        var comment = $('.form.update-funds #comment').val();
+        
+        console.log('Funds Save: '+balance);
+        
+        if (balance>99999999) { balance = 99999999; $('.form.update-funds #balance').val(balance); return; }
+        if (balance<-99999999){ balance = -9999999; $('.form.update-funds #balance').val(balance); return; }
+  
+        $.ajax({
+            url: config.api_url,
+            data: { endpoint: '/wallet/funds', balance:balance, comment:comment },
+            type: 'POST',
+            dataType: 'JSON',
+            success: function(response){            
+                
+                $('.popup-body').html('\
+                    <div class="popup-success">\n\
+                        <div class="icon-btn icon-check1"></div>\n\
+                        <div class="title">You successfully added funds: '+format_price(balance)+' '+settings.display_currency+'</div>\n\
+                    </div>');                
+                
+                // Re-init wallet if needed
+                if (mvc.model==='wallet'){ init(); }
+                
+                if (config.debug) console.log(response);               
+            },
+            error: function(response){
+                console.log(response);
+            }
+        });
+           
+    });
+</script>

@@ -1,0 +1,44 @@
+    
+    .entities {
+        display:flex;
+        flex-wrap:wrap;
+        padding: 15px 10px 75px;
+    }
+    
+    .entities .results {
+        display:flex;
+        flex-wrap:wrap;
+        width:100%;
+    }
+    
+    .entities h2 {
+        width: 100%;
+        margin-left: 5px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--color-bg2);
+        color: var(--color-text);
+        font-size: var(--size-big);
+        text-align:center;
+    }
+    
+    .entities .box { 
+        width:calc(50% - 10px);
+        margin:0 5px 10px;
+        text-align:center;
+        padding:25px;
+    }
+    
+    .entities .box .icon {
+        color:var(--color-base);
+        font-size:65px;
+        
+    }
+    .entities .box .title {
+        color:var(--color-text);
+        font-size:var(--size-medium);
+        font-family:'gotham-bold';
+        margin:15px 0;
+    }
+    
+    

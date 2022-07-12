@@ -1,0 +1,159 @@
+<div class="page settings active at-bottom">
+    <div class="tabs">
+        
+        <div class="tab-container">
+            <div class="tab-content avatar"></div>
+            <div class="tab-header">
+                <h2>Avatar</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>            
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab-content general"></div>
+            <div class="tab-header">
+                <h2>General</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>            
+        </div>
+        
+        <div class="tab-container">
+            <div class="tab-content design"></div>
+            <div class="tab-header">
+                <h2>Look & Feel</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            
+        </div>  
+        
+        <div class="tab-container">
+            <div class="tab-content logic"></div>
+            <div class="tab-header">
+                <h2>Logic</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            
+        </div>
+        
+    </div>               
+</div>
+<script type="text/javascript">
+    
+    function settings_row(options){
+        
+        let row = 
+        $('<div class="row">'+
+            '<div class="field">'+
+                '<span class="title">'+
+                    '<span class="label"></span>'+
+                    '<span class="value"></span>'+
+                '</span>'+
+                '<span class="info"></span>'+
+            '</div>'+
+            '<div class="selector"></div>'+
+        '</div>');
+
+        let input;
+        switch (options.type){
+            case 'color': 
+                input = $('<input type="color" />').val(settings.design[options.key]).attr('data-key',options.key).bind('change',function(){
+                            settings.design[$(this).attr('data-key')] = $(this).val();
+                            $(this).parents('.row').find('.field-value span').text($(this).val());
+                            load_layout();
+                        }); 
+                        $(row).find('.value').text(settings.design[options.key]).addClass('uppercase');
+                break;
+            case 'size':
+                input = $('<input type="range" min=9 max=24 />').val(settings.design[options.key].replace('px','')).attr('data-key',options.key).bind('input',function(){
+                            settings.design[$(this).attr('data-key')] = $(this).val()+'px';
+                            $(this).parents('.row').find('.value').text($(this).val()+'px');
+                            load_layout();                            
+                        });
+                        $(row).find('.value').text(settings.design[options.key]);
+                break;
+            case 'select':
+                input = $('<select></select>').attr('data-key',options.key).bind('change',function(){
+                            settings[$(this).attr('data-key')] = $(this).val();
+                            $(this).parents('.row').find('.field-value span').text($(this).val());
+                            load_layout();
+                        });
+                        $(row).find('.value').text(settings[options.key]);
+                        options.values.forEach(function(value){ $(input).append('<option value="'+value+'"'+(settings[options.key] === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });                                                    
+                break;                
+            case 'hands':                
+                input   = 
+                        $('<div class="hands-container">'+
+                            '<div class="icon-hand hand-left"></div>'+
+                            '<div class="icon-hand hand-right"></div>'+
+                        '</div>');
+                        $(row).find('.value').text(settings.design[options.key]);
+                        input.find('.hand-left').bind('click',function(){                         
+                            settings.design.hand_preference = 'left'; 
+                            load_layout();
+                        });
+                        input.find('.hand-right').bind('click',function(){ 
+                            settings.design.hand_preference = 'right';  
+                            load_layout();                      
+                        });                
+                break;
+            case 'avatar':                
+                input   = 
+                        $('<div class="avatar-container">'+
+                        '<div class="avatar avatar-user"></div>'+                       
+                        '</div>');
+                        $(row).find('.value').text(settings.design[options.key]);
+                        $(input).find('.avatar').bind('click',function(){
+                            
+                            $('body').toggleClass('with-popup');                            
+                            if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+                            
+                            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+                            $.ajax({
+                            url:"/extensions/settings/views/popups/avatars.html",
+                            cache:false,
+                            success: function(data){ $("#popup").html(data); },
+                            error: function(e){ console.log(e); }
+                        });
+                            
+                            
+                            
+                        });
+                        
+                break;
+        }
+
+        $(row).find('.label').html(options.key.replace(/_/g,' '));
+        $(row).find('.info').html(options.info);                
+        $(row).find('.selector').html(input);
+
+
+        $('.tab-content.'+options.target).append(row);
+    }
+    
+    $(document).ready(function(){
+        
+        settings_row({ target: 'avatar', type:'avatar',  key: 'avatar',       info: 'Choose avatar to make your profile easier recognizable' }); 
+
+        settings_row({ target: 'general', type:'select', key: 'display_currency',  info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
+        settings_row({ target: 'general', type:'select', key: 'public',            info: 'Select "yes", if you want to share your result with others', values: [ 'yes','no' ] }); 
+
+        settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',   info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
+        settings_row({ target: 'design',  type: 'color', key: 'color_base',        info: 'Base color is used for all action elements' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_base_invert', info: 'Base Invert color is used as an opposite base color and background for all action elements' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_text',        info: 'Text color is used for all sub-headings & informations' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_label',       info: 'Label color is used as a color of labels on base-color backgrounds' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_bg',          info: 'Background color is used for main background of app' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_bg2',         info: 'Background color 2 is used for background of blocks & boxes' });        
+        settings_row({ target: 'design',  type: 'size',  key: 'size_small',        info: 'Used for additional info & labels' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_regular',      info: 'Used for text & buttons' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_medium',       info: 'Used for sub-headings' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_big',          info: 'Used for headings & icons' });
+        
+        settings_row({ target: 'logic',   type:'select', key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
+    
+    
+        if (me.avatar) $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));
+    });
+    
+    
+</script>

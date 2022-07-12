@@ -1,0 +1,269 @@
+
+    <script type="text/javascript" src="/extensions/market/media/js/market.js?v=1.0.0"></script>
+    <script type="text/javascript">$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q=tesla&callback=hndlr&sort=date");</script>
+
+
+    <div class="page market active">
+
+        <div class="page-views market-page-views">
+            <div class="page-view" data-view="news">
+                <div class="box news-container">
+                    <h1>News</h1>
+                    <div id="news"></div>
+                </div>
+            </div>
+            <div class="page-view" data-view="find">
+                <div class="box">
+                    <h1>Find</h1>                                                
+                </div>
+                <div class="search-results view-grid"></div>                       
+            </div> 
+            <div class="page-view" data-view="macroeconomics">
+                <div class="box">
+                    <h1>Macroeconomics</h1>
+                </div>
+                <div class="widgets">
+                    <div class="widget macroeconomics">
+                        <h2 class="title" style="display:none"></h2>
+                        <div class="graph"></div>
+                        <div class="selectors">
+
+                            <select id="indicators"></select>
+                            <select id="countries"></select>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>            
+    </div>
+
+    <div class="entity-template hide">
+
+        <div class="mystock-container active">
+            <div class="mystock">
+                <div class="mystock-view">
+                    <div class="symbol">XYZ</div>
+                    <div class="logo-container"></div>
+                    <div class="current">
+                        <span class="label">1.1 00:00</span>
+                        <div class="info">
+                            <span class="price current-price">0.00</span>
+                            <span class="currency market-currency">USD</span>
+                        </div>
+                        <div class="additionals">                                    
+                            <span class="price">0.00</span>
+                            <span class="percentage with-brackets">0.00</span>
+                            <div class="icon icon-arrow-up"></div>
+                        </div>
+                    </div>
+                    <div class="stock-graph-container view-action">
+                        <span class="label">5-days trend</span>                                     
+                        <div class="stock-graph-line"></div>
+                    </div>
+
+                    <div class="name"></div>            
+                    <div class="actions">
+                        <div class="btn" data-action="add-to-wallet">
+                            <span class="icon icon-account_balance_wallet"></span>
+                        </div>
+                        <div class="btn actions-observed" data-action="">
+                            <span class="icon icon-bookmarks"></span>
+                        </div>                
+                    </div>
+                </div>
+            </div>            
+        </div>    
+    </div>
+
+
+    <script type="text/javascript"> 
+        $('.page-views').not('.slick-initialized').slick({
+            arrows:false,
+            dots:false,
+            infinite: true,
+            initialSlide:2
+        }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+            if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }
+        });
+        var path = window.location.pathname.substring(1).split('/');
+        if (path[1]==='find') $('.market-page-views').slick('slickGoTo',1);
+        if (path[1]==='analysis') $('.market-page-views').slick('slickGoTo',2);
+
+        get_observed();
+
+        // INFINITY SCROLL
+        let scrollTimer,
+        doneScrollInterval = 250;    
+        $('.page-view[data-view="find"]').scroll(function(){
+
+            var diff = Math.round(parseFloat(($(this).prop("scrollHeight")) - parseFloat($(this).height())),2) - Math.round(parseFloat($(this).scrollTop()),2);        
+            if (diff<10){
+
+                if (scrollTimer) {
+                    clearTimeout(scrollTimer);
+                }
+                scrollTimer = setTimeout(function () {
+
+                }, doneScrollInterval);
+
+            }
+        });
+
+
+
+        // GET Macroeconomics
+
+        function widget_macroeconomics(){
+
+            var selectors = {};
+            if (localStorage.getItem('selectors')){
+                selectors = JSON.parse(localStorage.getItem('selectors'));              
+
+            }else{ // Defaults
+
+                selectors.macroeconomics = {                                
+                    countries:  'USA',
+                    indicators: 'inflation_gdp_deflator_annual'    
+                };
+
+            }  
+            localStorage.setItem('selectors',JSON.stringify(selectors));
+
+
+            if (config.debug) console.log('Macroeconomics widget options:');
+            if (config.debug) console.log(selectors);
+
+            var indicator   = selectors.macroeconomics.indicators;
+            var country     = selectors.macroeconomics.countries;   
+
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint:  '/macroeconomics',
+                    indicator: indicator,
+                    country:   country
+                },
+                type:     'GET',
+                dataType: 'JSON',
+                cache:    false,
+
+                success: function(response){
+
+
+                    if (config.debug) console.log('API GET: Macroeconomics');
+                    if (config.debug) console.log(response);
+
+                    if (response.success === false) return;
+
+                    var categories  = [];
+                    var data        = [];
+                    var name        = response.data[0].Indicator;
+
+
+                    $.each(response.data, function(index,obj){ 
+                        if (obj.Value!==null && obj.Value!==0){
+                            categories.push(obj.Date.substring(0,4)); 
+                            data.push((name.includes('%')) ? obj.Value.toFixed(2) : obj.Value );
+                        }
+                    });                                                
+                    categories.reverse();
+                    data.reverse();                        
+
+
+                    var options = {
+                        series: [{ data: data, name: name }],
+                        xaxis: {
+                            categories: categories,
+                            tickAmount: 4
+                        },
+                        yaxis: {
+                            axisBorder: { show: false },
+                            axisTicks: { show: false },
+                            labels: { 
+                                offsetX: -5
+                            }
+                          },
+                        colors: [settings.design.color_base],
+                        chart: {
+                            height: ($('.macroeconomics .graph').height() - 50),
+                            type: 'line',
+                            toolbar: { show: false }
+                        },
+                        dataLabels: {
+                            enabled:false
+                        },
+                        stroke: {
+                            curve: 'smooth',
+                            width: 2
+                        }
+                    }; 
+
+                    $.each(response.selectors,function(index,selector){
+                        if ($('.selectors #'+index)){
+
+                            $('.selectors #'+index).html('');
+                            $.each(selector,function(it,option){
+                                var label = capitalize(option.replaceAll('_',' '));
+                                var selected = '';
+
+                                switch (label){
+                                    case 'Pol': label = 'Poland'; break;
+                                    case 'Usa': label = 'USA'; break;
+                                    case 'Esp': label = 'Spain'; break;
+                                    case 'Rus': label = 'Russia'; break;
+                                    case 'Fra': label = 'France'; break;
+                                    case 'Gbr': label = 'Great Britain'; break;
+                                    case 'Usa': label = 'USA'; break; 
+                                    case 'Sgp': label = 'Singapur'; break;
+                                    case 'Rou': label = 'Romania'; break;
+                                    case 'Ita': label = 'Italy'; break;    
+                                    case 'Deu': label = 'Germany'; break;
+                                }
+                                if (index==='indicators' && option===indicator) selected = ' selected="SELECTED"';
+                                if (index==='countries' &&  option===country)   selected = ' selected="SELECTED"';
+
+                                $('.selectors #'+index).append('<option value="'+option+'"'+selected+'>'+label+'</option>'); 
+                            });
+
+                        }
+                    });
+
+                    $('.page-view:not(.slick-cloned) .macroeconomics .title').html(response.data[0].Indicator);
+                    $('.page-view:not(.slick-cloned) .macroeconomics .graph').html('');
+                    var graph = new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) .macroeconomics .graph'), options);
+                    graph.render();
+
+
+                },
+                error: function(response){
+                    console.log(response);
+                }
+            });
+
+        }
+
+        widget_macroeconomics();
+
+        $(document).on('change','.widget .selectors select', function(){ 
+
+            var id      = $(this).attr('id'); 
+            var value   = $(this).val();
+
+            var selectors = {};
+            if (localStorage.getItem('selectors') && localStorage.getItem('selectors')!==null){
+                selectors = JSON.parse(localStorage.getItem('selectors'));
+            }        
+            if (!selectors.hasOwnProperty('macroeconomics')){ selectors.macroeconomics = {}; }    
+            selectors.macroeconomics[id] = value;
+
+            localStorage.setItem('selectors',JSON.stringify(selectors));         
+            widget_macroeconomics();
+
+        });
+
+
+
+    </script>

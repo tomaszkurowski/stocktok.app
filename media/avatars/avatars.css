@@ -1,0 +1,228 @@
+@font-face {
+  font-family: 'avatars';
+  src:  url('fonts/icomoon.eot?b292i6');
+  src:  url('fonts/icomoon.eot?b292i6#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?b292i6') format('truetype'),
+    url('fonts/icomoon.woff?b292i6') format('woff'),
+    url('fonts/icomoon.svg?b292i6#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="avatar-"], [class*=" avatar-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'avatars' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.avatar-pig:before {
+  content: "\e90e";
+}
+.avatar-money:before {
+  content: "\e90e";
+}
+.avatar-bank:before {
+  content: "\e90e";
+}
+.avatar-smirking-face-sunglasses:before {
+  content: "\e902";
+}
+.avatar-face-sunglasses:before {
+  content: "\e903";
+}
+.avatar-face-moustache:before {
+  content: "\e904";
+}
+.avatar-face-moustache1:before {
+  content: "\e905";
+}
+.avatar-astonished-face:before {
+  content: "\e906";
+}
+.avatar-face-missing-moth:before {
+  content: "\e907";
+}
+.avatar-flashed-face-glasses:before {
+  content: "\e908";
+}
+.avatar-flashed-face:before {
+  content: "\e909";
+}
+.avatar-flashed-face1:before {
+  content: "\e90a";
+}
+.avatar-github:before {
+  content: "\e90f";
+}
+.avatar-face_retouching_natural:before {
+  content: "\e900";
+}
+.avatar-face:before {
+  content: "\e901";
+}
+.avatar-github-alt:before {
+  content: "\e910";
+}
+.avatar-reddit-alien:before {
+  content: "\e911";
+}
+.avatar-user-secret:before {
+  content: "\e90b";
+}
+.avatar-user-md:before {
+  content: "\e90c";
+}
+.avatar-group:before {
+  content: "\e90d";
+}
+.avatar-pacman:before {
+  content: "\e916";
+}
+.avatar-user:before {
+  content: "\e971";
+}
+.avatar-users:before {
+  content: "\e972";
+}
+.avatar-user-tie:before {
+  content: "\e976";
+}
+.avatar-bug:before {
+  content: "\e999";
+}
+.avatar-rocket:before {
+  content: "\e9a5";
+}
+.avatar-happy:before {
+  content: "\e9df";
+}
+.avatar-happy2:before {
+  content: "\e9e0";
+}
+.avatar-smile:before {
+  content: "\e9e1";
+}
+.avatar-smile2:before {
+  content: "\e9e2";
+}
+.avatar-tongue:before {
+  content: "\e9e3";
+}
+.avatar-tongue2:before {
+  content: "\e9e4";
+}
+.avatar-sad:before {
+  content: "\e9e5";
+}
+.avatar-sad2:before {
+  content: "\e9e6";
+}
+.avatar-wink:before {
+  content: "\e9e7";
+}
+.avatar-wink2:before {
+  content: "\e9e8";
+}
+.avatar-grin:before {
+  content: "\e9e9";
+}
+.avatar-grin2:before {
+  content: "\e9ea";
+}
+.avatar-cool:before {
+  content: "\e9eb";
+}
+.avatar-cool2:before {
+  content: "\e9ec";
+}
+.avatar-angry:before {
+  content: "\e9ed";
+}
+.avatar-angry2:before {
+  content: "\e9ee";
+}
+.avatar-evil:before {
+  content: "\e9ef";
+}
+.avatar-evil2:before {
+  content: "\e9f0";
+}
+.avatar-shocked:before {
+  content: "\e9f1";
+}
+.avatar-shocked2:before {
+  content: "\e9f2";
+}
+.avatar-baffled:before {
+  content: "\e9f3";
+}
+.avatar-baffled2:before {
+  content: "\e9f4";
+}
+.avatar-confused:before {
+  content: "\e9f5";
+}
+.avatar-confused2:before {
+  content: "\e9f6";
+}
+.avatar-neutral:before {
+  content: "\e9f7";
+}
+.avatar-neutral2:before {
+  content: "\e9f8";
+}
+.avatar-hipster:before {
+  content: "\e9f9";
+}
+.avatar-hipster2:before {
+  content: "\e9fa";
+}
+.avatar-wondering:before {
+  content: "\e9fb";
+}
+.avatar-wondering2:before {
+  content: "\e9fc";
+}
+.avatar-sleepy:before {
+  content: "\e9fd";
+}
+.avatar-sleepy2:before {
+  content: "\e9fe";
+}
+.avatar-frustrated:before {
+  content: "\e9ff";
+}
+.avatar-frustrated2:before {
+  content: "\ea00";
+}
+.avatar-crying:before {
+  content: "\ea01";
+}
+.avatar-crying2:before {
+  content: "\ea02";
+}
+.avatar-flickr4:before {
+  content: "\eaa6";
+}
+.avatar-github1:before {
+  content: "\eab0";
+}
+.avatar-tux:before {
+  content: "\eabd";
+}
+.avatar-finder:before {
+  content: "\eabf";
+}
+.avatar-reddit:before {
+  content: "\eac6";
+}

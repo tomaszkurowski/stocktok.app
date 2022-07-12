@@ -1,0 +1,220 @@
+<div class="popup add-new-stock active">
+    <div class="popup-body">
+
+        <div class="views">
+            <div class="view view-buy hide-scroll" data-id="buy">
+                
+                <div class="header">                    
+                    <h2>Buy</h2>
+                    <!-- label is useless for longtime user, put to config one day.. -->
+                    <div class="label hide">Stocktok is just virtual financial manager.<b>You are not spending real money</b> by buying or selling here.</div>                    
+                </div>
+                
+            
+                <div class="steps form" data-current-step="1">                                        
+                    <div class="step" data-step="1">             
+                        
+                        <div id="autosuggestions" class="autosuggestions hide-scroll">
+                            <div class="no-results"></div>
+                        </div>
+                        
+                        <div class="field input focus">
+                            <label>Company / Symbol</label>
+                            <input type="text" id="symbol" name="symbol" data-role="none" autocomplete="off" />                
+                        </div>
+                        
+                    </div>                    
+                    <div class="step" data-step="2"> 
+                        
+                        <div class="validation">Some of fields are empty</div>
+                        <div class="field input focus symbol"></div>
+                        <div class="field input focus">
+                            <label id="add-new-stock-label-qty">Quantity to buy</label>
+                            <input type="number" id="qty" name="qty" data-role="none" />
+                        </div>    
+                        
+                        <div class="field input-checkbox price-origin">                            
+                            <input type="checkbox" id="price-origin" name="price-origin" data-role="none" checked="CHECKED" />
+                            <label for="price-origin">Take current price: 
+                                <span class="price"></span>
+                                <span class="market-currency"></span><br />
+                                <span class="last-updated-at"></span>
+                            </label>
+                        </div>   
+                        
+                        <div class="price-origin-historical hide">                        
+                            <div class="field input focus">
+                                <label id="add-new-stock-label-date">Date of transaction</label>
+                                <input type="date" id="date" name="date" data-role="none" />
+                            </div>                                                                       
+                            <div class="field input focus">
+                                <label for="price">Price</label>
+                                <input type="number" id="price" name="price" data-role="none" />
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" id="market"    name="market" />
+                        <input type="hidden" id="currency"  name="currency" />
+                        
+                        <div class="summary">
+                            <div class="row">
+                                <span class="total">0,00</span>
+                                <span class="display-currency"></span>
+                            </div>
+                            <div class="row">
+                                <span class="total-market">0,00</span>
+                                <span class="market-currency"></span>
+                                <span class="rate with-brackets"></span>
+                            </div>
+                        </div>
+                        
+                    </div>                                                           
+                </div>                               
+
+            </div>
+            <div class="view view-sell hide-scroll" data-id="sell">
+                <div class="header">
+                    <h2>Sell</h2>
+                    <!-- label is useless for longtime user, put to config one day.. -->
+                    <div class="label hide">Stocktok is just virtual financial manager.<b>You are not spending real money</b> by buying or selling here.</div>
+                </div>   
+                <div class="steps form" data-current-step="1">
+                    <!--<div class="label info">You have got nothing to sell yet.</div>-->
+                    
+                    <div class="step" data-step="1">
+                        
+                        <div class="title">Select item to sell:</div>
+                        <div class="items"></div>
+                    </div>
+                    <div class="step" data-step="2">
+                    
+                        <div class="validation">Some of fields are empty</div>
+                        <div class="form">
+                            <div class="field input focus symbol"></div>
+                            <div class="field input focus">
+                                <label for="total-qty-sell">Quantity to sell</label>
+                                <input type="number" id="total-qty-sell" name="total-qty-sell" data-role="none" value="" />
+                            </div>
+                            <div class="field input-checkbox price-origin">                            
+                                <input type="checkbox" id="price-origin" name="price-origin" data-role="none" checked="CHECKED" />
+                                <label for="price-origin">Take current price: 
+                                    <span class="price"></span>
+                                    <span class="market-currency"></span><br />
+                                    <span class="last-updated-at"></span>
+                                </label>
+                            </div>                      
+                            <div class="price-origin-historical hide">                        
+                                <div class="field input focus">
+                                    <label for="sold_date">Date of transaction</label>
+                                    <input type="date" id="sold_date" name="sold_date" data-role="none" />
+                                </div>                                                                       
+                                <div class="field input focus">
+                                    <label for="sold_price">Price</label>
+                                    <input type="number" id="sold_price" name="sold_price" data-role="none" />
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" id="symbol"    name="symbol" />
+                            <input type="hidden" id="market"    name="market" />
+                            <input type="hidden" id="currency"  name="currency" />
+                        
+                        </div> 
+                        
+                        <h3>You have got:</h3>
+                        <div class="transactions">
+                            <div class="transaction template hide" data-id="" data-purchased-qty="" data-purchased-price="">
+                                <div class="owned">
+                                    <div class="qty"></div>
+                                    <div class="purchased-price"></div>
+                                </div>
+                                <div class="for-sell"></div>
+                            </div>                            
+                        </div>
+                        
+                        <!-- Totals, could be built on rows append(). -->
+                        <div class="summary">
+                             <div class="row">
+                                 <span class="total">0,00</span>
+                                 <span class="display-currency"></span>
+                             </div>
+                             <div class="row">
+                                 <span class="total-market"></span>
+                                 <span class="market-currency"></span>
+                                 <span class="rate with-brackets"></span>
+                             </div>
+                         </div>
+                    
+                    </div>                                        
+                </div>
+
+            </div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab buy active">Buy</div>
+            <div class="tab sell">Sell</div>
+        </div>
+    </div>
+</div> 
+
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_buy.js?v=3.0.0"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_sell.js?v=2.0.0"></script> 
+
+
+    <script type="text/javascript">
+
+        var transactions   = [];        
+        function init_slick(){
+
+           var initial_slide = 0;
+           if (typeof options_popup !== 'undefined' && options_popup.hasOwnProperty('action') && options_popup.action==='sell'){ initial_slide=1; }
+
+           $('.popup.add-new-stock .views').not('.slick-initialized').slick({
+                arrows:false,
+                dots:false,
+                infinite: true,
+                initialSlide:initial_slide,
+                adaptiveHeight:true
+            }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+                if (currentSlide !== nextSlide) { 
+
+                    // Popup buttons refresh
+                    $('.popup-btn.step2-btn').remove();               
+
+                    switch (nextSlide){
+                        case 0: 
+                            if (parseInt($('.view-buy .steps').attr('data-current-step')) === 2){ 
+                                button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ buy_save(); });
+                                button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ buy_step1(); });
+                            }
+                            $('.popup.add-new-stock .tabs .sell').removeClass('active');
+                            $('.popup.add-new-stock .tabs .buy').addClass('active');
+                            break;
+                        case 1: 
+                            if (parseInt($('.view-sell .steps').attr('data-current-step')) === 2){
+                                button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ sell_save(); });
+                                button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ sell_step1(); });                          
+                            }
+                            $('.popup.add-new-stock .tabs .sell').addClass('active');
+                            $('.popup.add-new-stock .tabs .buy').removeClass('active');
+                            break;
+                    }
+                }          
+            }); 
+        }
+        
+        $(document).on('click','.tabs .tab',function(){
+            if ($(this).hasClass('buy')){
+                $('.popup.add-new-stock .views').slick('slickGoTo',0);
+            }
+            else{
+                $('.popup.add-new-stock .views').slick('slickGoTo',1);
+            }
+        });
+
+        
+        get_currencies();
+        init_slick();
+
+
+    </script>
