@@ -1,23 +1,26 @@
+<?php include('./config.php') ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     
-    <title>Stocktok App</title>
+    <title><?= $config->title ?></title>
       
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
     <meta name="viewport"                        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <meta name="theme-color"                     content="#002ce1" />
+    <meta name="theme-color"                     content="<?= $config->theme_color ?>" />
     <meta name="description"                     content="Be a market player" /> 
     <meta name="mobile-web-app-capable"          content="yes" />
     <meta name="mobile-web-app-status-bar-style" content="black" />
     <meta name="mobile-web-app-title"            content="Stocktok" />    
     <meta name="apple-mobile-web-app-capable"    content="yes" />            
-    <meta property="og:url"                      content="https://stocktok.app" />
-    <meta property="og:title"                    content="Stocktok" />
+    
+    <meta property="og:title"                    content="<?= $config->title ?>" />
     <meta property="og:description"              content="Be a market player" />
-    <meta property="og:image"                    content="https://stocktok.app/media/img/icons/icon-512x512.png" />    
+    <meta property="og:url"                      content="<?= $config->base_url ?>" />
+    <meta property="og:image"                    content="<?= $config->base_url ?>/media/img/icons/icon-512x512.png" />    
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
     <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.60" />
@@ -47,16 +50,20 @@
     <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
     <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
     <script src="https://code.highcharts.com/modules/full-screen.js"></script>
+       
+    <?php if ($config->mode === 'production'): ?>
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-      gtag('config', 'G-HYTRSZLWJV');
-    </script>
+          gtag('config', 'G-HYTRSZLWJV');
+        </script>
+        
+    <?php endif; ?>
     
 </head>  
 <body class="hide-scroll">
@@ -83,6 +90,7 @@
         
         config = {
             api_url:    '/api.php',
+            base_url:   '<?= $config->base_url ?>',
             version:    '1.1.33',
             debug:      true,
             browser:    navigator.userAgent || navigator.vendor || window.opera           
