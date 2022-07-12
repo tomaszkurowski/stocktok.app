@@ -1,0 +1,16 @@
+{
+  "name": "Stocktok",
+  "short_name": "Stocktok",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#002ce1",
+  "description": "Be a market player.",
+  "theme_color": "#002ce1",
+  "icons": [
+    {
+      "src": "./media/img/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

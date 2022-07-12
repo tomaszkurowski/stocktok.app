@@ -1,8 +1,10 @@
 <?php
-$config = [];
+$config->api_token        = '';
+$config->base_url         = 'https://stocktok.app/';
+$config->title            = 'Stocktok App';
+$config->mode             = 'production';
+$config->theme_color      = '#002ce1';
+$config->debug            = 'true';
 
-$config->api_token   = '';
-$config->base_url    = 'https://staging.stocktok.app/';
-$config->title       = 'Stocktok App';
-$config->mode        = 'production';
-$config->theme_color = '#002ce1';
+$config->dir_splash       = '/media/img/splash_screen/';
+$config->dir_icons        = '/media/img/icons/';
