@@ -1,37 +1,42 @@
+<?php include('config.php') ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     
-    <title>Stocktok App</title>
+    <title><?= $config->title ?></title>
       
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
     <meta name="viewport"                        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <meta name="theme-color"                     content="#002ce1" />
+    <meta name="theme-color"                     content="<?= $config->theme_color ?>" />
     <meta name="description"                     content="Be a market player" /> 
     <meta name="mobile-web-app-capable"          content="yes" />
     <meta name="mobile-web-app-status-bar-style" content="black" />
     <meta name="mobile-web-app-title"            content="Stocktok" />    
     <meta name="apple-mobile-web-app-capable"    content="yes" />            
-    <meta property="og:url"                      content="https://stocktok.app" />
-    <meta property="og:title"                    content="Stocktok" />
+    
+    <meta property="og:title"                    content="<?= $config->title ?>" />
+    <meta property="og:url"                      content="<?= $config->base_url ?>" />
+    <meta property="og:image"                    content="<?= $config->base_url ?>/media/img/icons/icon-512x512.png" />    
     <meta property="og:description"              content="Be a market player" />
-    <meta property="og:image"                    content="https://stocktok.app/media/img/icons/icon-512x512.png" />    
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
     <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.60" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.25" />       
-    <link rel="icon"                             href="/media/img/icons/favicon.png" type="image/png" />
-    <link rel="apple-touch-icon"                 href="/media/img/icons/icon-144x144.png" />    
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_2048.png" sizes="2048x2732" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_1668.png" sizes="1668x2224" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_1536.png" sizes="1536x2048" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_1125.png" sizes="1125x2436" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_1242.png" sizes="1242x2208" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_750.png" sizes="750x1334" />
-    <link rel="apple-touch-startup-image"        href="/media/img/splash_screen/apple_splash_640.png" sizes="640x1136" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.25" />
+    
+    <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
+    <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
+    
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_2048.png" sizes="2048x2732" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1668.png" sizes="1668x2224" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1536.png" sizes="1536x2048" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1125.png" sizes="1125x2436" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1242.png" sizes="1242x2208" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_750.png" sizes="750x1334" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_640.png" sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/external.js?version=1.5"></script>
@@ -47,16 +52,20 @@
     <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
     <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
     <script src="https://code.highcharts.com/modules/full-screen.js"></script>
+       
+    <?php if ($config->mode === 'production'): ?>
     
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-      gtag('config', 'G-HYTRSZLWJV');
-    </script>
+          gtag('config', 'G-HYTRSZLWJV');
+        </script>
+        
+    <?php endif; ?>
     
 </head>  
 <body class="hide-scroll">
@@ -82,9 +91,10 @@
     <script type="text/javascript">                
         
         config = {
-            api_url:    '/api.php',
             version:    '1.1.33',
-            debug:      true,
+            api_url:    '/api.php',
+            base_url:   '<?= $config->base_url ?>',            
+            debug:      <?= $config->debug ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera           
         };                         
         settings = {                                    
@@ -102,9 +112,9 @@
             stock_chart_range:      6,
             homepage:               'wallet',
             
-            wallet_switch_behavior: 'itself',
-            wallet_layout:          'grid',
-            wallet_trend_size:      '5-days',
+            wallet_switch_behavior:     'itself',
+            wallet_layout:              'grid',
+            wallet_trend_size:          '5-days',
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
 
