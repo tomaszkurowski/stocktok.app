@@ -119,7 +119,7 @@
                 arrows:false,
                 dots:false,
                 infinite: true,
-                initialSlide:2
+                initialSlide:1
             }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
                 if (currentSlide !== nextSlide) { $("html").animate({scrollTop: 0}, "slow"); }
             });               
@@ -150,7 +150,7 @@
                         
                         let el = $('<div class="view"></div>')                            
                             .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append('<img src="/media/img/flags/PL.png" class="country" />')
+                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
                             .append('<div class="title">'+player.username+'</div>')
                             .append('<div class="total">'+player.current_total+' $</div>')
                             .bind('click',function(){
@@ -189,7 +189,7 @@
                         
                         let el = $('<div class="view"></div>')                           
                             .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append('<img src="/media/img/flags/PL.png" class="country" />')
+                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
                             .append('<div class="position">'+(position++)+'</div>')
                             .append('<div class="title">'+player.username+'</div>')
                             .append('<div class="total">'+player.margin+' $</div>')
@@ -237,7 +237,7 @@
                         
                         let el = $('<div class="view"></div>')                            
                             .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append('<img src="/media/img/flags/PL.png" class="country" />')
+                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
                             .append('<div class="position">'+(position++)+'</div>')
                             .append('<div class="title">'+player.username+'</div>')
                             .append('<div class="total">'+player.margin+' $</div>')

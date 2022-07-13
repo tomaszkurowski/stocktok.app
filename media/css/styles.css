@@ -3468,7 +3468,7 @@ input:checked + .switch:before {
     width: 25px;
     height: 25px;
     position: absolute;
-    top: 5px;
+    top: 40px;
     right: 5px;
 }
 .players .box .position {
@@ -3491,7 +3491,39 @@ input:checked + .switch:before {
     right: 5px;
     font-size: 24px;
     color: var(--color-base);
-    top: 40px;
+    top: 5px;
+}
+
+
+.settings .country-container {
+    width:40px;
+    height:40px;
+    border: 2px solid var(--color-bg);
+    border-radius: 15px;
+    margin-right: -2px;
+    overflow:hidden;
+}
+.settings .country-container img {
+    width:100%;
+    height:100%;
+}
+
+.popup-countries .countries {
+    display:flex;
+    flex-wrap:wrap;
+    max-height:300px;
+    overflow-y:scroll;    
+}
+.popup-countries .countries .country img{
+    width:40px;
+    height:40px;
+    border: 2px solid var(--color-bg);
+    border-radius:15px;
+    margin: 0 5px 15px;
+    cursor:pointer;
+}
+.popup-countries .countries .country.active img{
+    border:2px solid var(--color-base);
 }
 
 
