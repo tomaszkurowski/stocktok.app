@@ -1947,6 +1947,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top:-1px;
 }
 /* SETTINGS ----------------------------------------------------------------- */
+
+.page.settings .tabs {
+    max-width:440px;
+    align-self:flex-end;
+}
 .tabs {
     margin:10px;
     display:flex;
