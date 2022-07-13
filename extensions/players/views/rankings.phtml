@@ -121,7 +121,7 @@
                 infinite: true,
                 initialSlide:2
             }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
-                if (currentSlide !== nextSlide) { }
+                if (currentSlide !== nextSlide) { $("html").animate({scrollTop: 0}, "slow"); }
             });               
             
             get_all_players();

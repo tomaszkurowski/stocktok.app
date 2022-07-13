@@ -101,25 +101,26 @@
              }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
                  if (currentSlide !== nextSlide) { 
 
-                     $('.wallets .wallet').removeClass('active');
-                     switch (nextSlide){
-                         case 0:                           
-                             $('.wallet[data-id="0"]').addClass('active'); 
-                             $('.wallets').stop().animate({scrollLeft:0}, 800, 'swing'); 
-                             $('.wallet-popup').attr('data-popup','add-new-stock');
-                             break;
-                         case 1: 
-                             $('.wallet[data-id="1"]').addClass('active'); 
-                             $('.wallets').stop().animate({scrollLeft:200}, 700, 'swing'); 
-                             $('.wallet-popup').attr('data-popup','add-new-stock');
-                             break;
-                         case 2: 
-                             $('.wallet[data-id="2"]').addClass('active'); 
-                             $('.wallets').stop().animate({scrollLeft:400}, 700, 'swing'); 
-                             $('.wallet-popup').attr('data-popup','funds-update');
-                             break;
-                     }
-                     reload();
+                    $("html").animate({scrollTop: 0}, "slow");
+                    $('.wallets .wallet').removeClass('active');
+                    switch (nextSlide){
+                        case 0:                           
+                            $('.wallet[data-id="0"]').addClass('active'); 
+                            $('.wallets').stop().animate({scrollLeft:0}, 800, 'swing'); 
+                            $('.wallet-popup').attr('data-popup','add-new-stock');
+                            break;
+                        case 1: 
+                            $('.wallet[data-id="1"]').addClass('active'); 
+                            $('.wallets').stop().animate({scrollLeft:200}, 700, 'swing'); 
+                            $('.wallet-popup').attr('data-popup','add-new-stock');
+                            break;
+                        case 2: 
+                            $('.wallet[data-id="2"]').addClass('active'); 
+                            $('.wallets').stop().animate({scrollLeft:400}, 700, 'swing'); 
+                            $('.wallet-popup').attr('data-popup','funds-update');
+                            break;
+                    }
+                    reload();
                  }
              }); 
         }
