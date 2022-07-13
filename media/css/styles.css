@@ -6,7 +6,6 @@
 * {
     box-sizing: border-box;
     outline: none !important;
-    cursor:pointer;
     user-select: none;
 }
 
