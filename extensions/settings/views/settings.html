@@ -109,17 +109,33 @@
                             
                             button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
                             $.ajax({
-                            url:"/extensions/settings/views/popups/avatars.html",
-                            cache:false,
-                            success: function(data){ $("#popup").html(data); },
-                            error: function(e){ console.log(e); }
-                        });
-                            
-                            
-                            
+                                url:"/extensions/settings/views/popups/avatars.html",
+                                cache:false,
+                                success: function(data){ $("#popup").html(data); },
+                                error: function(e){ console.log(e); }
+                            });
                         });
                         
                 break;
+            case 'country':                
+                input   = 
+                        $('<div class="country-container"></div>');
+                        //$(row).find('.value').text(settings.design[options.key]);
+                        $(input).bind('click',function(){
+                            
+                            $('body').toggleClass('with-popup');                            
+                            if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+                            
+                            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+                            $.ajax({
+                                url:"/extensions/settings/views/popups/countries.html",
+                                cache:false,
+                                success: function(data){ $("#popup").html(data); },
+                                error: function(e){ console.log(e); }
+                            });
+                        });
+                        
+                break;                
         }
 
         $(row).find('.label').html(options.key.replace(/_/g,' '));
@@ -132,7 +148,9 @@
     
     $(document).ready(function(){
         
-        settings_row({ target: 'avatar', type:'avatar',  key: 'avatar',       info: 'Choose avatar to make your profile easier recognizable' }); 
+        settings_row({ target: 'avatar', type:'avatar',  key: 'avatar',            info: 'Choose avatar to make your profile easier recognizable' }); 
+
+        settings_row({ target: 'general', type:'country',key: 'country',           info: 'Choose country that you represent' }); 
 
         settings_row({ target: 'general', type:'select', key: 'display_currency',  info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
         settings_row({ target: 'general', type:'select', key: 'public',            info: 'Select "yes", if you want to share your result with others', values: [ 'yes','no' ] }); 
@@ -153,6 +171,7 @@
     
     
         if (me.avatar) $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));
+        if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" />');
     });
     
     

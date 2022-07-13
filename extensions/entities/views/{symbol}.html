@@ -313,7 +313,7 @@
             swipe:false
         }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
             if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }
-            $("main").animate({scrollTop: 0}, "slow");
+            $("html").animate({scrollTop: 0}, "slow");
         }); 
         swiper({ initial: 0 });
         
