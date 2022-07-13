@@ -135,64 +135,63 @@
 
         
         $(document).ready(function(){
-                  
-            // UI 
+             
+            // UI            
             button({ 
                 class: 'icon-btn icon-search2' }, 
                 function(){ location.href='/entities/find-by?with-popup'; });
-                        
-            button({ 
-                class: 'icon-btn icon-shopping_cart' }, 
-                function(){ 
-                if ($('.page-views').slick('slickCurrentSlide') === 2){
-                    funds_popup();    // => actions_item.js
-                }else{
-                    buy_sell_popup(); // => actions_item.js  
-                }    
-            }); 
-            
-            switcher({ 
-                key: 'editable',  
-                class: 'icon-create', 
-                value: settings.editable  ? settings.editable :  'false'},
-                function(){ editable();  // => ui.js                                              
-            }); 
-            
-        
-            changer({ 
-                title: 'Layout', 
-                key: 'wallet_layout', 
-                values: { 'grid': 'Grid', 'list':'List', 'list-small': 'Table (prices)', 'list-small-results': 'Table (results)'},
-                click: function(el){ 
-                    updateSettings('wallet_layout',$(el).find('select').val());
-                    $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
-                },
-                load: function(el){
-                    $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
-                }
-            });
-            changer({ 
-                title: 'Switch behavior', 
-                key: 'wallet_switch_behavior', 
-                values: { 'itself': 'Itself', 'others':'others'},
-                click: function(el){
-                    updateSettings('wallet_switch_behavior',$(el).find('select').val());
-                }
-            });
-            changer({ 
-                title: 'Trend size', 
-                key: 'wallet_trend_size', 
-                values: { '5-days': '5 Days', '5-weeks':'5 Weeks', '6-months': '6 Months' },
-                click: function(el){
-                    updateSettings('wallet_trend_size',$(el).find('select').val());
-                    init();
-                }
-            });          
-                        
-            
-        
-            init();              // => actions_wallet.js
-            smooth_scrolling();  // => ui.js
+                               
+            if (me.username){            
+                button({ 
+                    class: 'icon-btn icon-shopping_cart' }, 
+                    function(){ 
+                    if ($('.page-views').slick('slickCurrentSlide') === 2){
+                        funds_popup();    // => actions_item.js
+                    }else{
+                        buy_sell_popup(); // => actions_item.js  
+                    }    
+                }); 
+
+                switcher({ 
+                    key: 'editable',  
+                    class: 'icon-create', 
+                    value: settings.editable  ? settings.editable :  'false'},
+                    function(){ editable();  // => ui.js                                              
+                }); 
+                
+                changer({ 
+                    title: 'Layout', 
+                    key: 'wallet_layout', 
+                    values: { 'grid': 'Grid', 'list':'List', 'list-small': 'Table (prices)', 'list-small-results': 'Table (results)'},
+                    click: function(el){ 
+                        updateSettings('wallet_layout',$(el).find('select').val());
+                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                    },
+                    load: function(el){
+                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                    }
+                });
+                changer({ 
+                    title: 'Switch behavior', 
+                    key: 'wallet_switch_behavior', 
+                    values: { 'itself': 'Itself', 'others':'others'},
+                    click: function(el){
+                        updateSettings('wallet_switch_behavior',$(el).find('select').val());
+                    }
+                });
+                changer({ 
+                    title: 'Trend size', 
+                    key: 'wallet_trend_size', 
+                    values: { '5-days': '5 Days', '5-weeks':'5 Weeks', '6-months': '6 Months' },
+                    click: function(el){
+                        updateSettings('wallet_trend_size',$(el).find('select').val());
+                        init();
+                    }
+                });                                              
+
+                init();              // => actions_wallet.js
+                smooth_scrolling();  // => ui.js
+            }
                         
         });
         
