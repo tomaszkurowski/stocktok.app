@@ -97,7 +97,7 @@
                                 '<div class="mystock-view">' +
                                     '<div class="symbol view-action">'+item.symbol+'</div>'+
                                     '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
-                                    '<div class="results view-action" data-results="with lost">' +
+                                    '<div class="results view-action" data-results="neutral">' +
                                         '<span class="label">'+(item.type_of_transaction==='active' ? 'Current Total' : 'Sold Total') + ' & Margin:</span>'+
                                         '<div class="info">'+
                                             '<span class="price total"></span>'+
@@ -359,7 +359,10 @@
             $(element).find('.margin').text(format_price(item.margin,2));
             $(element).find('.margin-percentage').text(item.margin_percentage);
 
-            if (item.margin_percentage>0) $(element).find('.results').attr('data-results','with profit');
+            if (item.margin>0)      $(element).find('.results').attr('data-results','with profit');
+            if (item.margin<0)      $(element).find('.results').attr('data-results','with lost');
+            if (item.margin === 0)  $(element).find('.results').attr('data-results','neutral');
+            
             $(element).find('.updated-at').text(item.last_updated_at);
 
         });
