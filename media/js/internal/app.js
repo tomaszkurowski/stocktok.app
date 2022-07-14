@@ -71,18 +71,14 @@
                     }
 
                     // ACL 
-                    if (!response.me.hasOwnProperty('username') && 
-                        ((mvc.model === 'wallet' && mvc.view === 'analysis') || 
-                         (mvc.model === 'entities'))){
-                        
-                        mvc.view = 'not_logged';
-                        $.getScript('/extensions/cms/cms.js?version='+config.version); 
-                        
-                    }else{
+                    if (response.me.hasOwnProperty('username')){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
                             $.getScript('/extensions/cms/cms.js?version='+config.version);
-                        });
+                        });                        
+                    }else{
+                        mvc.view = 'not_logged';
+                        $.getScript('/extensions/cms/cms.js?version='+config.version);                        
                     }
 
                 },
@@ -143,7 +139,7 @@
 
                     if ('serviceWorker' in navigator){
 
-                        var scope = 'https://stocktok.app/';
+                        var scope = config.base_url;
                         var current_version = scope + "sw.js?version=" + response.version;
                         var upgrade_needed = false;
 

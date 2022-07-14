@@ -1,148 +1,153 @@
 
+    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.2"></script>
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.0"></script>
+    
     <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.4" />
-
-    <div class="entities">
-         
-        <h2>By Type</h2>
+    
+    <div class="find-by"> 
+        <div class="entities">
         
-        <div class="box" data-action="find-stocks">
-            <div class="icon icon-stocks"></div>
-            <div class="title">Stocks</div>
-            <div class="label">Nasdaq, Nyse, GPW, New-Connect, Bolsa Madrid</div>
+            <h2>By Type</h2>
+
+            <div class="box" data-action="find-stocks">
+                <div class="icon icon-stocks"></div>
+                <div class="title">Stocks</div>
+                <div class="label">Nasdaq, Nyse, GPW, New-Connect, Bolsa Madrid</div>
+            </div>
+
+            <div class="box" onClick="location.href='/entities/find-by?type=currency'">
+                <div class="icon icon-currencies"></div>
+                <div class="title">Currencies</div>
+                <div class="label">All possible symbols from Forex</div>
+            </div>
+
+            <div class="box" onClick="location.href='/entities/find-by?type=crypto'">
+                <div class="icon icon-crypto"></div>
+                <div class="title">Crypto</div>
+                <div class="label">Bitcoin, Ethereum, Teether etc. </div>
+            </div>
+
+            <div class="box" onClick="location.href='/entities/find-by?market=fantoken'">
+                <div class="icon icon-trophy"></div>
+                <div class="title">Fan-Tokens</div>
+                <div class="label">All tokens related with sport</div>
+            </div>       
+
+            <div class="box" onClick="location.href='/entities/find-by?type=commodity'">
+                <div class="icon icon-commodities"></div>
+                <div class="title">Commodities</div>
+                <div class="label">Oil, gold, natural gas, corn etc. </div>
+            </div>
+
+            <div class="box" onClick="location.href='/entities/find-by?type=indices'">
+                <div class="icon icon-indices"></div>
+                <div class="title">Indices</div>
+                <div class="label">All most popular market indices like DowJones, SP500, Wig etc.</div>
+            </div>   
+
+
+            <h2 class="find-stocks-by-market">Stocks by market</h2>
+
+            <div class="box" onClick="location.href='/entities/find-by?market=nasdaq'">
+                <div class="icon icon-nasdaq"></div>
+                <div class="title">Nasdaq</div>
+                <div class="label">New York stock exchange</div>
+            </div>  
+
+            <div class="box" onClick="location.href='/entities/find-by?market=nyse'">
+                <div class="icon icon-nyse"></div>
+                <div class="title">Nyse</div>
+                <div class="label">New York stock exchange for smaller companies</div>
+            </div>         
+
+            <div class="box" onClick="location.href='/entities/find-by?market=gpw'">
+                <div class="icon icon-newconnect"></div>
+                <div class="title">GPW</div>
+                <div class="label">Warsaw stock exchange</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?market=newconnect'">
+                <div class="icon icon-newconnect"></div>
+                <div class="title">New-Connect</div>
+                <div class="label">Warsaw stock exchange for smaller companies</div>
+            </div>   
+
+            <div class="box" onClick="location.href='/entities/find-by?market=bolsa-madrid'">
+                <div class="icon icon-bolsa-madrid"></div>
+                <div class="title">Bolsa de Madrid</div>
+                <div class="label">Madrid stock exchange</div>
+            </div>  
+
+            <div class="box" onClick="location.href='/entities/find-by?market=all'">
+                <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
+                <div class="title">See All</div>
+                <div class="label">Browse stocks from all markets</div>
+            </div>  
+
+            <h2 class="find-stocks-by-sector">Stocks by sector</h2>
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=space'">
+                <div class="icon icon-aerospace" data-action="find-by" data-code="sector" data-value="aerospace"></div>
+                <div class="title">Military</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div>         
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=automobiles'">
+                <div class="icon icon-automobiles" data-action="find-by" data-code="sector" data-value="automobile"></div>
+                <div class="title">Automobiles</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=banks'">
+                <div class="icon icon-banks"></div>
+                <div class="title">Banks</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div>        
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=services'">
+                <div class="icon icon-services"></div>
+                <div class="title">Services</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div>      
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=energy'">
+                <div class="icon icon-energy"></div>
+                <div class="title">Energy</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=finance'">
+                <div class="icon icon-finance"></div>
+                <div class="title">Finance</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=health'">
+                <div class="icon icon-healthcare"></div>
+                <div class="title">Health-Care</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=tech'">
+                <div class="icon icon-technology"></div>
+                <div class="title">Technology</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div>     
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=industr'">
+                <div class="icon icon-industry"></div>
+                <div class="title">Industrials</div>
+                <div class="label">Lorem Ipsum is simply dummy text</div>
+            </div> 
+
+            <div class="box" onClick="location.href='/entities/find-by?sector=all'">
+                <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
+                <div class="title">See All</div>
+                <div class="label">Browse stocks from all markets</div>
+            </div>
         </div>
-
-        <div class="box" onClick="location.href='/entities/find-by?type=currency'">
-            <div class="icon icon-currencies"></div>
-            <div class="title">Currencies</div>
-            <div class="label">All possible symbols from Forex</div>
-        </div>
-        
-        <div class="box" onClick="location.href='/entities/find-by?type=crypto'">
-            <div class="icon icon-crypto"></div>
-            <div class="title">Crypto</div>
-            <div class="label">Bitcoin, Ethereum, Teether etc. </div>
-        </div>
-
-        <div class="box" onClick="location.href='/entities/find-by?market=fantoken'">
-            <div class="icon icon-trophy"></div>
-            <div class="title">Fan-Tokens</div>
-            <div class="label">All tokens related with sport</div>
-        </div>       
-        
-        <div class="box" onClick="location.href='/entities/find-by?type=commodity'">
-            <div class="icon icon-commodities"></div>
-            <div class="title">Commodities</div>
-            <div class="label">Oil, gold, natural gas, corn etc. </div>
-        </div>
-
-        <div class="box" onClick="location.href='/entities/find-by?type=indices'">
-            <div class="icon icon-indices"></div>
-            <div class="title">Indices</div>
-            <div class="label">All most popular market indices like DowJones, SP500, Wig etc.</div>
-        </div>   
-        
-        
-        <h2 class="find-stocks-by-market">Stocks by market</h2>
-
-        <div class="box" onClick="location.href='/entities/find-by?market=nasdaq'">
-            <div class="icon icon-nasdaq"></div>
-            <div class="title">Nasdaq</div>
-            <div class="label">New York stock exchange</div>
-        </div>  
-        
-        <div class="box" onClick="location.href='/entities/find-by?market=nyse'">
-            <div class="icon icon-nyse"></div>
-            <div class="title">Nyse</div>
-            <div class="label">New York stock exchange for smaller companies</div>
-        </div>         
-
-        <div class="box" onClick="location.href='/entities/find-by?market=gpw'">
-            <div class="icon icon-newconnect"></div>
-            <div class="title">GPW</div>
-            <div class="label">Warsaw stock exchange</div>
-        </div> 
- 
-        <div class="box" onClick="location.href='/entities/find-by?market=newconnect'">
-            <div class="icon icon-newconnect"></div>
-            <div class="title">New-Connect</div>
-            <div class="label">Warsaw stock exchange for smaller companies</div>
-        </div>   
-
-        <div class="box" onClick="location.href='/entities/find-by?market=bolsa-madrid'">
-            <div class="icon icon-bolsa-madrid"></div>
-            <div class="title">Bolsa de Madrid</div>
-            <div class="label">Madrid stock exchange</div>
-        </div>  
-        
-        <div class="box" onClick="location.href='/entities/find-by?market=all'">
-            <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
-            <div class="title">See All</div>
-            <div class="label">Browse stocks from all markets</div>
-        </div>  
-        
-        <h2 class="find-stocks-by-sector">Stocks by sector</h2>
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=space'">
-            <div class="icon icon-aerospace" data-action="find-by" data-code="sector" data-value="aerospace"></div>
-            <div class="title">Military</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div>         
-
-        <div class="box" onClick="location.href='/entities/find-by?sector=automobiles'">
-            <div class="icon icon-automobiles" data-action="find-by" data-code="sector" data-value="automobile"></div>
-            <div class="title">Automobiles</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div> 
- 
-        <div class="box" onClick="location.href='/entities/find-by?sector=banks'">
-            <div class="icon icon-banks"></div>
-            <div class="title">Banks</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div>        
- 
-        <div class="box" onClick="location.href='/entities/find-by?sector=services'">
-            <div class="icon icon-services"></div>
-            <div class="title">Services</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div>      
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=energy'">
-            <div class="icon icon-energy"></div>
-            <div class="title">Energy</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div> 
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=finance'">
-            <div class="icon icon-finance"></div>
-            <div class="title">Finance</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div> 
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=health'">
-            <div class="icon icon-healthcare"></div>
-            <div class="title">Health-Care</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div> 
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=tech'">
-            <div class="icon icon-technology"></div>
-            <div class="title">Technology</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div>     
-
-        <div class="box" onClick="location.href='/entities/find-by?sector=industr'">
-            <div class="icon icon-industry"></div>
-            <div class="title">Industrials</div>
-            <div class="label">Lorem Ipsum is simply dummy text</div>
-        </div> 
-        
-        <div class="box" onClick="location.href='/entities/find-by?sector=all'">
-            <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
-            <div class="title">See All</div>
-            <div class="label">Browse stocks from all markets</div>
-        </div>          
-        
-    </div>    
+    </div>
+    <div class="items-container" style="display:none"></div>  
  
     
     <script type="text/javascript">
@@ -151,6 +156,57 @@
             $([document.documentElement, document.body]).animate({
                 scrollTop: ($(".find-stocks-by-market").offset().top - 15)
             }, 1000);
-        });            
-    
+        });  
+        
+        button({ class: 'icon-btn icon-search2' }, function(el){            
+                        
+            if ($('footer #popup .search').length){ 
+                $('footer #popup').html(''); 
+                $('.popup-btn').remove();
+                $('body').removeClass('with-popup');
+            }else{ 
+                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
+                $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
+                $('body').addClass('with-popup no-blur');
+            }            
+            
+        });
+        
+        get_observed_symbols();
+        get_currencies();
+        
+        let typeTimer,
+        doneTypeInterval = 250;
+
+        
+        $(document).on('keyup','.search',function(){
+            search = $(this).val();
+            
+            if (typeTimer) {
+                clearTimeout(typeTimer);
+            }
+            typeTimer = setTimeout(function () {
+                
+                if (search.length === 0){
+                    $('.find-by').show();
+                    $('.items-container').hide();
+                    window.history.pushState({}, '', '/entities'); 
+                }else{
+                    $('.find-by').hide();
+                    $('.items-container').show().html(''); 
+                    
+                    get_search_items();
+                    window.history.pushState({}, '', '/entities/find-by/'+search);  
+                }
+                
+
+            }, doneTypeInterval);
+                
+        });
+        $(document).ready(function(){
+            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
+            $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
+            $('body').addClass('with-popup no-blur');
+        });
+        
     </script>

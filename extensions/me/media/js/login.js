@@ -130,3 +130,12 @@ $(document).on('click', '.tc', function(){
         return;
     }
 });
+$(document).on('keyup','.registration-form #username',function(){
+    if ($('.registration-form').hasClass('step-2')){
+        $('.registration-form').removeClass('step-2');
+        $('.info-inner').removeClass('active');
+        $('.info-inner.init').addClass('active');
+        $('.registration-form #password').val('');
+    }
+});
+

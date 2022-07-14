@@ -79,7 +79,32 @@
                         });
                         $(row).find('.value').text(settings[options.key]);
                         options.values.forEach(function(value){ $(input).append('<option value="'+value+'"'+(settings[options.key] === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });                                                    
-                break;                
+                break;  
+            
+            case 'public':
+                input = $('<select class="select-public"></select>').attr('data-key','public').bind('change',function(){
+                    var el      = $(this);
+                    var public  = $(el).val();
+                    $.ajax({
+                        url: config.api_url,
+                        data: { 
+                            endpoint: '/me',
+                            public:public
+                        },
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        cache: false,
+                        success:function(){
+                            console.log(public);
+                            $('.select-public').parents('.row').find('.value').text(parseInt(public) === 1 ? 'Yes' : 'No');
+                            $('.nav .rank').text(parseInt(public) === 1 ? 'Public Account' : 'Private Account');
+                        }
+                    });                            
+                });
+                $(input).append('<option value="1"'+(me.public === 1 ? 'selected="SELECTED"' : '')+'>Yes</option>');
+                $(input).append('<option value="0"'+(me.public === 0 ? 'selected="SELECTED"' : '')+'>No</option>');
+                $(row).find('.value').text(me.public === 1 ? 'Yes' : 'No');
+                break;             
             case 'hands':                
                 input   = 
                         $('<div class="hands-container">'+
@@ -151,10 +176,10 @@
         settings_row({ target: 'avatar', type:'avatar',  key: 'avatar',            info: 'Choose avatar to make your profile easier recognizable' }); 
 
         settings_row({ target: 'general', type:'country',key: 'country',           info: 'Choose country that you represent' }); 
-
+        settings_row({ target: 'general', type:'public', key: 'public',            info: 'Select "yes", if you want to share your result with others' }); 
+        
         settings_row({ target: 'general', type:'select', key: 'display_currency',  info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
-        settings_row({ target: 'general', type:'select', key: 'public',            info: 'Select "yes", if you want to share your result with others', values: [ 'yes','no' ] }); 
-
+        
         settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',   info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
         settings_row({ target: 'design',  type: 'color', key: 'color_base',        info: 'Base color is used for all action elements' });
         settings_row({ target: 'design',  type: 'color', key: 'color_base_invert', info: 'Base Invert color is used as an opposite base color and background for all action elements' });
