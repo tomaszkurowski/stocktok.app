@@ -21,6 +21,12 @@ function get_search_items(){
             }
 
             if (response.success === 'false') return;
+            
+            if (response.entities.length === 0){
+                $('.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>')
+            }
+            
+            
             response.entities.forEach(function(item){
 
                 let el   = $('<div class="item"></div>')

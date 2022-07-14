@@ -3318,6 +3318,10 @@ input:checked + .switch:before {
     justify-content:center;
     align-items:center;
 }
+.items-container .info-page {
+    margin-top:-15px;
+}
+
 .info-page.with-title {
     height:calc(100vh - 165px);
 }
@@ -3330,6 +3334,9 @@ input:checked + .switch:before {
     font-family: 'gotham-bold';
     font-size: var(--size-big);
     color: var(--color-base);
+}
+.info-page b {
+    color:var(--color-base);
 }
 .info-page p {
     margin-top:0;
