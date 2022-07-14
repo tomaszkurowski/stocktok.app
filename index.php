@@ -41,7 +41,7 @@
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/external.js?version=1.5"></script>
     <script src="/media/js/internal.js?version=1.5"></script>
-    <script src="/media/js/internal/app.js?version=1.3"></script>
+    <script src="/media/js/internal/app.js?version=1.4"></script>
         
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>    
