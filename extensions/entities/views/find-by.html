@@ -84,6 +84,8 @@
         };
         get_observed_symbols();
         get_currencies();
+        
+        if (mvc.controller){ search = mvc.controller; }
         get_items();
         
 
@@ -112,6 +114,8 @@
                 button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
                 $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
                 $('body').addClass('with-popup no-blur');
+                
+                if (mvc.controller) $('.popup .search').val(mvc.controller);
             }            
             
         });
