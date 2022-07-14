@@ -157,6 +157,11 @@ h3 {
 b,strong {
     font-family:'gotham-bold';
 }
+.important {
+    font-family:'gotham-bold';
+    font-size:var(--size-big);
+}
+
 label, .label {
     font-size:var(--size-small);
     color:var(--color-label);
@@ -723,11 +728,8 @@ main {
    margin-top:15px;
    line-height:20px;
 }
-.wallets .wallet .total,
-.wallets .wallet .funds-total {
-    font-family:'gotham-bold';
-    font-size:var(--size-big);
-}
+
+
 .wallets .wallet .label {
     color:var(--base-color-label);
 }
