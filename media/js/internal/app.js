@@ -66,7 +66,7 @@
                     if (response.me.hasOwnProperty('username')){
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
-                        $('.nav .rank').html(response.me.public ? 'Public Account' : 'Private Account');
+                        $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
                         $('.nav .avatar').addClass('avatar-'+(response.me.avatar ? response.me.avatar : 'user')).css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
                     }
 
