@@ -58,6 +58,8 @@
         
         var total           = total_qty_sell * sold_price * rate;
         var total_market    = total_qty_sell * sold_price;
+        
+        $('.view-sell:not(.slick-cloned)').find('#currency_rate').val(rate);
                 
         $('.view-sell .summary .total').text(format_price(total,2));
         if (total !== total_market) $('.view-sell .summary .total-market').text(format_price(total_market));
@@ -245,6 +247,9 @@
             form[$(element).attr('id')] = $(element).val();
         });
         
+        if (form['currency'] !== 'usd'){
+            form['currency_rate'] = currencies[form['currency']];
+        }
         
         // Item's transactions
         form.transactions = [];

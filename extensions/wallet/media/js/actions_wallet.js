@@ -33,14 +33,32 @@
                 if (config.debug) console.log('\n','Wallet: \n',wallet,'\n\n');
 
                 $('.wallet .owner').html(wallet.username);
-                $('.wallet .privacy').html((wallet.public===1) ? 'Public' : 'Private');                    
+                $('.wallet .privacy').html((wallet.public===1) ? 'Player' : 'Silent');                    
                 $('.wallet .display-currency').text(settings.display_currency);
                 $(".wallet-items.active").html(''); 
                 $(".wallet-items.sold").html('');
                 
+                //UI
                 
+                $('.heading .icon-shopping_cart').remove();
+                $('.heading [data-key="editable"]').remove();
                 
-                
+                if (me.username === wallet.username){
+                    button({ 
+                        class: 'icon-btn icon-shopping_cart' }, 
+                        function(){ 
+                            buy_sell_popup(); // => actions_item.js                      
+                        }
+                    ); 
+                }
+                    switcher({ 
+                        key: 'editable',  
+                        class: 'icon-create', 
+                        value: settings.editable  ? settings.editable :  'false'},
+                        function(){ editable();  // => ui.js                                              
+                    });
+                                
+
                 wallet.symbols = [];
                 $.each(wallet.items, function(i, item){ 
 
@@ -87,6 +105,8 @@
                             (item.group === 'child' ? 'data-group="child" data-group-id="'+item.group_id+'" ' : '') +
                             'data-transaction-type="'+item.type_of_transaction+'" '+
                         '>';
+                
+                    
                     mystock += '' +                
                             '<div class="group-info">'+
                                 (item.group_closed && item.group_closed===true ? 
@@ -98,7 +118,7 @@
                                     '<div class="symbol view-action">'+item.symbol+'</div>'+
                                     '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
                                     '<div class="results view-action" data-results="neutral">' +
-                                        '<span class="label">'+(item.type_of_transaction==='active' ? 'Current Total' : 'Sold Total') + ' & Margin:</span>'+
+                                        '<span class="label">Total & Margin:</span>'+
                                         '<div class="info">'+
                                             '<span class="price total"></span>'+
                                             '<span class="currency display-currency"></span>' +
@@ -125,24 +145,33 @@
                                             '<div class="stock-graph-line" id="trend-'+item.wallet_entities_id+'"></div>'+
                                         '</div>';
                                     }
-
-                                    mystock +=
-                                    '<div class="visibility"><div class="switcher"><span></span></div></div>'+
-                                '</div>'+                           
+                                                                        
+                                    mystock += '<div class="visibility">';
+                                        mystock +='<div class="switcher"><span></span></div>';
+                                        if (me.username === wallet.username && item.public === 0){
+                                            mystock += '<div class="silent-transaction icon-user-secret"></div>';
+                                        }                                        
+                                    mystock +='</div>'+
+                                '</div>';
+                        
+                        
+                                
+                                mystock += 
                                 '<div class="mystock-edit" data-stock-id="'+item.wallet_entities_id+'" data-stock-type="">' +
+                                    
                                     '<h3>Edit: '+item.symbol.toUpperCase()+'</h3>'+
                                     '<input type="hidden" value="'+item.symbol+'" class="symbol" name="symbol" />' +
-                                    '<div class="field"><span class="label">Purchased price</span>  <input type="number" value="'+item.purchased_price+'" placeholder="Price"      class="purchased_price" name="purchased_price" /></div>' +
-                                    '<div class="field"><span class="label">Purchased qty</span>    <input type="number" value="'+item.purchased_qty+'"   placeholder="Qty"        class="purchased_qty"   name="purchased_qty" /></div>' +
-                                    '<div class="field"><span class="label">Purchased date</span>   <input type="date"   value="'+item.purchased_date+'"  placeholder="yyyy-mm-dd" class="purchased_date"  name="purchased_date" /></div>' +
+                                    '<div class="field"><span class="label">Purchased price</span>  <input type="number" value="'+item.purchased_price+'" placeholder="Price"      class="purchased_price" name="purchased_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                    '<div class="field"><span class="label">Purchased qty</span>    <input type="number" value="'+item.purchased_qty+'"   placeholder="Qty"        class="purchased_qty"   name="purchased_qty"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                    '<div class="field"><span class="label">Purchased date</span>   <input type="date"   value="'+item.purchased_date+'"  placeholder="yyyy-mm-dd" class="purchased_date"  name="purchased_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
                                     '';
 
                                     // Sold fields
                                     if (item.type_of_transaction==='sold'){
                                         mystock += ''+
                                         '<div class="sep"></div>'+
-                                        '<div class="field"><span class="label">Sold price</span>       <input type="number" value="'+item.sold_price+'" placeholder="Sold Price"  class="sold_price" name="sold_price" /></div>' +
-                                        '<div class="field"><span class="label">Sold date</span>        <input type="date" value="'+item.sold_date+'" placeholder="Sold Date"      class="sold_date"  name="sold_date" /></div>' +
+                                        '<div class="field"><span class="label">Sold price</span>       <input type="number" value="'+item.sold_price+'" placeholder="Sold Price"  class="sold_price" name="sold_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                        '<div class="field"><span class="label">Sold date</span>        <input type="date" value="'+item.sold_date+'" placeholder="Sold Date"      class="sold_date"  name="sold_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
                                         '';
                                     }
 
@@ -154,14 +183,23 @@
                                     '<input type="hidden" value="'+item.market_currency+'" class="currency" />'+
                                     '<input type="hidden" value="'+item.price+'" class="price" />'+
                                     '<input type="hidden" value="'+item.price_change+'" class="price_change" />'+
-                                '</div>'+
+                                '</div>';
+                                
+                                
+                            mystock +=
                             '</div>' +
-                            '<div class="visibility-layer"><div class="icon icon-visibility_off"></div></div>' +
-                            '<div class="edit">'+
-                                '<div class="icon icon-trash mystock-delete"></div>'+
-                                '<div class="icon icon-create"></div>'+                            
-                                '<div class="icon icon-move"></div>'+
-                            '</div>';
+                            '<div class="visibility-layer"><div class="icon icon-visibility_off"></div></div>';                        
+                            
+                            if (me.username === wallet.username){
+                                mystock += 
+                                '<div class="edit">'+
+                                    (item.public === 0 ? '<div class="icon icon-trash mystock-delete"></div>' : '')+
+                                    '<div class="icon icon-create"></div>'+                            
+                                    '<div class="icon icon-move"></div>'+
+                                '</div>';
+                            }
+                    
+                        mystock +=
                         '</div>';                                     
 
                     if (item.type_of_transaction==='active'){ $(".wallet-items.active").append(mystock); }
@@ -206,24 +244,29 @@
 
                 // FUNDS
                 if (wallet.funds.length>0){
+                    
                     var funds_total = 0;
-
                     $('.wallet-items.funds').html('');
                     $.each(wallet.funds, function(i, fund){
+
                         var element =  '<div class="fund" data-id="'+fund.id+'">'+
-                                        (fund.comment.length >0 ? '<div class="comment">'+fund.comment+'</div>' : '')+
                                         '<div class="top">'+
-                                            '<div class="date label">'+fund.date+'</div>'+
-                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance)+' '+settings.display_currency+'</div>'+
+                                            '<div class="date">'+fund.date+'</div>'+
+                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,2)+' usd</div>'+
                                             '<div class="funds-edit"><div class="icon icon-btn icon-bin funds-delete"></div></div>'+
-                                        '</div>'+                                     
+                                        '</div>'+                                 
+                                        (fund.comment.length >0 ? '<div class="comment label">'+fund.comment+'</div>' : '')+                                        
                                     '</div>';
 
                         $('.wallet-items.funds').append(element);    
                         funds_total += fund.balance;                                
                     });
 
-                    $('.wallet[data-id="funds"] .funds-total').text(format_price(funds_total));
+                    if (settings.display_currency !== 'usd'){
+                        funds_total = funds_total * currencies[settings.display_currency];
+                    }
+                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));                        
+
                 }
 
                 // Live

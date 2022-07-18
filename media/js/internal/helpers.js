@@ -213,7 +213,7 @@
     }
 
 
-    function get_currencies(){
+    function get_currencies(callback=null){
         $.ajax({
             url: config.api_url,
             data: { endpoint: '/currencies' },
@@ -224,6 +224,8 @@
 
                 currencies = response.items;              
                 if (config.debug) console.log('\n','Currency Rates:',response,'\n\n');
+                
+                if (callback) callback();
             },
             error: function(response){
                 console.log(response);

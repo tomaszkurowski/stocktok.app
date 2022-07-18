@@ -178,4 +178,9 @@
         if ($(window).scrollTop()===0) {
                 return true;
         }else return false;
-   }   
+   } 
+   
+    $(document).on('click','.popup-info',function(){
+        $('body').removeClass('with-popup');
+        $('.popup-info').remove();
+    }); 

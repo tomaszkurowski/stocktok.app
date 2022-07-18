@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.63" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.64" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.25" />
     
@@ -40,7 +40,7 @@
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/external.js?version=1.5"></script>
-    <script src="/media/js/internal.js?version=1.5"></script>
+    <script src="/media/js/internal.js?version=1.5.2"></script>
     <script src="/media/js/internal/app.js?version=1.4"></script>
         
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.33',
+            version:    '1.1.36',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,

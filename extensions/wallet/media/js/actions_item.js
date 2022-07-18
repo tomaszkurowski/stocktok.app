@@ -148,10 +148,10 @@
     // MYSTOCK - VISIBILITY
     var other_hidden = false;
 
-    $(document).on('click', '.mystock .visibility', function(e) {
+    $(document).on('click', '.mystock .visibility .switcher', function(e) {
         e.preventDefault();
         if (settings.wallet_switch_behavior==='itself'){
-            var element = $(this).parent('.mystock-view').parent('.mystock').parent('.mystock-container');
+            var element = $(this).parents('.mystock-view').parent('.mystock').parent('.mystock-container');
             $(element).attr('data-visibility','hidden');
 
             // Group Aspect - 1 for all
@@ -169,7 +169,7 @@
                 return;
             }else{
                 $('.mystock-container').attr('data-visibility','hidden');
-                var element = $(this).parent('.mystock-view').parent('.mystock').parent('.mystock-container');
+                var element = $(this).parents('.mystock-view').parent('.mystock').parent('.mystock-container');
                 $(element).attr('data-visibility','visible');
 
                 // Group Aspect - 1 for all
@@ -350,14 +350,9 @@
         console.log('btn buy-save clicked');
         buy_save();
     });
-    // Price origin 
-    $(document).on('change', '.popup.add-new-stock #price-origin', function(){        
-        $(this).parents('.form').find('.price-origin-historical').toggleClass('hide');
 
-        // Slick adaptiveHeight
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
 
-    });
+
     // View Buy - Totals calculation 
     $(document).on('keyup', '.view-buy #qty', function(){        
         buy_reload_totals();        

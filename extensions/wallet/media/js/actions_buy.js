@@ -7,6 +7,12 @@
             form[$(element).attr('id')] = $(element).val();
         });
         
+        if (form['currency'] !== 'usd'){
+            form['currency_rate'] = currencies[form['currency']];
+        }
+        
+        form['price_origin'] = $(".view-buy:not(.slick-cloned) #price-origin").prop('checked');
+        
         $.ajax({
             url: config.api_url,
             data: { 
@@ -100,6 +106,10 @@
         $('.view-buy .steps').attr('data-current-step',1);        
         $('.view-buy #symbol').val('');
         
+        if (me.public === 0){
+            $('.popup .header .label').removeClass('hide');
+        }
+        
         // Slick adaptiveHeight
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
     }
@@ -117,6 +127,8 @@
             if (currencies.hasOwnProperty(settings.display_currency) && currencies.hasOwnProperty(market_currency)){
                 rate = parseFloat(currencies[settings.display_currency]) / parseFloat(currencies[market_currency]);
             }
+        }else{
+            $('.view-buy:not(.slick-cloned) .summary .row.market').hide();
         }
         console.log('Rate = '+rate);
                 
@@ -125,8 +137,28 @@
         var total           = qty * price * rate;
         var total_market    = qty * price;
         
+        $('.view-buy:not(.slick-cloned)').find('#currency_rate').val(rate);
+        
         $('.view-buy:not(.slick-cloned)').find('.summary .total').text(format_price(total,2));
         if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .total-market').text(format_price(total_market));
         if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .rate').text('(x'+rate.toFixed(2)+' '+settings.display_currency+')');
         
     }
+    
+    // Price origin 
+    $(document).on('change', '.popup.add-new-stock :not(slick-cloned) #price-origin', function(e){        
+
+        e.preventDefault();
+        $(this).parents('.form').find('.price-origin-historical').toggleClass('hide');
+
+        if (me.public === 0){ 
+            //$(this).parents('.form').find('.price-origin-historical input').prop('disabled',false);
+            $(this).parents('.form').find('.price-origin-historical .info').hide();
+        }else{                
+            //$(this).parents('.form').find('.price-origin-historical input').prop('disabled',true); 
+        }
+
+        // Slick adaptiveHeight
+        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
+
+    });    

@@ -2,39 +2,21 @@
     <div class="tabs">
         
         <div class="tab-container">
-            <div class="tab-content avatar"></div>
             <div class="tab-header">
-                <h2>Avatar</h2>
+                <h2>Game</h2>
                 <div class="expand icon-expand_more"></div>
             </div>            
+            <div class="tab-content game"></div>            
         </div>
-        
+                
         <div class="tab-container">
-            <div class="tab-content general"></div>
-            <div class="tab-header">
-                <h2>General</h2>
-                <div class="expand icon-expand_more"></div>
-            </div>            
-        </div>
-        
-        <div class="tab-container">
-            <div class="tab-content design"></div>
             <div class="tab-header">
                 <h2>Look & Feel</h2>
                 <div class="expand icon-expand_more"></div>
             </div>
-            
+            <div class="tab-content design"></div>            
         </div>  
-        
-        <div class="tab-container">
-            <div class="tab-content logic"></div>
-            <div class="tab-header">
-                <h2>Logic</h2>
-                <div class="expand icon-expand_more"></div>
-            </div>
-            
-        </div>
-        
+                
     </div>               
 </div>
 <script type="text/javascript">
@@ -42,7 +24,7 @@
     function settings_row(options){
         
         let row = 
-        $('<div class="row">'+
+        $('<div class="row" data-row="'+options.key+'">'+
             '<div class="field">'+
                 '<span class="title">'+
                     '<span class="label"></span>'+
@@ -52,6 +34,9 @@
             '</div>'+
             '<div class="selector"></div>'+
         '</div>');
+
+        $(row).find('.label').html(options.key.replace(/_/g,' '));
+        $(row).find('.info').html(options.info);                       
 
         let input;
         switch (options.type){
@@ -95,16 +80,43 @@
                         dataType: 'JSON',
                         cache: false,
                         success:function(){
-                            console.log(public);
-                            $('.select-public').parents('.row').find('.value').text(parseInt(public) === 1 ? 'Yes' : 'No');
-                            $('.nav .rank').text(parseInt(public) === 1 ? 'Public Account' : 'Private Account');
+                            //$('.select-public').parents('.row').find('.value').text(parseInt(public) === 1 ? 'Yes' : 'No');
+                            $('.nav .rank').text(parseInt(public) === 1 ? 'Player mode' : 'Silent mode');
+                            
+                            if (parseInt(public) === 0){ $('[data-row="restart-game"]').hide(); }
+                            else{ $('[data-row="restart-game"]').show(); }
                         }
                     });                            
                 });
-                $(input).append('<option value="1"'+(me.public === 1 ? 'selected="SELECTED"' : '')+'>Yes</option>');
-                $(input).append('<option value="0"'+(me.public === 0 ? 'selected="SELECTED"' : '')+'>No</option>');
-                $(row).find('.value').text(me.public === 1 ? 'Yes' : 'No');
-                break;             
+                $(row).find('.label').text('Mode');
+                
+                $(input).append('<option value="1"'+(me.public === 1 ? 'selected="SELECTED"' : '')+'>Player</option>');
+                $(input).append('<option value="0"'+(me.public === 0 ? 'selected="SELECTED"' : '')+'>Silent</option>');
+                //$(row).find('.value').text(me.public === 1 ? 'Yes' : 'No');
+                break;            
+            
+            case 'restart-game':
+            
+                input = $('<div class="btn">Restart</div>').bind('click',function(){
+                    $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-energy"></div><div class="title">Are you sure?</div><div class="description">This action is <b>irreversible</b> and it will remove all your current transactions & funds.</div><div class="actions"><div class="btn primary restart-game">Yes</div><div class="btn secondary">No</div></div></div></div>');
+                    $('.popup-info .restart-game').bind('click',function(){
+                        $.ajax({
+                            url: config.api_url,
+                            data: { 
+                                endpoint: '/me/restart'
+                            },
+                            type: 'POST',
+                            dataType: 'JSON',
+                            cache: false,
+                            success:function(){
+                                $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-gamepad"></div><div class="title">Success</div><div class="description">Your account was restarted. You can start all again.</div></div></div>');
+                            }
+                        }); 
+                    });
+                });                
+                
+                break;
+            
             case 'hands':                
                 input   = 
                         $('<div class="hands-container">'+
@@ -163,40 +175,37 @@
                 break;                
         }
 
-        $(row).find('.label').html(options.key.replace(/_/g,' '));
-        $(row).find('.info').html(options.info);                
         $(row).find('.selector').html(input);
-
-
         $('.tab-content.'+options.target).append(row);
     }
     
     $(document).ready(function(){
         
-        settings_row({ target: 'avatar', type:'avatar',  key: 'avatar',            info: 'Choose avatar to make your profile easier recognizable' }); 
-
-        settings_row({ target: 'general', type:'country',key: 'country',           info: 'Choose country that you represent' }); 
-        settings_row({ target: 'general', type:'public', key: 'public',            info: 'Select "yes", if you want to share your result with others' }); 
         
-        settings_row({ target: 'general', type:'select', key: 'display_currency',  info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
+        settings_row({ target: 'game', type:'avatar',  key: 'avatar',                info: 'Choose avatar to make your profile easier recognizable' }); 
+        settings_row({ target: 'game', type:'country', key: 'country',               info: 'Choose country, which you are representing' });         
+        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'In <b>Silent mode</b> you have got private account not visible in rankings and you can add historical transactions.<br /><br />In <b>Player</b> mode you can add only live transactions and compete with others.' });      
+        settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
+        settings_row({ target: 'game', type:'select',  key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
+        settings_row({ target: 'game', type:'restart-game',  key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
         
-        settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',   info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
-        settings_row({ target: 'design',  type: 'color', key: 'color_base',        info: 'Base color is used for all action elements' });
-        settings_row({ target: 'design',  type: 'color', key: 'color_base_invert', info: 'Base Invert color is used as an opposite base color and background for all action elements' });
-        settings_row({ target: 'design',  type: 'color', key: 'color_text',        info: 'Text color is used for all sub-headings & informations' });
-        settings_row({ target: 'design',  type: 'color', key: 'color_label',       info: 'Label color is used as a color of labels on base-color backgrounds' });
-        settings_row({ target: 'design',  type: 'color', key: 'color_bg',          info: 'Background color is used for main background of app' });
-        settings_row({ target: 'design',  type: 'color', key: 'color_bg2',         info: 'Background color 2 is used for background of blocks & boxes' });        
-        settings_row({ target: 'design',  type: 'size',  key: 'size_small',        info: 'Used for additional info & labels' });
-        settings_row({ target: 'design',  type: 'size',  key: 'size_regular',      info: 'Used for text & buttons' });
-        settings_row({ target: 'design',  type: 'size',  key: 'size_medium',       info: 'Used for sub-headings' });
-        settings_row({ target: 'design',  type: 'size',  key: 'size_big',          info: 'Used for headings & icons' });
         
-        settings_row({ target: 'logic',   type:'select', key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
-    
-    
+        settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',     info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
+        settings_row({ target: 'design',  type: 'color', key: 'color_base',          info: 'Base color is used for all action elements' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_base_invert',   info: 'Base Invert color is used as an opposite base color and background for all action elements' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_text',          info: 'Text color is used for all sub-headings & informations' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_label',         info: 'Label color is used as a color of labels on base-color backgrounds' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_bg',            info: 'Background color is used for main background of app' });
+        settings_row({ target: 'design',  type: 'color', key: 'color_bg2',           info: 'Background color 2 is used for background of blocks & boxes' });        
+        settings_row({ target: 'design',  type: 'size',  key: 'size_small',          info: 'Used for additional info & labels' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_regular',        info: 'Used for text & buttons' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_medium',         info: 'Used for sub-headings' });
+        settings_row({ target: 'design',  type: 'size',  key: 'size_big',            info: 'Used for headings & icons' });
+        
         if (me.avatar) $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));
         if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" />');
+        
+        if (me.public === 0){ $('[data-row="restart-game"]').hide(); }
     });
     
     

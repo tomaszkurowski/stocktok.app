@@ -224,6 +224,15 @@ label, .label {
     margin-top: -1px;
 }
 
+.btn.secondary {
+    background-color: var(--color-bg2);
+    color: var(--color-base);
+    border:1px solid var(--color-base);
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-family: 'gotham-bold';    
+}
+
 
 .page-title {
     width: 100%;
@@ -803,7 +812,7 @@ body.scrolling-up .mystock-container{
     padding:15px;
 
     display:inline-flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
     transition: all 0.4s ease-in;
 }
@@ -869,6 +878,9 @@ body.scrolling-up .mystock-container{
     background-color: var(--color-bg);    
     width:100%;
     height:30px; /* Some new HTML5 elements have got different height (for eg. date). This is hardcoded fix for this.. */
+}
+.mystock-edit input:disabled {
+    opacity:0.5;
 }
 
 .mystock-edit input.symbol          { display:none; text-transform:uppercase; flex-shrink:1; }
@@ -959,7 +971,7 @@ body.scrolling-up .mystock-container{
 .view-list .mystock .symbol { display:none; }
 .view-list .mystock .name   { display:none; }
 .view-list .mystock .current { flex-grow:1; margin:0 20px; text-align:right; }
-.view-list .mystock .visibility { position:absolute; width:35px; right:0; }
+.view-list .mystock .visibility { width:50px; right:0; flex-direction:column; justify-content:center; align-self:center; }
 .view-list .mystock .stock-graph-container { height: 0; width: 0; position: fixed; left: -10000px;}
 .view-list .mystock .results, .view-list .mystock .current { align-items: flex-start; margin-left:25px; }
 
@@ -971,15 +983,15 @@ body.scrolling-up .mystock-container{
 .view-list-small .mystock-view { padding:5px; } 
 .view-list-small .mystock .logo { display:none; }
 .view-list-small .mystock .stock-graph-container { height: 0; width: 0; position: fixed; left: -10000px; }
-.view-list-small .mystock .symbol { flex-basis:80px; font-size:var(--size-regular); background-color:transparent; color:var(--color-text); border-radius:0; }
+.view-list-small .mystock .symbol { flex-basis:100px; padding-right:0; margin-right:0; font-size:var(--size-regular); background-color:transparent; color:var(--color-text); border-radius:0; }
 .view-list-small .mystock .name   { display:none; }
 .view-list-small .mystock .label { display:none; }
 .view-list-small .mystock .results .info,
-.view-list-small .mystock .current .info { flex-basis:100px; font-size:var(--size-regular); line-height:var(--size-regular); order:1; text-align:right; margin-right:15px; }
+.view-list-small .mystock .current .info { font-size:var(--size-regular); line-height:var(--size-regular); order:1; text-align:left; }
 .view-list-small .mystock .results,
-.view-list-small .mystock .current { flex-basis:80px; flex-direction:row; flex-grow:1; align-items:center; justify-content: flex-end; height:100%; }
-.view-list-small .mystock .visibility { justify-self:flex-end; }
-.view-list-small .mystock .additionals { margin-left:15px; }
+.view-list-small .mystock .current { flex-direction:row; flex-grow:1; align-items:center; justify-content: flex-end; height:100%; }
+.view-list-small .mystock .visibility { justify-self:flex-end; justify-content:flex-end; flex-basis:70px; }
+.view-list-small .mystock .additionals { flex-basis:95px; justify-content:flex-start !important; }
 .view-list-small .mystock .results { display:none; }
 .view-list-small [data-group="master"] .mystock .symbol { padding-left:25px; }
 
@@ -988,14 +1000,14 @@ body.scrolling-up .mystock-container{
 .view-list-small-results .mystock-view { padding:5px; } 
 .view-list-small-results .mystock .logo { display:none; }
 .view-list-small-results .mystock .stock-graph-container { height: 0; width: 0; position: fixed; left: -10000px; }
-.view-list-small-results .mystock .symbol { flex-basis:80px; font-size:var(--size-regular); background-color:transparent; color:var(--color-text); border-radius:0; }
+.view-list-small-results .mystock .symbol { flex-basis:100px; padding-right:0; margin-right:0; font-size:var(--size-regular); background-color:transparent; color:var(--color-text); border-radius:0; }
 .view-list-small-results .mystock .label { display:none; }
 .view-list-small-results .mystock .results .info,
-.view-list-small-results .mystock .current .info { flex-basis:100px; font-size:var(--size-regular); line-height:var(--size-regular); order:1; text-align:right; margin-right:15px; }
+.view-list-small-results .mystock .current .info { font-size:var(--size-regular); line-height:var(--size-regular); order:1; text-align:right; flex-basis:90px; }
 .view-list-small-results .mystock .results,
 .view-list-small-results .mystock .current { flex-basis:80px; flex-direction:row; flex-grow:1; align-items:center; justify-content: flex-end; height:100%; }
-.view-list-small-results .mystock .visibility { justify-self:flex-end; }
-.view-list-small-results .mystock .additionals { margin-left:15px; }
+.view-list-small-results .mystock .visibility { justify-self:flex-end; justify-content:flex-end; flex-basis:70px;  }
+.view-list-small-results .mystock .additionals { flex-basis:95px; justify-content:flex-start !important; }
 .view-list-small-results .mystock .current { display:none; }
 .view-list-small-results [data-group="master"] .mystock .symbol { padding-left:25px; }
 
@@ -1047,6 +1059,7 @@ body.scrolling-up .mystock-container{
     font-size:var(--size-small);
     color:var(--color-label);
     margin-bottom:2.5px;
+    white-space:nowrap;
 }
 .mystock .results .info,
 .mystock .current .info {
@@ -1054,7 +1067,6 @@ body.scrolling-up .mystock-container{
     font-size: var(--size-medium);
     line-height: 16px;
     color: var(--color-text);
-    margin-top: 2.5px;
 }
 .mystock .results .additionals,
 .mystock .current .additionals {
@@ -1492,6 +1504,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom:5px;
     color:var(--color-text);
 }
+
+.add-new-stock .price-origin-historical .info {
+    margin: 15px 0px;
+    text-align: center;
+    line-height: 18px;
+    color: var(--color-base-invert);
+    background-color: var(--color-base);
+    border-radius: 15px;
+    padding: 15px;   
+}
+.add-new-stock .price-origin-historical input:disabled {
+    opacity:0.5;
+}
+
 .add-new-stock .price-origin .price,
 .add-new-stock .price-origin .market-currency
 {
@@ -1500,7 +1526,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color:var(--color-text);
 }
 .add-new-stock .price-origin  input[type="checkbox"]{
-    margin-top:5px;
+    margin-top:2.5px;
 }
 .add-new-stock .price-origin label { text-align:right; width:100%; padding-right:15px; }
 
@@ -2005,7 +2031,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction:column;
 }
 .tab-content .row .title {
-    margin-bottom:10px;
+    margin:10px 0;
     font-size:var(--size-regular);
     font-family:'gotham-bold';
     
@@ -2024,7 +2050,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-transform:capitalize;
 }
 
-.tab-content .row .value { font-family:'gotham-bold'; text-transform:capitalize; text-align:right; }
+.tab-content .row .value { font-family:'gotham-bold'; text-transform:capitalize; text-align:right; display:none; }
 .tab-content .row .value.uppercase { text-transform:uppercase; }
 
 .tab-info .row .field { flex-grow:1; }
@@ -2078,14 +2104,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: var(--color-base);
     color: var(--color-base-invert);
     text-align:center;
+    text-transform:capitalize;
 }
 
-.settings .btn.primary {
-    display:inline-block;
-    margin-top:10px;
-    padding:5px 15px;
-    margin-right:0;
-    margin-left:0;
+.settings .btn {
+    border: 1px solid var(--color-bg);
+    padding: 10px;
+    font-size: var(--size-small);
+    border-radius: 15px;
+    background-color: var(--color-base);
+    color: var(--color-base-invert);
+    text-align:center;
+    text-transform:capitalize;
 }
 
 .settings .hands-container { display:flex; }
@@ -2967,6 +2997,7 @@ main,
 
 .editable .mystock-container .edit { 
     display:flex; 
+    justify-content:center;
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px; 
     overflow:hidden;
@@ -2997,6 +3028,17 @@ main,
     border-left:0;
 }
 
+.mystock-container .silent-transaction {
+    color:var(--color-bg);
+    font-size:24px;
+}
+.view-grid               .mystock-container .silent-transaction { position:absolute; bottom:10px; right:15px; }
+.view-list               .mystock-container .silent-transaction { margin-top:10px; margin-right:1.5px; }
+.view-list-small         .mystock-container .silent-transaction { order:-1; margin-right:10px; } 
+.view-list-small-results .mystock-container .silent-transaction { order:-1; margin-right:10px;} 
+
+
+
 .icon-add1 { transition:transform 0.5s ease-out; }
 .icon-add1.inactive { transform:rotate(45deg); color:var(--color-base); }
 
@@ -3019,22 +3061,24 @@ main,
     align-items: center;
     justify-content: space-between;
 
-    padding:5px 15px 4px;
+    padding:15px 15px 0px;
     background:var(--color-bg2);
 }
 .wallet-items.funds .fund .balance {
     text-align: right;
     font-family: 'gotham-bold';
     font-size: var(--size-regular);
+    color:var(--color-base);
 }
 .wallet-items.funds .fund .date {
     flex-wrap: nowrap;
     flex-grow:1; 
+    font-family:'gotham-bold';
 }
 .wallet-items.funds .fund .comment {
-    padding: 10px 15px 0px;
-    font-family: 'gotham-bold';
+    padding: 5px 15px 10px;
     background-color: var(--color-bg2);
+    line-height:18px;
 }
 
 .wallet-items.funds .info {
@@ -3308,7 +3352,8 @@ input:checked + .switch:before {
 }
 
 
-.icon-btn.icon-search { font-size:24px; }
+.icon-btn.icon-search        { font-size:24px; }
+.icon-btn.icon-shopping_cart { font-size:30px; }
 
 .info-page {
     height:100vh; 
@@ -3574,4 +3619,46 @@ input:checked + .switch:before {
 }
 .popup-avatars .color .avatar-color {
     margin-left:10px;
+}
+
+.popup-info {
+    position:fixed;
+    width:100vw;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999999;
+}
+.popup-info-body {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;    
+    text-align:center;
+    background-color:var(--color-bg2);
+    border-radius:15px;
+    padding:30px;
+    max-width:80%;
+}
+.popup-info-body .icon {
+    font-size:60px;
+    color:var(--color-base);
+    margin-bottom:15px;
+}
+.popup-info-body .title {
+    font-family:'gotham-bold';
+    font-size:var(--size-big);
+    margin-bottom:15px;
+    color:var(--color-base);
+}
+.popup-info-body .description {
+    color:var(--color-label);
+    line-height:18px;
+}
+.popup-info .actions {
+    margin-top:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
