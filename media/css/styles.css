@@ -1489,7 +1489,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .add-new-stock .summary {
     padding:15px;
-    border-top:1px solid var(--color-label);
+    border-top:1px solid var(--color-bg);
     display:flex;
     flex-direction:column;
     align-items:flex-end;
@@ -1504,6 +1504,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-bottom:5px;
     color:var(--color-text);
 }
+.add-new-stock .summary .row.funds {
+    margin-top: 5px;
+    border-top: 1px solid var(--color-bg);
+    padding-top: 5px;
+    text-align: right;
+}
+
 
 .add-new-stock .price-origin-historical .info {
     margin: 15px 0px;
@@ -1536,6 +1543,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin:0 30px 15px;
     padding-top:15px;
     border-top:1px solid var(--color-bg);
+    border-radius:0;
     align-items:stretch;
     justify-content:space-between;
 }
@@ -3630,6 +3638,7 @@ input:checked + .switch:before {
     justify-content:center;
     z-index:999999;
 }
+
 .popup-info-body {
     display:flex;
     flex-direction:column;
@@ -3641,22 +3650,37 @@ input:checked + .switch:before {
     padding:30px;
     max-width:80%;
 }
-.popup-info-body .icon {
+.inner-popup {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 30px);
+    background-color: var(--color-bg2);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align:center;    
+    flex-direction: column;
+    padding: 15px;
+}
+
+
+.popup-info-body .icon, .inner-popup .icon {
     font-size:60px;
     color:var(--color-base);
     margin-bottom:15px;
 }
-.popup-info-body .title {
+.popup-info-body .title, .inner-popup .title {
     font-family:'gotham-bold';
     font-size:var(--size-big);
     margin-bottom:15px;
     color:var(--color-base);
 }
-.popup-info-body .description {
+.popup-info-body .description, .inner-popup .description {
     color:var(--color-label);
     line-height:18px;
 }
-.popup-info .actions {
+.popup-info .actions, .inner-popup .actions {
     margin-top:15px;
     display:flex;
     align-items:center;
