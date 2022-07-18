@@ -181,8 +181,5 @@
         $(document).on('click','.silent-transaction',function(){
             $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-user-secret"></div><div class="title">Silent transaction</div><div class="description">This transaction was added in silent mode <b>with historical price/date</b>. It will not be ranked and visible in case you would switch your profile to <b>Player mode</b> in settings.</div></div></div>');
         });
-        $(document).on('click','.popup-info',function(){
-            $('body').removeClass('with-popup');
-            $('.popup-info').remove();
-        });        
+       
     </script>   

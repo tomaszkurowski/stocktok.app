@@ -224,6 +224,15 @@ label, .label {
     margin-top: -1px;
 }
 
+.btn.secondary {
+    background-color: var(--color-bg2);
+    color: var(--color-base);
+    border:1px solid var(--color-base);
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-family: 'gotham-bold';    
+}
+
 
 .page-title {
     width: 100%;
@@ -2098,12 +2107,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-transform:capitalize;
 }
 
-.settings .btn.primary {
-    display:inline-block;
-    margin-top:10px;
-    padding:5px 15px;
-    margin-right:0;
-    margin-left:0;
+.settings .btn {
+    border: 1px solid var(--color-bg);
+    padding: 10px;
+    font-size: var(--size-small);
+    border-radius: 15px;
+    background-color: var(--color-base);
+    color: var(--color-base-invert);
+    text-align:center;
+    text-transform:capitalize;
 }
 
 .settings .hands-container { display:flex; }
@@ -3643,4 +3655,10 @@ input:checked + .switch:before {
 .popup-info-body .description {
     color:var(--color-label);
     line-height:18px;
+}
+.popup-info .actions {
+    margin-top:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
