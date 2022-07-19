@@ -27,7 +27,7 @@
                 if (response.success === false){
                     
                     if (response.err === 1){
-                        $('.popup-body').prepend('<div class="inner-popup"><div class="icon icon-energy"></div><div class="title">No sufficient funds</div><div class="description">On "Player" mode you can buy only from available funds which are equal for all players.You can also switch to "Silent" in settings and have unlimitted balance, but your transactions will be visible only for you and not ranked.</div><div class="actions"><div class="btn primary close">Ok, try again</div></div></div>');
+                        $('.popup-body').prepend('<div class="inner-popup"><div class="icon icon-energy"></div><div class="title">No sufficient funds</div><div class="description">On "Player" mode you can buy only from available funds which are equal for all players.You can also switch to "Silent" in settings and have unlimitted balance, but your transactions will be visible only for you and not ranked.</div><div class="actions"><div class="btn primary close">Ok</div></div></div>');
                     }
                     return;
                 }
