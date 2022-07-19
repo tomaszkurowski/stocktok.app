@@ -152,7 +152,7 @@
                             .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
                             .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
                             .append('<div class="title">'+player.username+'</div>')
-                            .append('<div class="total">'+player.current_total+' $</div>')
+                            //.append('<div class="total">'+player.current_total+' $</div>')
                             .bind('click',function(){
                                 location.href = '/wallet/'+player.username;
                             });
@@ -240,7 +240,7 @@
                             .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
                             .append('<div class="position">'+(position++)+'</div>')
                             .append('<div class="title">'+player.username+'</div>')
-                            .append('<div class="total">'+player.margin+' $</div>')
+                            //.append('<div class="total">'+player.margin+' $</div>')
                             .bind('click',function(){
                                 location.href = '/wallet/'+player.username;
                             });

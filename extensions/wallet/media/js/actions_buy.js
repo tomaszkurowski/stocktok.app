@@ -24,6 +24,13 @@
             cache: false,
             success: function(response){            
                 
+                if (response.success === false){
+                    
+                    if (response.err === 1){
+                        $('.popup-body').prepend('<div class="inner-popup"><div class="icon icon-energy"></div><div class="title">No sufficient funds</div><div class="description">On "Player" mode you can buy only from available funds which are equal for all players.You can also switch to "Silent" in settings and have unlimitted balance, but your transactions will be visible only for you and not ranked.</div><div class="actions"><div class="btn primary close">Ok</div></div></div>');
+                    }
+                    return;
+                }
                 $('.popup-body').html('\
                     <div class="popup-success">\n\
                         <div class="icon-btn icon-check1"></div>\n\
@@ -33,7 +40,6 @@
                 
                 // Re-init wallet if needed
                 if (mvc.model==='wallet'){ init(); }
-                
                 if (config.debug) console.log(response);               
             },
             error: function(response){
@@ -119,10 +125,10 @@
     
     
     function buy_reload_totals(){
+        
         var market_currency = $('.view-buy:not(.slick-cloned)').find('#currency').val();
         var rate = 1;
         
-        console.log(settings.display_currency);
         if (market_currency !== settings.display_currency){
             if (currencies.hasOwnProperty(settings.display_currency) && currencies.hasOwnProperty(market_currency)){
                 rate = parseFloat(currencies[settings.display_currency]) / parseFloat(currencies[market_currency]);
@@ -130,7 +136,7 @@
         }else{
             $('.view-buy:not(.slick-cloned) .summary .row.market').hide();
         }
-        console.log('Rate = '+rate);
+        //console.log('Rate = '+rate);
                 
         var qty             = $('.view-buy:not(.slick-cloned) #qty').val();
         var price           = $('.view-buy:not(.slick-cloned) #price').val();       
@@ -140,8 +146,16 @@
         $('.view-buy:not(.slick-cloned)').find('#currency_rate').val(rate);
         
         $('.view-buy:not(.slick-cloned)').find('.summary .total').text(format_price(total,2));
-        if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .total-market').text(format_price(total_market));
+        if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .total-market').text(format_price(total_market,2));
         if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .rate').text('(x'+rate.toFixed(2)+' '+settings.display_currency+')');
+       
+        if (me.public === 1){
+            var funds_after_transaction = (me.funds*rate) - total;
+            $('.view-buy:not(.slick-cloned) .row.funds').removeClass('hide');
+            $('.view-buy:not(.slick-cloned) .funds-after-transaction').text(format_price(funds_after_transaction,2));
+            $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
+        }
+        
         
     }
     

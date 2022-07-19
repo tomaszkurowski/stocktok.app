@@ -183,4 +183,8 @@
     $(document).on('click','.popup-info',function(){
         $('body').removeClass('with-popup');
         $('.popup-info').remove();
-    }); 
+    });
+    
+    $(document).on('click','.inner-popup .close',function(){
+        $(this).parents('.inner-popup').remove();
+    });
