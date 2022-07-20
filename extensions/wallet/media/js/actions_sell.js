@@ -2,15 +2,9 @@
     
     // View Sell - Totals calculation
     function sell_reload_totals(){
-        
+                             
         var market_currency = $('.view-sell:not(.slick-clone) .form').find('#currency').val();
-        var rate = 1;       
-        if (market_currency !== settings.display_currency){
-            if (currencies.hasOwnProperty(settings.display_currency) && currencies.hasOwnProperty(market_currency)){
-                rate = parseFloat(currencies[settings.display_currency]) / parseFloat(currencies[market_currency]);
-            }
-        }
-        if (config.debug) console.log('Sell Rate for Totals = '+rate);
+        var purchased_currency;
          
         var total_qty_sell  = qty_sell = parseFloat($('.view-sell:not(.slick-clone) .form').find('#total-qty-sell').val());
         if (isNaN(total_qty_sell)){ total_qty_sell = 0; }
@@ -42,6 +36,8 @@
             
             $(this).attr('data-keep-qty',transaction.keep_qty);
             $(this).attr('data-sell-qty',transaction.sell_qty);
+            
+            purchased_currency = $(this).attr('data-purchased-currency');
                         
         });
         
@@ -56,6 +52,44 @@
         
         var sold_price      = $('.view-sell:not(.slick-cloned) .form #sold_price').val();
         
+        var rate = (currencies[settings.display_currency] / currencies[market_currency]).toFixed(2);
+                       
+        var total_main       = sold_price * total_qty_sell * rate;
+        var total_additional = sold_price * total_qty_sell;
+                
+        if (market_currency === 'usd'){
+            console.log('sell cond1');
+            console.log(me.funds);
+            console.log(purchased_currency);
+            console.log(round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2));
+            var funds_after = me.funds * currencies[purchased_currency] + round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2);
+        }else{
+            if (purchased_currency === market_currency){
+                console.log('sell cond2');
+                var funds_after = (me.funds + round(parseFloat(sold_price * total_qty_sell / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
+            }else{
+                console.log('sell cond3');
+               var funds_after = (me.funds + parseFloat(sold_price * total_qty_sell * rate)) * currencies[purchased_currency]; 
+            }            
+        }
+        
+        
+        $('.view-sell:not(.slick-cloned) .total-main').text(format_price(total_main,2)+' '+settings.display_currency);
+        $('.view-sell:not(.slick-cloned) .total-additional').text(format_price(total_additional,2)+' '+market_currency+' (x'+format_price(rate,2)+' '+settings.display_currency+')');
+        
+        if (settings.display_currency === market_currency){ $('.view-buy:not(.slick-cloned) .total-additional').hide();
+        }else{ $('.view-sell:not(.slick-cloned) .total-additional').show(); }
+               
+        if (me.public === 1){
+            $('.view-sell:not(.slick-cloned) .funds').removeClass('hide');
+            $('.view-sell:not(.slick-cloned) .funds .funds-after').text(format_price(funds_after,2));  
+            $('.view-sell:not(.slick-cloned) .funds .funds-currency').text(settings.display_currency);           
+        }        
+        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
+       
+        
+        
+        /*
         var total           = total_qty_sell * sold_price * rate;
         var total_market    = total_qty_sell * sold_price;
         
@@ -64,7 +98,7 @@
         $('.view-sell .summary .total').text(format_price(total,2));
         if (total !== total_market) $('.view-sell .summary .total-market').text(format_price(total_market));
         if (total !== total_market) $('.view-sell .summary .rate').text('(x'+rate.toFixed(2)+' '+settings.display_currency+')');       
-        
+        */
     }
         
     
@@ -80,6 +114,7 @@
 
             $(transaction).attr('data-purchased-qty',item.purchased_qty);
             $(transaction).attr('data-purchased-price',item.purchased_price);
+            $(transaction).attr('data-purchased-currency',item.purchased_currency);
             $(transaction).attr('data-id',item.wallet_entities_id);
 
             $(transaction).find('.qty').text(item.purchased_qty+' x');
@@ -278,6 +313,8 @@
                         <div class="title">You successfully sold: <span class="symbol">'+form.symbol.toUpperCase()+'</span></div>\n\
                     </div>');                
                 $('.popup-btn.step2-btn').remove(); 
+                
+                me.funds = response.funds;
                 
                 // Re-init wallet if needed
                 if (mvc.model==='wallet'){ init(); }

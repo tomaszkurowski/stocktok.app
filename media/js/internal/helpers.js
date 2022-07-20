@@ -212,7 +212,7 @@
                "." + date.getFullYear(); 
     }
 
-
+    var currencies = {};
     function get_currencies(callback=null){
         $.ajax({
             url: config.api_url,
@@ -222,10 +222,14 @@
             cache:false,
             success: function(response){
 
-                currencies = response.items;              
-                if (config.debug) console.log('\n','Currency Rates:',response,'\n\n');
+                $.each(response.items, function(i, item){ 
+                    currencies[i] = round(parseFloat(item),2);
+                });
                 
+                if (config.debug) console.log('\n','Currency Rates:',currencies,'\n\n'); 
+                console.log(response.items);
                 if (callback) callback();
+                
             },
             error: function(response){
                 console.log(response);
@@ -245,6 +249,25 @@
 
     }
     
+    // https://stackoverflow.com/questions/1726630/formatting-a-number-with-exactly-two-decimals-in-javascript
+    function round(value, exp) {
+        if (typeof exp === 'undefined' || +exp === 0)
+          return Math.round(value);
+
+        value = +value;
+        exp = +exp;
+
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+          return NaN;
+
+        // Shift
+        value = value.toString().split('e');
+        value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    }    
     
     
     function updateSettings(key,value){

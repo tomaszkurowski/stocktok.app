@@ -252,7 +252,7 @@
                         var element =  '<div class="fund" data-id="'+fund.id+'">'+
                                         '<div class="top">'+
                                             '<div class="date">'+fund.date+'</div>'+
-                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,2)+' usd</div>'+
+                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,4)+' usd</div>'+
                                             '<div class="funds-edit"><div class="icon icon-btn icon-bin funds-delete"></div></div>'+
                                         '</div>'+                                 
                                         (fund.comment.length >0 ? '<div class="comment label">'+fund.comment+'</div>' : '')+                                        
@@ -265,6 +265,10 @@
                     if (settings.display_currency !== 'usd'){
                         funds_total = funds_total * currencies[settings.display_currency];
                     }
+                    
+                    // new approach to funds_total, in tests
+                    funds_total = me.funds * currencies[settings.display_currency];
+                    
                     $('.wallet.funds .funds-total').text(format_price(funds_total,2));                        
 
                 }

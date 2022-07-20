@@ -6,12 +6,15 @@
         $('.view-buy:not(.slick-cloned) .form input').each(function(index,element){
             form[$(element).attr('id')] = $(element).val();
         });
+        $('.view-buy:not(.slick-cloned) .form select').each(function(index,element){
+            form[$(element).attr('id')] = $(element).val();
+        });        
         
         if (form['currency'] !== 'usd'){
             form['currency_rate'] = currencies[form['currency']];
         }
         
-        form['price_origin'] = $(".view-buy:not(.slick-cloned) #price-origin").prop('checked');
+        form['price_origin'] = $(".view-buy:not(.slick-cloned) #price-origin").prop('checked');        
         
         $.ajax({
             url: config.api_url,
@@ -23,7 +26,6 @@
             dataType: 'JSON',
             cache: false,
             success: function(response){            
-                
                 if (response.success === false){
                     
                     if (response.err === 1){
@@ -37,6 +39,8 @@
                         <div class="title">You successfully added: <span class="symbol">'+form.symbol.toUpperCase()+'</span> to your wallet.</div>\n\
                     </div>');                
                 $('.popup-btn.step2-btn').remove();
+                                
+                me.funds = response.funds;
                 
                 // Re-init wallet if needed
                 if (mvc.model==='wallet'){ init(); }
@@ -76,23 +80,19 @@
         
         // Form attributes
         $('.view-buy #price').val(parseFloat(item.price).toFixed(2));
-        $('.view-buy #qty').val(1);
         $('.view-buy #symbol').val(item.symbol);
         $('.view-buy #market').val(item.market);
-        $('.view-buy #currency').val(item.market_currency);
+        
+        // Purchased currency
+        $('.view-buy #currency').html('');
+        $.each(currencies, function(i, rate){            
+            $('.view-buy #currency').append('<option value="'+i+'"'+(i === settings.display_currency ? ' selected="SELECTED"':'')+'>'+i+'</option>');
+        });
+
                     
         // Slick adaptiveHeight
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-        
-        // Currency rates
-        if (item.market_currency !== settings.display_currency){
-            $('.step2 .summary .market-currency').text(item.market_currency);
-            $('.step2 .summary .total-market').text('0.00');
-            
-        }else{
-           $('.step2 .summary .market-currency').text(''); 
-        }   
-                
+                        
         button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ buy_save(); });
         button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ buy_step1(); });
         
@@ -126,37 +126,44 @@
     
     function buy_reload_totals(){
         
-        var market_currency = $('.view-buy:not(.slick-cloned)').find('#currency').val();
-        var rate = 1;
+        var market = $('.view-buy:not(.slick-cloned)').find('#market').val();                        
+        var qty    = $('.view-buy:not(.slick-cloned) #qty').val();
+        var price  = $('.view-buy:not(.slick-cloned) #price').val(); 
+
+        var purchased_currency = $('.view-buy:not(.slick-cloned)').find('#currency').val();
+        var market_currency    = 'usd';
+        if (market === 'gpw' || market === 'newconnect'){ 
+            market_currency    = 'pln'; }         
         
-        if (market_currency !== settings.display_currency){
-            if (currencies.hasOwnProperty(settings.display_currency) && currencies.hasOwnProperty(market_currency)){
-                rate = parseFloat(currencies[settings.display_currency]) / parseFloat(currencies[market_currency]);
-            }
+        var rate = (currencies[purchased_currency] / currencies[market_currency]).toFixed(2);
+                       
+        var total_main       = price * qty * rate;
+        var total_additional = price * qty;
+         
+        if (market_currency === 'usd'){
+            var funds_after = me.funds * currencies[purchased_currency] - round(parseFloat(price * qty * currencies[purchased_currency]),2);
         }else{
-            $('.view-buy:not(.slick-cloned) .summary .row.market').hide();
+            if (purchased_currency === market_currency){
+                var funds_after = (me.funds - round(parseFloat(price * qty / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
+            }else{
+               var funds_after = (me.funds - parseFloat(price * qty * rate)) * currencies[purchased_currency]; 
+            }            
         }
-        //console.log('Rate = '+rate);
-                
-        var qty             = $('.view-buy:not(.slick-cloned) #qty').val();
-        var price           = $('.view-buy:not(.slick-cloned) #price').val();       
-        var total           = qty * price * rate;
-        var total_market    = qty * price;
         
-        $('.view-buy:not(.slick-cloned)').find('#currency_rate').val(rate);
+        $('.view-buy:not(.slick-cloned) .total-main').text(format_price(total_main,2)+' '+purchased_currency);
+        $('.view-buy:not(.slick-cloned) .total-additional').text(format_price(total_additional,2)+' '+market_currency+' (x'+format_price(rate,2)+' '+purchased_currency+')');
         
-        $('.view-buy:not(.slick-cloned)').find('.summary .total').text(format_price(total,2));
-        if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .total-market').text(format_price(total_market,2));
-        if (total !== total_market) $('.view-buy:not(.slick-cloned)').find('.summary .rate').text('(x'+rate.toFixed(2)+' '+settings.display_currency+')');
-       
+        if (purchased_currency === market_currency){ $('.view-buy:not(.slick-cloned) .total-additional').hide();
+        }else{ $('.view-buy:not(.slick-cloned) .total-additional').show(); }
+               
         if (me.public === 1){
-            var funds_after_transaction = (me.funds*rate) - total;
-            $('.view-buy:not(.slick-cloned) .row.funds').removeClass('hide');
-            $('.view-buy:not(.slick-cloned) .funds-after-transaction').text(format_price(funds_after_transaction,2));
-            $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-        }
-        
-        
+            $('.view-buy:not(.slick-cloned) .funds').removeClass('hide');
+            $('.view-buy:not(.slick-cloned) .funds .funds-after').text(format_price(funds_after,2));  
+            $('.view-buy:not(.slick-cloned) .funds .funds-currency').text(purchased_currency);
+            if (funds_after <0){ $('.funds-after').addClass('error'); }else{ $('.funds-after').removeClass('error'); }
+        }        
+        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
+        //3167.75  
     }
     
     // Price origin 
