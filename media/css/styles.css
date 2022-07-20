@@ -158,8 +158,8 @@ b,strong {
     font-family:'gotham-bold';
 }
 .important {
-    font-family:'gotham-bold';
-    font-size:var(--size-big);
+    font-family:'gotham-bold' !important;
+    font-size:var(--size-big) !important;
 }
 
 label, .label {
@@ -723,20 +723,42 @@ main {
     background-color:var(--color-base);
     color:var(--color-base-invert);
 }
+.wallets .wallet .icon {
+    font-size:25px;
+    opacity:0; /* For now */
+}
 
 .wallets .wallet .id {
     font-family:'gotham-bold';
+    margin:0;
 }
 .wallets .wallet .info {
     width:200px;
     display:flex;
-    align-items:center;
+    align-items:flex-start;
     justify-content:space-between;
+}
+.wallets .wallet .owner {
+    font-size:var(--size-regular);
+    font-family:'gotham-bold';
+}
+.wallets .wallet .privacy {
+    font-size:var(--size-small);
 }
 
 .wallets .wallet .results {
    margin-top:15px;
    line-height:20px;
+}
+.wallets .wallet .results .label {
+    display:inline-block;
+    width:66px;
+   }
+.wallets .wallet .results .margin, .wallets .wallet .results .total {
+
+}
+.wallets .wallet .results .total {
+    font-size:var(--size-small);
 }
 
 
