@@ -2206,7 +2206,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-transform:capitalize;
 }
 
-.tab-content .row .value { font-family:'gotham-bold'; text-transform:capitalize; text-align:right; display:none; }
+.tab-content .row .value { font-family:'gotham-bold'; text-transform:capitalize; text-align:right; }
 .tab-content .row .value.uppercase { text-transform:uppercase; }
 
 .tab-info .row .field { flex-grow:1; }
@@ -2244,6 +2244,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .template-info-tab-row.Disclaimer  .value { font-family:'gotham-regular'; line-height:24px; text-align:justify; }
 .template-info-tab-row.Disclaimer  .field { display:none; }
+.template-info-tab-row.WebURL a { text-transform:lowercase; }
 
 .settings .color-container input[type="color"] { 
     border-radius: 5px;
@@ -2273,6 +2274,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-align:center;
     text-transform:capitalize;
 }
+
+.settings .tab-content .row .value { display:none; }
 
 .settings .hands-container { display:flex; }
 .settings .hands-container .hand-right { font-size:35px; -webkit-transform: scaleX(-1); transform: scaleX(-1); color:var(--color-base); }
