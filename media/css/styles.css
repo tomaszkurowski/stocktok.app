@@ -159,7 +159,7 @@ b,strong {
 }
 .important {
     font-family:'gotham-bold' !important;
-    font-size:var(--size-big) !important;
+    font-size:var(--size-medium) !important;
 }
 
 label, .label {
@@ -274,6 +274,9 @@ label, .label {
     
     z-index:5;
     border-radius:15px;
+    -webkit-box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);
+    box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);    
     /*
     -webkit-box-shadow: 0px 0px 30px -15px rgb(66,68,90);
     -moz-box-shadow: 0px 0px 30px -15px rgb(66,68,90);
@@ -298,8 +301,8 @@ label, .label {
     background:var(--color-base);
     height: 100%;
     align-self: flex-end;
-    margin-left:-1px;
-    border-left:1px solid var(--color-base-invert);
+    margin-left:-15px;
+
 }
 .footer .hamburger {
     font-size:30px;
@@ -706,11 +709,9 @@ main {
     overflow-x:scroll;
     width:100%;
     padding:5px;
-    margin-bottom: 5px;
     display:flex;
     align-items:stretch;
     background-color:var(--color-bg);
-    border-bottom:1px solid var(--color-bg2);
 }
 .wallets .wallet {
     margin: 5px;
@@ -718,6 +719,9 @@ main {
     background-color:var(--color-bg2);
     border-radius:15px;
     transition:all 0.1s ease-in;
+    -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
 }
 .wallets .wallet.active {
     background-color:var(--color-base);
@@ -738,12 +742,16 @@ main {
     align-items:flex-start;
     justify-content:space-between;
 }
-.wallets .wallet .owner {
-    font-size:var(--size-regular);
-    font-family:'gotham-bold';
+.wallets .wallet .info .name {
+    margin-top:15px;
+    margin-bottom:5px;
+    font-size:var(--size-medium);
+    font-family:'gotham-bold'; 
+    display:inline-flex;
 }
+.wallets .wallet .owner {}
 .wallets .wallet .privacy {
-    font-size:var(--size-small);
+    display:none;
 }
 
 .wallets .wallet .results {
@@ -786,6 +794,9 @@ main {
     display:none;
     -ms-overflow-style: none; 
     scrollbar-width: none;
+    -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);    
 }
 .mystock-container.active { display:block; }
 
@@ -1184,16 +1195,17 @@ body.scrolling-up .mystock-container{
 .group-info {
     position: absolute;    
     z-index: 2;
-    margin-top: 2px;
-    margin-left: 2px;   
+    margin-top: -5px;
+    margin-left: -5px;   
     display:none;
 }
 .mystock-container .group-info .icon {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg2);
     color: var(--color-base);
     padding: 5px;
     font-size: 15px;
     border-radius: 50%;
+    border: 2px solid var(--color-base);
 }
 [data-group="master"] .group-info       { display:block; }
 [data-group="child"] .group-info        { display:block; }
@@ -3111,7 +3123,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 }
 .nav-active .nav .load-menu         { padding-right:23px; opacity:1; }
 .nav-active .nav .load-menu .icon   { transform:rotate(-360deg); }
-.nav-active .footer-container       { right: 240px; }
+.nav-active .footer-container       { right: 255px; }
 
 .app-body, 
 #app, 
@@ -3176,17 +3188,28 @@ main,
 .icon-add1 { transition:transform 0.5s ease-out; }
 .icon-add1.inactive { transform:rotate(45deg); color:var(--color-base); }
 
+
+.wallet-items {
+    margin-top:10px;
+}
 .wallet-items.funds {
     display:flex;
     flex-direction:column;
+}
+.wallet-items.funds .fund:first-child {
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+}
+.wallet-items.funds .fund:last-child {
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
 }
 .wallet-items.funds .fund {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 5px;
     background: var(--color-bg2);
-    margin-bottom: 5px;
+    margin-bottom: 1px;
     overflow: hidden;    
 }
 .wallet-items.funds .fund .top {
@@ -3195,7 +3218,7 @@ main,
     align-items: center;
     justify-content: space-between;
 
-    padding:15px 15px 0px;
+    padding:15px;
     background:var(--color-bg2);
 }
 .wallet-items.funds .fund .balance {
@@ -3210,9 +3233,10 @@ main,
     font-family:'gotham-bold';
 }
 .wallet-items.funds .fund .comment {
-    padding: 5px 15px 10px;
+    padding: 0px 15px 15px;
     background-color: var(--color-bg2);
     line-height:18px;
+    display:none;
 }
 
 .wallet-items.funds .info {
