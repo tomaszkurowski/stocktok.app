@@ -1,0 +1,50 @@
+<div class="player-view">
+
+    <div class="overview">
+        <div class="avatar-container"></div>
+        <div class="username"></div>
+        <div class="bio"></div>
+        <div class="actions">            
+        </div>
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/player',
+                    username: mvc.controller
+                },
+                type: 'GET',
+                dataType: 'JSON',
+                cache: false,
+                success: function(response){  
+                    
+                    if (response.success === false){                         
+                        if (response.err === 404){
+                            $('.player-view').html('<div class="info-page"><div class="icon icon-clear"></div><h1>Player not found</h1><p>Player you are trying to find doesn\'t exist or its on silent mode.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find players</div></div>');                           
+                        }
+                        return;                     
+                    }
+                    
+                    var player = response.player;
+                    $('.overview .avatar-container').html('<div class="avatar avatar-'+player.avatar+'" style="color:'+player.avatar_color+'"></div>');
+                    $('.overview .username').text(player.username);
+                    
+                    $('.overview .actions').append('<div class="btn primary">See Results</div>').bind('click',function(){
+                        load_page('/wallet/'+player.username,true);
+                    });
+                    
+                    
+                }
+            });
+            
+    });
+    
+</script>

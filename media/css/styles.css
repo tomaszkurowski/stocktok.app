@@ -198,9 +198,7 @@ label, .label {
     padding: 10px 20px;
     font-family: 'gotham-bold';
     display: flex;
-    align-items: center;
-    margin-right: 10px;
-    
+    align-items: center;    
     align-self:flex-start;
 }
 .btn.primary.inactive {
@@ -3579,10 +3577,12 @@ input:checked + .switch:before {
 .info-page {
     height:100vh; 
     width:100%;
+    padding:0 15px;
     display:flex; 
     flex-direction:column; 
     justify-content:center;
     align-items:center;
+    text-align:center;
 }
 .items-container .info-page {
     margin-top:-15px;
@@ -3607,6 +3607,7 @@ input:checked + .switch:before {
 .info-page p {
     margin-top:0;
     margin-bottom:30px;
+    line-height:20px;
 }
 .info-page .btn.primary {
     margin-right:0;
@@ -3767,6 +3768,68 @@ input:checked + .switch:before {
     font-size: 24px;
     color: var(--color-base);
     top: 5px;
+}
+
+.players .moves .move {
+    background-color:var(--color-bg2);
+    padding:15px;
+    margin-bottom:1px;
+}
+.players .moves .move:first-child {
+    border-top-left-radius:15px;
+    border-top-right-radius:15px;
+}
+.players .moves .move:last-child {
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;    
+}
+.players .moves .move .header {
+    font-family:'gotham-bold';
+    margin-bottom:10px;
+    font-size:var(--size-regular);
+}
+.players .moves .move .body {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.players .moves .move .balance {
+    font-family:'gotham-bold';
+    color:var(--color-base);
+    font-size:var(--size-regular);
+}
+.players .moves .move .comment {
+    margin-top:10px;
+}
+.player-view .overview {
+    margin: 15px;
+    width: calc(100% - 30px);
+    background-color: var(--color-base-invert);
+    border-radius: 15px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.player-view .avatar-container .avatar {
+    font-size: 100px;
+    border: 2px solid var(--color-bg);
+    border-radius: 50%;
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+}
+.player-view .overview .username {
+    margin-top:30px;
+    font-family:'gotham-bold';
+    font-size:var(--size-big);
+}
+.player-view .overview .actions {
+    margin-top:30px;
+    width:100%;
+    display:flex;
+    justify-content:center;
 }
 
 

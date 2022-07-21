@@ -47,7 +47,7 @@
                    button({ 
                         class: 'icon-btn icon-person' }, 
                         function(){ 
-                            load_page('/players/'+mvc.view,true);                   
+                            load_page('/players/view/'+mvc.view,true);                   
                         }
                     );  
                 }

@@ -24,8 +24,8 @@
         
         <div class="submenu sub-players">
             <div class="submenu-btn" onclick="load_page('/players',true)">All players</div>
-            <div class="submenu-btn">Rankings</div>
-            <div class="submenu-btn">Me</div>
+            <div class="submenu-btn" onclick="load_page('/players/rankings',true)">Rankings</div>
+            <div class="submenu-btn" onclick="load_page('/players/view/'+me.username,true)">Me</div>
         </div>
         
         <div class="btn-menu" onclick="load_page('/wallet/analysis',true)">
@@ -43,8 +43,8 @@
             <span class="info">Observed<br /><span class="label">All your saved entities</span></span>                 
         </div>    
         <div class="submenu sub-observed">
-            <div class="submenu-btn">Players</div>
-            <div class="submenu-btn">Moves</div>
+            <div class="submenu-btn" onclick="load_page('/players/observed',true)">Players</div>
+            <div class="submenu-btn" onclick="load_page('/players/moves',true)">Moves</div>
             <div class="submenu-btn" onclick="load_page('/wallet/observed',true)">Entities</div>
         </div>        
         

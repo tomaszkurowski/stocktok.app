@@ -1,8 +1,8 @@
 
     mvc.path = 'home';
     
-    if (mvc.view) mvc.path = 'profile';
-    if (mvc.view === 'ranking') mvc.path = 'ranking';
+    if (mvc.view === 'view')     mvc.path = 'view';
+    if (mvc.view === 'rankings') mvc.path = 'rankings';
     
     $.ajax({
         url:"/extensions/players/views/"+mvc.path+".phtml",

@@ -6,32 +6,27 @@
         <div class="page players active">
 
         <div class="page-views">
-            <div class="page-view" data-view="all">
-                
+            
+            <div class="page-view" data-view="all">                
                 <div class="players">   
                     <h2>All Players</h2>
                     <div class="results"></div>                                      
-                </div>    
-                
+                </div>                    
             </div>
-            <!--
-            <div class="page-view" data-view="highest-total-profit">
-                
-                <div class="players">   
-                    <h2>Highest Total Profit</h2>
-                    <div class="results"></div>
-                </div>    
-                
-            </div>   
-            -->
-            <div class="page-view" data-view="observed">
-                
+
+            <div class="page-view" data-view="observed">                
                 <div class="players">   
                     <h2>Observed players</h2>
                     <div class="results"></div>
-                </div>    
-                
-            </div>             
+                </div>                    
+            </div>    
+            
+            <div class="page-view" data-view="moves">                
+                <div class="players">   
+                    <h2>Players moves</h2>
+                    <div class="moves results"></div>
+                </div>                    
+            </div>              
             
         </div>
             
@@ -115,19 +110,21 @@
                 
             });
 
+            var initialSlide = 0;
+            if (mvc.view === 'observed') initialSlide = 1;
+            if (mvc.view === 'moves')    initialSlide = 2;
+
             $('.page-views').not('.slick-initialized').slick({
                 arrows:false,
                 dots:false,
                 infinite: true,
-                initialSlide:1
+                initialSlide:initialSlide
             }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
                 if (currentSlide !== nextSlide) { $("html").animate({scrollTop: 0}, "slow"); }
             });               
             
             get_all_players();
-            //get_ranking_players();
-            get_observed_players();
-            
+            get_observed_players();                        
             
         });
         
@@ -168,7 +165,7 @@
             });
         
         }  
-        
+        /*
         function get_ranking_players(){
         
             $.ajax({
@@ -205,8 +202,44 @@
                         
                     });
                 }
-            });
+            });        
+        }
+        */
         
+        function get_observed_moves(){
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/players/observed/moves'
+                },
+                type: 'GET',
+                dataType: 'JSON',
+                cache: false,
+                success: function(response){  
+                    
+                    console.log(response);
+                    
+                    if (!response.moves || response.moves.length === 0){
+                        $('[data-view="moves"] .results').html('<div class="info-page"><div class="icon icon-clear"></div><h1>No moves yet</h1><p>Players you observe didn\'t do any moves yet.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find more players</div></div>');                           
+                        return;
+                    }
+                    
+                    $('[data-view="moves"] .results').addClass('wallet-items funds').html('');
+                    $.each(response.moves, function(i,move){
+                        let el = $('<div class="move"></div>')
+                           .append('<div class="header">'+move.username+'</div>')
+                           .append('<div class="body"></div>')
+                           .append('<div class="footer"></div>');
+                    
+                        $(el).find('.body').append('<div class="date">'+move.date+'</div>');
+                        $(el).find('.body').append('<div class="balance">'+move.balance+'</div>');
+                        $(el).find('.footer').append('<div class="comment label">'+move.comment+'</div>');
+                        
+                        $('[data-view="moves"] .results').append(el);
+                    });
+                    
+                }
+            });            
         }
         
         function get_observed_players(){
@@ -220,16 +253,17 @@
                 dataType: 'JSON',
                 cache: false,
                 success: function(response){  
-                    
-                    console.log(response);
-                    
-                    if (response.success === 'false') return;   
-                    
+                                                             
                     if (!response.players || response.players.length === 0){
                         $('[data-view="observed"] h2').remove();
                         $('[data-view="observed"] .results').html('<div class="info-page"><div class="icon icon-clear"></div><h1>No Observed players</h1><p>You don\'t observe any player yet.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find players</div></div>')
+                        
+                        $('[data-view="moves"] h2').remove();
+                        $('[data-view="moves"] .results').html('<div class="info-page"><div class="icon icon-clear"></div><h1>No moves</h1><p>You don\'t observe any player yet.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find players</div></div>')                        
                         return;
-                    }
+                    } 
+                    
+                    get_observed_moves();
                                
                     $('[data-view="observed"] .results').html('');
                     var position = 1;
