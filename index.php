@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.47',
+            version:    '1.1.49',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -117,6 +117,7 @@
             wallet_trend_size:          '5-days',
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
+            wallet_header:              'regular',
 
             design:{
                 color_base:         '#002ce1',

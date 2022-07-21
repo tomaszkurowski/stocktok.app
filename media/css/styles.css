@@ -301,7 +301,8 @@ label, .label {
     background:var(--color-base);
     height: 100%;
     align-self: flex-end;
-    margin-left:-15px;
+    margin-left:-1px;
+    padding-left:16px;
 
 }
 .footer .hamburger {
@@ -316,9 +317,9 @@ label, .label {
     display:flex;
     transition: all 0.2s ease-in-out;
     background-color:var(--color-base);
+    padding-right:2.5px;
 }
-body:not(.with-popup) .heading > *{ margin-right:15px; margin-left:0; }
-body:not(.with-popup) .heading > *:first-child { margin-left:15px; }
+body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
 
 
 .heading h2 {
@@ -714,6 +715,7 @@ main {
     background-color:var(--color-bg);
 }
 .wallets .wallet {
+    position:relative;
     margin: 5px;
     padding: 15px 20px;
     background-color:var(--color-bg2);
@@ -778,6 +780,14 @@ main {
     margin-top:20px;
 }
 
+.wallets.mini .results .field:nth-child(2),
+.wallets.mini .wallet .results .label {
+    display:none !important;
+}
+.wallets.mini .wallet .results { position:absolute; top:2.5px; right:23px; }
+.wallets.mini .wallet { padding-top:5px; }
+
+.wallets .wallet,.wallets.mini .wallet .results  { transition: all 0.3s ease-in; }
 /* -------------------------------------------------------------------------- */
 /* MYSTOCK ------------------------------------------------------------------ */
 
@@ -2460,31 +2470,45 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     visibility:visible; 
 }
 
+.stock-view .results-info-title .logo { z-index:5; }
 .stock-view .price-preview{
-    margin-left: 15px;
-    padding-left: 15px;
     border-left: 1px solid var(--color-bg);
-    margin-right: 15px;
     text-align: right;
+    position: absolute;
+    background-color: var(--color-bg2);
+    width: calc(100% - 65px);
+    z-index: 4;
+    display:none;
+    justify-content:flex-end;
+}
+.stock-view .price-preview.tooltip-hover {
+    display:flex;
 }
 .stock-view .price-preview .info {
-    display:flex;
-    justify-content:flex-end;
+    display: flex;
+    justify-content: flex-end;
+    order: 1;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid var(--color-base);
 }
 .stock-view .price-preview .price {
     font-size: var(--size-medium);
     font-family: 'gotham-bold';
     color: var(--color-base);
+    
 }
 .stock-view .price-preview .currency {
-    font-size:var(--size-small);
-    font-family:'gotham-bold';
-    color:var(--color-base);
-    margin-left:5px;
+    font-size: var(--size-small);
+    font-family: 'gotham-bold';
+    color: var(--color-base);
+    margin-left: 5px;
+    position: relative;
+    text-transform: lowercase;
+    margin-top: 1px;
 }
 .stock-view .price-preview .date {
-    font-size:var(--size-small);
-    color:var(--color-base);
+    font-family:'gotham-bold';
 }
 .stock-view .highcharts-tooltip { display:none; }
 
@@ -3076,7 +3100,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 .nav .profile .avatar    { font-size:42px; order:1; }
 .nav .profile .info      { display:flex; flex-direction:column; align-items:flex-end; margin-top:5px; margin-right:25px; color:var(--color-base-invert); line-height:14px; }
 .nav .profile .username  { font-family:'gotham-bold'; font-size:var(--size-big); }
-.nav .profile .rank      { margin-top:5px; }
+.nav .profile .rank      { margin-top:5px; opacity:0.7; }
 .nav .btn-menu {
     display:flex;
     align-items:center;
@@ -3093,7 +3117,7 @@ body.stock-price-pro-mode { overflow:hidden; }
     margin-top:-7px;
     order:1;
 }
-.nav .btn-menu .label { font-family:'gotham-regular'; color:var(--color-base-invert); }
+.nav .btn-menu .label { font-family:'gotham-regular'; color:var(--color-base-invert); opacity:0.7; }
 .nav .btn-menu .info  {
     text-align:right;
     color:var(--color-base-invert); 

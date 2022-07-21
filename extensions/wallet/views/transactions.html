@@ -79,7 +79,7 @@
     </div>
     
     
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.15"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.22"></script>  
     <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.9"></script>  
      
     <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.0"></script>
@@ -133,9 +133,7 @@
         $(document).ready(function(){
             //$('.page-views').slick('slickGoTo',2); 
             // UI                        
-            button({ 
-                class: 'icon-btn icon-search2' }, 
-                function(){ location.href='/entities'; });
+
                     
             if (me.username){
                 
@@ -149,6 +147,19 @@
                     },
                     load: function(el){
                         $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                    }
+                });
+                changer({ 
+                    title: 'Header', 
+                    key: 'wallet_header', 
+                    values: { 'mini': 'Mini', 'regular':'Regular'},
+                    click: function(el){ 
+                        updateSettings('wallet_header',$(el).find('select').val());
+                        $('.wallets').removeClass('mini regular').addClass($(el).find('select').val());
+                    },
+                    load: function(el){
+                        $(el).find('select').val(settings.wallet_header);
+                        $('.wallets').removeClass('mini regular').addClass($(el).find('select').val());
                     }
                 });
                 changer({ 

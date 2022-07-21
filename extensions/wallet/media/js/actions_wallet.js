@@ -43,6 +43,15 @@
                 $('.heading .icon-shopping_cart').remove();
                 $('.heading [data-key="editable"]').remove();
                 
+                if (me.username !== wallet.username){
+                   button({ 
+                        class: 'icon-btn icon-person' }, 
+                        function(){ 
+                            load_page('/players/'+mvc.view,true);                   
+                        }
+                    );  
+                }
+                
                 if (me.username === wallet.username){
                     button({ 
                         class: 'icon-btn icon-shopping_cart' }, 
@@ -50,6 +59,9 @@
                             buy_sell_popup(); // => actions_item.js                      
                         }
                     ); 
+                    button({ 
+                        class: 'icon-btn icon-search2' }, 
+                        function(){ location.href='/entities'; });             
                 }
                     switcher({ 
                         key: 'editable',  
@@ -269,7 +281,11 @@
                     // new approach to funds_total, in tests
                     funds_total = me.funds * currencies[settings.display_currency];
                     
-                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));                        
+                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));
+                    $('.wallet.funds .funds-total-base').text(format_price(me.funds,2)+' $');
+                    if (settings.display_currency === 'usd'){
+                        //$('.wallet.funds .funds-total-base').hide();
+                    }
 
                 }
 
