@@ -1,4 +1,38 @@
-<?php  
+<?php 
+
+$type      =  filter_input(INPUT_GET, 'type');
+if ($type && $type === 'photo'){
+    
+    $username   = filter_input(INPUT_GET, 'me'); // TODO..     
+    $username   = strtolower($username);
+    
+    $path        = '../data/avatars/'.$username.'.jpeg';
+    $avatar_path = '../data/avatars/'.$username;
+    
+    if (file_exists($avatar_path.'.png')) { unlink($avatar_path.'.png');}
+    if (file_exists($avatar_path.'.jpg')) { unlink($avatar_path.'.jpg');}
+    if (file_exists($avatar_path.'.jpeg')){ unlink($avatar_path.'.jpeg');}
+                    
+    move_uploaded_file($_FILES['webcam']['tmp_name'],$path);
+    
+    $x      =  filter_input(INPUT_GET, 'x');
+    $y      =  filter_input(INPUT_GET, 'y');
+    
+    $width  =  filter_input(INPUT_GET, 'width');
+    $height =  filter_input(INPUT_GET, 'height');    
+
+    $resized  = imagecreatetruecolor(300, 300);
+    $source   = imagecreatefromjpeg($path);    
+    
+    imagecopyresized($resized, $source, 0, 0, 0, 0, 300, 300, $width, $height);
+
+    imagejpeg($resized, $path);    
+    imagedestroy($resized);
+    
+    echo json_encode(['success' => true, 'photo' => 'yes', 'path' => str_replace('../data/','https://data.stocktok.online/',$path) ]);
+    die();
+}
+
 if($fileError == UPLOAD_ERR_OK){
    
     $fileName = $_FILES['file']['name'];
@@ -12,6 +46,12 @@ if($fileError == UPLOAD_ERR_OK){
     $username   = strtolower($username);        
     
     $path       = '../data/avatars/'.$username.'.'.$fileExt;
+    $avatar_path = '../data/avatars/'.$username;
+    
+    if (file_exists($avatar_path.'.png')) { unlink($avatar_path.'.png');}
+    if (file_exists($avatar_path.'.jpg')) { unlink($avatar_path.'.jpg');}
+    if (file_exists($avatar_path.'.jpeg')){ unlink($avatar_path.'.jpeg');}    
+    
     file_put_contents($path, $fileContent); 
 
     $x      =  filter_input(INPUT_POST, 'x');

@@ -676,6 +676,7 @@ body.editable .range-selector{
     display:flex;
     flex-direction:column;
     justify-content:flex-end;
+    align-items:center;
 }
 
 main {
@@ -2149,7 +2150,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .page.settings .tabs {
     width:calc(100% - 20px);
     max-width:440px;
-    align-self:flex-end;
+    align-self:center;
 }
 .tabs {
     margin:10px;
@@ -2981,6 +2982,13 @@ body.stock-price-pro-mode { overflow:hidden; }
 .footer .icon-btn.icon-check1{
     order:2;
 }
+.footer .icon-btn.icon-camera {
+    order: 2;
+    font-size: 26px;
+    margin-top: -2px;
+    margin-left: 15px;
+}
+
 
 .icon-btn.icon-bookmarks { font-size:22px; }
 .icon-btn.icon-account_balance_wallet1 { font-size:28px; }
@@ -4037,7 +4045,26 @@ input:checked + .switch:before {
     min-width:300px;
     min-height:300px;
 }
-
+.popup-avatars .camera-container {    
+    width:300px;
+    height:300px;
+    overflow:hidden;
+    border-radius:50%;
+    -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
+    -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
+    box-shadow: 8px 8px 24px -14px rgb(66 68 90);
+    display:flex;
+}
+.popup-avatars #camera {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:300px !important;
+    height:300px !important;
+}
+.popup-avatars #camera-snapshot {
+    display:none;
+}
 .popup-info {
     position:fixed;
     width:100vw;
