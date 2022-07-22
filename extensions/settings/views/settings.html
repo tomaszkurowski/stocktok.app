@@ -139,7 +139,7 @@
                         '<div class="avatar avatar-user"></div>'+                       
                         '</div>');
                         $(row).find('.value').text(settings.design[options.key]);
-                        $(input).find('.avatar').bind('click',function(){
+                        $(input).bind('click',function(){
                             
                             $('body').toggleClass('with-popup');                            
                             if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
@@ -148,7 +148,10 @@
                             $.ajax({
                                 url:"/extensions/settings/views/popups/avatars.html",
                                 cache:false,
-                                success: function(data){ $("#popup").html(data); },
+                                success: function(data){ 
+                                    $("#popup").html(data); 
+                                    $('.popup-avatars').slideDown(300,'linear');
+                                },
                                 error: function(e){ console.log(e); }
                             });
                         });
@@ -184,7 +187,7 @@
         
         settings_row({ target: 'game', type:'avatar',  key: 'avatar',                info: 'Choose avatar to make your profile easier recognizable' }); 
         settings_row({ target: 'game', type:'country', key: 'country',               info: 'Choose country, which you are representing' });         
-        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'In <b>Silent mode</b> you have got private account not visible in rankings and you can add historical transactions.<br /><br />In <b>Player</b> mode you can add only live transactions and compete with others.' });      
+        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'Choose if you want to play with others or silent' });      
         settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
         //settings_row({ target: 'game', type:'select',  key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
         settings_row({ target: 'game', type:'restart-game',  key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
@@ -202,7 +205,13 @@
         settings_row({ target: 'design',  type: 'size',  key: 'size_medium',         info: 'Used for sub-headings' });
         settings_row({ target: 'design',  type: 'size',  key: 'size_big',            info: 'Used for headings & icons' });
         
-        if (me.avatar) $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));
+        if (me.avatar){
+            if (me.avatar_type === 'image'){
+                $('.avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' />");
+            }else{
+                $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));            
+            }
+        } 
         if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" />');
         
         if (me.public === 0){ $('[data-row="restart-game"]').hide(); }

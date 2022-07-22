@@ -67,7 +67,15 @@
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
-                        $('.nav .avatar').addClass('avatar-'+(response.me.avatar ? response.me.avatar : 'user')).css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
+                        
+
+                        if (me.avatar_type === 'image'){
+                            $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' />");
+                        }else{
+                            $('.nav .avatar-container').html('<div class="avatar avatar-user"></div>').css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
+                        }
+                                                
+                        
                     }
 
                     // ACL 

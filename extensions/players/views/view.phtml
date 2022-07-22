@@ -34,7 +34,14 @@
                     }
                     
                     var player = response.player;
-                    $('.overview .avatar-container').html('<div class="avatar avatar-'+player.avatar+'" style="color:'+player.avatar_color+'"></div>');
+                    if (config.debug) console.log(player);
+                    
+                    if (player.avatar_type){
+                        $('.player-view .avatar-container').html("<img src='"+player.avatar+"' class='avatar-image' />");
+                    }else{
+                        $('.player-view .avatar-container').html('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
+                    }
+                        
                     $('.overview .username').text(player.username);
                     
                     $('.overview .actions').append('<div class="btn primary">See Results</div>').bind('click',function(){
