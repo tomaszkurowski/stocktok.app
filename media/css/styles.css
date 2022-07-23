@@ -2395,7 +2395,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     from { transform:rotate(0deg); }
       to { transform:rotate(360deg); }
 }
-@keyframes totating {
+@keyframes rotating {
     from { transform:rotate(0deg); }
       to { transform:rotate(360deg); }
 }
@@ -4121,4 +4121,17 @@ input:checked + .switch:before {
     display:flex;
     align-items:center;
     justify-content:center;
+}
+
+.popup-loading {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80px;
+    color: var(--color-base);
+}
+.popup-loading .icon{
+    animation: rotating 1.3s linear;
+    animation-iteration-count: infinite;
 }
