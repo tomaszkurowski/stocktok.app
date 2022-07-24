@@ -400,7 +400,7 @@ body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
 .popup.active { 
     display:block;
     height:auto;
-    max-height: calc(100vh - 210px);
+    max-height: calc(100vh - 80px);
     
     visibility: visible;
     opacity: 1;
@@ -410,7 +410,7 @@ body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
     border-top-left-radius:15px;
     border-top-right-radius:15px;
     
-    overflow:hidden;
+    overflow-y:scroll;
     
     bottom: 60px;
     width: 100%;
@@ -1464,19 +1464,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .add-new-stock .save { opacity:0; transition:opacity 0.3s ease-in; }
 .add-new-stock .save.active { opacity:1; }
 
-.add-new-stock.active {
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end;   
-}
-
-
-
-
 .add-new-stock .view-buy,
 .add-new-stock .view-sell {
-    max-height:340px;
-    overflow-y:scroll;
     padding:0 30px;
 }
 .add-new-stock.step1-simple .view-buy .header { 
@@ -2174,7 +2163,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:10px 15px 10px 30px;
+    padding:10px 15px 10px;
     border-bottom:1px solid var(--color-bg);
     border-radius:5px;
     background-color:var(--color-bg2);
@@ -2313,6 +2302,38 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .settings input[type="range"] {
     width:calc(100% - 15px);
 }
+.settings [data-row="bio"] {
+    flex-direction:column;
+    align-items:flex-start;
+}
+.settings [data-row="bio"] .actions { 
+    display:none;
+    margin-top: 15px;
+    text-align: right;
+    width: 75px;
+}
+.settings .tab-content .row[data-row="bio"] .selector{
+    padding-left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.settings textarea {
+    width: 100%;
+    margin-top: 15px;
+    border-radius: 15px;
+    border: 1px solid var(--color-bg);
+    min-height: 100px;
+    padding: 15px;
+    color:var(--color-text);
+    font-family:'gotham-regular';
+    font-size:var(--size-regular);
+    -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
+    -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
+    box-shadow: 8px 8px 24px -25px rgb(66 68 90);   
+    line-height:22px;
+}
 
 .settings .hands-container { display:flex; }
 .settings .hands-container .hand-right { font-size:35px; -webkit-transform: scaleX(-1); transform: scaleX(-1); color:var(--color-base); }
@@ -2346,7 +2367,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height:16px;
     padding: 15px 15px;
     margin: 15px;
-    border-radius: 15px; 
+    border-radius: 15px;
+    -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);      
 }
 .box ul li {
     margin-bottom:3px;
@@ -2361,6 +2385,33 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     text-align: center;
     display:block;
     text-decoration:none;
+}
+.results {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+.results .box {
+    width: calc(50% - 10px);
+    text-align: center;
+    margin: 5px;
+    padding: 30px 15px;
+}
+.results .box .title {
+    font-family:'gotham-bold';
+    color:var(--color-base);
+} 
+.results .box .value { 
+    font-family:'gotham-bold'; 
+    font-size:var(--size-medium); 
+    margin-bottom:15px;
+}
+.results .box .icon {
+    font-size:35px;
+    color:var(--color-base);
+    margin-bottom:15px;
 }
 
 .getstarted-tooltip {
@@ -3023,8 +3074,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 
 .player-body                { display:flex; align-items:center; flex-wrap:wrap; border-top:1px solid var(--color-bg);; margin-top:10px; padding-top:10px; }
 .player-body .logo          { height:30px; margin:2.5px; }
-.player-body .logo.no-img   { justify-content: center; align-items: center; font-size: 11px; font-family:'gotham-bold'; border-radius: 5px; border: 1px dotted var(--color-bg); padding: 10px 5px; color:#000000; text-transform:uppercase; }
-
+.player-body .logo.no-img   { justify-content: center; align-items: center; font-size: 11px; font-family:'gotham-bold'; border-radius: 5px; border: 1px dotted var(--color-bg); padding: 10px 5px; color:#000000; text-transform:uppercase; } 
 
 .observed .search-results { display:flex; flex-wrap:wrap; margin-top: 15px; padding-bottom:25px; }
 
@@ -3036,7 +3086,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 .widgets                        { margin:0 15px; }
 
 .widget                         { position:relative; border-radius:15px; background-color:var(--color-bg2); padding:20px 0 0; margin-bottom:15px; }
-.widget .header                 { display:flex; align-items:center; justify-content:space-between; padding:0 15px 15px; }
+.widget .header                 { display:flex; align-items:center; justify-content:space-between; padding:0 15px 15px 5px; }
 .widget .graph                  { min-height:250px; }
 .widget .title                  { margin:0 0 0 10px; text-transform:capitalize; }
 
@@ -3862,6 +3912,7 @@ input:checked + .switch:before {
     margin-top:10px;
 }
 .player-view .overview {
+    position:relative;
     margin: 15px;
     width: calc(100% - 30px);
     background-color: var(--color-base-invert);
@@ -3897,11 +3948,27 @@ input:checked + .switch:before {
     font-family:'gotham-bold';
     font-size:var(--size-big);
 }
+.player-view .overview .country {
+    border-radius: 50%;
+    position: absolute;
+    width: 50px;
+    left: 5px;
+    top: 5px;
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -9px rgb(66 68 90);
+}
+
 .player-view .overview .actions {
     margin-top:30px;
     width:100%;
     display:flex;
     justify-content:center;
+}
+.player-view .overview .bio {
+    text-align:center;
+    margin-top:15px;
+    line-height:22px;
 }
 
 

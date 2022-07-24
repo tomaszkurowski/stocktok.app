@@ -175,12 +175,33 @@
                             });
                         });
                         
-                break;                
+                break; 
+            case 'bio':                
+                input = $('<textarea id="bio" placeholder=""></textarea><div class="actions"><div class="btn" data-action="update-bio">Update</div></div>').bind('keyup',function(){
+                    $('[data-row="bio"] .actions').slideDown(300,'swing');
+                });                                        
+                break;               
         }
 
         $(row).find('.selector').html(input);
         $('.tab-content.'+options.target).append(row);
     }
+    
+    $(document).on('click','[data-action="update-bio"]',function(){
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/me',
+                bio: $('#bio').val()
+            },
+            type: 'PUT',
+            dataType: 'JSON',
+            cache: false,
+            success:function(){
+                $('[data-row="bio"] .actions').slideUp(300,'swing');
+            }
+        }); 
+    });
     
     $(document).ready(function(){
         
@@ -190,6 +211,8 @@
         settings_row({ target: 'game', type:'public',  key: 'public',                info: 'Choose if you want to play with others or silent' });      
         settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
         //settings_row({ target: 'game', type:'select',  key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
+        
+        settings_row({ target: 'game', type:'bio',           key: 'bio', info: 'Add 2-3 sentences about yourself' });      
         settings_row({ target: 'game', type:'restart-game',  key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
         
         
@@ -215,6 +238,7 @@
         if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" />');
         
         if (me.public === 0){ $('[data-row="restart-game"]').hide(); }
+        if (me.bio){ $('#bio').val(me.bio); }
     });
     
     

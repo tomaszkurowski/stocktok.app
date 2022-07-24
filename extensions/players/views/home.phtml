@@ -1,6 +1,5 @@
     
-
-
+    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.0"></script> 
     <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.4" />
     
         <div class="page players active">
@@ -56,60 +55,6 @@
                 get_all_players($(this).val());            
             });
             
-            $(document).on('click','[data-action="observe"]',function(){
-                
-                var el      = $(this);
-                var player  = $(el).parent('.box').attr('data-username');
-                
-                $.ajax({
-                    url: config.api_url,
-                    data: { 
-                        endpoint: '/players/observed',
-                        player: player
-                    },
-                    type: 'POST',
-                    dataType: 'JSON',
-                    cache: false,
-                    success: function(response){  
-                        if (response.success === false){ return; }
-                        
-                        $('[data-username="'+player+'"] [data-action="observe"]')
-                            .removeClass('icon-bookmark_outline').addClass('icon-bookmark1')
-                            .attr('data-action','stop-observe');
-                    
-                        get_observed_players();
-                    }
-                });                
-                
-            });
-
-            $(document).on('click','[data-action="stop-observe"]',function(){
-                
-                var el      = $(this);
-                var player  = $(el).parent('.box').attr('data-username');
-                
-                $.ajax({
-                    url: config.api_url,
-                    data: { 
-                        endpoint: '/players/observed',
-                        player: player
-                    },
-                    type: 'DELETE',
-                    dataType: 'JSON',
-                    cache: false,
-                    success: function(response){  
-                        if (response.success === false){ return; }
-
-                        $('[data-username="'+player+'"] [data-action="stop-observe"]')
-                            .addClass('icon-bookmark_outline').removeClass('icon-bookmark1')
-                            .attr('data-action','observe');  
-
-                        get_observed_players();
-                    }
-                });                
-                
-            });
-
             var initialSlide = 0;
             if (mvc.view === 'observed') initialSlide = 1;
             if (mvc.view === 'moves')    initialSlide = 2;
@@ -124,10 +69,10 @@
             });               
             
             get_all_players();
-            get_observed_players();                        
+            get_observed_players();              
             
-        });
-        
+        });    
+            
         function get_all_players(search=null){
         
             $.ajax({
