@@ -256,5 +256,7 @@ function widget_financial_graph(id,widget){
         var graph = new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options);
         graph.render();
 
+    }else{
+        $('[data-view="financial"]').hide();
     }
 }

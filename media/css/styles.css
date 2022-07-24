@@ -2174,7 +2174,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:10px 15px;
+    padding:10px 15px 10px 30px;
     border-bottom:1px solid var(--color-bg);
     border-radius:5px;
     background-color:var(--color-bg2);
@@ -2422,7 +2422,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .swipe-debug { background-color:#ffffff; width:100%; padding:30px; color:#000000; position:fixed; bottom:0; z-index:999; line-height:20px; }
 
 /* STOCK VIEW */
-.page.stock-view { overflow:hidden; }
+.page.stock-view .page-view { margin-bottom:15px; }
 
 .stock-view.heading h2, .stock-view-menu.heading h2, .stock-view-dashboard-adjust-view.heading h2 {
     text-transform:uppercase;
@@ -2554,7 +2554,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 #entity-financial-graph-shareholders { padding-bottom:20px; }
-.entity-main-info-container { margin:0 15px 85px; border-radius:15px; overflow:hidden; }
+.entity-main-info-container { margin:0 15px; border-radius:15px; }
 .entity-main-info-container .Description .field { display:none; }
 .entity-main-info-container .Description .value { font-family:'gotham-regular'; text-align:justify; line-height:22px; }
 
@@ -3083,7 +3083,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 .editable .widget.editable .btn-edit      { opacity:0.3 }
 
 .add-widget { 
-    margin:20px 15px 80px; 
+    margin:20px 15px 0; 
     border-radius:15px; 
     padding:20px; 
     display:flex; 

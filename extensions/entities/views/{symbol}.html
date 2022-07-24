@@ -1,5 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.5"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.7"></script>
     
     <div class="page stock-view active">
 
@@ -94,8 +94,6 @@
 
         <div class="page-views stock-page-views">        
 
-              
-            
             <div class="page-view active" data-view="dashboard">                            
                 <div class="chart stock-price-container">  
                     <div id="stock-price" class="stock-price active"></div>                                
@@ -202,7 +200,7 @@
                  </div>
             </div>
             
-            <div class="page-view" data-view="website">
+            <div class="page-view" data-view="website" id="website-container">
                 <div class="website"></div>
             </div>
             
@@ -304,6 +302,7 @@
     
     <script type="text/javascript">
 
+        /*
         $('.page-views').not('.slick-initialized').slick({
             arrows:false,
             dots:false,
@@ -316,7 +315,7 @@
             $("html").animate({scrollTop: 0}, "slow");
         }); 
         swiper({ initial: 0 });
-        
+        */
         
 
 
@@ -741,11 +740,10 @@
 
                             if (response.success === false){
                                 $('.entity-financial-container').html('Data not imported yet.');                                
-                                
-                                
-                                $('.slick-initialized').slick('slickRemove',1); $('.range-icons .icon-info').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                $('.slick-initialized').slick('slickRemove',2); $('.range-icons .icon-finance').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                $('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                                                
+                                //$('.slick-initialized').slick('slickRemove',1); $('.range-icons .icon-info').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                //$('.slick-initialized').slick('slickRemove',2); $('.range-icons .icon-finance').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
+                                //$('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
                                  
                                 //$('.page-views').slick('slickGoTo',0);
                                 
@@ -769,11 +767,8 @@
 
                             // WEBSITE
                             if (entity.info.General && entity.info.General.WebURL){                                
-                                $('[data-view="website"] .website').html('<iframe class="hide-scroll"  scroll="no" src="'+entity.info.General.WebURL+'" style="width:100%; border:none; height:calc(100vh - 180px)" frameborder="0" onload="if (this.contentWindow.length<=0){ $(\'.slick-initialized\').slick(\'slickRemove\',3); $(\'.range-icons .icon-read\').remove(); $(\'.page-views-slider input\').attr(\'max\',parseInt(($(\'.page-views-slider input\').attr(\'max\')-1))).css(\'width\',($(\'.page-views-slider input\').width()-30)+\'px\'); }"/>');
-                            }else{
-                                $('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                //$('.page-views').slick('slickGoTo',1);
-                            }
+                                $('[data-view="website"] .website').html('<iframe class="hide-scroll"  scroll="no" src="'+entity.info.General.WebURL+'" style="width:100%; border:none; height:calc(100vh - 180px)" frameborder="0" onload="if (this.contentWindow.length<=0){ $(\'#website-container\').hide(); }" />');
+                            }else{}
 
 
                             // FINANCIAL GRAPHS
@@ -842,7 +837,7 @@
                             }
 
 
-                            if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+                            //if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
 
 
                         },
