@@ -125,7 +125,8 @@
     
     
     function buy_reload_totals(){
-        
+
+    
         var market = $('.view-buy:not(.slick-cloned)').find('#market').val();                        
         var qty    = $('.view-buy:not(.slick-cloned) #qty').val();
         var price  = $('.view-buy:not(.slick-cloned) #price').val(); 
@@ -149,7 +150,7 @@
                var funds_after = (me.funds - parseFloat(price * qty * rate)) * currencies[purchased_currency]; 
             }            
         }
-        
+
         $('.view-buy:not(.slick-cloned) .total-main').text(format_price(total_main,2)+' '+purchased_currency);
         $('.view-buy:not(.slick-cloned) .total-additional').text(format_price(total_additional,2)+' '+market_currency+' (x'+format_price(rate,2)+' '+purchased_currency+')');
         

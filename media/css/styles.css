@@ -810,6 +810,12 @@ main {
 .wallet-items, .search-results {
     padding:0 10px;    
 }
+
+body.in-dragging .wallet-items { display:none !important; } 
+body.in-dragging .wallet-items.lock { display:flex !important;}
+body.can-drop .mystock-container { position:relative !important; left:0 !important; top:0 !important; }
+
+
 .mystock-container {
     position:relative;
     width:100%;

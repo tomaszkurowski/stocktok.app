@@ -7,7 +7,8 @@ function generate_sort_placeholders(){
     var el_height;
 
     $('.sort-placeholder').remove();            
-    $('.mystock-container.active:not(.dragging)').each(function(index,el){                                                 
+    $('.mystock-container.active:not(.dragging)').each(function(index,el){   
+
         if (!$(el).hasClass('last')){
             el_width=$(el).width();
             el_height=$(el).height();
@@ -18,8 +19,11 @@ function generate_sort_placeholders(){
             "height":   el_height                    
         }).css("left",$(el).offset().left+"px").css("top",($(el).offset().top+$('.page').scrollTop())+"px");
         $(el).before(placeholder);
+        
+        //$(el).css('left',$(el).offset().left+'px').css('top',$(el).offset().top+'px').css('position','absolute');
 
     }).promise().done(function(){
+        
         var targets = document.querySelectorAll('.drag-container');
         [].forEach.call(targets, function(target) {
           addTargetEvents(target);
@@ -37,6 +41,18 @@ function dragEnd(e) {
   [].forEach.call(listItems, function(item) {
     item.classList.remove('drag-over');
   });
+}
+
+function init_sorting(){
+    var targets = document.querySelectorAll('.drag-container .icon-move');
+    [].forEach.call(targets, function(target) {
+      addTargetEvents(target);
+    });
+
+    var listItems = document.querySelectorAll('.drag-item');
+    [].forEach.call(listItems, function(item) {
+      addEventsDragAndDrop(item);
+    });
 }
 
 var dragging = false;
@@ -67,22 +83,35 @@ function touchStart(e) {
                
         lastMove = e;
         touchEl = this;
-
+          
+        //generate_sort_placeholders();  
+        placeholder = $('<div/>',{
+            "class":    'sort-placeholder drag-container active',
+            "width":    $(that).width()+'px',
+            "height":   $(that).height()+'px'                    
+        });
+        $(that).before(placeholder);   
+        
         $(that).addClass('dragging');
+
         var w = that.offsetWidth;
         var h = that.offsetHeight;
 
         if ($('.slick-initialized').length){
-            $('.slick-initialized').slick("unslick"); 
+            $('.slick-initialized').slick("unslick");
+            if (mvc.model === 'wallet'){
+                $(that).parents('.wallet-items').addClass('lock');
+                $('body').addClass('in-dragging');
+            }
         }
 
         that.style.position = 'fixed';
         that.style.left = currentLocation.clientX - w/2 + 'px';
         that.style.top = currentLocation.clientY - h/2 + 'px';
 
-        generate_sort_placeholders();
+        
 
-        var targets = document.querySelectorAll('.drag-container');
+        var targets = document.querySelectorAll('.mystock-container');
 
         [].forEach.call(targets, function(target) {
             var box2 = target.getBoundingClientRect(),
@@ -93,10 +122,10 @@ function touchStart(e) {
                 b2 = y2 + h2,
                 r2 = x2 + w2;               
 
-            if (currentLocation.clientX>x2 && currentLocation.clientY<b2 && currentLocation.clientY>y2 && currentLocation.clientX<r2){
-                $(target).addClass('active');
+            if (currentLocation.clientX>x2 && currentLocation.clientY<b2 && currentLocation.clientY>y2 && currentLocation.clientX<r2){                
+                $('body').addClass('can-drop');
             }else{
-                $(target).removeClass('active');
+                $('body').removeClass('can-drop');
             }
         });                                                              
     }                      
@@ -145,7 +174,7 @@ function touchMove(e) {
         b1 = y1 + h1,
         r1 = x1 + w1;
 
-    var targets = document.querySelectorAll('.drag-container');
+    var targets = document.querySelectorAll('.lock .mystock-container:not(.dragging), .sort-placeholder');
 
     [].forEach.call(targets, function(target) {
         var box2 = target.getBoundingClientRect(),
@@ -157,9 +186,27 @@ function touchMove(e) {
             r2 = x2 + w2;               
 
         if (currentLocation.clientX>x2 && currentLocation.clientY<b2 && currentLocation.clientY>y2 && currentLocation.clientX<r2){
-            $(target).addClass('active');
+           if ($('.resonible').length && $(target).hasClass('resonible')){
+               
+           }
+           
+            if (!$(target).hasClass('sort-placeholder')){
+                $('.sort-placeholder').remove();
+                placeholder = $('<div/>',{
+                    "class":    'sort-placeholder drag-container active',
+                    "width":    $(target).width()+'px',
+                    "height":   $(target).height()+'px'                    
+                }).css("left",$(target).offset().left+"px").css("top",($(target).offset().top+$('.page').scrollTop())+"px");
+                
+                if ($(target).hasClass('resonible')){
+                    $(target).removeClass('resonible').before(placeholder);
+                }else{
+                    $(target).addClass('resonible').after(placeholder);   
+                }
+            }
+            
         }else{
-            $(target).removeClass('active');
+            //$('body').removeClass('can-drop');
         }
     });
 
@@ -189,7 +236,7 @@ function touchEnd(e) {
             b1 = y1 + h1,
             r1 = x1 + w1;
 
-        var targets = document.querySelectorAll('.drag-container');
+        var targets = document.querySelectorAll('.mystock-container');
         [].forEach.call(targets, function(target) {
             var box2 = target.getBoundingClientRect(),
                 x2 = box2.left,
@@ -200,15 +247,39 @@ function touchEnd(e) {
                 r2 = x2 + w2;
 
             if (currentLocation.clientX>x2 && currentLocation.clientY<b2 && currentLocation.clientY>y2 && currentLocation.clientX<r2){                   
-                 
+                $('body').removeClass('in-dragging').removeClass('can-drop');
                 $('.drag-container.active').after(touchEl);
                 $('.drag-container').removeClass('active');
-                $('.dragging').removeClass('dragging').css({ 'position':'initial','left':'initial','top':'initial' });
-                mystocks_sort();
+                $('.dragging').removeClass('dragging').css({ 'position':'initial','left':0,'top':0 });
+                $('.lock').removeClass('lock');
+                
+                if (mvc.model === 'wallet' && !(mvc.view === 'observed' || mvc.view === 'analysis')){
+                    mystocks_sort();
+                }
+                if (mvc.model === 'wallet' && mvc.view === 'observed'){
+                    observed_sort();
+                }
                               
             }                               
         });  
-        wallet_slick();
+
+        dragging  = false;
+        blocked   = false;
+
+        $('.dragging').removeClass('dragging').removeClass('can-drop');
+        $('.lock').removeClass('lock');
+        $('body').removeClass('in-dragging');
+
+        this.removeAttribute('style');
+        this.classList.remove('drag-item--touchmove');
+        $(this).removeClass('dragging');
+        $('.drag-container').removeClass('active');        
+        
+        // Note: Im not sure if this could launch before init of wallet. If there will be error in some cases, check this first.
+        if (mvc.model === 'wallet' && !(mvc.view === 'observed' || mvc.view === 'analysis')){
+            wallet_slick($('.wallets .wallet.active').attr('data-id'));
+        }
+        
     }
 
     dragging  = false;

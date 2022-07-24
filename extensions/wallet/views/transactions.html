@@ -65,7 +65,7 @@
         </div>
         <div class="page-views">
 
-            <div class="wallet-items active"></div>
+            <div class="wallet-items active" id="sortable1"></div>
 
             <div class="wallet-items sold">
                 <p>You don't have any sold transactions yet.</p>
@@ -79,20 +79,20 @@
     </div>
     
     
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.23"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.30"></script>  
     <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.9"></script>  
-     
-    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.0"></script>
+    
+    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.40"></script>
     <script type="text/javascript" src="/extensions/wallet/media/js/autosuggestions.js?v=3.0.0"></script>   
     
     <script type="text/javascript"> 
         
-        function wallet_slick(){
+        function wallet_slick(initialSlide=0){
              $('.page-views').not('.slick-initialized').slick({
                  arrows:false,
                  dots:false,
                  infinite: true,
-                 initialSlide:0
+                 initialSlide:initialSlide
              }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
                  if (currentSlide !== nextSlide) { 
 

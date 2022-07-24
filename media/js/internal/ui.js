@@ -2,6 +2,7 @@
     function switcher(options, callback){
         
         if (!options.target) options.target = '.heading';
+        $(options.target+' .'+options.class.replace(' ','.')).remove();
         
         let switcher = $('<div class="switcher"></div>')
             .append('<span class="icon-btn'+(options.class ? ' '+options.class : '')+'"></span>')
@@ -24,7 +25,8 @@
     
     function button(options,callback){
 
-        if (!options.target) options.target = '.heading';
+        if (!options.target) options.target = '.heading';        
+        $(options.target+' .'+options.class.replace(' ','.')).remove();
         
         let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
             .bind('click',function(){ 
@@ -37,8 +39,9 @@
     function changer(options,callback){
         
         if (!options.target) options.target = '.inline-actions .inline';
+        $(options.target+' .changer-v2.'+options.key).remove();
         
-        let changer = $('<div class="changer-v2"></div>')
+        let changer = $('<div class="changer-v2 '+options.key+'"></div>')
             .append('<label for="'+options.key+'">'+options.title+':</label>')
             .append('<select data-key="'+options.key+'"></select>')
             .bind('change',function(){

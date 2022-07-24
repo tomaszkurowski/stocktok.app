@@ -40,9 +40,6 @@
                 
                 //UI
                 
-                $('.heading .icon-shopping_cart').remove();
-                $('.heading [data-key="editable"]').remove();
-                
                 if (me.username !== wallet.username){
                    button({ 
                         class: 'icon-btn icon-person' }, 
@@ -331,11 +328,7 @@
                 };
                 live.onerror = function(e){
                     console.log(e);
-                };
-                
-                
-
-
+                };                                                
 
             },
             error: function(response){
@@ -463,4 +456,5 @@
         [].forEach.call(listItems, function(item) {
           addEventsDragAndDrop(item);
         });
+
     }
