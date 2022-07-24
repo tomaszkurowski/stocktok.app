@@ -4,12 +4,12 @@
         <div class="wallets hide-scroll"> 
 
             <div class="wallet active" data-id="0" data-action="slickGoTo">
-                <div class="info">
-                    <h3 class="id">Active</h3>
-                    <div class="label"> 
-                        <span class="privacy">Silent</span>:
-                        <span class="owner">Not logged</span>
+                <div class="info">                    
+                    <div class="name">                         
+                        <div class="privacy">Silent</div>
+                        <div class="owner">Not logged</div>                        
                     </div>
+                    <h3 class="id"><span class="icon icon-bookmark"></span></h3>
                 </div>            
                 <div class="results">
                     <div class="field">
@@ -27,8 +27,7 @@
 
             <div class="wallet sold" data-id="1" data-action="slickGoTo">
                 <div class="info">
-                    <h3 class="name">Sold</h3>
-                    <div class="label"></div>
+                    <div class="name">Sold</div>
                 </div>            
                 <div class="results">
                     <div class="field">
@@ -37,25 +36,24 @@
                         <span class="display-currency"></span>
                     </div>
                     <div class="field">
-                        <span class="label">Margin Percentage:</span>
+                        <span class="label">Percentage:</span>
                         <span class="margin">0%</span>
                     </div>
                 </div>
             </div>
             <div class="wallet funds" data-id="2" data-action="slickGoTo">
                 <div class="info">
-                    <h3 class="name">Funds</h3>
-                    <div class="label"></div>
+                    <div class="name">Funds</div>
                 </div>            
                 <div class="results">
                     <div class="field">
-                        <span class="label">Funds:</span>
+                        <span class="label">Total:</span>
                         <span class="funds-total important">0.00</span>
                         <span class="display-currency"></span>
                     </div>    
                     <div class="field">
-                        <span class="label">These are your <b>virtual</b> playing funds.</span>
-                        <span></span>
+                        <span class="label">USD</span>
+                        <span class="funds-total-base">0.00</span>
                     </div>
                 </div>
             </div>
@@ -67,7 +65,7 @@
         </div>
         <div class="page-views">
 
-            <div class="wallet-items active"></div>
+            <div class="wallet-items active" id="sortable1"></div>
 
             <div class="wallet-items sold">
                 <p>You don't have any sold transactions yet.</p>
@@ -81,20 +79,20 @@
     </div>
     
     
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.13"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.30"></script>  
     <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.9"></script>  
-     
-    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.0"></script>
+    
+    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.40"></script>
     <script type="text/javascript" src="/extensions/wallet/media/js/autosuggestions.js?v=3.0.0"></script>   
     
     <script type="text/javascript"> 
         
-        function wallet_slick(){
+        function wallet_slick(initialSlide=0){
              $('.page-views').not('.slick-initialized').slick({
                  arrows:false,
                  dots:false,
                  infinite: true,
-                 initialSlide:0
+                 initialSlide:initialSlide
              }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
                  if (currentSlide !== nextSlide) { 
 
@@ -135,9 +133,7 @@
         $(document).ready(function(){
             //$('.page-views').slick('slickGoTo',2); 
             // UI                        
-            button({ 
-                class: 'icon-btn icon-search2' }, 
-                function(){ location.href='/entities'; });
+
                     
             if (me.username){
                 
@@ -151,6 +147,19 @@
                     },
                     load: function(el){
                         $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                    }
+                });
+                changer({ 
+                    title: 'Header', 
+                    key: 'wallet_header', 
+                    values: { 'mini': 'Mini', 'regular':'Regular'},
+                    click: function(el){ 
+                        updateSettings('wallet_header',$(el).find('select').val());
+                        $('.wallets').removeClass('mini regular').addClass($(el).find('select').val());
+                    },
+                    load: function(el){
+                        $(el).find('select').val(settings.wallet_header);
+                        $('.wallets').removeClass('mini regular').addClass($(el).find('select').val());
                     }
                 });
                 changer({ 
@@ -181,5 +190,9 @@
         $(document).on('click','.silent-transaction',function(){
             $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-user-secret"></div><div class="title">Silent transaction</div><div class="description">This transaction was added in silent mode <b>with historical price/date</b>. It will not be ranked and visible in case you would switch your profile to <b>Player mode</b> in settings.</div></div></div>');
         });
+        $(document).on('click','.funds .fund',function(){
+            $(this).find('.comment').slideToggle(300,'swing');
+        });
+        
        
     </script>   

@@ -23,9 +23,9 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.64" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.69" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.25" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.26" />
     
     <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.37',
+            version:    '1.1.61',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -117,6 +117,7 @@
             wallet_trend_size:          '5-days',
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
+            wallet_header:              'regular',
 
             design:{
                 color_base:         '#002ce1',

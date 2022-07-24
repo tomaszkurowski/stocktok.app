@@ -8,7 +8,9 @@
     RewriteRule ^(pages(.*))($) - [L]
     RewriteRule ^(media(.*))($) - [L]
     RewriteRule ^(api(.*))($) - [L]
+    RewriteRule ^(upload(.*))($) - [L]
     RewriteRule ^(sw(.*))($) - [L]
     RewriteRule ^(manifest(.*))($) - [L]
     RewriteRule ^(login(.*))($) - [L]
     RewriteRule ^(.*)$ index.php?page=$1 [L,QSA]
+ 

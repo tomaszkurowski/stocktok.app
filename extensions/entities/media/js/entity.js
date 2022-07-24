@@ -43,6 +43,7 @@ var stock;
 var stock_chart; // @todo: it can be stock.chart
 
 function generate_graph(){
+    
     if (stock.intraday && stock.historical){
         
         if (settings.graph_type === 'ohlc'){
@@ -50,10 +51,14 @@ function generate_graph(){
             stock.all_prices = stock.historical                        
         }else{
             // Last historical = First Intraday (10d interval)
-            stock.historical[stock.historical.length-1][4]=stock.intraday[0][4]
-            
-            // Join Intraday with Historical into one serie
-            stock.all_prices = stock.historical.concat(stock.intraday);
+            if (stock.intraday !== 1){
+                stock.historical[stock.historical.length-1][4]=stock.intraday[0][4]
+
+                // Join Intraday with Historical into one serie
+                stock.all_prices = stock.historical.concat(stock.intraday);
+            }else{
+                stock.all_prices = stock.historical;
+            }
         }                        
         
         console.log('All prices');
@@ -251,5 +256,7 @@ function widget_financial_graph(id,widget){
         var graph = new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options);
         graph.render();
 
+    }else{
+        $('[data-view="financial"]').hide();
     }
 }

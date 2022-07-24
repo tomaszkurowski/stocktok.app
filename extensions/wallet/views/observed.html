@@ -3,13 +3,13 @@
             <div class="inline"></div>
         </div> 
         <div class="page-view" data-view="observed">
-            <div class="search-results view-grid"></div>
+            <div class="search-results view-grid lock"></div>
         </div>          
     </div>
 
     <div class="entity-template hide">
 
-        <div class="mystock-container item active live">
+        <div class="mystock-container item active live drag-item">
             <div class="mystock">
                 <div class="mystock-view">
                     <div class="symbol">XYZ</div>
@@ -34,21 +34,19 @@
                     </div>
 
                     <div class="name"></div>            
-                    <div class="actions">
-                        <div class="btn" data-action="buy-more">
-                            <span class="icon icon-account_balance_wallet"></span>
-                        </div>
-                        <div class="btn actions-observed secondary" data-action="remove-from-observed">
-                            <span class="icon icon-bookmarks"></span>
-                        </div>                
-                    </div>
-                </div>
-            </div>            
+
+                </div>             
+            </div>    
+            <div class="edit">                    
+                <div class="icon icon-account_balance_wallet" data-action="buy-more"></div>
+                <div class="icon icon-trash" data-action="remove-from-observed"></div>
+                <div class="icon icon-move"></div>                               
+            </div>               
         </div>    
     </div>
 
 
-
+    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.45"></script>
     <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=6.0.1"></script> 
     <script type="text/javascript"> 
 
@@ -96,7 +94,31 @@
             $(element).find('.current-price').text(format_price(item.p)); 
             $(element).find('.updated-at').text(format_datetime(item.t));
 
-        }    
+        }  
+        
+        function observed_sort(){
+            var position=1;
+            var items = new Array();
+
+            $('[data-view="observed"] .mystock-container').each(function(index,value){        
+                items.push({ "symbol" : $(this).attr('data-symbol'), "market": $(this).attr('data-market'), "position": position++ });               
+            }).promise().then(function(){
+                console.log(items);
+                $.ajax({
+                    url: config.api_url,
+                    data: { 
+                        endpoint: '/observed/sort', 
+                        items: items  
+                    },
+                    type: 'PUT',
+                    dataType: 'JSON',
+                    success: function(response){ 
+                        get_my_observed();
+                    },
+                    error: function(e){ console.log(e); }
+                });
+            });
+        }
 
         function get_my_observed(){
 
@@ -214,6 +236,7 @@
 
                         symbols.push(entity.symbol.toUpperCase());
                     });
+                    init_sorting();
 
                     // Live
                     /*
@@ -242,7 +265,9 @@
             });
 
         }
-        get_my_observed();
+        get_currencies(function(){
+            get_my_observed();
+        });
 
 
     </script>

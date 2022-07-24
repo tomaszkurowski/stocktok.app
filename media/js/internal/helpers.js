@@ -212,7 +212,7 @@
                "." + date.getFullYear(); 
     }
 
-
+    var currencies = {};
     function get_currencies(callback=null){
         $.ajax({
             url: config.api_url,
@@ -222,10 +222,14 @@
             cache:false,
             success: function(response){
 
-                currencies = response.items;              
-                if (config.debug) console.log('\n','Currency Rates:',response,'\n\n');
+                $.each(response.items, function(i, item){ 
+                    currencies[i] = round(parseFloat(item),2);
+                });
                 
+                if (config.debug) console.log('\n','Currency Rates:',currencies,'\n\n'); 
+                console.log(response.items);
                 if (callback) callback();
+                
             },
             error: function(response){
                 console.log(response);
@@ -245,6 +249,25 @@
 
     }
     
+    // https://stackoverflow.com/questions/1726630/formatting-a-number-with-exactly-two-decimals-in-javascript
+    function round(value, exp) {
+        if (typeof exp === 'undefined' || +exp === 0)
+          return Math.round(value);
+
+        value = +value;
+        exp = +exp;
+
+        if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+          return NaN;
+
+        // Shift
+        value = value.toString().split('e');
+        value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+        // Shift back
+        value = value.toString().split('e');
+        return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+    }    
     
     
     function updateSettings(key,value){
@@ -257,102 +280,6 @@
         }
 
     };
-
-
-
-    $(document).on('click', '.tab-header', function(){    
-        $(this).parent('.tab-container').toggleClass('active');
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-    });
-    
-    
-    // WIDGETS
-    $(document).on('click','.widget .actions .icon-btn',function(){
-        $(this).toggleClass('active');
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-    });
-    $(document).on('click','.widget .actions .btn-edit',function(){
-        $(this).parents('.widget').toggleClass('editable');
-
-        if ($(this).parents('.widget').hasClass('editable')){
-            $(this).parents('.widget').removeClass('collapsed');
-        }
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-    });
-    $(document).on('click','.widget .actions .btn-delete',function(){
-        var id = $(this).parents('.widget').attr('data-id');
-        var type = $(this).parents('.widget').attr('data-type');
-
-        var widgets = JSON.parse(localStorage.getItem('widgets'));
-
-
-        if (widgets[type][id]) { delete widgets[type][id]; }
-
-        localStorage.setItem('widgets',JSON.stringify(widgets));
-
-        $(this).parents('.widget').remove();
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-    });
-
-    $(document).on('change','.widget .edit select', function(){ 
-
-        var type    = $(this).parents('.widget').attr('data-type');  
-        var id      = $(this).parents('.widget').attr('data-id');    
-
-        var widget   = {};
-
-        $(this).parents('.edit').find('select').each(function(){
-            var data_id     = $(this).attr('data-id');  // 1
-            var value       = $(this).val();        
-            widget[data_id] = value;        
-        });
-
-        if (config.debug) console.log('Widget Config:');
-        if (config.debug) console.log(widget);
-
-        var widgets = {};
-        if (localStorage.getItem('widgets') && localStorage.getItem('widgets')!==null){
-            widgets = JSON.parse(localStorage.getItem('widgets'));
-        }        
-        if (!widgets.hasOwnProperty(type)){ widgets[type] = {}; }    
-        widgets[type][id] = widget;
-
-        localStorage.setItem('widgets',JSON.stringify(widgets));    
-
-        widget_financial_graph(id, widget);
-
-    });
-    $(document).on('click','.add-widget', function(){
-
-        var type = $(this).attr('data-type')
-
-        var widgets = {};
-        var next_id = 0;
-        if (localStorage.getItem('widgets')){
-            widgets = JSON.parse(localStorage.getItem('widgets'));
-            if (widgets.hasOwnProperty(type)){
-                for (var id in widgets[type]) {
-                   if (id>next_id) next_id=parseInt(id); 
-                };
-            }else{
-                widgets[type] = {};
-            }                
-        }
-        next_id++;
-        widgets[type][next_id] = {};
-        localStorage.setItem('widgets',JSON.stringify(widgets));
-
-        var widget = $('.template-widget > .widget').clone();                
-        $(widget).addClass('editable');
-        $(widget).attr('data-id',next_id);
-        $(widget).attr('data-type',type);
-
-        $('.widgets').append($(widget));
-
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-
-    }); 
-
 
     // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript/21152762#21152762
     // using ES5   (200 characters)

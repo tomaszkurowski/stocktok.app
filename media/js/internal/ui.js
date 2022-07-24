@@ -2,6 +2,7 @@
     function switcher(options, callback){
         
         if (!options.target) options.target = '.heading';
+        $(options.target+' .'+options.class.replace(' ','.')).remove();
         
         let switcher = $('<div class="switcher"></div>')
             .append('<span class="icon-btn'+(options.class ? ' '+options.class : '')+'"></span>')
@@ -24,7 +25,8 @@
     
     function button(options,callback){
 
-        if (!options.target) options.target = '.heading';
+        if (!options.target) options.target = '.heading';        
+        $(options.target+' .'+options.class.replace(' ','.')).remove();
         
         let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
             .bind('click',function(){ 
@@ -37,8 +39,9 @@
     function changer(options,callback){
         
         if (!options.target) options.target = '.inline-actions .inline';
+        $(options.target+' .changer-v2.'+options.key).remove();
         
-        let changer = $('<div class="changer-v2"></div>')
+        let changer = $('<div class="changer-v2 '+options.key+'"></div>')
             .append('<label for="'+options.key+'">'+options.title+':</label>')
             .append('<select data-key="'+options.key+'"></select>')
             .bind('change',function(){
@@ -188,3 +191,97 @@
     $(document).on('click','.inner-popup .close',function(){
         $(this).parents('.inner-popup').remove();
     });
+    
+
+    $(document).on('click', '.tab-header', function(){    
+        $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+    });
+    
+    
+    // WIDGETS
+    $(document).on('click','.widget .actions .icon-btn',function(){
+        $(this).toggleClass('active');
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+    });
+    $(document).on('click','.widget .actions .btn-edit',function(){
+        $(this).parents('.widget').toggleClass('editable');
+
+        if ($(this).parents('.widget').hasClass('editable')){
+            $(this).parents('.widget').removeClass('collapsed');
+        }
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+    });
+    $(document).on('click','.widget .actions .btn-delete',function(){
+        var id = $(this).parents('.widget').attr('data-id');
+        var type = $(this).parents('.widget').attr('data-type');
+
+        var widgets = JSON.parse(localStorage.getItem('widgets'));
+
+
+        if (widgets[type][id]) { delete widgets[type][id]; }
+
+        localStorage.setItem('widgets',JSON.stringify(widgets));
+
+        $(this).parents('.widget').remove();
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+    });
+
+    $(document).on('change','.widget .edit select', function(){ 
+
+        var type    = $(this).parents('.widget').attr('data-type');  
+        var id      = $(this).parents('.widget').attr('data-id');    
+
+        var widget   = {};
+
+        $(this).parents('.edit').find('select').each(function(){
+            var data_id     = $(this).attr('data-id');  // 1
+            var value       = $(this).val();        
+            widget[data_id] = value;        
+        });
+
+        if (config.debug) console.log('Widget Config:');
+        if (config.debug) console.log(widget);
+
+        var widgets = {};
+        if (localStorage.getItem('widgets') && localStorage.getItem('widgets')!==null){
+            widgets = JSON.parse(localStorage.getItem('widgets'));
+        }        
+        if (!widgets.hasOwnProperty(type)){ widgets[type] = {}; }    
+        widgets[type][id] = widget;
+
+        localStorage.setItem('widgets',JSON.stringify(widgets));    
+
+        widget_financial_graph(id, widget);
+
+    });
+    $(document).on('click','.add-widget', function(){
+
+        var type = $(this).attr('data-type')
+
+        var widgets = {};
+        var next_id = 0;
+        if (localStorage.getItem('widgets')){
+            widgets = JSON.parse(localStorage.getItem('widgets'));
+            if (widgets.hasOwnProperty(type)){
+                for (var id in widgets[type]) {
+                   if (id>next_id) next_id=parseInt(id); 
+                };
+            }else{
+                widgets[type] = {};
+            }                
+        }
+        next_id++;
+        widgets[type][next_id] = {};
+        localStorage.setItem('widgets',JSON.stringify(widgets));
+
+        var widget = $('.template-widget > .widget').clone();                
+        $(widget).addClass('editable');
+        $(widget).attr('data-id',next_id);
+        $(widget).attr('data-type',type);
+
+        $('.widgets').append($(widget));
+
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+
+    });     

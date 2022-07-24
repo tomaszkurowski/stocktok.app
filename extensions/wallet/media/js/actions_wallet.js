@@ -40,8 +40,14 @@
                 
                 //UI
                 
-                $('.heading .icon-shopping_cart').remove();
-                $('.heading [data-key="editable"]').remove();
+                if (me.username !== wallet.username){
+                   button({ 
+                        class: 'icon-btn icon-person' }, 
+                        function(){ 
+                            load_page('/players/view/'+mvc.view,true);                   
+                        }
+                    );  
+                }
                 
                 if (me.username === wallet.username){
                     button({ 
@@ -50,6 +56,9 @@
                             buy_sell_popup(); // => actions_item.js                      
                         }
                     ); 
+                    button({ 
+                        class: 'icon-btn icon-search2' }, 
+                        function(){ location.href='/entities'; });             
                 }
                     switcher({ 
                         key: 'editable',  
@@ -252,7 +261,7 @@
                         var element =  '<div class="fund" data-id="'+fund.id+'">'+
                                         '<div class="top">'+
                                             '<div class="date">'+fund.date+'</div>'+
-                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,2)+' usd</div>'+
+                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,4)+' usd</div>'+
                                             '<div class="funds-edit"><div class="icon icon-btn icon-bin funds-delete"></div></div>'+
                                         '</div>'+                                 
                                         (fund.comment.length >0 ? '<div class="comment label">'+fund.comment+'</div>' : '')+                                        
@@ -265,7 +274,15 @@
                     if (settings.display_currency !== 'usd'){
                         funds_total = funds_total * currencies[settings.display_currency];
                     }
-                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));                        
+                    
+                    // new approach to funds_total, in tests
+                    funds_total = me.funds * currencies[settings.display_currency];
+                    
+                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));
+                    $('.wallet.funds .funds-total-base').text(format_price(me.funds,2)+' $');
+                    if (settings.display_currency === 'usd'){
+                        //$('.wallet.funds .funds-total-base').hide();
+                    }
 
                 }
 
@@ -311,11 +328,7 @@
                 };
                 live.onerror = function(e){
                     console.log(e);
-                };
-                
-                
-
-
+                };                                                
 
             },
             error: function(response){
@@ -443,4 +456,5 @@
         [].forEach.call(listItems, function(item) {
           addEventsDragAndDrop(item);
         });
+
     }
