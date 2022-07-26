@@ -1,3 +1,4 @@
+$(document).off('keyup', '#symbol');
 $(document).on('keyup', '#symbol', function(){
     
     $('.step2').removeClass('active');
@@ -95,6 +96,8 @@ $(document).on('keyup', '#symbol', function(){
 
 //$(document).on('click', '.add-new-stock .step2 #price-origin', function(){ $('.add-new-stock .step2 .field.price').toggleClass('hide'); });
 // After unchecking this checkbox I could take open/high/low from purchased_date and give slider (good UX)
+
+$(document).off('blur', '.add-new-stock .step2 #date');
 $(document).on('blur', '.add-new-stock .step2 #date', function(){ 
     $.ajax({
         url: config.api_url,

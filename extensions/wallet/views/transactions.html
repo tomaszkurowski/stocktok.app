@@ -79,11 +79,11 @@
     </div>
     
     
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.30"></script>  
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.9"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_wallet.js?v=7.0.31"></script>  
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.10"></script>  
     
-    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.40"></script>
-    <script type="text/javascript" src="/extensions/wallet/media/js/autosuggestions.js?v=3.0.0"></script>   
+    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.41"></script>
+    <script type="text/javascript" src="/extensions/wallet/media/js/autosuggestions.js?v=3.0.1"></script>   
     
     <script type="text/javascript"> 
         
@@ -120,8 +120,9 @@
              }); 
         }
         wallet_slick();
+        
+        $(document).off('click', '.wallet[data-action="slickGoTo"]');
         $(document).on('click','.wallet[data-action="slickGoTo"]',function(e){ $('.page-views').slick('slickGoTo',$(this).attr('data-id')); e.preventDefault(); });
-
 
         //$('.wallets .wallet').removeClass('active'); 
         //$('.wallet[data-id="funds"]').addClass('active'); 
@@ -187,9 +188,12 @@
             }
                         
         });
+        $(document).off('click', '.silent-transaction');
         $(document).on('click','.silent-transaction',function(){
             $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-user-secret"></div><div class="title">Silent transaction</div><div class="description">This transaction was added in silent mode <b>with historical price/date</b>. It will not be ranked and visible in case you would switch your profile to <b>Player mode</b> in settings.</div></div></div>');
         });
+        
+        $(document).off('click', '.funds .fund');
         $(document).on('click','.funds .fund',function(){
             $(this).find('.comment').slideToggle(300,'swing');
         });

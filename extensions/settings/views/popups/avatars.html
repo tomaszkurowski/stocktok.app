@@ -125,6 +125,7 @@
 <script type="text/javascript" src="/extensions/settings/media/webcamjs/webcam.min.js"></script>
 <script type="text/javascript">
 
+    $(document).off('click', '.popup-avatars .avatars > *');
     $(document).on('click','.popup-avatars .avatars > *',function(){
         
         var avatar = $(this).attr('class').replace('avatar-','').replace('avatar ','');
@@ -147,6 +148,7 @@
         });
     });
     
+    $(document).off('click', '.popup-avatars .avatar-color');
     $(document).on('change','.popup-avatars .avatar-color',function(){
         
         var avatar_color = $(this).val();
@@ -176,7 +178,7 @@
         }
     });
     
-    
+    $(document).off('click', '[data-action="icon"]');
     $(document).on('click','[data-action="icon"]',function(){
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="icon"]').addClass('active').slideDown(300,'swing',function(){
@@ -199,6 +201,7 @@
         });
     });
     
+    $(document).off('change', '#image');
     $(document).on('change','#image',function(event){        
         frame.src=URL.createObjectURL(event.target.files[0]); 
         
@@ -267,6 +270,7 @@
         });
     });
     
+    $(document).off('click', '[data-action="photo"]');
     $(document).on('click','[data-action="photo"]',function(){
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="photo"]').addClass('active').slideDown(300,'swing',function(){
@@ -347,6 +351,7 @@
         });
     });    
     
+    $(document).off('input', '#image-size');
     $(document).on('input','#image-size',function(){
         
         if (frame.width>frame.height){

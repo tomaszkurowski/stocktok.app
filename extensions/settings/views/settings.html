@@ -187,6 +187,7 @@
         $('.tab-content.'+options.target).append(row);
     }
     
+    $(document).off('click', '[data-action="update-bio"]');
     $(document).on('click','[data-action="update-bio"]',function(){
         $.ajax({
             url: config.api_url,

@@ -32,7 +32,7 @@
             .bind('click',function(){ 
                 if (callback) callback(button); 
         }); 
-        $(options.target).prepend(button); 
+        $(options.target).prepend(button);
         
     }
     
@@ -121,6 +121,7 @@
         //if (options.initial) $('.slick-initialized').slick('slickGoTo',options.initial);
     }
     
+    $(document).off('click', '.range-icons .icon');
     $(document).on('click','.range-icons .icon',function(){
         
         var clicked = $(this).attr("class");
@@ -141,11 +142,7 @@
         
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
     }
-    
-    
-    
-    
-    
+
     
     function smooth_scrolling(){
 
@@ -183,16 +180,18 @@
         }else return false;
    } 
    
+   $(document).off('click', '.popup-info');
     $(document).on('click','.popup-info',function(){
         $('body').removeClass('with-popup');
         $('.popup-info').remove();
     });
     
+    $(document).off('click', '.inner-popup .close');
     $(document).on('click','.inner-popup .close',function(){
         $(this).parents('.inner-popup').remove();
     });
     
-
+    $(document).off('click', '.tab-header');
     $(document).on('click', '.tab-header', function(){    
         $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
@@ -200,10 +199,13 @@
     
     
     // WIDGETS
+    $(document).off('click', '.widget .actions .icon-btn');
     $(document).on('click','.widget .actions .icon-btn',function(){
         $(this).toggleClass('active');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
     });
+    
+    $(document).off('click', '.widget .actions .btn-edit');
     $(document).on('click','.widget .actions .btn-edit',function(){
         $(this).parents('.widget').toggleClass('editable');
 
@@ -212,6 +214,8 @@
         }
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
     });
+    
+    $(document).off('click', '.widget .actions .btn-delete');
     $(document).on('click','.widget .actions .btn-delete',function(){
         var id = $(this).parents('.widget').attr('data-id');
         var type = $(this).parents('.widget').attr('data-type');
@@ -227,6 +231,7 @@
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
     });
 
+    $(document).off('click', '.widget .edit select');
     $(document).on('change','.widget .edit select', function(){ 
 
         var type    = $(this).parents('.widget').attr('data-type');  
@@ -255,6 +260,8 @@
         widget_financial_graph(id, widget);
 
     });
+    
+    $(document).off('click', '.add-widget');
     $(document).on('click','.add-widget', function(){
 
         var type = $(this).attr('data-type')

@@ -168,6 +168,7 @@
     }
     
     // Price origin 
+    $(document).off('change', '.popup.add-new-stock :not(slick-cloned) #price-origin');
     $(document).on('change', '.popup.add-new-stock :not(slick-cloned) #price-origin', function(e){        
 
         e.preventDefault();

@@ -291,6 +291,7 @@
         });
         /* */
         
+        $(document).off('click', '.popup-countries .country');
         $(document).on('click','.popup-countries .country',function(){
 
             var country = $(this).attr('data-country');
@@ -318,7 +319,4 @@
         /* */
     });
 
-    
-    
-    
 </script>

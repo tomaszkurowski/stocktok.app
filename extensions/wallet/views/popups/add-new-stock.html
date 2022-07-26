@@ -233,6 +233,7 @@
             }); 
         }
         
+        $(document).off('click', '.tabs .tab');
         $(document).on('click','.tabs .tab',function(){
             if ($(this).hasClass('buy')){
                 $('.popup.add-new-stock .views').slick('slickGoTo',0);
@@ -242,6 +243,7 @@
             }
         });
         
+        $(document).off('click', '.view-buy:not(.slick-cloned) .advanced-header');
         $(document).on('click','.view-buy:not(.slick-cloned) .advanced-header',function(){
             $(this).parents('.advanced').toggleClass('active').find('.advanced-body').slideToggle(300,'swing',function(){
                 $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
@@ -250,6 +252,7 @@
         });
         
         // Price origin 
+        $(document).off('change', '.popup.add-new-stock #price-origin');
         $(document).on('change', '.popup.add-new-stock #price-origin', function(e){        
 
             e.preventDefault();
@@ -274,6 +277,5 @@
         
         get_currencies();
         init_slick();
-
 
     </script>
