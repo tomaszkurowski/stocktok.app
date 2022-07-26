@@ -3911,6 +3911,9 @@ input:checked + .switch:before {
 .players .moves .move .comment {
     margin-top:10px;
 }
+.player-view {
+    padding-bottom:80px;
+}
 .player-view .overview {
     position:relative;
     margin: 15px;
@@ -3971,6 +3974,40 @@ input:checked + .switch:before {
     line-height:22px;
 }
 
+.player-view .tabs {
+    margin:15px;
+    -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);      
+}
+.player-view .trophies {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap:wrap;
+}
+.player-view .trophies .trophy {
+    font-size: 30px;
+    margin: 5px;
+    border: 1px solid var(--color-bg);
+    padding: 15px 0;
+    width: calc(25% - 30px);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    color:var(--color-bg);
+    
+}
+.player-view .trophies .trophy.active {
+    color:var(--color-base);
+}
+.player-view .tab-container {
+    display:none;
+}
+.player-view .tab-container.active {
+    display:block;
+}
 
 .settings .country-container {
     width:80px;
@@ -4207,4 +4244,43 @@ input:checked + .switch:before {
 .popup-loading .icon{
     animation: rotating 1.3s linear;
     animation-iteration-count: infinite;
+}
+
+.slider-items-container {
+    display: block;
+    overflow-x: scroll;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-bg);
+    width: 100%;
+}
+.slider-items-container h2 {
+    width:100%;
+    text-align:center;
+}
+.slider-items {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    padding-top: 15px;
+    min-width: 100%;
+}
+.slider-items img.logo {
+    border-radius:5px;
+    max-width:40px;
+    max-height:40px;    
+}
+.slider-items .logo.no-img {
+    font-size: 11px;
+    font-family: 'gotham-bold';
+    color: var(--color-base-invert);
+    text-transform: uppercase;
+    background-color: var(--color-base);
+    padding: 2.5px 5px;
+    white-space:nowrap;
+    border-radius:5px;
+}
+.slider-items .item {
+    margin-right:15px;
+    
 }

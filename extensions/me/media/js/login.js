@@ -29,11 +29,14 @@ $(window).on('resize',function(){
     //$('.logo').append('height: '+banner_height);
 });
 
+$(document).off('click', '.show-password');
 $(document).on('click', '.show-password', function(){
     if ($(this).hasClass('active')) $('#password').attr('type','password');
         else $('#password').attr('type','text');
     $(this).toggleClass('active');
 });
+
+$(document).off('click', '[data-action="step2"]');
 $(document).on('click', '[data-action="step2"]', function(){   
     
     var username=$('#username').val();
@@ -111,6 +114,7 @@ $(document).on('click', '[data-action="step2"]', function(){
 });
 
 var tc_opened = true;
+$(document).off('click', '.tc');
 $(document).on('click', '.tc', function(){
     if (tc_opened){
         $('.tc-content').addClass('active');
@@ -130,6 +134,7 @@ $(document).on('click', '.tc', function(){
         return;
     }
 });
+$(document).off('click', '.registration-form #username');
 $(document).on('keyup','.registration-form #username',function(){
     if ($('.registration-form').hasClass('step-2')){
         $('.registration-form').removeClass('step-2');
@@ -138,4 +143,3 @@ $(document).on('keyup','.registration-form #username',function(){
         $('.registration-form #password').val('');
     }
 });
-

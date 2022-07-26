@@ -1,6 +1,6 @@
     
-    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.0"></script> 
-    <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.4" />
+    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.1"></script> 
+    <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.5" />
     
         <div class="page players active">
 
@@ -50,6 +50,7 @@
                 }            
             });
             
+            $(document).off('click', '.search');
             $(document).on('keyup','.search',function(){
                 $('.slick-initialized').slick('slickGoTo',0);
                 get_all_players($(this).val());            

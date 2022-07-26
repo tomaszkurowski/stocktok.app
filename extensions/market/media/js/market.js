@@ -16,6 +16,7 @@ function hndlr(response) {
         }
     }
 }
+$(document).off('click', '.changer-adjust-view .changer');
 $(document).on('click','.changer-adjust-view .changer', function(){ 
     
     var q=$(this).attr('data-labels');
@@ -185,6 +186,7 @@ function find(filters,page,size,append){
 // MARKET - SEARCH INPUT on key pressed
 let typingTimer,
 doneTypingInterval = 250;
+$(document).off('keydown', '#market-search');
 $(document).on('keydown', '#market-search', function(){  
 
     if (typingTimer) {
@@ -195,9 +197,7 @@ $(document).on('keydown', '#market-search', function(){
     }, doneTypingInterval);
 
 });
+$(document).off('click', '#market-search');
 $(document).on('click', '#market-search', function(){ 
-
     $(this).val('');
-
 });
-

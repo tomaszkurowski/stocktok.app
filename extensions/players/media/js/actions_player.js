@@ -1,3 +1,5 @@
+    
+    $(document).off('click', '[data-action="observed"]');
     $(document).on('click','[data-action="observe"]',function(){
 
         var el      = $(this);
@@ -27,6 +29,7 @@
 
     });
 
+    $(document).off('click', '[data-action="stop-observe"]');
     $(document).on('click','[data-action="stop-observe"]',function(){
 
         var el      = $(this);
@@ -55,5 +58,3 @@
         });                
 
     });
-
-     

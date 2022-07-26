@@ -79,6 +79,7 @@
 
 
     // MYSTOCK - EDIT
+    $(document).off('change', '.mystock input');
     $(document).on('change', '.mystock input', function() {
         $.ajax({
             url: config.api_url,
@@ -127,6 +128,7 @@
 
 
     // MYSTOCK - DELETE 
+    $(document).off('click', '.mystock-delete');
     $(document).on('click', '.mystock-delete', function() {
 
         $(this).addClass('active');
@@ -148,6 +150,7 @@
     // MYSTOCK - VISIBILITY
     var other_hidden = false;
 
+    $(document).off('click', '.mystock .visibility .switcher');
     $(document).on('click', '.mystock .visibility .switcher', function(e) {
         e.preventDefault();
         if (settings.wallet_switch_behavior==='itself'){
@@ -185,6 +188,7 @@
         }
     });
     // MYSTOCK - VISIBILITY
+    $(document).off('click', '.visibility-layer');
     $(document).on('click', '.visibility-layer', function(e) {
         e.preventDefault();
         if (settings.wallet_switch_behavior==='itself'){
@@ -204,6 +208,7 @@
         reload();
     });
     // MYSTOCK - GROUPING
+    $(document).off('click', '.group-info');
     $(document).on('click','.group-info',function(e){
 
         e.preventDefault();
@@ -228,6 +233,7 @@
 
 
     // ADD TO OBSERVED
+    $(document).off('click', '[data-action="add-to-observed"]');
     $(document).on('click','[data-action="add-to-observed"]',function(e){    
 
         e.preventDefault();
@@ -255,6 +261,7 @@
     });
 
     // REMOVE FROM OBSERVED
+    $(document).off('click', '[data-action="remove-from-observed"]');
     $(document).on('click','[data-action="remove-from-observed"]',function(e){    
 
         e.preventDefault();
@@ -286,28 +293,27 @@
 
     });
 
+    $(document).off('click', '.mystock-container .view-action');
     $(document).on('click','.mystock-container .view-action',function(e){
         var symbol = $(this).closest('.mystock-container').attr('data-symbol');
         var market = $(this).closest('.mystock-container').attr('data-market');
         location.href = '/entities/'+market+'/'+symbol;
     });
 
+    $(document).off('click', '.items-container [data-action="view"]');
     $(document).on('click','.items-container [data-action="view"]',function(e){
         var symbol = $(this).parents('.item').attr('data-symbol');
         var market = $(this).parents('.item').attr('data-market');
         location.href = '/entities/'+market+'/'+symbol;
     });
 
-
-
+    $(document).off('click', '.mystock-container .edit .icon-create');
     $(document).on('click','.mystock-container .edit .icon-create',function(e){ 
         $(this).toggleClass('active');
         $(this).parents('.mystock-container').find('.mystock-edit').toggleClass('active');
     });
 
-
-
-
+    $(document).off('click', '[data-action="buy-more"]');
     $(document).on('click','[data-action="buy-more"]',function(e){       
 
         e.preventDefault();
@@ -321,9 +327,9 @@
 
         buy_sell_popup({ action:'buy', item:item });
 
-        //load_popup('add-new-stock', { action:'buy', item:item });
-
     });
+    
+    $(document).off('click', '[data-action="sell-it"]');
     $(document).on('click','[data-action="sell-it"]',function(e){       
 
         e.preventDefault();
@@ -343,9 +349,12 @@
 
 
     // Add new stock - Popup
+    $(document).off('click', '.heading.active .sell-save');
     $(document).on('click', '.heading.active .sell-save', function(){
         sell_save();
     });
+    
+    $(document).off('click', '.heading.active .buy-save');
     $(document).on('click', '.heading.active .buy-save', function(){
         console.log('btn buy-save clicked');
         buy_save();
@@ -354,19 +363,29 @@
 
 
     // View Buy - Totals calculation 
+    
+    $(document).off('keyup', '.view-buy #qty');
     $(document).on('keyup', '.view-buy #qty', function(){        
         buy_reload_totals();        
     });
+    
+    $(document).off('click', '.view-buy #price');
     $(document).on('keyup', '.view-buy #price', function(){        
         buy_reload_totals();        
     });
+    
+    $(document).off('click', '.view-sell #sold_price');
     $(document).on('keyup', '.view-sell #sold_price', function(){
         sell_reload_totals();
     });
+    
+    $(document).off('click', '.view-sell #total-qty-sell');
     $(document).on('keyup', '.view-sell #total-qty-sell', function(){        
         sell_reload_totals();                
     });
+    
     // Go to step 2 Buttons
+    $(document).off('click', '.view-buy [data-step="1"] #autosuggestions .stock');
     $(document).on('click', '.view-buy [data-step="1"] #autosuggestions .stock', function(){
 
         var item = {};
@@ -380,6 +399,8 @@
         buy_step2(item);
 
     });
+    
+    $(document).off('click', '.view-sell [data-step="1"] .item');
     $(document).on('click', '.view-sell [data-step="1"] .item', function(){
 
         var item = {};
@@ -390,11 +411,9 @@
         sell_step2(item);
 
     });
-
-
-
-
+    
     // Funds
+    $(document).off('click', '.funds-delete');
     $(document).on('click','.funds-delete',function(){
 
         var id = $(this).parents('.fund').attr('data-id');

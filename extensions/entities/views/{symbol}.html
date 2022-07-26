@@ -1,5 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.7"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.8"></script>
     
     <div class="page stock-view active">
 
@@ -339,6 +339,8 @@
 
             $('.chart.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
         }
+        
+        $(document).off('click', '[data-label="view_stock_edit"]');
         $(document).on('click','[data-label="view_stock_edit"]',function(){
             stock_graph_adaptive_height();
             stock_chart.reflow();
@@ -346,6 +348,7 @@
 
 
         // Results Info - Collapse/Expand
+        $(document).off('click', '.widget-collapse');
         $(document).on('click','.widget-collapse',function(){
             $(this).parents('.widget').toggleClass('collapsed');
 
@@ -372,6 +375,7 @@
         });
 
         // Results Info - Visible Fields
+        $(document).off('click', '.results-info .edit .form.hidden-fields input');
         $(document).on('click','.results-info .edit .form.hidden-fields input',function(){
             var id = $(this).attr('id').substring(2); // v-{field}
             $('.results-info').find('.'+id).toggleClass('hide');
@@ -482,6 +486,7 @@
             stock_chart.reflow();
         }
 
+        $(document).off('click', '#stock_chart_range');
         $(document).on('input','#stock_chart_range',function(){
             var val = $(this).val();
             $('.range-selector .labels span').removeClass('selected');

@@ -1,5 +1,5 @@
 
-    <script type="text/javascript" src="/extensions/market/media/js/market.js?v=1.0.0"></script>
+    <script type="text/javascript" src="/extensions/market/media/js/market.js?v=1.0.1"></script>
     <script type="text/javascript">$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q=tesla&callback=hndlr&sort=date");</script>
 
 
@@ -247,6 +247,7 @@
 
         widget_macroeconomics();
 
+        $(document).off('click', '.widget .selectors select');
         $(document).on('change','.widget .selectors select', function(){ 
 
             var id      = $(this).attr('id'); 
@@ -263,7 +264,5 @@
             widget_macroeconomics();
 
         });
-
-
 
     </script>
