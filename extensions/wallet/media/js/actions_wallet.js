@@ -276,10 +276,10 @@
                     }
                     
                     // new approach to funds_total, in tests
-                    funds_total = me.funds * currencies[settings.display_currency];
+                    funds_total = (wallet.funds_total ? wallet.funds_total : 0) * currencies[settings.display_currency];
                     
                     $('.wallet.funds .funds-total').text(format_price(funds_total,2));
-                    $('.wallet.funds .funds-total-base').text(format_price(me.funds,2)+' $');
+                    $('.wallet.funds .funds-total-base').text(format_price((wallet.funds_total ? wallet.funds_total : 0),2)+' $');
                     if (settings.display_currency === 'usd'){
                         //$('.wallet.funds .funds-total-base').hide();
                     }
