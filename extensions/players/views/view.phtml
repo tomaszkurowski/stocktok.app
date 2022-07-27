@@ -69,35 +69,32 @@
         </div>  
         
         <div class="trophies box">
-            <div class="trophy icon-security active"></div>
-            <div class="trophy icon-business_center1 active"></div>
-            <div class="trophy icon-trending_up1"></div>
-            <div class="trophy icon-award-fill"></div>
-            <div class="trophy icon-healthcare active"></div>
-            <div class="trophy icon-star-full"></div>
-            <div class="trophy icon-finance"></div>
-            <div class="trophy icon-technology"></div>
-            <div class="trophy icon-stocks"></div>
-            <div class="trophy icon-logo"></div>
-            <div class="trophy icon-trophy"></div>            
+            <div class="trophy icon-security" data-code="profile_completed" data-description="Added avatar, country representation, currency and info" data-title="Profile Completed"></div>
+            <div class="trophy icon-business_center1" data-code="wallet_init" data-description="First items added to wallet" data-title="Wallet Initialized"></div>
+            <div class="trophy icon-trending_up1" data-code="profit_first" data-description="Earned first profit in playing" data-title="First profit"></div>
+            <div class="trophy icon-award-fill" data-code="profit_25" data-description="Earned 25% margin" data-title="25% margin"></div>
+            <div class="trophy icon-healthcare" data-code="player_longterm" data-description="Long-term transaction played for the first time" data-title="Longterm player"></div>
+            <div class="trophy icon-star-full" data-code="player_professional" data-description="20 sold transactions, profit + 50k and long-term player" data-title="Professional"></div>
+            <div class="trophy icon-finance" data-code="profit_100" data-description="Earned 100% margin" data-title="100% margin"></div>
+            <div class="trophy icon-technology" data-code="profit_highest_300" data-description="300% margin on one transaction" data-title="300% highest margin"></div>
+            <div class="trophy icon-stocks" data-code="stocks_play" data-description="Plays on stock markets" data-title="Stocks play"></div>
+            <div class="trophy icon-logo" data-code="contributor"></div>
+            <div class="trophy icon-trophy" data-code="master"></div>            
         </div>
     </div>
 
     <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.3"></script> 
     <script type="text/javascript">
 
-        function trophy(options){
+        function trophy(options,code){
             if (!options.target) options.target = '.trophies';
-            
-            
-            let trophy = $('<div class="trophy icon-business_center1 active"></div>')
+                        
+            let trophy = $('<div class="trophy icon-'+options.class+' "></div>')
                 .bind('click',function(){ 
-                    
-                    
+                                        
                     //if (callback) callback(trophy); 
                 });
-            $(options.target).prepend(trophy);
-            
+            $(options.target).prepend(trophy);            
         }
         
         $(document).ready(function(){
@@ -124,6 +121,7 @@
                         if (config.debug) console.log(response);
                         var player = response.player;
                         var items  = response.items;
+                        var trophies = response.trophies;
                         
 
                         $('.overview').attr('data-username',player.username);
@@ -167,11 +165,24 @@
                             
                         });
                         
+                        if (trophies){
+                            $.each(trophies, function(i,trophy){
+                                $('.trophy[data-code="'+trophy.code+'"]').addClass('active');
+                            });
+                        }else{
+                            $('.trophies').hide();
+                        }
+                        
                         //$('[data-result="profit"] .value').html()
 
                     }
                 });
 
+        });
+        
+        $(document).off('click', '.trophy');
+        $(document).on('click','.trophy',function(){
+            $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon '+$(this).attr('class')+'"></div><div class="title">'+$(this).attr('data-title')+'</div><div class="description">'+$(this).attr('data-description')+'</div></div></div>');
         });
 
     </script>
