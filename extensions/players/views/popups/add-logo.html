@@ -36,6 +36,7 @@
         
         <input type="hidden" id="market" />
         <input type="hidden" id="symbol" />
+        <input type="hidden" id="name" />
         
     </div>
 </div>
@@ -118,7 +119,12 @@
     
     $(document).off('click', '[data-action="find-in-google"]');
     $(document).on('click','[data-action="find-in-google"]',function(event){
-        window.open('https://www.google.com/search?tbm=isch&q='+$('.popup-add-logo #symbol').val()+'+'+$('.popup-add-logo #market').val()+'+logo','_blank');
+        if ($('.popup-add-logo #market').val() === 'commodities'){
+            window.open('https://www.google.com/search?tbm=isch&q='+$('.popup-add-logo #name').val()+'+icon','_blank');
+        }else{
+            window.open('https://www.google.com/search?tbm=isch&q='+$('.popup-add-logo #symbol').val()+'+'+$('.popup-add-logo #market').val()+'+logo','_blank');
+        }
+        
     });       
 
 </script>

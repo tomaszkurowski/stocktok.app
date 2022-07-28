@@ -4178,6 +4178,7 @@ input:checked + .switch:before {
     height: 300px;
     overflow: scroll;
     border-radius: 50%;
+    border:1px solid var(--color-bg);
 }
 .popup-avatars #frame {
     min-width:300px;
