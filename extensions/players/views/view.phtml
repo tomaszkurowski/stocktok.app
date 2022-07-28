@@ -10,24 +10,24 @@
         </div>
         
         <div class="results">
-            <div class="result box" data-result="profit">
+            <div class="result box" data-result="margin">
                 <div class="icon icon-auction"></div>
-                <div class="value sold-profit">20.00 usd</div>
+                <div class="value">0.00</div>
                 <div class="title">Sold Profit</div>
             </div>
-            <div class="result box" data-result="active-profit">
+            <div class="result box" data-result="margin-percentage">
                 <div class="icon icon-shopping_cart"></div>
-                <div class="value active-profit">20 000.00 usd</div>
-                <div class="title">Active Profit</div>
+                <div class="value">0.00</div>
+                <div class="title">Profit %</div>
             </div>
-            <div class="result box">
+            <div class="result box" data-result="purchased-total">
                 <div class="icon icon-trophy"></div>
-                <div class="value" highest-margin>300.00%</div>
-                <div class="title">Highest Margin</div>
+                <div class="value">0.00</div>
+                <div class="title">Purchased Total</div>
             </div>
             <div class="result box" data-result="funds">
                 <div class="icon icon-account_balance_wallet"></div>
-                <div class="value funds-balance">15 000 usd</div>
+                <div class="value funds-balance">0.00</div>
                 <div class="title">Funds</div>
             </div>            
         </div>
@@ -99,7 +99,7 @@
         
         $(document).ready(function(){
 
-
+            get_currencies(function(){    
                 $.ajax({
                     url: config.api_url,
                     data: { 
@@ -123,7 +123,7 @@
                         var items  = response.items;
                         var trophies = response.trophies;
                         
-
+                        // Overview
                         $('.overview').attr('data-username',player.username);
 
                         if (player.avatar_type){
@@ -135,7 +135,7 @@
                         $('.overview .username').text(player.username);
                         $('.overview .bio').text(player.bio);
 
-                        let btn_results = '<div class="btn primary">See Results</div>';
+                        let btn_results = '<div class="btn primary" onclick="load_page(\'/wallet/'+player.username+'\',true)">See Results</div>';
                         $(btn_results).bind('click',function(){
                             load_page('/wallet/'+player.username,true);
                         });
@@ -147,7 +147,13 @@
                         }
                         if (player.country) $('.overview').prepend('<img src="/media/img/flags/'+player.country+'.svg" class="country" />');
                         
+                        // Results                        
+                        $('.results [data-result="margin"] .value').text(format_price(player.margin * currencies[settings.display_currency]) + ' ' + settings.display_currency);
+                        $('.results [data-result="margin-percentage"] .value').text(player.margin_percentage+' %');
+                        $('.results [data-result="purchased-total"] .value').text(format_price(player.purchased_total * currencies[settings.display_currency]) + ' ' + settings.display_currency);
+                        $('.results [data-result="funds"] .value').text(format_price((player.funds ? player.funds : 1) * currencies[settings.display_currency]) + ' ' + settings.display_currency);
                         
+                        // Items
                         $.each(items, function(i,item){
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
@@ -177,7 +183,7 @@
 
                     }
                 });
-
+            });
         });
         
         $(document).off('click', '.trophy');
