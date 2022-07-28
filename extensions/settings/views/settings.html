@@ -215,6 +215,9 @@
         settings_row({ target: 'game', type:'bio',           key: 'bio', info: 'Add 2-3 sentences about yourself' });      
         settings_row({ target: 'game', type:'restart-game',  key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
         
+        if (me.username === 'Qba'){
+            settings_row({ target: 'game', type:'select',  key: 'contributor',       info: 'If you want to help builiding better application select yes', values: ['yes','no'] });
+        }
         
         settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',     info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
         settings_row({ target: 'design',  type: 'color', key: 'color_base',          info: 'Base color is used for all action elements' });

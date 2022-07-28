@@ -132,8 +132,11 @@
                 size_medium:        '15px',
                 size_big:           '17px',
                 hand_preference:    'right'
-            }                        
+            },            
+            
+            contributor: 'no'
         };
+        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
         
         var me;
