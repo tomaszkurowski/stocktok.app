@@ -68,6 +68,7 @@ function get_search_items(){
                                 $('.popup-avatars').slideDown(300,'linear');
                                 $('.popup-add-logo #market').val(item.market);
                                 $('.popup-add-logo #symbol').val(item.symbol);
+                                $('.popup-add-logo #name').val(item.name);
                             },
                             error: function(e){ console.log(e); }
                         });
