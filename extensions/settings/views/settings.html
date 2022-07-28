@@ -64,8 +64,7 @@
                         });
                         $(row).find('.value').text(settings[options.key]);
                         options.values.forEach(function(value){ $(input).append('<option value="'+value+'"'+(settings[options.key] === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });                                                    
-                break;  
-            
+                break;              
             case 'public':
                 input = $('<select class="select-public"></select>').attr('data-key','public').bind('change',function(){
                     var el      = $(this);
