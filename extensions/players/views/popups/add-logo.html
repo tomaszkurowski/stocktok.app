@@ -5,14 +5,21 @@
             <h2>Add logo for entity</h2>
             <div class="avatar-types">
                 
-                <div class="avatar-type" data-action="image">
+                <div class="avatar-type" data-action="image" style="width:calc(50% - 5px)">
                     <label for="image"></label>
                     <span class="icon icon-upload"></span>
                     <div class="title">
                         <h2>Image</h2>
                     </div>
                     <input type="file" id="image" name="image" accept="image/*" style="display:none">
-                </div>            
+                </div> 
+                
+                <div class="avatar-type" data-action="find-in-google" style="width:calc(50% - 5px)">
+                    <span class="icon icon-search2"></span>
+                    <div class="title">
+                        <h2>Find in google</h2>
+                    </div>
+                </div>                  
             </div>
         </div>        
         
@@ -80,7 +87,12 @@
                            processData: false,  // tell jQuery not to process the data
                            contentType: false,  // tell jQuery not to set contentType
                            success : function(response) {
-                               console.log(response);
+                                $('.popup-avatars').slideDown(300,'linear',function(){
+                                    $('.popup-btn').remove();
+                                    $('.popup-avatars').remove();
+                                    $('body').removeClass('with-popup');
+                                    location.reload();
+                                });
                            }
                     });                    
                     
@@ -102,6 +114,11 @@
             $('#frame').width($(this).val());
         }
         
-    });    
+    });  
+    
+    $(document).off('click', '[data-action="find-in-google"]');
+    $(document).on('click','[data-action="find-in-google"]',function(event){
+        window.open('https://www.google.com/search?tbm=isch&q='+$('.popup-add-logo #symbol').val()+'+'+$('.popup-add-logo #market').val()+'+logo','_blank');
+    });       
 
 </script>

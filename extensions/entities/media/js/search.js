@@ -50,6 +50,12 @@ function get_search_items(){
                 if (settings.contributor === 'yes' && !item.logo){
                     let btn_add_logo = $('<div class="icon-lifebuoy contributor-add-logo" data-action="add-logo"></div>').bind('click',function(){
                         
+                        if ($('footer #popup .search').length){ 
+                            $('footer #popup').html(''); 
+                            $('.popup-btn').remove();
+                            $('body').removeClass('with-popup');
+                        }
+                        
                         $('body').toggleClass('with-popup');                            
                         if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }   
                         
