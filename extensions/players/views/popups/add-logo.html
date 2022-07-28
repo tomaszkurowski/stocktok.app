@@ -1,0 +1,124 @@
+<div class="popup popup-avatars popup-add-logo">
+    <div class="popup-body padding-side-regular">
+        
+        <div class="step1">
+            <h2>Add logo for entity</h2>
+            <div class="avatar-types">
+                
+                <div class="avatar-type" data-action="image" style="width:calc(50% - 5px)">
+                    <label for="image"></label>
+                    <span class="icon icon-upload"></span>
+                    <div class="title">
+                        <h2>Image</h2>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/*" style="display:none">
+                </div> 
+                
+                <div class="avatar-type" data-action="find-in-google" style="width:calc(50% - 5px)">
+                    <span class="icon icon-search2"></span>
+                    <div class="title">
+                        <h2>Find in google</h2>
+                    </div>
+                </div>                  
+            </div>
+        </div>        
+        
+        <div class="step2" data-type="image">
+            <h2>Adjust position</h2>
+            <div class="frame-container hide-scroll" style="border-radius:15px">
+                <img id="frame" src="" />
+            </div>
+            <h2>Adjust size</h2>
+            <div class="image-resizer slidecontainer">
+                <input type="range" min="300" max="300" value="300" class="slider-range" id="image-size">
+            </div>
+        </div>
+        
+        <input type="hidden" id="market" />
+        <input type="hidden" id="symbol" />
+        
+    </div>
+</div>
+<script type="text/javascript">
+
+    
+    $(document).off('change', '#image');
+    $(document).on('change','#image',function(event){        
+        frame.src=URL.createObjectURL(event.target.files[0]); 
+        
+        $('.step1').slideUp(300,'swing',function(){
+            $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
+                
+                button({ 
+                    class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
+                    function(){ 
+                        $('.heading .icon-keyboard_backspace1').remove();
+                        $('.heading .icon-check1').remove();                        
+                        $('.step2').removeClass('active').slideUp(300,'swing',function(){
+                            $('.step1').slideDown(300,'swing',function(){});
+                        });
+                    }
+                );
+                var width   = frame.width;
+                var height  = frame.height;
+        
+                button({ class: "icon-btn popup-btn icon-check1" }, function(){ 
+                                    
+                    var formData = new FormData();
+                    formData.append('me',me.username);
+                    formData.append('file', $('#image')[0].files[0]);
+                    formData.append('x',$('.frame-container').scrollLeft());
+                    formData.append('y',$('.frame-container').scrollTop());
+                    formData.append('size',$('#image-size').val());
+                    formData.append('width',width);
+                    formData.append('height',height);
+                    formData.append('newwidth',frame.width);
+                    formData.append('newheight',frame.height);
+                    formData.append('symbol',$('.popup-add-logo #symbol').val());
+                    formData.append('market',$('.popup-add-logo #market').val());
+                     
+                    $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
+        
+                    $.ajax({
+                           url : '/upload_logo.php',
+                           type : 'POST',
+                           data : formData,
+                           dataType: 'JSON',
+                           processData: false,  // tell jQuery not to process the data
+                           contentType: false,  // tell jQuery not to set contentType
+                           success : function(response) {
+                                $('.popup-avatars').slideDown(300,'linear',function(){
+                                    $('.popup-btn').remove();
+                                    $('.popup-avatars').remove();
+                                    $('body').removeClass('with-popup');
+                                    location.reload();
+                                });
+                           }
+                    });                    
+                    
+                });
+                
+                var max_size = frame.width;                
+                if (frame.width>frame.height) max_size = frame.height;
+                $('#image-size').attr('max',max_size).val(max_size);
+            });
+        });
+    });
+    
+    $(document).off('input', '#image-size');
+    $(document).on('input','#image-size',function(){
+        
+        if (frame.width>frame.height){
+            $('#frame').height($(this).val());
+        }else{
+            $('#frame').width($(this).val());
+        }
+        
+    });  
+    
+    $(document).off('click', '[data-action="find-in-google"]');
+    $(document).on('click','[data-action="find-in-google"]',function(event){
+        window.open('https://www.google.com/search?tbm=isch&q='+$('.popup-add-logo #symbol').val()+'+'+$('.popup-add-logo #market').val()+'+logo','_blank');
+    });       
+
+</script>

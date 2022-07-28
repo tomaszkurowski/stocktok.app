@@ -10,24 +10,24 @@
         </div>
         
         <div class="results">
-            <div class="result box" data-result="profit">
+            <div class="result box" data-result="margin">
                 <div class="icon icon-auction"></div>
-                <div class="value sold-profit">20.00 usd</div>
+                <div class="value">0.00</div>
                 <div class="title">Sold Profit</div>
             </div>
-            <div class="result box" data-result="active-profit">
+            <div class="result box" data-result="margin-percentage">
                 <div class="icon icon-shopping_cart"></div>
-                <div class="value active-profit">20 000.00 usd</div>
-                <div class="title">Active Profit</div>
+                <div class="value">0.00</div>
+                <div class="title">Profit %</div>
             </div>
-            <div class="result box">
+            <div class="result box" data-result="purchased-total">
                 <div class="icon icon-trophy"></div>
-                <div class="value" highest-margin>300.00%</div>
-                <div class="title">Highest Margin</div>
+                <div class="value">0.00</div>
+                <div class="title">Purchased Total</div>
             </div>
             <div class="result box" data-result="funds">
                 <div class="icon icon-account_balance_wallet"></div>
-                <div class="value funds-balance">15 000 usd</div>
+                <div class="value funds-balance">0.00</div>
                 <div class="title">Funds</div>
             </div>            
         </div>
@@ -69,17 +69,23 @@
         </div>  
         
         <div class="trophies box">
-            <div class="trophy icon-security" data-code="profile_completed" data-description="Added avatar, country representation, currency and info" data-title="Profile Completed"></div>
-            <div class="trophy icon-business_center1" data-code="wallet_init" data-description="First items added to wallet" data-title="Wallet Initialized"></div>
-            <div class="trophy icon-trending_up1" data-code="profit_first" data-description="Earned first profit in playing" data-title="First profit"></div>
-            <div class="trophy icon-award-fill" data-code="profit_25" data-description="Earned 25% margin" data-title="25% margin"></div>
-            <div class="trophy icon-healthcare" data-code="player_longterm" data-description="Long-term transaction played for the first time" data-title="Longterm player"></div>
-            <div class="trophy icon-star-full" data-code="player_professional" data-description="20 sold transactions, profit + 50k and long-term player" data-title="Professional"></div>
-            <div class="trophy icon-finance" data-code="profit_100" data-description="Earned 100% margin" data-title="100% margin"></div>
-            <div class="trophy icon-technology" data-code="profit_highest_300" data-description="300% margin on one transaction" data-title="300% highest margin"></div>
-            <div class="trophy icon-stocks" data-code="stocks_play" data-description="Plays on stock markets" data-title="Stocks play"></div>
-            <div class="trophy icon-logo" data-code="contributor"></div>
-            <div class="trophy icon-trophy" data-code="master"></div>            
+            <div class="trophy icon-security"       data-code="profile_completed" data-description="Added avatar, country representation, currency and info" data-title="Profile Completed"></div>
+            <div class="trophy icon-account_balance_wallet" data-code="wallet_init" data-description="First items added to wallet" data-title="Wallet Initialized"></div>
+            <div class="trophy icon-trending_up1"   data-code="profit_first" data-description="Earned first profit" data-title="First profit"></div>
+            <div class="trophy icon-award-fill"     data-code="profit_25" data-description="25% margin in wallet" data-title="25%"></div>
+            <div class="trophy icon-healthcare"     data-code="profit_50" data-description="50% margin in wallet" data-title="50%"></div>
+            <div class="trophy icon-star-full"      data-code="profit_100" data-description="100% margin in wallet" data-title="100%"></div>
+            <div class="trophy icon-technology"     data-code="profit_highest_100" data-description="100% margin in single transaction" data-title="100% highest margin"></div>
+            
+            <div class="trophy icon-stocks"      data-code="play_stocks"      data-description="Min. 1 transaction on stocks markets" data-title="Stocks play"></div>
+            <div class="trophy icon-currencies"  data-code="play_forex"       data-description="Min. 1 transaction on currencies"     data-title="Currencies play"></div>
+            <div class="trophy icon-commodities" data-code="play_commodities" data-description="Min. 1 transaction on commodities"    data-title="Commodities play"></div>
+            <div class="trophy icon-crypto"      data-code="play_crypto"      data-description="Min. 1 transaction on crypto"         data-title="Crypto play"></div>
+            <div class="trophy icon-indices"     data-code="play_indices"     data-description="Min. 1 transaction on indices"        data-title="Indices play"></div>
+            <div class="trophy icon-fantoken"    data-code="play_fantoken"    data-description="Min. 1 transaction on fan-tokens"     data-title="Fantoken play"></div>
+                        
+            <div class="trophy icon-logo"        data-code="contributor"      data-description="Available soon" data-title="Contributor"></div>
+            <div class="trophy icon-trophy"      data-code="master"           data-description="Available soon" data-title="Master"></div>            
         </div>
     </div>
 
@@ -99,7 +105,7 @@
         
         $(document).ready(function(){
 
-
+            get_currencies(function(){    
                 $.ajax({
                     url: config.api_url,
                     data: { 
@@ -123,7 +129,7 @@
                         var items  = response.items;
                         var trophies = response.trophies;
                         
-
+                        // Overview
                         $('.overview').attr('data-username',player.username);
 
                         if (player.avatar_type){
@@ -135,7 +141,7 @@
                         $('.overview .username').text(player.username);
                         $('.overview .bio').text(player.bio);
 
-                        let btn_results = '<div class="btn primary">See Results</div>';
+                        let btn_results = '<div class="btn primary" onclick="load_page(\'/wallet/'+player.username+'\',true)">See Results</div>';
                         $(btn_results).bind('click',function(){
                             load_page('/wallet/'+player.username,true);
                         });
@@ -147,7 +153,13 @@
                         }
                         if (player.country) $('.overview').prepend('<img src="/media/img/flags/'+player.country+'.svg" class="country" />');
                         
+                        // Results                        
+                        $('.results [data-result="margin"] .value').text(format_price(player.margin * currencies[settings.display_currency],2) + ' ' + settings.display_currency);
+                        $('.results [data-result="margin-percentage"] .value').text(player.margin_percentage+' %');
+                        $('.results [data-result="purchased-total"] .value').text(format_price(player.purchased_total * currencies[settings.display_currency],2) + ' ' + settings.display_currency);
+                        $('.results [data-result="funds"] .value').text(format_price((player.funds ? player.funds : 1) * currencies[settings.display_currency],2) + ' ' + settings.display_currency);
                         
+                        // Items
                         $.each(items, function(i,item){
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
@@ -177,7 +189,7 @@
 
                     }
                 });
-
+            });
         });
         
         $(document).off('click', '.trophy');

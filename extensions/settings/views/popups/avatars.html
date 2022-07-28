@@ -182,9 +182,7 @@
     $(document).on('click','[data-action="icon"]',function(){
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="icon"]').addClass('active').slideDown(300,'swing',function(){
-                
-                    $('.heading .popup-btn').remove();
-                    
+                                    
                     button({ 
                         class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
                         function(){ 
@@ -207,8 +205,6 @@
         
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
-                
-                $('.heading .popup-btn').remove();
                 
                 button({ 
                     class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
@@ -274,8 +270,6 @@
     $(document).on('click','[data-action="photo"]',function(){
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="photo"]').addClass('active').slideDown(300,'swing',function(){
-
-                    $('.heading .popup-btn').remove();
                     
                     var ratio =1;
                     var camera_width  = 0;
@@ -294,9 +288,7 @@
                         camera_width  = 300;
                         camera_height = 300 * ratio;
                         camera_y    = Math.abs(camera_height - 300)/2;
-                    }
-                    
-                    $('.heading .popup-btn').remove();
+                    }                    
                     
                     button({ 
                         class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
@@ -308,6 +300,8 @@
                             $('.step2').removeClass('active').slideUp(300,'swing',function(){
                                 $('.step1').slideDown(300,'swing',function(){});
                             });
+                            
+                            Webcam.reset();
                         }
                     );  
                     button({ 
@@ -326,7 +320,10 @@
                                         $('.popup-btn').remove();
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');                                       
-                                    });                                                                        
+                                    });
+                                    
+                                    Webcam.reset();
+                                    
                                 });                                                                
                             });
                         }

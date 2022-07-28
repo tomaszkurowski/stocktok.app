@@ -2,12 +2,13 @@
     function switcher(options, callback){
         
         if (!options.target) options.target = '.heading';
-        $(options.target+' .'+options.class.replace(' ','.')).remove();
-        
+        $('[data-class="'+options.class+'"]').remove();
+
         let switcher = $('<div class="switcher"></div>')
             .append('<span class="icon-btn'+(options.class ? ' '+options.class : '')+'"></span>')
             .attr('data-key',options.key)
             .attr('data-value',options.value)
+            .attr('data-class',options.class)
             .bind('click',function(){
                         
                 $(this).attr('data-value',$(this).attr('data-value') === 'true' ? 'false' : 'true');

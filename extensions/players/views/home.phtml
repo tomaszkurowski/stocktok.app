@@ -91,17 +91,35 @@
                     $('[data-view="all"] .results').html('');
                     $.each(response.players, function(i,player){
                         
-                        let el = $('<div class="view"></div>')                            
-                            .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
-                            .append('<div class="title">'+player.username+'</div>')
-                            //.append('<div class="total">'+player.current_total+' $</div>')
-                            .bind('click',function(){
+                        let el = $('<div class="view"></div>');
+                        
+                        if (player.avatar_type){
+                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' />");
+                        }else{
+                            $(el).append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
+                        }
+                        
+                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
+                             .append('<div class="title">'+player.username+'</div>')
+                             //.append('<div class="total">'+player.current_total+' $</div>')
+                             .bind('click',function(){
                                 location.href = '/wallet/'+player.username;
-                            });
+                             });
+                             
+                        let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let btn_view = '<div class="btn secondary" onclick="load_page(\'/players/view/'+player.username+'\',true)">View</div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
+                        
                         let box = $('<div class="box"></div>')
                             .append(el)
                             .append('<div class="icon-bookmark_outline" data-action="observe"></div>')
+                            .append(actions)
                             .attr('data-username',player.username);
                         
                         $('[data-view="all"] .results').append(box);                        
@@ -215,18 +233,36 @@
                     var position = 1;
                     $.each(response.players, function(i,player){
                         
-                        let el = $('<div class="view"></div>')                            
-                            .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
-                            .append('<div class="position">'+(position++)+'</div>')
-                            .append('<div class="title">'+player.username+'</div>')
-                            //.append('<div class="total">'+player.margin+' $</div>')
-                            .bind('click',function(){
+                        let el = $('<div class="view"></div>');
+                        
+                        if (player.avatar_type){
+                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' />");
+                        }else{
+                            $(el).append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
+                        } 
+                        
+                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
+                             .append('<div class="position">'+(position++)+'</div>')
+                             .append('<div class="title">'+player.username+'</div>')
+                             //.append('<div class="total">'+player.margin+' $</div>')
+                             .bind('click',function(){
                                 location.href = '/wallet/'+player.username;
-                            });
+                             });
+                             
+                        let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let btn_view = '<div class="btn secondary" onclick="load_page(\'/players/view/'+player.username+'\',true)">View</div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
+                        
                         let box = $('<div class="box"></div>')
                             .append(el)
                             .append('<div class="icon-bookmark1" data-action="stop-observe"></div>')
+                            .append(actions)
                             .attr('data-username',player.username);                             
                         
                         $('[data-view="observed"] .results').append(box);

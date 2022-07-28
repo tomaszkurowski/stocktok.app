@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.62',
+            version:    '1.1.64',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -132,8 +132,11 @@
                 size_medium:        '15px',
                 size_big:           '17px',
                 hand_preference:    'right'
-            }                        
+            },            
+            
+            contributor: 'no'
         };
+        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
         
         var me;
