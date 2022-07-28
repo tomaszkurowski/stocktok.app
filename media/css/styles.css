@@ -776,12 +776,20 @@ main {
    margin-top:15px;
    line-height:20px;
 }
+.wallets .wallet .results .field {
+    display:inline-flex;
+    align-items:center;
+    width:100%;
+}
 .wallets .wallet .results .label {
     display:inline-block;
-    width:66px;
-   }
-.wallets .wallet .results .margin, .wallets .wallet .results .total {
-
+    width:75px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+.wallets .wallet .results .display-currency {
+    margin-left:5px;
+    font-size:var(--size-small);
 }
 .wallets .wallet .results .total {
     font-size:var(--size-small);

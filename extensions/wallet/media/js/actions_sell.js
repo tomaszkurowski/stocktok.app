@@ -56,20 +56,22 @@
                        
         var total_main       = sold_price * total_qty_sell * rate;
         var total_additional = sold_price * total_qty_sell;
+        var funds_after      = 0;
                 
         if (market_currency === 'usd'){
             console.log('sell cond1');
             console.log(me.funds);
             console.log(purchased_currency);
             console.log(round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2));
-            var funds_after = me.funds * currencies[purchased_currency] + round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2);
+            funds_after = me.funds * currencies[purchased_currency] + round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2);
         }else{
             if (purchased_currency === market_currency){
                 console.log('sell cond2');
-                var funds_after = (me.funds + round(parseFloat(sold_price * total_qty_sell / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
+                funds_after = (me.funds + round(parseFloat(sold_price * total_qty_sell / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
             }else{
                 console.log('sell cond3');
-               var funds_after = (me.funds + parseFloat(sold_price * total_qty_sell * rate)) * currencies[purchased_currency]; 
+                console.log(parseFloat(me.funds),purchased_currency,sold_price,total_qty_sell,rate,currencies[purchased_currency]);
+                funds_after = (parseFloat(me.funds) + parseFloat(sold_price * total_qty_sell * rate)) * currencies[purchased_currency];
             }            
         }
         
@@ -81,6 +83,7 @@
         }else{ $('.view-sell:not(.slick-cloned) .total-additional').show(); }
                
         if (me.public === 1){
+            console.log(funds_after);
             $('.view-sell:not(.slick-cloned) .funds').removeClass('hide');
             $('.view-sell:not(.slick-cloned) .funds .funds-after').text(format_price(funds_after,2));  
             $('.view-sell:not(.slick-cloned) .funds .funds-currency').text(settings.display_currency);           
