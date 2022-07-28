@@ -3838,8 +3838,18 @@ input:checked + .switch:before {
 .players .box .avatar {
     color:var(--color-bg);
     font-size:60px;
-
 }
+.players .box .avatar-image {
+    max-width:100%;
+    max-height:60px;
+    border-radius:50%;
+    margin:0 auto;
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -6px rgb(66 68 90);
+    border: 2px solid var(--color-bg);    
+}
+
 .players .box .title {
     color:var(--color-text);
     font-size:var(--size-regular);
@@ -3880,6 +3890,15 @@ input:checked + .switch:before {
     top: 5px;
     left: 5px;
 }
+.players .box .actions { 
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+}
+.players .box .actions .btn.secondary {
+    padding:5px 10px;
+}
 .players .box .icon-bookmark_outline, .players .box .icon-bookmark1 {
     position: absolute;
     right: 5px;
@@ -3889,6 +3908,7 @@ input:checked + .switch:before {
 }
 
 .players .moves .move {
+    width:100%;
     background-color:var(--color-bg2);
     padding:15px;
     margin-bottom:1px;
