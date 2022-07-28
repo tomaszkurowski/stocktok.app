@@ -4292,3 +4292,10 @@ input:checked + .switch:before {
     margin-right:15px;
     
 }
+.contributor-add-logo {
+    position: absolute;
+    right: 10px;
+    top: 50px;
+    font-size: 25px;
+    color: var(--color-base);
+}

@@ -1,6 +1,5 @@
 var search = '';
-function get_search_items(){
-
+function get_search_items(){   
     var filters = getFiltersParams();
     $.ajax({
         url: config.api_url,
@@ -46,6 +45,29 @@ function get_search_items(){
 
                 if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-bookmarks" data-action="remove-from-observed"></div>');                
                 }else{ $(el).append('<div class="add-to-observed icon-bookmarks" data-action="add-to-observed"></div>'); }
+
+                console.log(settings.contributor);
+                if (settings.contributor === 'yes' && !item.logo){
+                    let btn_add_logo = $('<div class="icon-lifebuoy contributor-add-logo" data-action="add-logo"></div>').bind('click',function(){
+                        
+                        $('body').toggleClass('with-popup');                            
+                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }   
+                        
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+                        $.ajax({
+                            url:"/extensions/players/views/popups/add-logo.html",
+                            cache:false,
+                            success: function(data){ 
+                                $("#popup").html(data); 
+                                $('.popup-avatars').slideDown(300,'linear');
+                                $('.popup-add-logo #market').val(item.market);
+                                $('.popup-add-logo #symbol').val(item.symbol);
+                            },
+                            error: function(e){ console.log(e); }
+                        });
+                    });
+                    $(el).append(btn_add_logo);
+                }
 
                 $('.items-container').append($(el));
 
