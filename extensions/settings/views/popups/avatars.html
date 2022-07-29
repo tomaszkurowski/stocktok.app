@@ -252,6 +252,13 @@
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');                                       
                                     });
+                               }else{
+                                    $('.popup-btn.icon-check1').remove();
+                                    $('.popup-avatars').html('\
+                                        <div class="popup-success">\n\
+                                            <div class="icon-btn icon-clear"></div>\n\
+                                            <div class="title">'+response.msg+'</div>\n\
+                                        </div>');                                     
                                }
                            }
                     });                    

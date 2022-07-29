@@ -81,19 +81,29 @@
                     $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
         
                     $.ajax({
-                           url : '/upload_logo.php',
-                           type : 'POST',
-                           data : formData,
-                           dataType: 'JSON',
-                           processData: false,  // tell jQuery not to process the data
-                           contentType: false,  // tell jQuery not to set contentType
-                           success : function(response) {
-                                $('.popup-avatars').slideDown(300,'linear',function(){
-                                    $('.popup-btn').remove();
-                                    $('.popup-avatars').remove();
-                                    $('body').removeClass('with-popup');
-                                    location.reload();
-                                });
+                            url : '/upload_logo.php',
+                            type : 'POST',
+                            data : formData,
+                            dataType: 'JSON',
+                            processData: false,  // tell jQuery not to process the data
+                            contentType: false,  // tell jQuery not to set contentType
+                            success : function(response) {
+
+                                if (response.success){
+                                    $('.popup-avatars').slideDown(300,'linear',function(){
+                                        $('.popup-btn').remove();
+                                        $('.popup-avatars').remove();
+                                        $('body').removeClass('with-popup');
+                                        location.reload();
+                                    });
+                                }else{
+                                    $('.popup-btn.icon-check1').remove();
+                                    $('.popup-add-logo').html('\
+                                        <div class="popup-success">\n\
+                                            <div class="icon-btn icon-clear"></div>\n\
+                                            <div class="title">'+response.msg+'</div>\n\
+                                        </div>');                                      
+                                }
                            }
                     });                    
                     

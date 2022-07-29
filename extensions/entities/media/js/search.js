@@ -47,7 +47,7 @@ function get_search_items(){
                 }else{ $(el).append('<div class="add-to-observed icon-bookmarks" data-action="add-to-observed"></div>'); }
 
                 console.log(settings.contributor);
-                if (settings.contributor === 'yes' && !item.logo){
+                if (settings.contributor === 'yes'){
                     let btn_add_logo = $('<div class="icon-lifebuoy contributor-add-logo" data-action="add-logo"></div>').bind('click',function(){
                         
                         if ($('footer #popup .search').length){ 
