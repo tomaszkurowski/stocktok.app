@@ -369,7 +369,7 @@
                 item.last_updated_at = live_prices[item.symbol].last_updated_at;
             }
             
-            
+            console.log(item.rates);
             item.purchased_total    = item.purchased_qty * item.purchased_price * get_rate_from_date('purchased',item.rates); 
 
             if (item.type_of_transaction === 'active'){

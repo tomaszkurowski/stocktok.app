@@ -21,7 +21,7 @@ function get_search_items(){
 
             if (response.success === 'false') return;
             
-            if (response.entities.length === 0){
+            if (response.entities.length === 0 && !$('.items-container .item').length){
                 $('.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>')
             }
             
@@ -48,7 +48,7 @@ function get_search_items(){
 
                 console.log(settings.contributor);
                 if (settings.contributor === 'yes'){
-                    let btn_add_logo = $('<div class="icon-lifebuoy contributor-add-logo" data-action="add-logo"></div>').bind('click',function(){
+                    let btn_add_logo = $('<div class="icon-lifebuoy contributor-edit" data-action="edit"></div>').bind('click',function(){
                         
                         if ($('footer #popup .search').length){ 
                             $('footer #popup').html(''); 
@@ -61,14 +61,17 @@ function get_search_items(){
                         
                         button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
                         $.ajax({
-                            url:"/extensions/players/views/popups/add-logo.html",
+                            url:"/extensions/players/views/popups/contributor.html",
                             cache:false,
                             success: function(data){ 
                                 $("#popup").html(data); 
-                                $('.popup-avatars').slideDown(300,'linear');
-                                $('.popup-add-logo #market').val(item.market);
-                                $('.popup-add-logo #symbol').val(item.symbol);
-                                $('.popup-add-logo #name').val(item.name);
+                                $('.popup-contributor').slideDown(300,'linear');
+                                $('.popup-contributor #market').val(item.market);
+                                $('.popup-contributor #symbol').val(item.symbol);
+                                $('.popup-contributor #name').val(item.name);
+                                $('.popup-contributor #industry').val(item.industry);
+                                $('.popup-contributor #sector').val(item.sector);
+                                $('.popup-contributor #website').val(item.website);
                             },
                             error: function(e){ console.log(e); }
                         });

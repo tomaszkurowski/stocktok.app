@@ -1,0 +1,233 @@
+<div class="popup popup-avatars popup-add-logo popup-contributor">
+    <div class="popup-body padding-side-regular">
+        
+        <div class="step1">
+            <h2>Contributor Mode</h2>
+            <div class="btns-step">
+                
+                <div class="btn-step" data-action="image" style="width:calc(50% - 5px)">
+                    <label for="image"></label>
+                    <span class="icon icon-upload"></span>
+                    <div class="title">
+                        <h2>Add logo</h2>
+                    </div>
+                    <input type="file" id="image" name="image" accept="image/*" style="display:none">
+                </div> 
+                
+                <div class="btn-step" data-action="find-in-google" style="width:calc(50% - 5px)">
+                    <span class="icon icon-search2"></span>
+                    <div class="title">
+                        <h2>Find in google</h2>
+                    </div>
+                </div>
+                
+                <div class="btn-step" data-action="info" style="width:calc(50% - 5px)">
+                    <span class="icon icon-menu_book"></span>
+                    <div class="title">
+                        <h2>Info</h2>
+                    </div>
+                </div>
+                
+            </div>
+        </div>        
+        
+        <div class="step2" data-type="image">
+            <h2>Adjust position</h2>
+            <div class="icon-move"></div>
+            <div class="frame-container hide-scroll" style="border-radius:15px">                
+                <img id="frame" src="" />
+            </div>
+            <h2>Adjust size</h2>
+            <div class="image-resizer slidecontainer">
+                <input type="range" min="300" max="300" value="300" class="slider-range" id="image-size">
+            </div>
+        </div>
+        
+        <div class="step2" data-type="info">
+            <h2>Info</h2>
+            <div class="form">
+                
+                <div class="field focus input">
+                    <label>Symbol</label>
+                    <input type="text" id="symbol" disabled />
+                </div>
+                <div class="field focus input">
+                    <label>Market</label>
+                    <input type="text" id="market" disabled />
+                </div>                
+                
+                <div class="field focus input">
+                    <label>Name</label>
+                    <input type="text" id="name" />
+                </div>
+                <div class="field focus input">
+                    <label>Website</label>
+                    <input type="text" id="website" />
+                </div>
+                <div class="field focus input">
+                    <label>Sector</label>
+                    <input type="text" id="sector" />
+                </div>
+                <div class="field focus input">
+                    <label>Industry</label>
+                    <input type="text" id="industry" />
+                </div>                
+            </div>
+        </div>        
+        
+    </div>
+</div>
+<script type="text/javascript">
+
+    
+    $(document).off('change', '#image');
+    $(document).on('change','#image',function(event){        
+        frame.src=URL.createObjectURL(event.target.files[0]); 
+        
+        $('.step1').slideUp(300,'swing',function(){
+            $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
+                
+                button({ 
+                    class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
+                    function(){ 
+                        $('.heading .icon-keyboard_backspace1').remove();
+                        $('.heading .icon-check1').remove();                        
+                        $('.step2').removeClass('active').slideUp(300,'swing',function(){
+                            $('.step1').slideDown(300,'swing',function(){});
+                        });
+                    }
+                );
+                var width   = frame.naturalWidth;
+                var height  = frame.naturalHeight;
+        
+                button({ class: "icon-btn popup-btn icon-check1" }, function(){ 
+                    
+                    var symbol = $('.popup-add-logo #symbol').val();
+                    var market = $('.popup-add-logo #market').val();
+        
+                    var formData = new FormData();
+                    formData.append('me',me.username);
+                    formData.append('file', $('#image')[0].files[0]);
+                    formData.append('x',$('.frame-container').scrollLeft());
+                    formData.append('y',$('.frame-container').scrollTop());
+                    formData.append('size',$('#image-size').val());
+                    formData.append('width',width);
+                    formData.append('height',height);
+                    formData.append('newwidth',frame.width);
+                    formData.append('newheight',frame.height);
+                    formData.append('symbol',symbol);
+                    formData.append('market',market);
+                     
+                    $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
+        
+                    $.ajax({
+                            url : '/upload_logo.php',
+                            type : 'POST',
+                            data : formData,
+                            dataType: 'JSON',
+                            processData: false,  // tell jQuery not to process the data
+                            contentType: false,  // tell jQuery not to set contentType
+                            success : function(response) {
+
+                                if (response.success){
+                                    $('.popup-avatars').slideDown(300,'linear',function(){
+                                        $('.popup-btn').remove();
+                                        $('.popup-avatars').remove();
+                                        $('body').removeClass('with-popup');
+                                        //location.reload();
+                                        
+                                        $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                    });
+                                }else{
+                                    $('.popup-btn.icon-check1').remove();
+                                    $('.popup-add-logo').html('\
+                                        <div class="popup-success">\n\
+                                            <div class="icon-btn icon-clear"></div>\n\
+                                            <div class="title">'+response.msg+'</div>\n\
+                                        </div>');                                      
+                                }
+                           }
+                    });                    
+                    
+                });
+                                
+                var size = width;                
+                if (width>height) size = height;
+                
+                if (size<300){
+                    $('#image-size').attr('max',300).attr('min',size).val(size);
+                }else{
+                    $('#image-size').attr('max',size).val(size);
+                    $('.popup-avatars .icon-move').addClass('available');
+                }
+                
+                
+            });
+        });
+    });
+    
+    $(document).off('input', '#image-size');
+    $(document).on('input','#image-size',function(){
+        
+        if (frame.width>frame.height){
+            $('#frame').height($(this).val());
+        }else{
+            $('#frame').width($(this).val());
+        }
+        
+    });  
+    
+    $(document).off('click', '[data-action="find-in-google"]');
+    $(document).on('click','[data-action="find-in-google"]',function(){
+        window.open('https://www.google.com/search?tbm=isch&tbs=isz:l&q='+$('.popup-add-logo #name').val(),'_blank');        
+    });       
+
+    $(document).off('click', '[data-action="info"]');
+    $(document).on('click','[data-action="info"]',function(){
+        $('.step1').slideUp(300,'swing',function(){
+            $('.step2[data-type="info"]').addClass('active').slideDown(300,'swing',function(){
+                
+                button({ 
+                    class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
+                    function(){ 
+                        $('.heading .icon-keyboard_backspace1').remove();
+                        $('.heading .icon-check1').remove();                        
+                        $('.step2').removeClass('active').slideUp(300,'swing',function(){
+                            $('.step1').slideDown(300,'swing',function(){});
+                        });
+                    }
+                );
+                button({ class: "icon-btn popup-btn icon-check1" }, function(){
+                    
+                    var form = {};
+                    $('.popup-contributor .form input').each(function(index,element){
+                        form[$(element).attr('id')] = $(element).val();
+                    });
+                    $('.popup-contributor .form select').each(function(index,element){
+                        form[$(element).attr('id')] = $(element).val();
+                    });        
+
+                    $.ajax({
+                        url: config.api_url,
+                        data: { 
+                            endpoint: '/entity/info', 
+                            form: form 
+                        },
+                        type: 'PUT',
+                        dataType: 'JSON',
+                        cache: false,
+                        success: function(response){            
+                            $('.item[data-symbol="'+form.symbol+'"][data-market="'+form.market+'"] .name').html(form.name);
+                        },
+                        error: function(response){
+                            console.log(response);
+                        }
+                    });                    
+                    
+                });
+        
+            });
+        });
+    });
+
+</script>

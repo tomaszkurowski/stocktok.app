@@ -51,9 +51,17 @@ if($fileError == UPLOAD_ERR_OK){
     $newwidth  =  filter_input(INPUT_POST, 'newwidth');
     $newheight =  filter_input(INPUT_POST, 'newheight');
 
+    if ($newwidth<300)  $newwidth = 300;
+    if ($newheight<300) $newheight = 300;
+    
     $resized  = imagecreatetruecolor($newwidth, $newheight);
+    
+    if ($fileExt === 'png' || $fileExt === 'gif'){
+        $white = imagecolorallocate($resized, 255, 255, 255);
+        imagefill($resized, 0, 0, $white);
+    }    
+    
     imagecopyresized($resized, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
     $cropped = imagecrop($resized, ['x' => $x, 'y' => $y, 'width' => 300, 'height' => 300]);
     
     if ($path !== $dest){ unlink($path); }    
@@ -61,10 +69,8 @@ if($fileError == UPLOAD_ERR_OK){
 
     imagedestroy($resized);
     imagedestroy($cropped);
-    
-    // TODO: Delete any jpg (?)
 
-    echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$path) ]);
+    echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$dest).'?cache='.uniqid() ]);
 
 }else{
        switch($fileError){
