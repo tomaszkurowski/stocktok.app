@@ -7,7 +7,7 @@ if($fileError == UPLOAD_ERR_OK){
     $fileType = $_FILES['file']['type'];
     $fileError = $_FILES['file']['error'];
     $fileContent = file_get_contents($_FILES['file']['tmp_name']);  
-    $fileExt  = substr($fileName, -3) !== 'epg' ? substr($fileName, -3) : 'jpeg';
+    $fileExt  = pathinfo($fileName, PATHINFO_EXTENSION);
 
     $market =  filter_input(INPUT_POST, 'market');
     $symbol =  filter_input(INPUT_POST, 'symbol');
@@ -20,6 +20,28 @@ if($fileError == UPLOAD_ERR_OK){
 
     file_put_contents($path, $fileContent); 
 
+    switch($fileExt){
+        case 'jpg':
+        case 'jpeg':
+            $source = imagecreatefromjpeg($path);
+            break;
+        case 'png':
+            $source = imagecreatefrompng($path);
+            break;
+        case 'webp':
+            $source = imagecreatefromwebp($path);
+            break;
+        case 'bmp':
+            $source = imagecreatefrombmp($path);
+            break;
+        case 'gif':
+            $source = imagecreatefromgif($path);
+            break;
+        default:
+            echo json_encode(['success' => false, 'msg' => 'Not supported extension: '.$fileExt.'. Please upload one of those: JPG, JPEG, PNG, WEBP, BMP or GIF' ]);
+            die();
+    }
+    
     $x      =  filter_input(INPUT_POST, 'x');
     $y      =  filter_input(INPUT_POST, 'y');
     $size   =  filter_input(INPUT_POST, 'size');
@@ -29,29 +51,28 @@ if($fileError == UPLOAD_ERR_OK){
     $newwidth  =  filter_input(INPUT_POST, 'newwidth');
     $newheight =  filter_input(INPUT_POST, 'newheight');
 
+    if ($newwidth<300)  $newwidth = 300;
+    if ($newheight<300) $newheight = 300;
+    
     $resized  = imagecreatetruecolor($newwidth, $newheight);
     
-    if ($fileExt === 'png'){
-        $source   = imagecreatefrompng($path);
-    }else{
-        $source   = imagecreatefromjpeg($path);
-        unlink($path);
-    }
+    if ($fileExt === 'png' || $fileExt === 'gif'){
+        $white = imagecolorallocate($resized, 255, 255, 255);
+        imagefill($resized, 0, 0, $white);
+    }    
     
     imagecopyresized($resized, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);
-
     $cropped = imagecrop($resized, ['x' => $x, 'y' => $y, 'width' => 300, 'height' => 300]);
-
+    
+    if ($path !== $dest){ unlink($path); }    
     imagepng($cropped, $dest);
 
     imagedestroy($resized);
     imagedestroy($cropped);
-    
-    // TODO: Delete any jpg (?)
 
-    echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$path) ]);
+    echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$dest).'?cache='.uniqid() ]);
 
-    }else{
+}else{
        switch($fileError){
          case UPLOAD_ERR_INI_SIZE:   
               $message = 'Error al intentar subir un archivo que excede el tamaño permitido.';

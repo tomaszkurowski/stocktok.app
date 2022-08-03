@@ -130,7 +130,7 @@
                                         '<span class="label">Total & Margin:</span>'+
                                         '<div class="info">'+
                                             '<span class="price total"></span>'+
-                                            '<span class="currency display-currency"></span>' +
+                                            '<span class="currency display-currency">'+settings.display_currency+'</span>' +
                                         '</div>'+
                                         '<div class="additionals">'+                                    
                                             '<span class="price margin"></span>'+
@@ -261,7 +261,7 @@
                         var element =  '<div class="fund" data-id="'+fund.id+'">'+
                                         '<div class="top">'+
                                             '<div class="date">'+fund.date+'</div>'+
-                                            '<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,4)+' usd</div>'+
+                                            //'<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,2)+' '+'</div>'+
                                             '<div class="funds-edit"><div class="icon icon-btn icon-bin funds-delete"></div></div>'+
                                         '</div>'+                                 
                                         (fund.comment.length >0 ? '<div class="comment label">'+fund.comment+'</div>' : '')+                                        
@@ -269,20 +269,11 @@
 
                         $('.wallet-items.funds').append(element);    
                         funds_total += fund.balance;                                
-                    });
-
-                    if (settings.display_currency !== 'usd'){
-                        funds_total = funds_total * currencies[settings.display_currency];
-                    }
+                    });                    
+                    var funds_total = (parseFloat(me.funds)*currencies[settings.display_currency]).toFixed(2);
                     
-                    // new approach to funds_total, in tests
-                    funds_total = (wallet.funds_total ? wallet.funds_total : 0) * currencies[settings.display_currency];
-                    
-                    $('.wallet.funds .funds-total').text(format_price(funds_total,2));
-                    $('.wallet.funds .funds-total-base').text(format_price((wallet.funds_total ? wallet.funds_total : 0),2)+' $');
-                    if (settings.display_currency === 'usd'){
-                        //$('.wallet.funds .funds-total-base').hide();
-                    }
+                    $('.wallet.funds .funds-total').text(funds_total);
+                    $('.wallet.funds .funds-total-base').text(me.funds+' $');
 
                 }
 
@@ -301,7 +292,7 @@
                     
                     var liveInterval = window.setInterval(function(){
                         reload();
-                    }, 500);
+                    }, 1500);
 
                 };
 
@@ -357,6 +348,8 @@
         wallet.sold_total       = 0;
         wallet.sold_margin      = 0;
         
+        
+        
 
         var groups = [];
         $.each(wallet.items,function(symbol,item){
@@ -369,31 +362,28 @@
                 item.last_updated_at = live_prices[item.symbol].last_updated_at;
             }
             
-            
-            item.purchased_total    = item.purchased_qty * item.purchased_price * get_rate_from_date('purchased',item.rates); 
-
             if (item.type_of_transaction === 'active'){
 
-                item.total              = item.price * item.purchased_qty * get_rate_from_date('latest',item.rates);
+                item.rate       = (1 / currencies[item.market_currency]).toFixed(config.precision_rate);
+                item.total      = (item.price * item.purchased_qty * item.rate).toFixed(config.precision_total);
+
                 item.margin             = item.total - item.purchased_total; 
-                item.margin_percentage  = item.purchased_total !== 0 ? Math.round(item.margin / (item.purchased_total) * 100,2) : 0;
+                item.margin_percentage  = item.purchased_total !== 0 ? (item.margin / (item.purchased_total) * 100).toFixed(2) : 0;
 
                 if ($(element).attr('data-visibility')==='visible'){
-                    wallet.current_total  += item.total;            
-                    wallet.current_margin += item.margin;                
+                    wallet.current_total  += parseFloat(item.total);            
+                    wallet.current_margin += parseFloat(item.margin);                
                 }
 
             }      
             if (item.type_of_transaction === 'sold'){
 
-                item.total              = item.sold_price * item.purchased_qty * get_rate_from_date('sold',item.rates);
-                item.margin             = item.total - item.purchased_total; 
-                item.margin_percentage  = item.purchased_total !== 0 ? Math.round(item.margin / (item.purchased_total) * 100,2) : 0;
+                item.total              = item.sold_total;
 
                 if ($(element).attr('data-visibility')==='visible'){                
-                    wallet.sold_purchased += item.purchased_total;
-                    wallet.sold_total     += item.total;            
-                    wallet.sold_margin    += item.margin;
+                    wallet.sold_purchased += parseFloat(item.purchased_total);
+                    wallet.sold_total     += parseFloat(item.total);            
+                    wallet.sold_margin    += parseFloat(item.margin);
                 }
 
             }                           
@@ -411,8 +401,8 @@
 
             $(element).find('.current-price').text(format_price(item.price),6);  
             $(element).find('.price').val(item.price); 
-            $(element).find('.total').text(format_price(item.total,2));
-            $(element).find('.margin').text(format_price(item.margin,2));
+            $(element).find('.total').text(format_price(item.total * currencies[settings.display_currency],2));
+            $(element).find('.margin').text(format_price(item.margin * currencies[settings.display_currency],2));
             $(element).find('.margin-percentage').text(item.margin_percentage);
 
             if (item.margin>0)      $(element).find('.results').attr('data-results','with profit');
@@ -433,7 +423,7 @@
                 var group_id = $(element).attr('data-group-id');
 
                 //console.log($(element).attr('data-symbol'));
-                groups[group_id].margin_percentage = Math.round(groups[group_id].margin / groups[group_id].purchased_total * 100,2);
+                groups[group_id].margin_percentage = (groups[group_id].margin / groups[group_id].purchased_total * 100).toFixed(2);
 
                 $(element).find('.total').text(format_price(groups[group_id].total,2));
                 $(element).find('.margin').text(format_price(groups[group_id].margin,2));
@@ -441,9 +431,9 @@
             });
         }
 
-        $('.wallet.active .results .total ').text(format_price(wallet.current_total,2));
-        $('.wallet.active .results .margin').text(format_price(wallet.current_margin,2));
-        $('.wallet.sold   .results .total ').text(format_price(wallet.sold_margin,2));
+        $('.wallet.active .results .total ').text(format_price(wallet.current_total * currencies[settings.display_currency],2));
+        $('.wallet.active .results .margin').text(format_price(wallet.current_margin * currencies[settings.display_currency],2));
+        $('.wallet.sold   .results .total ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2));
         $('.wallet.sold   .results .margin').text(wallet.sold_margin_percentage+'%');      
 
 

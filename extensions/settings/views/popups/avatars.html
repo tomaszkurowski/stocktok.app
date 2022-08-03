@@ -217,8 +217,8 @@
                         });
                     }
                 );
-                var width   = frame.width;
-                var height  = frame.height;
+                var width   = frame.naturalWidth;
+                var height  = frame.naturalHeight;
         
                 button({ class: "icon-btn popup-btn icon-check1" }, function(){ 
                                     
@@ -252,16 +252,28 @@
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');                                       
                                     });
+                               }else{
+                                    $('.popup-btn.icon-check1').remove();
+                                    $('.popup-avatars').html('\
+                                        <div class="popup-success">\n\
+                                            <div class="icon-btn icon-clear"></div>\n\
+                                            <div class="title">'+response.msg+'</div>\n\
+                                        </div>');                                     
                                }
                            }
                     });                    
                     
                 });
                 
-        
-                var max_size = frame.width;                
-                if (frame.width>frame.height) max_size = frame.height;
-                $('#image-size').attr('max',max_size).val(max_size);
+                var size = frame.naturalWidth;                
+                if (frame.naturalWidth>frame.naturalHeight) size = frame.naturalHeight;
+                
+                if (size<300){
+                    $('#image-size').attr('max',300).attr('min',size).val(size);
+                }else{
+                    $('#image-size').attr('max',size).val(size);
+                }
+
             });
         });
     });

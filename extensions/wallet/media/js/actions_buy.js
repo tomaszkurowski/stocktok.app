@@ -19,7 +19,7 @@
         $.ajax({
             url: config.api_url,
             data: { 
-                endpoint: '/wallet/buy', 
+                endpoint: '/wallet/buy2', 
                 item: form 
             },
             type: 'POST',
@@ -126,45 +126,38 @@
     
     function buy_reload_totals(){
 
+        var popup  = $('.view-buy:not(.slick-cloned)')
     
-        var market = $('.view-buy:not(.slick-cloned)').find('#market').val();                        
-        var qty    = $('.view-buy:not(.slick-cloned) #qty').val();
-        var price  = $('.view-buy:not(.slick-cloned) #price').val(); 
+        var market = $(popup).find('#market').val();                        
+        var qty    = $(popup).find('#qty').val();
+        var price  = $(popup).find('#price').val(); 
 
-        var purchased_currency = $('.view-buy:not(.slick-cloned)').find('#currency').val();
-        var market_currency    = 'usd';
-        if (market === 'gpw' || market === 'newconnect'){ 
-            market_currency    = 'pln'; }         
+        var market_currency = get_market_currency(market);      
+        var market_rate     = (1 / currencies[market_currency]).toFixed(config.precision_rate);
         
-        var rate = (currencies[purchased_currency] / currencies[market_currency]).toFixed(2);
-                       
-        var total_main       = price * qty * rate;
-        var total_additional = price * qty;
-         
-        if (market_currency === 'usd'){
-            var funds_after = me.funds * currencies[purchased_currency] - round(parseFloat(price * qty * currencies[purchased_currency]),2);
+        var purchased_total = (price * qty * market_rate).toFixed(config.precision_total);
+        var funds_after     = (parseFloat(me.funds) - purchased_total).toFixed(config.precision_total);
+                
+        var purchased_total_display = (purchased_total * currencies[settings.display_currency]).toFixed(2);
+        var funds_after_display     = (funds_after * currencies[settings.display_currency]).toFixed(2);
+            
+                                  
+        $(popup).find('.total-main').text(purchased_total_display+' '+settings.display_currency);
+        if (settings.display_currency !== market_currency){
+           $(popup).find('.total-additional').html((price * qty).toFixed(2) + ' ' + market_currency + '<br />' + 'x '+market_rate+' '+market_currency).show(); 
         }else{
-            if (purchased_currency === market_currency){
-                var funds_after = (me.funds - round(parseFloat(price * qty / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
-            }else{
-               var funds_after = (me.funds - parseFloat(price * qty * rate)) * currencies[purchased_currency]; 
-            }            
+           $(popup).find('.total-additional').hide(); 
         }
-
-        $('.view-buy:not(.slick-cloned) .total-main').text(format_price(total_main,2)+' '+purchased_currency);
-        $('.view-buy:not(.slick-cloned) .total-additional').text(format_price(total_additional,2)+' '+market_currency+' (x'+format_price(rate,2)+' '+purchased_currency+')');
-        
-        if (purchased_currency === market_currency){ $('.view-buy:not(.slick-cloned) .total-additional').hide();
-        }else{ $('.view-buy:not(.slick-cloned) .total-additional').show(); }
                
         if (me.public === 1){
-            $('.view-buy:not(.slick-cloned) .funds').removeClass('hide');
-            $('.view-buy:not(.slick-cloned) .funds .funds-after').text(format_price(funds_after,2));  
-            $('.view-buy:not(.slick-cloned) .funds .funds-currency').text(purchased_currency);
+            $(popup).find('.funds').removeClass('hide');
+            $(popup).find('.funds .funds-after').text(funds_after_display);  
+            $(popup).find('.funds .funds-currency').text(settings.display_currency);
             if (funds_after <0){ $('.funds-after').addClass('error'); }else{ $('.funds-after').removeClass('error'); }
-        }        
+        } 
+                
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
-        //3167.75  
+ 
     }
     
     // Price origin 

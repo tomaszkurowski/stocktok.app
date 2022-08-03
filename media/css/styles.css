@@ -437,7 +437,12 @@ body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
     flex-direction: column;
     min-height: 250px; 
 }
-.popup-success .title { margin-top:15px; }
+.popup-success .title { 
+    margin-top: 15px;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 22px;
+}
 .popup-success .symbol { 
     font-family:'gotham-bold'; 
     color:var(--color-base); 
@@ -1329,6 +1334,8 @@ input.error {
     color:var(--color-text);
     left:15px;
     margin-top: 13px;
+    width:auto;
+    height:auto;
 }
 .field.focus label,
 .field.with-value label { right:auto; left:15px; }
@@ -1558,6 +1565,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height:16px;
 }
 .add-new-stock .summary .row {
+    text-align:right;
     color:var(--color-label);
 }
 .add-new-stock .summary .row:first-child {
@@ -3415,7 +3423,7 @@ main,
     padding: 0px 15px 15px;
     background-color: var(--color-bg2);
     line-height:18px;
-    display:none;
+    display:block;
 }
 
 .wallet-items.funds .info {
@@ -3620,29 +3628,31 @@ input:checked + .switch:before {
 .items-container .item .name {
     margin-top: 15px;
     overflow: hidden;
-    flex-grow:1;
+    flex-grow: 1;
+    font-size: var(--size-regular);
+    color: var(--color-base);
+    font-family: 'gotham-bold';
 }
 .items-container .item .logo-container {
-    height:50px;
+    height:60px;
     display:flex;
     align-items:center;
     justify-content:center;
 }
 .items-container .item .logo{
-    
-    border-radius: 2.5px;
-    padding: 2.5px;
-    max-height:50px;
-    max-width:120px;
-    
-    font-family:'gotham-bold';
-    text-transform:uppercase;
-    font-size:var(--size-medium);
-    
-    color:var(--color-base);
+    border-radius: 10px;
+    max-height: 60px;
+    max-width: 150px;
+    font-family: 'gotham-bold';
+    text-transform: uppercase;
+    font-size: var(--size-medium);
+    overflow: hidden;
+}
+.items-container .item .logo.no-img {
+    border-radius:0;
 }
 .items-container .item .price{
-    margin-top:30px; 
+    margin-top:15px; 
     font-family: 'gotham-bold';
     font-size: var(--size-medium);
     line-height: 16px;
@@ -3659,13 +3669,13 @@ input:checked + .switch:before {
     
     display: inline-block;
     
-    margin-top:10px;
+    margin-top:15px;
     border-radius:10px;
     
     background-color:var(--color-base);
     color:var(--color-base-invert);
     
-    font-size:var(--size-regular);
+    font-size:var(--size-small);
     font-family:'gotham-bold';
     
     padding:5px 15px;
@@ -4172,6 +4182,7 @@ input:checked + .switch:before {
     margin-top: -15px;
 }
 .popup-avatars .frame-container {
+    position:relative;
     top: 0;
     left: 0;
     width: 300px;
@@ -4180,6 +4191,18 @@ input:checked + .switch:before {
     border-radius: 50%;
     border:1px solid var(--color-bg);
 }
+.popup-avatars .icon-move {
+    display:none;
+    position: absolute;
+    font-size: 22px;
+    color: var(--color-bg);
+    top: 65px;
+    left: 30px;
+}
+.popup-avatars .icon-move.available {
+    display:block;
+}
+
 .popup-avatars #frame {
     min-width:300px;
     min-height:300px;
@@ -4204,6 +4227,8 @@ input:checked + .switch:before {
 .popup-avatars #camera-snapshot {
     display:none;
 }
+
+
 .popup-info {
     position:fixed;
     width:100vw;
@@ -4261,7 +4286,9 @@ input:checked + .switch:before {
     align-items:center;
     justify-content:center;
 }
-
+.popup-info .actions .btn, .inner-popup .actions .btn {
+    margin:0 5px;
+}
 .popup-loading {
     padding: 30px;
     display: flex;
@@ -4313,10 +4340,48 @@ input:checked + .switch:before {
     margin-right:15px;
     
 }
-.contributor-add-logo {
+.contributor-edit {
     position: absolute;
     right: 10px;
-    top: 50px;
+    bottom:13px;
     font-size: 25px;
-    color: var(--color-base);
+    color: var(--color-bg);
+}
+
+.popup .btns-step {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--color-bg);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+}
+.popup .btn-step {
+    position:relative;
+    border:1px solid var(--color-bg);
+    border-radius:15px;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    width:calc(33% - 5px);
+    flex-direction:column;
+    margin-bottom:10px;
+    
+}
+.popup .btn-step h2 {
+    font-size: var(--size-regular);
+    font-family:'gotham-regular';
+    margin-top:15px;
+}
+.popup .btn-step .title {
+    font-size: var(--size-regular);
+    font-family: 'gotham-bold';
+}
+.popup .btn-step p {
+    margin-top:15px;
+    line-height:18px;
+}
+.popup .btn-step .icon { 
+    font-size:30px; 
+    color:var(--color-base); 
 }

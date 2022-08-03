@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.70" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.72" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.26" />
     
@@ -91,11 +91,13 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.65',
+            version:    '1.1.68',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
-            browser:    navigator.userAgent || navigator.vendor || window.opera           
+            browser:    navigator.userAgent || navigator.vendor || window.opera,
+            precision_rate:  11,
+            precision_total: 4
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,

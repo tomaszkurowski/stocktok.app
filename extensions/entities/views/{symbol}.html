@@ -1,5 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.8"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.9"></script>
     
     <div class="page stock-view active">
 
@@ -744,14 +744,8 @@
                         success: function(response){
 
                             if (response.success === false){
-                                $('.entity-financial-container').html('Data not imported yet.');                                
-                                                                
-                                //$('.slick-initialized').slick('slickRemove',1); $('.range-icons .icon-info').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                //$('.slick-initialized').slick('slickRemove',2); $('.range-icons .icon-finance').remove(); $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                //$('.slick-initialized').slick('slickRemove',3); $('.range-icons .icon-read').remove();    $('.page-views-slider input').attr('max',parseInt(($('.page-views-slider input').attr('max')-1))).css('width',($('.page-views-slider input').width()-30)+'px');
-                                 
-                                //$('.page-views').slick('slickGoTo',0);
-                                
+                                $('.page-view[data-view="financial"]').hide();
+                                $('.page-view[data-view="website"]').hide();
                                 return;
                             }                                                        
                             
@@ -807,7 +801,7 @@
                                     categories.push(value.name); 
                                     data.push(value.totalShares);
                                 });                                                
-                                console.log(categories);
+                                //console.log(categories);
                                 var options = {
                                     series: data, 
                                     labels: categories,
