@@ -223,7 +223,7 @@
             success: function(response){
 
                 $.each(response.items, function(i, item){ 
-                    currencies[i] = round(parseFloat(item),2);
+                    currencies[i] = parseFloat(item);
                 });
                 
                 if (config.debug) console.log('\n','Currency Rates:',currencies,'\n\n'); 
@@ -235,6 +235,14 @@
                 console.log(response);
             }
         });
+    }
+    
+    function get_market_currency(market){
+        switch(market){
+            case 'gpw':
+            case 'newconnect': return 'pln';
+            default: return 'usd';
+        }
     }
     
     

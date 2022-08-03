@@ -3,21 +3,24 @@
     // View Sell - Totals calculation
     function sell_reload_totals(){
                              
-        var market_currency = $('.view-sell:not(.slick-clone) .form').find('#currency').val();
-        var purchased_currency;
+        var popup  = $('.view-sell:not(.slick-cloned)');
          
-        var total_qty_sell  = qty_sell = parseFloat($('.view-sell:not(.slick-clone) .form').find('#total-qty-sell').val());
+        var total_qty_sell  = qty_sell = parseFloat($(popup).find('.form').find('#total-qty-sell').val());
         if (isNaN(total_qty_sell)){ total_qty_sell = 0; }
         
         var qty_owned = 0;
         
         // Transactions
-        $.each($('.view-sell:not(.slick-cloned) .transactions .transaction:not(.template)'),function(element){                    
+        $.each($(popup).find('.transactions .transaction:not(.template)'),function(element){                    
          
             $(this).find('.for-sell').html('');
         
             var transaction = {};
-            transaction.purchased_qty = parseFloat($(this).attr('data-purchased-qty')); 
+            transaction.purchased_qty       = parseFloat($(this).attr('data-purchased-qty')); 
+            transaction.purchased_currency  = $(this).attr('data-purchased-currency');
+            transaction.purchased_rate      = $(this).attr('data-purchased-rate');
+            transaction.market_currency     = $(this).attr('data-market-currency');
+            transaction.market_rate         = $(this).attr('data-market-rate');
             
             transaction.keep_qty = 0;            
             transaction.sell_qty = transaction.purchased_qty;
@@ -30,78 +33,53 @@
                 }           
                 $(this).find('.for-sell').html('For sell: <b>'+transaction.sell_qty+'</b>'+(transaction.keep_qty > 0 ? '<br />To keep: <b>'+(transaction.keep_qty)+'</b>' : ''));  
                 
-            }
-            qty_sell  = qty_sell  - transaction.purchased_qty;
-            qty_owned = qty_owned + transaction.purchased_qty;
-            
-            $(this).attr('data-keep-qty',transaction.keep_qty);
-            $(this).attr('data-sell-qty',transaction.sell_qty);
-            
-            purchased_currency = $(this).attr('data-purchased-currency');
-                        
+                qty_sell  = qty_sell  - transaction.purchased_qty;
+                qty_owned = qty_owned + transaction.purchased_qty;
+
+                $(this).attr('data-keep-qty',transaction.keep_qty);
+                $(this).attr('data-sell-qty',transaction.sell_qty);                
+                
+            }else{
+                    transaction.keep_qty = transaction.purchased_qty;
+                    transaction.sell_qty = 0; 
+                    $(this).attr('data-keep-qty',transaction.keep_qty);
+                    $(this).attr('data-sell-qty',transaction.sell_qty);                    
+            }                         
         });
         
         // Max quantity sell
         if (total_qty_sell > qty_owned){ 
-            $('.view-sell:not(.slick-cloned) #total-qty-sell').val(qty_owned); 
+            $(popup).find('#total-qty-sell').val(qty_owned); 
             total_qty_sell = qty_owned;
-        }
+        }        
         
-        
-        // How much: I sell / I earn / I keep (PLN/USD)
-        
-        var sold_price      = $('.view-sell:not(.slick-cloned) .form #sold_price').val();
-        
-        var rate = (currencies[settings.display_currency] / currencies[market_currency]).toFixed(2);
-                       
-        var total_main       = sold_price * total_qty_sell * rate;
-        var total_additional = sold_price * total_qty_sell;
-        var funds_after      = 0;
+        var market_currency = $(popup).find('.form #currency').val();
+        var market_rate     = (1 / currencies[market_currency]).toFixed(config.precision_rate);
+        var sold_price      = $(popup).find('.form #sold_price').val();
+
+        var sold_total          = (sold_price * total_qty_sell * market_rate).toFixed(config.precision_total);
+        var funds_after         = (parseFloat(me.funds) + parseFloat(sold_total)).toFixed(config.precision_total);
                 
-        if (market_currency === 'usd'){
-            console.log('sell cond1');
-            console.log(me.funds);
-            console.log(purchased_currency);
-            console.log(round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2));
-            funds_after = me.funds * currencies[purchased_currency] + round(parseFloat(sold_price * total_qty_sell * currencies[purchased_currency]),2);
+        var sold_total_display  = (sold_total * currencies[settings.display_currency]).toFixed(2);
+        var funds_after_display = (funds_after * currencies[settings.display_currency]).toFixed(2);
+
+                       
+        $(popup).find('.total-main').text(sold_total_display+' '+settings.display_currency);
+        if (settings.display_currency !== market_currency){
+           $(popup).find('.total-additional').html((sold_price * total_qty_sell).toFixed(2) + ' ' + market_currency + '<br />' + 'x '+market_rate+' '+market_currency).show(); 
         }else{
-            if (purchased_currency === market_currency){
-                console.log('sell cond2');
-                funds_after = (me.funds + round(parseFloat(sold_price * total_qty_sell / currencies[purchased_currency]),4)) * currencies[purchased_currency];                
-            }else{
-                console.log('sell cond3');
-                console.log(parseFloat(me.funds),purchased_currency,sold_price,total_qty_sell,rate,currencies[purchased_currency]);
-                funds_after = (parseFloat(me.funds) + parseFloat(sold_price * total_qty_sell * rate)) * currencies[purchased_currency];
-            }            
+           $(popup).find('.total-additional').hide(); 
         }
-        
-        
-        $('.view-sell:not(.slick-cloned) .total-main').text(format_price(total_main,2)+' '+settings.display_currency);
-        $('.view-sell:not(.slick-cloned) .total-additional').text(format_price(total_additional,2)+' '+market_currency+' (x'+format_price(rate,2)+' '+settings.display_currency+')');
-        
-        if (settings.display_currency === market_currency){ $('.view-buy:not(.slick-cloned) .total-additional').hide();
-        }else{ $('.view-sell:not(.slick-cloned) .total-additional').show(); }
                
         if (me.public === 1){
-            console.log(funds_after);
-            $('.view-sell:not(.slick-cloned) .funds').removeClass('hide');
-            $('.view-sell:not(.slick-cloned) .funds .funds-after').text(format_price(funds_after,2));  
-            $('.view-sell:not(.slick-cloned) .funds .funds-currency').text(settings.display_currency);           
-        }        
+            $(popup).find('.funds').removeClass('hide');
+            $(popup).find('.funds .funds-after').text(funds_after_display);  
+            $(popup).find('.funds .funds-currency').text(settings.display_currency);
+            if (funds_after <0){ $('.funds-after').addClass('error'); }else{ $('.funds-after').removeClass('error'); }
+        }
+        
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
        
-        
-        
-        /*
-        var total           = total_qty_sell * sold_price * rate;
-        var total_market    = total_qty_sell * sold_price;
-        
-        $('.view-sell:not(.slick-cloned)').find('#currency_rate').val(rate);
-                
-        $('.view-sell .summary .total').text(format_price(total,2));
-        if (total !== total_market) $('.view-sell .summary .total-market').text(format_price(total_market));
-        if (total !== total_market) $('.view-sell .summary .rate').text('(x'+rate.toFixed(2)+' '+settings.display_currency+')');       
-        */
     }
         
     
@@ -118,6 +96,9 @@
             $(transaction).attr('data-purchased-qty',item.purchased_qty);
             $(transaction).attr('data-purchased-price',item.purchased_price);
             $(transaction).attr('data-purchased-currency',item.purchased_currency);
+            $(transaction).attr('data-purchased-rate',item.purchased_rate);
+            $(transaction).attr('data-market-currency',item.market_currency);
+            $(transaction).attr('data-market-rate',item.market_rate);
             $(transaction).attr('data-id',item.wallet_entities_id);
 
             $(transaction).find('.qty').text(item.purchased_qty+' x');
@@ -305,7 +286,7 @@
 
         $.ajax({
             url: config.api_url,
-            data: { endpoint: '/wallet/sell', item: form },
+            data: { endpoint: '/wallet/sell2', item: form },
             type: 'POST',
             dataType: 'JSON',
             success: function(response){                            

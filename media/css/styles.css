@@ -1565,6 +1565,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height:16px;
 }
 .add-new-stock .summary .row {
+    text-align:right;
     color:var(--color-label);
 }
 .add-new-stock .summary .row:first-child {
@@ -3422,7 +3423,7 @@ main,
     padding: 0px 15px 15px;
     background-color: var(--color-bg2);
     line-height:18px;
-    display:none;
+    display:block;
 }
 
 .wallet-items.funds .info {
@@ -4285,7 +4286,9 @@ input:checked + .switch:before {
     align-items:center;
     justify-content:center;
 }
-
+.popup-info .actions .btn, .inner-popup .actions .btn {
+    margin:0 5px;
+}
 .popup-loading {
     padding: 30px;
     display: flex;

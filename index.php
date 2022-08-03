@@ -91,11 +91,13 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.66',
+            version:    '1.1.68',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
-            browser:    navigator.userAgent || navigator.vendor || window.opera           
+            browser:    navigator.userAgent || navigator.vendor || window.opera,
+            precision_rate:  11,
+            precision_total: 4
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,
