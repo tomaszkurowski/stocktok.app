@@ -164,7 +164,7 @@
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="active"]').addClass('active');
-                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="load_page(\'entities/'+item.market+'/'+item.symbol+'\')">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }
                             if (item.type === 'sold' && item.margin>=0 && !($('[data-type="sold-profit"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-profit"]').addClass('active');

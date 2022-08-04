@@ -62,7 +62,7 @@
                 }
                     switcher({ 
                         key: 'editable',  
-                        class: 'icon-create', 
+                        class: 'icon-settings1', 
                         value: settings.editable  ? settings.editable :  'false'},
                         function(){ editable();  // => ui.js                                              
                     });

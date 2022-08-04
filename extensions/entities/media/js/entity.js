@@ -186,6 +186,8 @@ function widget_financial_graph(id,widget){
     
     if (entity.info.Financials && entity.info.Financials.hasOwnProperty('Income_Statement')){
         
+        $('.widget[data-id="'+id+'"]').css('minHeight','300px');
+        
         $.each(entity.info.Financials.Income_Statement[widget.range], function(label,value){ 
             categories.push(label.substring(0,4)); 
             data.push(value[widget.scope]);
@@ -257,6 +259,6 @@ function widget_financial_graph(id,widget){
         graph.render();
 
     }else{
-        $('[data-view="financial"]').hide();
+        $('.widget[data-id="'+id+'"]').hide();
     }
 }

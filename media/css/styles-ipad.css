@@ -11,6 +11,12 @@
 }
 
 @media only screen and (min-width: 996px) {
+    .stock-view .results-info {
+        text-align:center;
+    }
+    .stock-view .results-info-table {
+        text-align:left;
+    }
     .view-grid .mystock-container, .view-box .mystock-container {
         width: calc(20% - 10px);
         margin:5px;
@@ -18,8 +24,8 @@
     .stock-view .results-info table {
         max-width:500px;
     }
-    .heading .icon-btn {
-        font-size:36px;
+    .footer-bottom {
+        max-width:100%;
     }
     .footer .hamburger {
         font-size:32px;

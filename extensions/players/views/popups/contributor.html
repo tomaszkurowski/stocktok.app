@@ -11,7 +11,16 @@
                     <div class="title">
                         <h2>Add logo</h2>
                     </div>
-                    <input type="file" id="image" name="image" accept="image/*" style="display:none">
+                    <input type="file" id="image" class="image-upload" name="image" accept="image/*" style="display:none">
+                </div> 
+
+                <div class="btn-step" data-action="cover" style="width:calc(50% - 5px)">
+                    <label for="cover"></label>
+                    <span class="icon icon-crop_5_41"></span>
+                    <div class="title">
+                        <h2>Add cover</h2>
+                    </div>
+                    <input type="file" id="cover" class="image-upload" name="cover" accept="image/*" style="display:none">
                 </div> 
                 
                 <div class="btn-step" data-action="find-in-google" style="width:calc(50% - 5px)">
@@ -34,8 +43,10 @@
         <div class="step2" data-type="image">
             <h2>Adjust position</h2>
             <div class="icon-move"></div>
-            <div class="frame-container hide-scroll" style="border-radius:15px">                
-                <img id="frame" src="" />
+            <div class="orientation">
+                <div class="frame-container hide-scroll" style="border-radius:15px">                
+                    <img id="frame" src="" />
+                </div>
             </div>
             <h2>Adjust size</h2>
             <div class="image-resizer slidecontainer">
@@ -80,9 +91,17 @@
 <script type="text/javascript">
 
     
-    $(document).off('change', '#image');
-    $(document).on('change','#image',function(event){        
+    $(document).off('change', '.image-upload');
+    $(document).on('change','.image-upload',function(event){ 
+        var type = $(this).attr('id');
         frame.src=URL.createObjectURL(event.target.files[0]); 
+        
+        if (type === 'cover'){
+            $('.frame-container').addClass('horizontal').width(300).height(450);
+            $('.popup').css('maxHeight','900px');
+        }else{
+            $('.popup').css('maxHeight','calc(100vh - 210px)');
+        }
         
         $('.step1').slideUp(300,'swing',function(){
             $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
@@ -107,7 +126,7 @@
         
                     var formData = new FormData();
                     formData.append('me',me.username);
-                    formData.append('file', $('#image')[0].files[0]);
+                    formData.append('file', $('#'+type)[0].files[0]);
                     formData.append('x',$('.frame-container').scrollLeft());
                     formData.append('y',$('.frame-container').scrollTop());
                     formData.append('size',$('#image-size').val());
@@ -119,9 +138,9 @@
                     formData.append('market',market);
                      
                     $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
-        
+                            
                     $.ajax({
-                            url : '/upload_logo.php',
+                            url : (type === 'cover' ? '/upload_cover.php' : '/upload_logo.php') ,
                             type : 'POST',
                             data : formData,
                             dataType: 'JSON',
@@ -136,7 +155,24 @@
                                         $('body').removeClass('with-popup');
                                         //location.reload();
                                         
-                                        $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                        if (mvc.view === 'find-by'){
+                                            if (type === 'logo'){
+                                                $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                            }
+                                        }else{
+                                            if (type === 'logo'){
+                                                $('.results-info .logo').html('<img src="'+response.path+'" class="logo" />');
+                                            }else{
+                                                $('.results-info .cover').remove();
+                                                $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" />'); 
+                                                stock_graph_adaptive_height(); 
+                                                if (stock_chart){ 
+                                                    setTimeout(function() {
+                                                        stock_chart.reflow();
+                                                    }, 400); // due to 300ms css transition
+                                                }                                                
+                                            }
+                                        }
                                     });
                                 }else{
                                     $('.popup-btn.icon-check1').remove();
@@ -150,18 +186,17 @@
                     });                    
                     
                 });
-                                
+                
                 var size = width;                
                 if (width>height) size = height;
                 
                 if (size<300){
-                    $('#image-size').attr('max',300).attr('min',size).val(size);
+                    $('#image-size').attr('max',300).attr('min',300).val(size);
                 }else{
                     $('#image-size').attr('max',size).val(size);
                     $('.popup-avatars .icon-move').addClass('available');
-                }
-                
-                
+                }                    
+        
             });
         });
     });
