@@ -23,9 +23,9 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.73" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.74" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.27" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.28" />
     
     <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.69',
+            version:    '1.1.71',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,

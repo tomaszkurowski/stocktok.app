@@ -270,10 +270,10 @@
                         $('.wallet-items.funds').append(element);    
                         funds_total += fund.balance;                                
                     });                    
-                    var funds_total = (parseFloat(me.funds)*currencies[settings.display_currency]).toFixed(2);
+                    var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
                     
                     $('.wallet.funds .funds-total').text(funds_total);
-                    $('.wallet.funds .funds-total-base').text(me.funds+' $');
+                    $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
 
                 }
 
@@ -413,7 +413,7 @@
 
         });
         
-        wallet.sold_margin_percentage = Math.round(wallet.sold_margin / wallet.sold_purchased * 100,2);
+        wallet.sold_margin_percentage = (wallet.sold_margin / wallet.sold_purchased * 100).toFixed(2);
         if (!wallet.sold_margin_percentage) wallet.sold_margin_percentage = 0;
 
 

@@ -114,7 +114,7 @@
         console.log(mvc.params);
         
         load_extension();
-        //window.history.pushState({}, '', url+window.location.search);                              
+        window.history.pushState({}, '', url+window.location.search);                              
     }
     
     function load_popup(url){
