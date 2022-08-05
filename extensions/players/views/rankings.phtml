@@ -30,7 +30,7 @@
         });  
         
         $(document).on('click','.ranking-type a',function(){
-            $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-trophy"></div><div class="title">Soon more rankings</div><div class="description">Ranking based on time-period, rankings based on single-transactions, ranking of c  ountries and more..</div></div></div>');
+            $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-trophy"></div><div class="title">More rankings soon</div><div class="description">Ranking based on time-period, rankings based on single-transactions, ranking of c  ountries and more..</div></div></div>');
         });
             
         function get_all_players(search=null){
@@ -62,7 +62,7 @@
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){
-                                location.href = '/wallet/'+player.username;
+                                location.href = '/players/view/'+player.username;
                              });
                              
                         let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
@@ -70,9 +70,6 @@
                             load_page('/wallet/'+player.username,true);
                         });
                         let btn_view = '<div class="icon-btn icon-person1" onclick="load_page(\'/players/view/'+player.username+'\',true)"></div>';
-                        $(btn_results).bind('click',function(){
-                            load_page('/wallet/'+player.username,true);
-                        });
                         let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
                         
                         let box = $('<div class="box"></div>')

@@ -127,7 +127,7 @@
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){
-                                location.href = '/wallet/'+player.username;
+                                location.href = '/players/view/'+player.username;
                              });
                              
                         let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
@@ -135,9 +135,6 @@
                             load_page('/wallet/'+player.username,true);
                         });
                         let btn_view = '<div class="icon-btn icon-person1" onclick="load_page(\'/players/view/'+player.username+'\',true)"></div>';
-                        $(btn_results).bind('click',function(){
-                            load_page('/wallet/'+player.username,true);
-                        });
                         let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
                         
                         let box = $('<div class="box"></div>')
