@@ -4,6 +4,10 @@
     
         <div class="page players active">
 
+        <div class="inline-actions edit-actions inline-container">
+            <div class="inline"></div>
+        </div>
+            
         <div class="page-views">
             
             <div class="page-view" data-view="all">                
@@ -36,6 +40,25 @@
         
         $(document).ready(function(){
     
+            switcher({ 
+                key: 'editable',  
+                class: 'icon-settings1', 
+                value: settings.editable  ? settings.editable :  'false'},
+                function(){ editable();  // => ui.js                                              
+            });    
+            changer({ 
+                title: 'Layout', 
+                key: 'players_layout', 
+                values: { 'grid': 'Grid', 'box':'Boxes'},
+                click: function(el){ 
+                    updateSettings('players_layout',$(el).find('select').val());
+                    $('.page').removeClass('view-grid view-box').addClass('view-'+$(el).find('select').val());
+                },
+                load: function(el){
+                    $('.page').removeClass('view-grid view-box').addClass('view-'+$(el).find('select').val());
+                }
+            });
+                
             //switcher({ key: 'swipeable', class: 'icon-swipe',  value: true},function(el){ $(el).attr('data-value',true) }); // just for info
             button({ class: 'icon-btn icon-search2' }, function(el){            
 

@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.74" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.79" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.28" />
     
@@ -91,7 +91,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.71',
+            version:    '1.1.72',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -120,6 +120,8 @@
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
             wallet_header:              'regular',
+            
+            players_layout:             'box',
 
             design:{
                 color_base:         '#002ce1',

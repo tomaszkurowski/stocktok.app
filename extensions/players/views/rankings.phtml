@@ -1,7 +1,93 @@
-<div class="info-page">
-    <div class="icon icon-trophy"></div>
-    <h1>Under construction</h1><p>Rankings will be available soon.</p>
     
-    <div class="btn primary" onclick="load_page('/players',true)">Find players</div>
+    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.1"></script> 
+    <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.5" />
+    
+    <div class="page players rankings active view-box">            
+        <div class="page-views">
+
+            <div class="page-view" data-view="all">                
+                <div class="ranking">
+                    <!--<div class="ranking-icon icon-trophy"></div>-->
+                    <img src="/media/img/trophies/trophy1.png" class="trophy" />
+                    <h2>Top Margin Makers</h2>
+                    <div class="ranking-types">
+                        <div class="ranking-type active">Ranking is based on total <a>sold margin</a><br />in <a>All-time</a> period.</div>
+                    </div>
+                </div>
+                <div class="players">                           
+                    <div class="results"></div>                                      
+                </div>                    
+            </div>                       
+        </div>
+    </div>    
+    
+    <script type="text/javascript">
         
-</div>
+        $(document).ready(function(){                          
+            get_currencies(function(){
+                get_all_players();             
+            });
+        });  
+        
+        $(document).on('click','.ranking-type a',function(){
+            $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-trophy"></div><div class="title">Soon more rankings</div><div class="description">Ranking based on time-period, rankings based on single-transactions, ranking of c  ountries and more..</div></div></div>');
+        });
+            
+        function get_all_players(search=null){
+        
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/players/rankings',
+                    type:'all-time'
+                },
+                type: 'GET',
+                dataType: 'JSON',
+                cache: false,
+                success: function(response){  
+                    if (response.success === 'false') return;                    
+                               
+                    $('[data-view="all"] .results').html('');
+                    $.each(response.players, function(i,player){
+                        
+                        let el = $('<div class="view"></div>');
+                        
+                        if (player.avatar_type){
+                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' />");
+                        }else{
+                            $(el).append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
+                        }
+                        
+                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
+                             .append('<div class="title">'+player.username+'</div>')
+                             .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
+                             .bind('click',function(){
+                                location.href = '/wallet/'+player.username;
+                             });
+                             
+                        let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let btn_view = '<div class="icon-btn icon-person1" onclick="load_page(\'/players/view/'+player.username+'\',true)"></div>';
+                        $(btn_results).bind('click',function(){
+                            load_page('/wallet/'+player.username,true);
+                        });
+                        let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
+                        
+                        let box = $('<div class="box"></div>')
+                            .append(el)
+                            .append('<div class="icon-bookmark_outline" data-action="observe"></div>')
+                            .append(actions)
+                            .attr('data-username',player.username);
+                        
+                        $('[data-view="all"] .results').append(box);                        
+                        
+                    });
+                }
+            });
+        
+        }  
+ 
+    
+    </script>

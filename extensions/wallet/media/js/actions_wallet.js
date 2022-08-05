@@ -413,7 +413,7 @@
 
         });
         
-        wallet.sold_margin_percentage = (wallet.sold_margin / wallet.sold_purchased * 100).toFixed(2);
+        wallet.sold_margin_percentage = (wallet.sold_margin / (wallet.sold_purchased ? wallet.sold_purchased : 1) * 100).toFixed(2);
         if (!wallet.sold_margin_percentage) wallet.sold_margin_percentage = 0;
 
 

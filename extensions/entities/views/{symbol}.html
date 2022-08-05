@@ -1,12 +1,12 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.11"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.14"></script>
     
     <div class="page stock-view active">
 
         <div class="widget box results-info collapsed">
             <div class="results-info-title">
                   
-                <div class="logo"></div>
+                <div class="logo-container"></div>
                 <h2></h2>
                 
                 <div class="price-preview">
@@ -344,7 +344,7 @@
             stock_graph_adaptive_height();
             setTimeout(function() {
                 stock_chart.reflow();
-            }, 400); // due to 300ms css transition
+            }, 20); // due to 300ms css transition
         });
 
 
@@ -357,7 +357,7 @@
                 stock_graph_adaptive_height();
                 setTimeout(function() {
                     stock_chart.reflow();
-                }, 400); // due to 300ms css transition
+                }, 20); // due to 300ms css transition
 
             });
             
@@ -539,7 +539,7 @@
                     $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);                    
 
                     $('.stock-view .results-info h2').text(stock.name);               
-                    $('.stock-view .results-info .logo').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
                     
                     if (stock.cover){
                         $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" />');
@@ -566,7 +566,7 @@
                                 item.market             = stock.market;
                                 item.price              = stock.price;
                                 //item.last_updated_at    = $(this).parents('.item').find('.updated-at').text();
-                                item.logo               = $('.results-info .logo').html();               
+                                item.logo               = $('.results-info .logo-container').html();               
 
                             buy_sell_popup({ action:'buy', item:item });                     
                         }
@@ -796,6 +796,7 @@
                                 else return { x: 10, y: 0 };                                                        
                             },
                             pointFormatter:function(){
+                                $('.stock-view .results-info').addClass('with-tooltip');
                                 $('.stock-view .results-info .price-preview').addClass('tooltip-hover');
                                 $('.stock-view .results-info .price-preview .price').text(format_price(this.y,2));
                                 $('.stock-view .results-info .price-preview .date').text(format_date(this.x));                    
@@ -844,6 +845,7 @@
                                 },
                                 events:{
                                     mouseOut: function(){
+                                        $('.stock-view .results-info').removeClass('with-tooltip');
                                         $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                         reload_stock_price();
                                     }
@@ -891,12 +893,13 @@
                             $('.entity-main-info-container').html('');
 
                             // MAIN INFO
-                            if (entity.info.General){ main_info_tab('General','general',entity.info.General); }
-                            if (entity.info.Highlists) main_info_tab('Highlights','highlights',entity.info.Highlights);
-                            if (entity.info.Technicals) main_info_tab('Technicals','technicals',entity.info.Technicals);
-                            if (entity.info.Valuation) main_info_tab('Valuation','valuation',entity.info.Valuation);
-                            if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores',entity.info.ESGScores);
-                            if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings',entity.info.AnalystRatings);
+                            if (entity.info.General){ main_info_tab('General','general','icon-info',entity.info.General); }
+                            if (entity.info.Highlists) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
+                            if (entity.info.Technicals) main_info_tab('Technicals','technicals','icon-star-full',entity.info.Technicals);
+                            if (entity.info.Valuation) main_info_tab('Valuation','valuation','icon-finance',entity.info.Valuation);
+                            if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores','icon-ruler',entity.info.ESGScores);
+                            if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings','icon-trending_up1',entity.info.AnalystRatings);
+                            if (entity.info.General.Officers) main_info_tab('Officers','officers','icon-person1',entity.info.General.Officers);
 
 
                             // WEBSITE
@@ -947,26 +950,45 @@
                                     labels: categories,
                                     chart: {                                
                                         type: 'donut',                                                                
-                                        sparkline:{ enabled: true },
                                         fill: {
                                             type: 'gradient'
-                                        }
+                                        },
+                                        height:420
+                                    },
+                                    legend: {
+                                        position:'bottom',
+                                        fontSize: '14px',
+                                        fontFamily: 'gotham-regular',
+                                        itemMargin: {
+                                            horizontal: 10,
+                                            vertical: 5
+                                        }                                        
                                     },
                                     plotOptions: {
                                         pie: {
                                           donut:{
+                                              size:'95%',
                                               labels: { 
                                                   show:true,
                                                   value:{
                                                     formatter: function(value, opts){
                                                         return parseFloat(value).toFixed(2)+ '%';                                
                                                     }
-                                                  } 
+                                                  },
+                                                  total: {
+                                                    show: true,
+                                                    label: 'All',
+                                                    color: '#7ebd0b',
+                                                    formatter: function (chart) {
+                                                        return '100.00%';
+                                                    }
+        
+                                                  }
                                               }
                                           }
                                         }
                                     },
-                                    stroke:{ colors: [settings.design.color_bg], width:1 }
+                                    stroke:{ colors: [settings.design.color_bg2], width:1 }
                                 };
 
                                 var chart = new ApexCharts(document.querySelector("#graph-shareholders"), options);
