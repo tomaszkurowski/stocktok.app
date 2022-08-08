@@ -299,7 +299,7 @@ a {
     width:100%;
     display:flex;
     overflow-x:scroll;
-    max-width:248px;
+    max-width:100%
 }
 .with-popup .footer-bottom{
     max-width:100%;
@@ -595,7 +595,7 @@ body.editable .cover {
     opacity: 0.3;
     filter: blur(2px);
 }
-.footer .heading [data-key="editable"] { order:-1; margin-left:20px; }
+.footer .heading [data-key="editable"] { order:-1; }
 
 .inline-actions{
     margin:15px 15px 10px;

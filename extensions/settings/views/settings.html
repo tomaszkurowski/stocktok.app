@@ -208,8 +208,17 @@
         
         settings_row({ target: 'game', type:'avatar',  key: 'avatar',                info: 'Choose avatar to make your profile easier recognizable' }); 
         settings_row({ target: 'game', type:'country', key: 'country',               info: 'Choose country, which you are representing' });         
-        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'Choose if you want to play with others or silent' });      
-        settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: [ 'pln','usd','rub','gbp'] }); 
+        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'Choose if you want to play with others or silent' }); 
+        
+        
+        get_currencies(function(){
+            var currency_values = [];
+            $.each(currencies, function(i, rate){            
+                currency_values.push(i);                
+            });
+            settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: currency_values }); 
+        });
+        
         //settings_row({ target: 'game', type:'select',  key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
         
         settings_row({ target: 'game', type:'bio',           key: 'bio', info: 'Add 2-3 sentences about yourself' });      
