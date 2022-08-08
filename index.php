@@ -146,13 +146,17 @@
                 size_regular:       '12px',
                 size_medium:        '15px',
                 size_big:           '17px',
-                hand_preference:    'right'
+                hand_preference:    'right',
+                border_radius1:     '15px',
+                border_radius2:     '5px'
             },            
             
             contributor: 'no'
         };
         
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
+        settings.design.border_radius1 = '5px';
+        settings.design.border_radius2 = '5px';
         
         var me;
         

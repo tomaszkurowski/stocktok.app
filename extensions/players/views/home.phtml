@@ -202,6 +202,8 @@
                 cache: false,
                 success: function(response){  
                     
+                    
+                    
                     console.log(response);
                     
                     if (!response.moves || response.moves.length === 0){
@@ -211,16 +213,25 @@
                     
                     $('[data-view="moves"] .results').addClass('wallet-items funds').html('');
                     $.each(response.moves, function(i,move){
-                        let el = $('<div class="move"></div>')
-                           .append('<div class="header">'+move.username+'</div>')
-                           .append('<div class="body"></div>')
-                           .append('<div class="footer"></div>');
-                    
-                        $(el).find('.body').append('<div class="date">'+move.date+'</div>');
-                        $(el).find('.body').append('<div class="balance">'+move.balance+'</div>');
-                        $(el).find('.footer').append('<div class="comment label">'+move.comment+'</div>');
                         
+                        var total = move.purchased_total;
+                        if (move.action === 'sell') total = move.sold_total;
+                        
+                        let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
+                        if (move.avatar_type === 'image') $(el).append('<img src="'+move.avatar+'" class="avatar" />');
+                        $(el).append('<div class="info"></div>');
+                        $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+move.symbol+' ('+move.market+')</div>');
+                        $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
+                        
+                        $(el).append('<div class="totals"></div>');
+                        $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                        
+                        if (move.action === 'sell'){
+                            $(el).find('.totals').append('<div class="profit">'+(move.margin >= 0 ? '+' : '') + format_price(move.margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                        }
+
                         $('[data-view="moves"] .results').append(el);
+                        
                     });
                     
                 }

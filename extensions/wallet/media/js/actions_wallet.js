@@ -194,6 +194,9 @@
                                     '<input type="hidden" value="'+item.market_currency+'" class="currency" />'+
                                     '<input type="hidden" value="'+item.price+'" class="price" />'+
                                     '<input type="hidden" value="'+item.price_change+'" class="price_change" />'+
+                                    '<input type="hidden" value="'+item.purchased_total+'" class="purchased_total" />'+
+                                    '<input type="hidden" value="'+item.sold_total+'" class="sold_total" />'+
+                                    '<input type="hidden" value="'+item.margin+'" class="margin" />'+
                                 '</div>';
                                 
                                 
@@ -262,29 +265,44 @@
                 reload();
 
                 // FUNDS
-                if (wallet.funds.length>0){
+                if (wallet.moves.length>0){
                     
                     var funds_total = 0;
-                    $('.wallet-items.funds').html('');
-                    $.each(wallet.funds, function(i, fund){
+                    $('.wallet-items.moves').html('');
+                    $.each(wallet.moves, function(i, move){
 
-                        var element =  '<div class="fund" data-id="'+fund.id+'">'+
-                                        '<div class="top">'+
-                                            '<div class="date">'+fund.date+'</div>'+
-                                            //'<div class="balance">'+(fund.balance > 0 ? '+' : '')+format_price(fund.balance,2)+' '+'</div>'+
-                                            '<div class="funds-edit"><div class="icon icon-btn icon-bin funds-delete"></div></div>'+
-                                        '</div>'+                                 
-                                        (fund.comment.length >0 ? '<div class="comment label">'+fund.comment+'</div>' : '')+                                        
-                                    '</div>';
+                        let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
+                        let logo = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('.logo-container').html();
+                        let name = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol')+' ('+$('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market')+')';
+                                                
+                        let total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.purchased_total').val();
+                        let margin  = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.margin').val();
+                        
+                        if (move.action === 'sell'){
+                            total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.sold_total').val();
+                        }                        
+                        
+                        $(el).append(logo);
+                        $(el).append('<div class="info"></div>');
+                        $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+name+'</div>');
+                        $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
+                        
+                        $(el).append('<div class="totals"></div>');
+                        $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                        
+                        if (move.action === 'sell'){
+                            $(el).find('.totals').append('<div class="profit">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                        }
 
-                        $('.wallet-items.funds').append(element);    
-                        funds_total += fund.balance;                                
+                        $('.wallet-items.moves').append(el);                                    
                     });                    
                     var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
                     
                     $('.wallet.funds .funds-total').text(funds_total);
                     $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
 
+                }else{                    
+                    $('.wallet-items.moves').html('<div class="no-transactions"><div class="icon icon-shopping_cart"></div><div class="title">No moves</div></div>');                
                 }
 
                 // Live

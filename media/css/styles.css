@@ -902,7 +902,7 @@ body.scrolling-up .mystock-container{
     position:relative;
     overflow:hidden;
     background-color:var(--color-bg2);
-    border-radius:10px;
+    border-radius:var(--border-radius1);
 }
 .mystock-view, .mystock-edit {
     position:relative;
@@ -3380,7 +3380,7 @@ body.stock-price-pro-mode { overflow:hidden; }
     flex-grow:1; 
     width:100%; 
     min-width:300px; 
-    padding:20px; 
+    padding:25px 20px; 
     display:flex; 
     align-items:center; 
     justify-content:flex-end; 
@@ -4350,13 +4350,49 @@ input:checked + .switch:before {
     top: 24px;
 }
 
+
+.moves .move {
+    width: 100%;
+    display: flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    margin:0 5px 10px;    
+    border-radius:var(--border-radius1);
+}
+.moves .move .logo, .moves .move .avatar {
+    max-width:40px;
+    border-radius:var(--border-radius1);
+}
+.moves .move .info {
+    margin-left:15px;
+    flex-grow:1;
+    text-align:left;
+}
+.moves .move .action {
+    font-family: 'gotham-bold';
+    font-size: var(--size-regular);    
+    text-transform: capitalize;
+    margin-bottom: 5px;
+}
+.moves .move .action span {
+    color: var(--color-base);
+}
+.moves .move .totals {
+    text-align:right;
+}
+.moves .move .total {
+    font-family:'gotham-bold';
+    font-size:var(--size-regular);
+    margin-bottom:5px;
+}
+
 .settings .country-container {
     width:80px;
     height:80px;
     -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
     -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
     box-shadow: 8px 8px 24px -14px rgb(66 68 90);
-    border-radius: 50%;
+    border-radius: var(--border-radius1);
     overflow:hidden;
 }
 .settings .country-container img {
@@ -4385,9 +4421,6 @@ input:checked + .switch:before {
 .settings .avatar-container {
     width:80px;
     height:80px;
-    -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
-    -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
-    box-shadow: 8px 8px 24px -14px rgb(66 68 90);
     border-radius: 50%;
     border:2px solid var(--color-bg);
     overflow:hidden;
