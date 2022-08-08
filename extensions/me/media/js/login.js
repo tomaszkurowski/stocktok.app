@@ -61,8 +61,11 @@ $(document).on('click', '[data-action="step2"]', function(){
                         if (response.success){
                             
                             sessionStorage.setItem('username', response.username);
-                            sessionStorage.setItem('persistence', response.persistence);                            
-                            location.href='/';
+                            sessionStorage.setItem('persistence', response.persistence);
+                            
+                            let params = getQueryParams();
+                            if (params.ref) location.href=params.ref[0];
+                            else location.href='/';
                             return;
                             
                         }

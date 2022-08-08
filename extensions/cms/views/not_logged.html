@@ -6,6 +6,14 @@
     <h1>Please, login first</h1>
     <p>Features are related with your player profile.</p>
     
-    <div class="btn primary" onclick="location.href='/me/login'">Register/Login</div>
+    <a class="btn primary goto-login">Register/Login</a>
     
 </div>
+
+<script type="text/javascript">
+
+    $(document).on('click','.goto-login',function(){        
+        location.href='/me/login?ref='+window.location.pathname;
+    });
+    
+</script>

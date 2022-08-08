@@ -191,6 +191,11 @@ label, .label {
 [data-results="with profit"] .margin-percentage { color:var(--color-base); }
 
 /* BUTTONS */
+a {
+    cursor:pointer;
+    text-decoration:none !important;
+}
+
 .btn.primary {
     background-color: var(--color-base);
     color: var(--color-base-invert);
