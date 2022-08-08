@@ -90,10 +90,11 @@
 </div>
 <script type="text/javascript">
 
+    var type;
     
     $(document).off('change', '.image-upload');
     $(document).on('change','.image-upload',function(event){ 
-        var type = $(this).attr('id');
+        type = $(this).attr('id');
         frame.src=URL.createObjectURL(event.target.files[0]); 
         
         if (type === 'cover'){
@@ -154,13 +155,12 @@
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');
                                         //location.reload();
-                                        
                                         if (mvc.view === 'find-by'){
                                             if (type === 'logo'){
                                                 $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
                                             }
                                         }else{
-                                            if (type === 'logo'){
+                                            if (type === 'image'){
                                                 $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" />');
                                             }else{
                                                 $('.results-info .cover').remove();

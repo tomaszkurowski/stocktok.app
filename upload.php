@@ -1,5 +1,17 @@
 <?php 
 
+function findSharp($orig, $final) // function from Ryan Rud (http://adryrun.com)
+{
+    $final	= $final * (750.0 / $orig);
+    $a		= 52;
+    $b		= -0.27810650887573124;
+    $c		= .00047337278106508946;
+
+    $result = $a + $b * $final + $c * $final * $final;
+
+    return max(round($result), 0);
+} // findSharp()
+
 $type      =  filter_input(INPUT_GET, 'type');
 if ($type && $type === 'photo'){
     
@@ -40,13 +52,26 @@ if ($type && $type === 'photo'){
     $y      =  filter_input(INPUT_GET, 'y');
     
     $width  =  filter_input(INPUT_GET, 'width');
-    $height =  filter_input(INPUT_GET, 'height');    
+    $height =  filter_input(INPUT_GET, 'height'); 
+    $newwidth  =  filter_input(INPUT_POST, 'newwidth');
+    $newheight =  filter_input(INPUT_POST, 'newheight');    
 
-    $resized  = imagecreatetruecolor(300, 300);        
-    imagecopyresized($resized, $source, 0, 0, 0, 0, 300, 300, $width, $height);
-        
-    if ($path !== $dest){ unlink($path); } 
-    imagepng($resized, $dest);    
+    $resized  = imagecreatetruecolor($newwidth, $newheight);       
+    imagecopyresampled($resized, $source, 0, 0 , $x * $width/$newwidth, $y * $width/$newwidth, $newwidth, $newheight, $width, $height);
+    
+    // Sharpening try
+    $sharpness	= findSharp($width, $newwidth);
+    $sharpenMatrix	= array(
+            array(-1, -2, -1),
+            array(-2, $sharpness + 12, -2),
+            array(-1, -2, -1)
+    );
+    $divisor = $sharpness;
+    $offset  = 0;
+    imageconvolution($resized, $sharpenMatrix, $divisor, $offset);     
+
+    if ($path !== $dest){ unlink($path); }    
+    imagepng($resized, $dest);
     
     imagedestroy($resized);
     
@@ -106,21 +131,28 @@ if($fileError == UPLOAD_ERR_OK){
     if ($newwidth<300)  $newwidth = 300;
     if ($newheight<300) $newheight = 300;    
     
-    $resized  = imagecreatetruecolor($newwidth, $newheight); 
+    $resized  = imagecreatetruecolor(300, 300); 
     if ($fileExt === 'png' || $fileExt === 'gif'){
-        $white = imagecolorallocate($resized, 255, 255, 255);
-        imagefill($resized, 0, 0, $white);
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
     }      
-    imagecopyresized($resized, $source, 0, 0, 0, 0, $newwidth, $newheight, $width, $height);        
-
-    $cropped = imagecrop($resized, ['x' => $x, 'y' => $y, 'width' => 300, 'height' => 300]);
+    imagecopyresampled($resized, $source, 0, 0 , $x * $width/$newwidth, $y * $width/$newwidth, $newwidth, $newheight, $width, $height);  
+    
+    // Sharpening try
+    $sharpness	= findSharp($width, $newwidth);
+    $sharpenMatrix	= array(
+            array(-1, -2, -1),
+            array(-2, $sharpness + 12, -2),
+            array(-1, -2, -1)
+    );
+    $divisor = $sharpness;
+    $offset  = 0;
+    imageconvolution($resized, $sharpenMatrix, $divisor, $offset);     
 
     if ($path !== $dest){ unlink($path); }    
-    imagepng($cropped, $dest);
+    imagepng($resized, $dest);
     
     imagedestroy($resized);
-    imagedestroy($cropped);
-
     echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$dest) ]);
 
 }else{
