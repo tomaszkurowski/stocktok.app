@@ -46,7 +46,6 @@ function get_search_items(){
                 if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-bookmarks" data-action="remove-from-observed"></div>');                
                 }else{ $(el).append('<div class="add-to-observed icon-bookmarks" data-action="add-to-observed"></div>'); }
 
-                console.log(settings.contributor);
                 if (settings.contributor === 'yes'){
                     let btn_add_logo = $('<div class="icon-lifebuoy contributor-edit" data-action="edit"></div>').bind('click',function(){
                         

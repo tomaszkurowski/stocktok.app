@@ -122,12 +122,19 @@
                                 $('.player-view').html('<div class="info-page"><div class="icon icon-clear"></div><h1>Player not found</h1><p>Player you are trying to find doesn\'t exist or its on silent mode.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find players</div></div>');                           
                             }
                             return;                     
-                        }
+                        }                                              
 
                         if (config.debug) console.log(response);
                         var player = response.player;
                         var items  = response.items;
                         var trophies = response.trophies;
+                        
+                        button({ 
+                             class: 'icon-btn icon-account_balance_wallet' }, 
+                             function(){ 
+                                 load_page('/wallet/'+player.username,true);                   
+                             }
+                        );                          
                         
                         // Overview
                         $('.overview').attr('data-username',player.username);
@@ -164,15 +171,15 @@
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="active"]').addClass('active');
-                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }
                             if (item.type === 'sold' && item.margin>=0 && !($('[data-type="sold-profit"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-profit"]').addClass('active');
-                                $('[data-type="sold-profit"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-profit"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }
                             if (item.type === 'sold' && item.margin<0 && !($('[data-type="sold-lost"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-lost"]').addClass('active');
-                                $('[data-type="sold-lost"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-lost"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }                            
                             
                         });

@@ -263,8 +263,8 @@
             plotOptions: {
                 bar: {
                     horizontal: true,
-                    barHeight:'40px',
-                    borderRadius:5
+                    barHeight:'30px',
+                    borderRadius:0
                 },
             },
             grid:{
@@ -314,41 +314,47 @@
             series: series,
             labels: symbols,
 
-            chart: {
-                type: 'donut',
-                height: $('.widget.wallet-strength').height(),
-                toolbar: { show:false }
-            },
-            dataLabels: {
-                enabled:true
+            chart: {                                
+                type: 'donut',                                                                
+                fill: {
+                    type: 'gradient'
+                },
+                height:420
             },
             legend: {
                 position:'bottom',
+                fontSize: '14px',
+                fontFamily: 'gotham-regular',
+                itemMargin: {
+                    horizontal: 10,
+                    vertical: 5
+                }                                        
             },
             plotOptions: {
                 pie: {
                   donut:{
+                      size:'95%',
                       labels: { 
                           show:true,
                           value:{
-                                formatter: function(value,data){                                     
-                                    if (data.globals.seriesNames[data.globals.selectedDataPoints[0]] && typeof value != 'undefined'){
-                                        var percentage = (parseFloat(value)/grand_total*100).toFixed(2); 
-                                        $('.tooltip-preview.wallet-structure .total').text(format_price(parseFloat(value),2)+' '+settings.display_currency);
-                                        $('.tooltip-preview.wallet-structure .date').html( percentage + '%, <b>'+data.globals.seriesNames[data.globals.selectedDataPoints[0]]+'</b>');   
-                                    }
-                                }
-                          } 
+                            formatter: function(value, opts){
+                                return parseFloat(value).toFixed(2)+ '%';                                
+                            }
+                          },
+                          total: {
+                            show: true,
+                            label: 'All',
+                            color: '#7ebd0b',
+                            formatter: function (chart) {
+                                return '100.00%';
+                            }
+
+                          }
                       }
                   }
                 }
-            }, 
-            stroke:{ colors: [settings.design.color_bg], width:1 },
-            tooltip: {
-                custom: function ({series, seriesIndex, dataPointIndex, w}) {
-                  return;
-                }
-            }
+            },
+            stroke:{ colors: [settings.design.color_bg2], width:1 }
         };
         
         $("#wallet-structure").html('');

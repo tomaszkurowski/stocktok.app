@@ -87,7 +87,7 @@ function generate_graph(){
                         
 }
 
-function main_info_tab(tabName,tabCode,tabInfoContent){
+function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
 
     var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
     if (window.innerWidth>996) $(tabInfo).addClass('active');
@@ -96,6 +96,7 @@ function main_info_tab(tabName,tabCode,tabInfoContent){
 
     tabInfo.find('h2').text(tabName);
     tabInfo.find('.tab-content').attr('id','entity-'+tabCode);
+    tabInfo.find('.tab-header').prepend('<div class="icon '+tabIcon+'"></div>');
 
     $('.entity-main-info-container').append(tabInfo);
     
@@ -141,13 +142,24 @@ function main_info_tab(tabName,tabCode,tabInfoContent){
             case 'UpdatedAt': return;                            
         } 
         
-        tabInfoRow.addClass(label);
-        tabInfoRow.find('.field-value').html(label);
-        tabInfoRow.find('.value').html(value);
-        if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
-         
-        if (label==='Description') tabInfoRow.addClass('only-value');                            
-        if (value && typeof value !== 'object') $('#entity-'+tabCode).append(tabInfoRow);
+        if (tabCode === 'officers'){
+            tabInfoRow.addClass('only-value');
+            tabInfoRow.find('.value').html(value.Name+'<br /><span>'+value.Title+'</span>');
+            tabInfoRow.find('.value').prepend('<div class="icon-btn icon-navigate_next1"></div>').bind('click',function(){
+                window.open('https://www.google.com/search?q='+value.Name,'_blank');
+            });;
+            $('#entity-'+tabCode).append(tabInfoRow); 
+
+        }else{
+            tabInfoRow.addClass(label);
+            tabInfoRow.find('.field-value').html(label);
+            tabInfoRow.find('.value').html(value);
+            if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
+
+            if (label==='Description') tabInfoRow.addClass('only-value'); 
+            if (value && typeof value !== 'object') $('#entity-'+tabCode).append(tabInfoRow);
+        }                         
+        
 
     });
 }
@@ -185,6 +197,8 @@ function widget_financial_graph(id,widget){
     var data        = [];
     
     if (entity.info.Financials && entity.info.Financials.hasOwnProperty('Income_Statement')){
+        
+        $('.widget[data-id="'+id+'"]').css('minHeight','300px');
         
         $.each(entity.info.Financials.Income_Statement[widget.range], function(label,value){ 
             categories.push(label.substring(0,4)); 
@@ -257,6 +271,6 @@ function widget_financial_graph(id,widget){
         graph.render();
 
     }else{
-        $('[data-view="financial"]').hide();
+        $('.widget[data-id="'+id+'"]').hide();
     }
 }

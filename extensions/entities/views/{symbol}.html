@@ -1,12 +1,12 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.9"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.14"></script>
     
     <div class="page stock-view active">
 
         <div class="widget box results-info collapsed">
             <div class="results-info-title">
-                
-                <div class="logo"></div>
+                  
+                <div class="logo-container"></div>
                 <h2></h2>
                 
                 <div class="price-preview">
@@ -23,6 +23,16 @@
                     </div>
                     <div class="icon icon-btn icon-expand_more1 widget-collapse"></div>
                 </div>
+                <!--
+                <div class="actions-additional">
+                    <div class="icon icon-btn icon-shopping_cart"></div>
+                    <div class="icon icon-btn icon-bookmark_outline"></div>
+                    
+                    <div class="icon icon-btn icon-google" style="font-size:25px"></div>
+                    <div class="icon icon-btn icon-sphere" style="font-size:25px"></div>
+                    
+                </div>
+                -->
 
             </div>
             <div class="content">                    
@@ -198,11 +208,7 @@
                  <div class="add-widget" data-type="financial_graph">
                      <div class="icon-btn icon-add"></div>                     
                  </div>
-            </div>
-            
-            <div class="page-view" data-view="website" id="website-container">
-                <div class="website"></div>
-            </div>
+            </div>           
             
             <!--
             <div class="page-view" data-view="news">
@@ -291,14 +297,6 @@
     </div>
 
 
-    <script type="text/javascript">
-    
-        $(document).ready(function(){
-            //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js    
-            switcher({ key: 'editable',  class: 'icon-create', value: settings.editable  ? settings.editable :  'false'},function(){ editable(); stock_graph_adaptive_height(); if (stock_chart){ stock_chart.reflow(); }}); // => ui.js                                    
-        });
-    
-    </script>
     
     <script type="text/javascript">
 
@@ -322,6 +320,7 @@
         function stock_graph_adaptive_height(){
 
             if ($('.results-info').hasClass('editable')) return;
+            if ($('.results-info').hasClass('with-cover') && !$('.results-info').hasClass('collapsed')) return;
 
             var optimal_graph_height = 10;
 
@@ -343,14 +342,25 @@
         $(document).off('click', '[data-label="view_stock_edit"]');
         $(document).on('click','[data-label="view_stock_edit"]',function(){
             stock_graph_adaptive_height();
-            stock_chart.reflow();
+            setTimeout(function() {
+                stock_chart.reflow();
+            }, 20); // due to 300ms css transition
         });
 
 
         // Results Info - Collapse/Expand
         $(document).off('click', '.widget-collapse');
         $(document).on('click','.widget-collapse',function(){
+            
             $(this).parents('.widget').toggleClass('collapsed');
+            $(this).parents('.widget').find('.content').slideToggle('linear',function(){
+                stock_graph_adaptive_height();
+                setTimeout(function() {
+                    stock_chart.reflow();
+                }, 20); // due to 300ms css transition
+
+            });
+            
 
             // Remember collapse state
             var widgets = JSON.parse(localStorage.getItem('widgets'));
@@ -360,15 +370,13 @@
             if ($(this).parents('.widget').hasClass('collapsed')){ widgets.results_info.collapsed = 'true'; }
 
             localStorage.setItem('widgets',JSON.stringify(widgets));
-            stock_chart.reflow();
-            stock_graph_adaptive_height();
-            stock_chart.reflow();
+
             
         });
         $(document).ready(function(){
             var widgets = JSON.parse(localStorage.getItem('widgets'));
             if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('collapsed') && widgets.results_info.collapsed === 'false'){
-                $('.widget.results-info').removeClass('collapsed');
+                $('.widget.results-info').removeClass('collapsed').find('.content').show();
             }else{
                 $('.widget.results-info').addClass('collapsed');
             }        
@@ -504,13 +512,14 @@
         //$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q="+path[2]+"&callback=hndlr&sort=date");
     </script>
 
-
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.10"></script>
     <script type="text/javascript">
         
         var market = mvc.view;
         var symbol = mvc.controller;
                     
-        $(document).ready(function(){            
+        $(document).ready(function(){
+            get_currencies(function(){
             $.ajax({
                 url: config.api_url,
                 data: { endpoint: '/entity', symbol: symbol, market:market },
@@ -522,15 +531,20 @@
                     console.log(response);
                     stock = response.entity;
 
-                    if (market==='gpw') stock.currency = 'PLN';
-                    else stock.currency = 'USD';
+                    if (market==='gpw') stock.currency = 'pln';
+                    else stock.currency = 'usd';
 
                     $('.heading.stock-view .results-info-title h2').text(stock.symbol);
                     $('.heading.stock-view-menu h2').text(stock.symbol);
                     $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);                    
 
                     $('.stock-view .results-info h2').text(stock.name);               
-                    $('.stock-view .results-info .logo').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    
+                    if (stock.cover){
+                        $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" />');
+                    }
+                    
                     $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
                     $('.stock-view .results-info .price-preview .currency').text(stock.currency);
                     $('.stock-view .results-info .price-preview .date').text(format_date(Date.parse(stock.last_updated_at)));
@@ -542,6 +556,127 @@
                     $('.range-selector .labels span[data-id='+settings.stock_chart_range+']').addClass('selected');   
                     $('.range-selector input').val(settings.stock_chart_range);
 
+
+                    button({ 
+                        class: 'icon-btn icon-shopping_cart' }, 
+                        function(){ 
+                            var item = {};
+                                item.market_currency    = stock.currency;       
+                                item.symbol             = stock.symbol;
+                                item.market             = stock.market;
+                                item.price              = stock.price;
+                                //item.last_updated_at    = $(this).parents('.item').find('.updated-at').text();
+                                item.logo               = $('.results-info .logo-container').html();               
+
+                            buy_sell_popup({ action:'buy', item:item });                     
+                        }
+                    );
+                                
+                    button({ 
+                        class: 'icon-btn '+(!stock.observed ? 'add-to-observed' : 'remove-from-observed')+' icon-bookmark'+(!stock.observed ? '_outline' : '1' ) }, 
+                        function(el){ 
+                            if (!stock.observed){
+                                
+                                $.ajax({
+                                    url: config.api_url,
+                                    data: { endpoint:'/wallet/observed', 
+                                            market:stock.market,
+                                            symbol:stock.symbol
+                                        },
+                                    type: 'POST',
+                                    dataType: 'JSON',
+                                    success: function(response){
+                                        $(el).addClass('remove-from-observed').removeClass('add-to-observed');
+                                        $(el).addClass('icon-bookmark1').removeClass('icon-bookmark_outline');                                        
+                                        stock.observed = false;
+                                    },
+                                    error: function(response){                            
+                                        console.log(response);
+                                    }
+                                });                                
+                                
+                            }else{
+                                $.ajax({
+                                    url: config.api_url,
+                                    data: { 
+                                        endpoint:'/wallet/observed', 
+                                        symbol: stock.symbol,
+                                        market: stock.market
+                                    },
+                                    type: 'DELETE',
+                                    dataType: 'JSON',
+
+                                    success: function(response){
+                                        $(el).addClass('add-to-observed').removeClass('remove-from-observed');
+                                        $(el).addClass('icon-bookmark_outline').removeClass('icon-bookmark1');
+                                        stock.observed = false;
+                                    },
+                                    error: function(response){                            
+                                        console.log(response);
+                                    } 
+                                });
+                                
+                            }
+                        }
+                    );   
+                    button({ 
+                        class: 'icon-btn icon-google' }, 
+                        function(){ 
+                            window.open('https://www.google.com/search?q='+stock.name,'_blank');
+                        }
+                    ); 
+                    if (stock.website){
+                        button({ 
+                            class: 'icon-btn icon-web_asset' }, 
+                            function(){
+                                window.open(stock.website,'_blank');
+                            }
+                        );                        
+                    }
+                    
+                    if (settings.contributor === 'yes'){
+
+                        button({ 
+                            class: 'icon-btn icon-lifebuoy' }, 
+
+                            function(){ 
+
+                            if ($('footer #popup .search').length){ 
+                                $('footer #popup').html(''); 
+                                $('.popup-btn').remove();
+                                $('body').removeClass('with-popup');
+                            }
+
+                            $('body').toggleClass('with-popup');                            
+                            if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }   
+
+                            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+                            $.ajax({
+                                url:"/extensions/players/views/popups/contributor.html",
+                                cache:false,
+                                success: function(data){ 
+                                    $("#popup").html(data); 
+                                    $('.popup-contributor').slideDown(300,'linear');
+                                    $('.popup-contributor #market').val(stock.market);
+                                    $('.popup-contributor #symbol').val(stock.symbol);
+                                    $('.popup-contributor #name').val(stock.name);
+                                    $('.popup-contributor #industry').val(stock.industry);
+                                    $('.popup-contributor #sector').val(stock.sector);
+                                    $('.popup-contributor #website').val(stock.website);
+                                },
+                                error: function(e){ console.log(e); }
+                            });
+                        });
+                    }                     
+            
+                    switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
+                        editable(); 
+                        stock_graph_adaptive_height(); 
+                        if (stock_chart){ 
+                            setTimeout(function() {
+                                stock_chart.reflow();
+                            }, 400); // due to 300ms css transition
+                        }}); // => ui.js                
 
                     reload_stock_price();
 
@@ -661,6 +796,7 @@
                                 else return { x: 10, y: 0 };                                                        
                             },
                             pointFormatter:function(){
+                                $('.stock-view .results-info').addClass('with-tooltip');
                                 $('.stock-view .results-info .price-preview').addClass('tooltip-hover');
                                 $('.stock-view .results-info .price-preview .price').text(format_price(this.y,2));
                                 $('.stock-view .results-info .price-preview .date').text(format_date(this.x));                    
@@ -709,6 +845,7 @@
                                 },
                                 events:{
                                     mouseOut: function(){
+                                        $('.stock-view .results-info').removeClass('with-tooltip');
                                         $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                         reload_stock_price();
                                     }
@@ -756,17 +893,23 @@
                             $('.entity-main-info-container').html('');
 
                             // MAIN INFO
-                            if (entity.info.General){ main_info_tab('General','general',entity.info.General); }
-                            if (entity.info.Highlists) main_info_tab('Highlights','highlights',entity.info.Highlights);
-                            if (entity.info.Technicals) main_info_tab('Technicals','technicals',entity.info.Technicals);
-                            if (entity.info.Valuation) main_info_tab('Valuation','valuation',entity.info.Valuation);
-                            if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores',entity.info.ESGScores);
-                            if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings',entity.info.AnalystRatings);
+                            if (entity.info.General){ main_info_tab('General','general','icon-info',entity.info.General); }
+                            if (entity.info.Highlists) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
+                            if (entity.info.Technicals) main_info_tab('Technicals','technicals','icon-star-full',entity.info.Technicals);
+                            if (entity.info.Valuation) main_info_tab('Valuation','valuation','icon-finance',entity.info.Valuation);
+                            if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores','icon-ruler',entity.info.ESGScores);
+                            if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings','icon-trending_up1',entity.info.AnalystRatings);
+                            if (entity.info.General.Officers) main_info_tab('Officers','officers','icon-person1',entity.info.General.Officers);
 
 
                             // WEBSITE
-                            if (entity.info.General && entity.info.General.WebURL){                                
-                                $('[data-view="website"] .website').html('<iframe class="hide-scroll"  scroll="no" src="'+entity.info.General.WebURL+'" style="width:100%; border:none; height:calc(100vh - 180px)" frameborder="0" onload="if (this.contentWindow.length<=0){ $(\'#website-container\').hide(); }" />');
+                            if ( entity.info.General && entity.info.General.WebURL && !stock.website){  
+                                button({ 
+                                    class: 'icon-btn icon-sphere' }, 
+                                    function(){
+                                        window.open(entity.info.General.WebURL,'_blank');
+                                    }
+                                );                                                                                                
                             }else{}
 
 
@@ -807,26 +950,45 @@
                                     labels: categories,
                                     chart: {                                
                                         type: 'donut',                                                                
-                                        sparkline:{ enabled: true },
                                         fill: {
                                             type: 'gradient'
-                                        }
+                                        },
+                                        height:420
+                                    },
+                                    legend: {
+                                        position:'bottom',
+                                        fontSize: '14px',
+                                        fontFamily: 'gotham-regular',
+                                        itemMargin: {
+                                            horizontal: 10,
+                                            vertical: 5
+                                        }                                        
                                     },
                                     plotOptions: {
                                         pie: {
                                           donut:{
+                                              size:'95%',
                                               labels: { 
                                                   show:true,
                                                   value:{
                                                     formatter: function(value, opts){
                                                         return parseFloat(value).toFixed(2)+ '%';                                
                                                     }
-                                                  } 
+                                                  },
+                                                  total: {
+                                                    show: true,
+                                                    label: 'All',
+                                                    color: '#7ebd0b',
+                                                    formatter: function (chart) {
+                                                        return '100.00%';
+                                                    }
+        
+                                                  }
                                               }
                                           }
                                         }
                                     },
-                                    stroke:{ colors: [settings.design.color_bg], width:1 }
+                                    stroke:{ colors: [settings.design.color_bg2], width:1 }
                                 };
 
                                 var chart = new ApexCharts(document.querySelector("#graph-shareholders"), options);
@@ -893,7 +1055,7 @@
                         }
                     });
 
-
+                    
 
 
                     // Here add options custom configuration from user
@@ -911,9 +1073,19 @@
                     console.log(response);
                 }
             });
-        
+            });
+    });
+    </script>
+    
+
+    <script type="text/javascript">
+    
+        $(document).ready(function(){
+            //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js             
             
         
-
+        $(document).on('click','.popup-btn.icon-clear',function(){
+            $('.footer-bottom').scrollLeft($('.footer-bottom').width());
         });
-    </script>
+    
+    </script>    

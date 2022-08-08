@@ -21,6 +21,7 @@
 
             $(options.target).prepend(switcher);        
             if (callback) callback(switcher);
+            $('.footer-bottom').scrollLeft($('.footer-bottom').width());
         
     }
     
@@ -34,6 +35,7 @@
                 if (callback) callback(button); 
         }); 
         $(options.target).prepend(button);
+        $('.footer-bottom').scrollLeft($('.footer-bottom').width());
         
     }
     
