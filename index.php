@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.79" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.81" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.28" />
     
@@ -69,7 +69,18 @@
     
 </head>  
 <body class="hide-scroll">
- 
+    <!--
+    <div class="popup-info">
+        <div class="popup-info-body">
+            <div class="icon icon-message"></div>
+            <div class="title">Welcome in Stocktok</div>
+            <div class="description">This is your first visit<br /><br />To make your game more convinient you can choose some basic settings here.<br /><br /></div>       
+            <div class="actions">
+                <div class="btn primary">Ok</div>
+            </div>
+        </div>           
+    </div>
+    -->
     <div id="css">        
     </div>
     

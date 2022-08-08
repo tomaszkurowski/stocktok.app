@@ -40,14 +40,14 @@
                 
                 //UI
                 
-                if (me.username !== wallet.username){
-                   button({ 
-                        class: 'icon-btn icon-person' }, 
-                        function(){ 
-                            load_page('/players/view/'+mvc.view,true);                   
-                        }
-                    );  
-                }
+
+                button({ 
+                     class: 'icon-btn icon-person' }, 
+                     function(){ 
+                         load_page('/players/view/'+(me.username !== wallet.username ? mvc.view : me.username),true);                   
+                     }
+                 );  
+                
                 
                 if (me.username === wallet.username){
                     button({ 
@@ -60,12 +60,14 @@
                         class: 'icon-btn icon-search2' }, 
                         function(){ location.href='/entities'; });             
                 }
+                if (wallet.items.length>0){
                     switcher({ 
                         key: 'editable',  
                         class: 'icon-settings1', 
                         value: settings.editable  ? settings.editable :  'false'},
                         function(){ editable();  // => ui.js                                              
                     });
+                }
                                 
 
                 wallet.symbols = [];
@@ -248,7 +250,15 @@
                         
                     }
 
-                });   
+                });
+                
+                if ($('.wallet-items.active .mystock-container').length === 0){
+                    $('.wallet-items.active').html('<div class="no-transactions"><div class="icon icon-account_balance_wallet"></div><div class="title">No active transactions</div></div>');
+                }
+                if ($('.wallet-items.sold .mystock-container').length === 0){
+                    $('.wallet-items.sold').html('<div class="no-transactions"><div class="icon icon-auction"></div><div class="title">Nothing sold</div></div>');
+                }
+                
                 reload();
 
                 // FUNDS
@@ -360,15 +370,25 @@
             if (live_prices.hasOwnProperty(item.symbol)){
                 item.price = live_prices[item.symbol].price;
                 item.last_updated_at = live_prices[item.symbol].last_updated_at;
-            }
+            }           
             
             if (item.type_of_transaction === 'active'){
 
                 item.rate       = (1 / currencies[item.market_currency]).toFixed(config.precision_rate);
+                                
+                item.sold_rate  = round((currencies[item.purchased_currency] ? currencies[item.purchased_currency] : 1) / currencies[item.market_currency], config.precision_rate);
                 item.total      = (item.price * item.purchased_qty * item.rate).toFixed(config.precision_total);
 
-                item.margin             = item.total - item.purchased_total; 
+                if (item.purchased_currency !== item.market_currency){
+                    //$margin = round(($sold_total*$sold_rate - $purchased_total * $old_transaction['purchased_rate'])/$sold_rate,2);
+                    item.margin = round((item.total*item.sold_rate - item.purchased_total * item.purchased_rate)/item.sold_rate,2);
+                }else{
+                    item.margin = item.total - item.purchased_total;  
+                }
+
                 item.margin_percentage  = item.purchased_total !== 0 ? (item.margin / (item.purchased_total) * 100).toFixed(2) : 0;
+                
+                //console.log(item.symbol,item.margin,item.purchased_total);
 
                 if ($(element).attr('data-visibility')==='visible'){
                     wallet.current_total  += parseFloat(item.total);            
@@ -391,9 +411,9 @@
             // Group aspect - Calculation
             if ($(element).attr('data-group')){ 
                 if (groups.hasOwnProperty($(element).attr('data-group-id'))){
-                    groups[$(element).attr('data-group-id')].purchased_total += item.purchased_total;
-                    groups[$(element).attr('data-group-id')].total           += item.total;
-                    groups[$(element).attr('data-group-id')].margin          += item.margin;
+                    groups[$(element).attr('data-group-id')].purchased_total = parseFloat(groups[$(element).attr('data-group-id')].purchased_total)+parseFloat(item.purchased_total);
+                    groups[$(element).attr('data-group-id')].total           = parseFloat(groups[$(element).attr('data-group-id')].total) + parseFloat(item.total);
+                    groups[$(element).attr('data-group-id')].margin          = parseFloat(groups[$(element).attr('data-group-id')].margin) + parseFloat(item.margin);
                 }else{
                     groups[$(element).attr('data-group-id')] = { total: item.total, margin:item.margin, purchased_total:item.purchased_total };                
                 }
@@ -413,6 +433,7 @@
 
         });
         
+        
         wallet.sold_margin_percentage = (wallet.sold_margin / (wallet.sold_purchased ? wallet.sold_purchased : 1) * 100).toFixed(2);
         if (!wallet.sold_margin_percentage) wallet.sold_margin_percentage = 0;
 
@@ -423,10 +444,11 @@
                 var group_id = $(element).attr('data-group-id');
 
                 //console.log($(element).attr('data-symbol'));
+                //console.log(groups[group_id]);
                 groups[group_id].margin_percentage = (groups[group_id].margin / groups[group_id].purchased_total * 100).toFixed(2);
 
-                $(element).find('.total').text(format_price(groups[group_id].total,2));
-                $(element).find('.margin').text(format_price(groups[group_id].margin,2));
+                $(element).find('.total').text(format_price(groups[group_id].total * currencies[settings.display_currency],2));
+                $(element).find('.margin').text(format_price(groups[group_id].margin * currencies[settings.display_currency],2));
                 $(element).find('.margin-percentage').text(groups[group_id].margin_percentage);
             });
         }

@@ -64,7 +64,7 @@ if($fileError == UPLOAD_ERR_OK){
     $cropped = imagecrop($resized, ['x' => $x, 'y' => $y, 'width' => 450, 'height' => 300]);
     
     if ($path !== $dest){ unlink($path); }    
-    imagejpeg($cropped, $dest);
+    imagepng($cropped, $dest,0);
 
     imagedestroy($resized);
     imagedestroy($cropped);
