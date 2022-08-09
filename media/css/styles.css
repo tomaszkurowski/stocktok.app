@@ -2431,7 +2431,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height:16px;
     padding: 15px 15px;
     margin: 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);      
@@ -2555,8 +2555,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-width: 953px;
     margin-top: -10px;
     margin-left: -15px;
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
+    border-radius:var(--border-radius1);
     -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     box-shadow: 3px 4px 13px -11px rgb(66 68 90);    
@@ -2681,9 +2680,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width:25%;
     padding:2.5px 10px;
     flex-basis:25%;
-}
-.stock-view .results-info-table .label {
-    border-left:1px solid var(--color-bg);
 }
 .stock-view .results-info-table .value{
     font-family:'gotham-bold';
@@ -3260,7 +3256,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 
 .widgets                        { margin:0 15px; }
 
-.widget                         { position:relative; border-radius:15px; background-color:var(--color-bg2); padding:20px 0 0; margin-bottom:15px; }
+.widget                         { position:relative; border-radius:var(--border-radius1); background-color:var(--color-bg2); padding:20px 0 0; margin-bottom:15px; }
 .widget .header                 { display:flex; align-items:center; justify-content:space-between; padding:0 15px 15px 5px; }
 .widget .graph                  { min-height:10px; }
 .widget .title                  { margin:0 0 0 10px; text-transform:capitalize; }
