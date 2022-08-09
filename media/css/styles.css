@@ -1,4 +1,4 @@
-@import "icons.css?v=1.6"; 
+@import "icons.css?v=1.7"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -2398,6 +2398,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     box-shadow: 8px 8px 24px -25px rgb(66 68 90);   
     line-height:22px;
 }
+
+.settings .sounds-container .sound { font-size:30px; transition:all 0.3s ease-in; }
+.settings .sounds-container .icon-volume-mute1 { margin-left:15px; color:var(--color-base); }
+.settings .sounds-container .icon-volume-mute  { color:var(--color-bg); }
 
 .settings .hands-container { display:flex; }
 .settings .hands-container .hand-right { font-size:35px; -webkit-transform: scaleX(-1); transform: scaleX(-1); color:var(--color-base); }

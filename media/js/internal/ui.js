@@ -15,7 +15,7 @@
                 settings[options.key] = $(this).attr('data-value');
 
                 localStorage.setItem('settings',JSON.stringify(settings));
-        
+                
                 if (callback) callback(switcher);                
             });                    
 
@@ -155,11 +155,7 @@
         if (settings.editable === 'true') $('body').addClass('editable');
         else $('body').removeClass('editable'); 
         
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-        if (!settings.mute){
-            var audio = new Audio("/media/sounds/button-50.mp3");
-            audio.play();
-        }        
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }     
     }
 
     
@@ -214,6 +210,12 @@
     $(document).on('click', '.tab-header', function(){    
         $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-50.mp3");
+            audio.play();
+        }        
+        
     });
     
     
@@ -222,6 +224,10 @@
     $(document).on('click','.widget .actions .icon-btn',function(){
         $(this).toggleClass('active');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
     
     $(document).off('click', '.widget .actions .btn-edit');
@@ -232,6 +238,10 @@
             $(this).parents('.widget').removeClass('collapsed');
         }
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
     
     $(document).off('click', '.widget .actions .btn-delete');
@@ -248,6 +258,10 @@
 
         $(this).parents('.widget').remove();
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
 
     $(document).off('click', '.widget .edit select');
@@ -277,6 +291,10 @@
         localStorage.setItem('widgets',JSON.stringify(widgets));    
 
         widget_financial_graph(id, widget);
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-50.mp3");
+            audio.play();
+        }        
 
     });
     
@@ -309,5 +327,9 @@
         $('.widgets').append($(widget));
 
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
 
     });     

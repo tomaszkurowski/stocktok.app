@@ -115,7 +115,7 @@
         
         load_extension();
         if (!settings.mute){
-            var audio = new Audio("/media/sounds/button-20.mp3");
+            var audio = new Audio("/media/sounds/page-1.mp3");
             audio.play();
         }        
         window.history.pushState({}, '', url+window.location.search);                              
@@ -132,7 +132,7 @@
     function load_menu(active = true){ 
         
         if (!settings.mute){
-            var audio = new Audio("/media/sounds/button-20.mp3");
+            var audio = new Audio("/media/sounds/button-50.mp3");
             audio.play();
         }
         $('#app').toggleClass('nav-active');
