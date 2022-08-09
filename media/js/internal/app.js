@@ -114,6 +114,10 @@
         console.log(mvc.params);
         
         load_extension();
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-20.mp3");
+            audio.play();
+        }        
         window.history.pushState({}, '', url+window.location.search);                              
     }
     
@@ -125,7 +129,12 @@
         init_extension();
     }
         
-    function load_menu(active = true){         
+    function load_menu(active = true){ 
+        
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-20.mp3");
+            audio.play();
+        }
         $('#app').toggleClass('nav-active');
     }
 

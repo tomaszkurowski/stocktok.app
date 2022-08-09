@@ -32,6 +32,12 @@
         
         let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
             .bind('click',function(){ 
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-30.mp3");
+                    audio.play();
+                }
+                
                 if (callback) callback(button); 
         }); 
         $(options.target).prepend(button);
@@ -48,6 +54,12 @@
             .append('<label for="'+options.key+'">'+options.title+':</label>')
             .append('<select data-key="'+options.key+'"></select>')
             .bind('change',function(){
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }
+                
                 if (options.click){ 
                     options.click(changer); 
                 }
@@ -144,6 +156,10 @@
         else $('body').removeClass('editable'); 
         
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-50.mp3");
+            audio.play();
+        }        
     }
 
     

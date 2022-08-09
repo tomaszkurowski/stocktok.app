@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.83" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.84" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.28" />
     
@@ -102,7 +102,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.72',
+            version:    '1.1.75',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
