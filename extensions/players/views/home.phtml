@@ -218,9 +218,19 @@
                         if (move.action === 'sell') total = move.sold_total;
                         
                         let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
-                        if (move.avatar_type === 'image') $(el).append('<img src="'+move.avatar+'" class="avatar" />');
+                        if (move.avatar_type === 'image'){
+                            $(el).append('<div class="avatar-container"><img src="'+move.avatar+'" class="avatar" /></div>');
+                            $(el).find('.avatar-container').bind('click',function(){
+                                location.href='/players/view/'+move.username;
+                            });
+                        } 
+                        
                         $(el).append('<div class="info"></div>');
-                        $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+move.symbol+' ('+move.market+')</div>');
+                        $(el).find('.info').append('<div class="action">'+move.action+': <span class="symbol">'+move.symbol+'</span> ('+move.market+')</div>');
+                        $(el).find('.action .symbol').bind('click',function(){
+                                location.href='/entities/'+move.market+'/'+move.symbol;
+                            });
+                        
                         $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
                         
                         $(el).append('<div class="totals"></div>');
