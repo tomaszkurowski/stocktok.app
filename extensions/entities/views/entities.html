@@ -1,6 +1,6 @@
 
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.13"></script>
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.2"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.15"></script>
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.3"></script>
     
     <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.4" />
     
@@ -207,6 +207,7 @@
             button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
             $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
             $('body').addClass('with-popup no-blur');
+            $('footer #popup input.search').focus();
         });
         
     </script>

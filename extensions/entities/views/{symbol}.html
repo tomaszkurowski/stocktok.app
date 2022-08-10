@@ -1,5 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.14"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.15"></script>
     
     <div class="page stock-view active">
 
@@ -181,8 +181,15 @@
                     </div>
                 </div>
             </div>                          
-            
+                        
             <div class="page-view" data-view="info">
+                <div class="box find-in">
+                    <h2>Find in:</h2>
+                    <div class="icon-google google"></div>
+                    <div class="icon-twitter twitter"></div>
+                    <div class="icon-youtube-play youtube"></div>
+                    
+                </div>
                 <div class="entity-main-info-container"></div>
             </div>
 
@@ -556,7 +563,10 @@
                     $('.range-selector .labels span[data-id='+settings.stock_chart_range+']').addClass('selected');   
                     $('.range-selector input').val(settings.stock_chart_range);
 
-
+                    button({ 
+                        class: 'icon-btn icon-search2' }, 
+                        function(){ location.href='/entities'; });  
+                        
                     button({ 
                         class: 'icon-btn icon-shopping_cart' }, 
                         function(){ 
@@ -618,13 +628,19 @@
                                 
                             }
                         }
-                    );   
-                    button({ 
-                        class: 'icon-btn icon-google' }, 
-                        function(){ 
-                            window.open('https://www.google.com/search?q='+stock.name,'_blank');
-                        }
                     ); 
+            
+                    $('.find-in .google').bind('click',function(){
+                        window.open('https://www.google.com/search?q='+stock.name,'_blank');
+                    });
+                    $('.find-in .youtube').bind('click',function(){
+                        window.open('https://www.youtube.com/results?search_query='+stock.name,'_blank');
+                    });
+                    $('.find-in .twitter').bind('click',function(){
+                        window.open('https://twitter.com/search?src=typed_query&q='+stock.name,'_blank');
+                    });                    
+                    
+                    
                     if (stock.website){
                         button({ 
                             class: 'icon-btn icon-web_asset' }, 
@@ -637,7 +653,7 @@
                     if (settings.contributor === 'yes'){
 
                         button({ 
-                            class: 'icon-btn icon-lifebuoy' }, 
+                            class: 'icon-btn icon-create' }, 
 
                             function(){ 
 
@@ -1080,12 +1096,10 @@
 
     <script type="text/javascript">
     
-        $(document).ready(function(){
-            //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js             
-            
-        
+        //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js             
+                    
         $(document).on('click','.popup-btn.icon-clear',function(){
-            $('.footer-bottom').scrollLeft($('.footer-bottom').width());
+            //$('.heading').scrollLeft(2000);
         });
     
     </script>    

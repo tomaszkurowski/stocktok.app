@@ -14,14 +14,17 @@
                 $(this).attr('data-value',$(this).attr('data-value') === 'true' ? 'false' : 'true');
                 settings[options.key] = $(this).attr('data-value');
 
-                localStorage.setItem('settings',JSON.stringify(settings));
-                
+                localStorage.setItem('settings',JSON.stringify(settings));                                
                 if (callback) callback(switcher);                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }
             });                    
 
             $(options.target).prepend(switcher);        
             if (callback) callback(switcher);
-            $('.footer-bottom').scrollLeft($('.footer-bottom').width());
+            //$('.heading').scrollLeft(2000);
         
     }
     
@@ -41,7 +44,35 @@
                 if (callback) callback(button); 
         }); 
         $(options.target).prepend(button);
-        $('.footer-bottom').scrollLeft($('.footer-bottom').width());
+        //$('.heading').scrollLeft(2000);
+        
+        $('.toggleHeading').remove();
+        if ($('.heading > *').length>3 && !$('body').hasClass('with-popup')){
+            
+            if (settings.heading_short){
+                $('.footer-bottom').addClass('short');
+            }
+            
+            let button = $('<div class="toggleHeading"><div class="icon-btn icon-navigate_next"></div></div>')
+            .bind('click',function(){ 
+                $(this).parents('.footer-bottom').toggleClass('short');
+                //$('.heading').scrollLeft(2000);
+                
+                if ($('.footer-bottom').hasClass('short')){
+                    settings.heading_short = 1;
+                }else{
+                    settings.heading_short = 0;
+                }
+                load_layout();
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }   
+                
+            }); 
+            $('.footer-bottom').prepend(button);
+        }
         
     }
     

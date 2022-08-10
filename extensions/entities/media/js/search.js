@@ -43,11 +43,11 @@ function get_search_items(){
                 $(el).append($(view));
                 $(el).append('<div class="btn" data-action="buy-more">Buy</div>');
 
-                if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-bookmarks" data-action="remove-from-observed"></div>');                
-                }else{ $(el).append('<div class="add-to-observed icon-bookmarks" data-action="add-to-observed"></div>'); }
+                if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-btn icon-bookmark1" data-action="remove-from-observed"></div>');                
+                }else{ $(el).append('<div class="add-to-observed icon-btn icon-bookmark_outline" data-action="add-to-observed"></div>'); }
 
                 if (settings.contributor === 'yes'){
-                    let btn_add_logo = $('<div class="icon-lifebuoy contributor-edit" data-action="edit"></div>').bind('click',function(){
+                    let btn_add_logo = $('<div class="icon-create contributor-edit" data-action="edit"></div>').bind('click',function(){
                         
                         if ($('footer #popup .search').length){ 
                             $('footer #popup').html(''); 

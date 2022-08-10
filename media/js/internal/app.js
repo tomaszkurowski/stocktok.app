@@ -105,6 +105,8 @@
         $('.page-views-slider').remove();
         $('#popup').html('');
         $('body').removeClass('with-popup');
+        $('.toggleHeading').remove();
+        $('.footer-bottom').removeClass('short');
         
         $('#app').removeClass('nav-active');
         

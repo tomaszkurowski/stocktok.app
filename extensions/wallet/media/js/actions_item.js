@@ -251,6 +251,9 @@
                 if (config.debug) console.log(response);
                 $(element).attr('data-action','remove-from-observed');
                 $(element).addClass('secondary');
+                if ($(element).hasClass('icon-bookmark_outline')){
+                    $(element).removeClass('icon-bookmark_outline').addClass('icon-bookmark1');
+                }                
 
             },
             error: function(response){                            
@@ -281,7 +284,10 @@
 
                 if (config.debug) console.log(response);
                 $(element).attr('data-action','add-to-observed');
-                $(element).removeClass('secondary');     
+                $(element).removeClass('secondary');
+                if ($(element).hasClass('icon-bookmark1')){
+                    $(element).removeClass('icon-bookmark1').addClass('icon-bookmark_outline');
+                }
                 
                 if (mvc.model === 'wallet') get_my_observed();
 

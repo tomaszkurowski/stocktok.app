@@ -1,4 +1,4 @@
-@import "icons.css?v=1.7"; 
+@import "icons.css?v=1.8"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -292,14 +292,12 @@ a {
 }
 .footer {
     width:100%;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     overflow:hidden;
 }
 .footer-bottom {
     width:100%;
-    display:flex;
-    overflow-x:scroll;
-    max-width:100%
+    display:flex;    
 }
 .with-popup .footer-bottom{
     max-width:100%;
@@ -324,16 +322,31 @@ a {
 .footer .hamburger {
     font-size:30px;
 }
+.heading-container {
+    display:flex;
+    max-width:calc(100vw - 120px);
+    overflow-x:scroll;
+    direction:rtl;    
+}
 .heading { 
     clear: both;
     align-items: center;
-    justify-content: flex-end;
     margin-bottom:0px;
     display:flex;
     transition: all 0.2s ease-in-out;
     background-color:var(--color-base);
     padding-right:2.5px;
+    direction:ltr;
+
 }
+.footer-bottom.short .heading-container {
+    max-width:140px;
+    
+}
+.footer-bottom.short .heading {
+    direction:ltr;
+}
+
 body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
 body:not(.with-popup) .left-handed .heading > * { margin-right:15px; margin-left:0; }
 body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
@@ -365,7 +378,7 @@ body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
 .heading .actions .btn.change-view.active { display:flex; }
 
 .heading .actions .icon-bookmarks { font-size:26px; } /* Find better icon or more elegant solution */
-
+.heading .actions .icon-create { font-size:30px; }
 
 #popup {
     display:none;
@@ -596,6 +609,24 @@ body.editable .cover {
     filter: blur(2px);
 }
 .footer .heading [data-key="editable"] { order:-1; }
+.footer .toggleHeading { 
+    order:-5; 
+    opacity:0.5; 
+    margin-right:-5px; 
+    margin-left:-5px; 
+    background-color:var(--color-base); 
+    display:flex; 
+    align-items:center; 
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
+    transition:all 0.1s ease-in;
+}
+.footer .toggleHeading, .footer .toggleHeading .icon-btn {
+    transition:all 0.1s ease-in;
+}
+.footer .footer-bottom.short .toggleHeading .icon-btn {
+    transform:rotate(180deg);
+}
 
 .inline-actions{
     margin:15px 15px 10px;
@@ -2201,8 +2232,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .tab-container { 
-    width:100%;
-    
+    width:100%;  
+}
+.entity-main-info-container .tab-container:last-child .tab-content {
+    border-bottom-left-radius:var(--border-radius1);
+    border-bottom-right-radius:var(--border-radius1);
 }
 .tab-header {
     display:flex;
@@ -2586,6 +2620,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-height:70px;
     transition:all 0.3s ease-in;
     border-radius:15px;
+    line-height:11px;
 
 }
 .stock-view .logo.no-img {
@@ -2594,8 +2629,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--color-base-invert);
     text-transform: uppercase;
     background-color: var(--color-base);
-    padding: 2.5px 5px;
-    border-radius:15px;
+    padding: 10px 15px;
+    border-radius:var(--border-radius2);
 }
 .stock-view .results-info.collapsed .cover {
     display:none;
@@ -2603,7 +2638,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .stock-view .results-info.collapsed .results-info-title .logo {
     margin-right:15px; 
     max-height:40px;
-    border-radius:5px;
+    border-radius:var(--border-radius2);
 }
 .stock-view .results-info.collapsed h2 {
     font-size:var(--size-regular);
@@ -2638,11 +2673,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .stock-view .results-info:not(.collapsed) .results-info-title .logo-container {
     background-color: var(--color-bg2);
     padding: 5px;
-    border-radius: 15px;
+    border-radius: var(--border-radius2);
     -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     box-shadow: 3px 4px 13px -11px rgb(66 68 90);  
-    line-height:0;
 }
 
 .stock-view .results-info:not(.collapsed) .widget-collapse {
@@ -3894,15 +3928,10 @@ input:checked + .switch:before {
     cursor:pointer;    
 }
 .items-container .item .add-to-observed {
-    font-size: 20px;
     position: absolute;
-    border: 1px solid var(--color-bg);
-    border-radius: 50%;
-    background-color: var(--color-bg);
     padding: 5px;
-    right: 5px;
+    right: -5px;
     top: 5px;
-    color: var(--color-bg2);
 }
 .items-container .item .add-to-observed[data-action="remove-from-observed"]{
     color:var(--color-base);
@@ -3913,8 +3942,8 @@ input:checked + .switch:before {
 .icon-btn.icon-shopping_cart { font-size:30px; }
 .icon-btn.icon-settings1     { font-size:30px; }
 .icon-btn.icon-google        { font-size:25px; }
-.icon-btn.icon-sphere        { font-size:27px; }
-.icon-btn.icon-lifebuoy      { font-size:26px; order:-2; }
+.icon-btn.icon-sphere        { font-size:28px; }
+.icon-btn.icon-create        { font-size:32px; order:-2; margin-right:-4px !important }
 
 .info-page {
     height:100vh; 
@@ -4758,4 +4787,27 @@ input:checked + .switch:before {
     width: 171px;
     text-align: center;
     line-height: 22px;    
+}
+
+.find-in {
+    display:flex;
+    align-items:center;
+}
+.find-in h2 {
+    flex-grow:1;
+}
+.find-in .google {
+    font-size:30px;
+    color:var(--color-base);
+    margin-left:10px;
+}
+.find-in .twitter {
+    font-size:32px;
+    margin-left:12px;
+    color:var(--color-base);
+}
+.find-in .youtube {
+    font-size:38px;
+    margin-left:10px;
+    color:var(--color-base)
 }
