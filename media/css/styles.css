@@ -276,7 +276,7 @@ a {
     bottom:10px;
     
     z-index:5;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     -webkit-box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);
     -moz-box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);
     box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);    
@@ -419,8 +419,8 @@ body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
     padding: 15px 0px;
     z-index: 10;
     
-    border-top-left-radius:15px;
-    border-top-right-radius:15px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
     
     overflow:hidden;
     overflow-y: scroll;
@@ -439,8 +439,8 @@ body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
     padding: 15px 0px;
     z-index: 10;
     
-    border-top-left-radius:15px;
-    border-top-right-radius:15px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
     
     overflow-y:scroll;
     
@@ -452,7 +452,7 @@ body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
 .popup.form input {
     width: calc(100% - 30px);
     
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     border:1px solid var(--color-bg);
     background-color:var(--color-bg);
     color:var(--color-text);
@@ -672,7 +672,7 @@ body.editable .cover {
     margin-left:10px; 
     color:var(--color-base);
     border: 1px solid var(--color-base);
-    border-radius:15px;
+    border-radius:var(--border-radius2);
     padding:5px 10px; 
     text-align:center;
 }
@@ -759,9 +759,9 @@ main {
 
 /* -------------------------------------------------------------------------- */
 /* DYNAMIC WALLET */
-.widget.dynamic-wallet-trend { margin:0 15px; height:calc(100vh - 165px); border-radius:15px; padding:0; }
-.widget.wallet-strength      { margin:0px 15px; height:calc(100vh - 180px); border-radius:15px; background-color:var(--color-bg2); display:flex; align-items:center; padding:0; }
-.widget.wallet-structure     { margin:0px 15px; height:calc(100vh - 165px); border-radius:15px; background-color:var(--color-bg2); display:flex; align-items:center; padding:0; }
+.widget.dynamic-wallet-trend { margin:0 15px; height:calc(100vh - 165px); border-radius:var(--border-radius1); padding:0; }
+.widget.wallet-strength      { margin:0px 15px; height:calc(100vh - 180px); border-radius:var(--border-radius1); background-color:var(--color-bg2); display:flex; align-items:center; padding:0; }
+.widget.wallet-structure     { margin:0px 15px; height:calc(100vh - 165px); border-radius:var(--border-radius1); background-color:var(--color-bg2); display:flex; align-items:center; padding:0; }
 
 .dynamic-wallet-trend-container .label span { color:var(--color-base); font-weight:bold; }
 
@@ -1052,7 +1052,7 @@ body.scrolling-up .mystock-container{
   background:rgba(0, 120, 250, 1);
 }
 
-.mystock .actions { width:100%; display:flex; align-items:center; border-radius:15px; overflow:hidden; }
+.mystock .actions { width:100%; display:flex; align-items:center; border-radius:var(--border-radius1); overflow:hidden; }
 .mystock .actions .btn {
     width:100%;
     padding: 5px 10px;
@@ -1742,7 +1742,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display:flex;
     align-items:center;
     padding:5px 15px 5px 15px;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     border:1px solid var(--color-bg);
     width:100%;
     justify-content:space-between;
@@ -1900,7 +1900,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content:space-between;
     width:100%;
     padding:7.5px 20px;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     background-color:var(--color-base);
     color:var(--color-base-invert);
     margin-bottom:10px;
@@ -2142,8 +2142,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #1a1a1a;
     z-index:8;
     bottom:0;
-    border-top-left-radius:15px;
-    border-top-right-radius:15px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
     
     max-height:0;
     height:0;
@@ -2227,7 +2227,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin:10px;
     display:flex;
     flex-direction:column;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     overflow:hidden;
 }
 
@@ -2619,7 +2619,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .stock-view .results-info .logo {
     max-height:70px;
     transition:all 0.3s ease-in;
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     line-height:11px;
 
 }
@@ -2821,7 +2821,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 
-.entity-main-info-container { margin:0 15px; border-radius:15px; }
+.entity-main-info-container { margin:0 15px; border-radius:var(--border-radius1); }
 .entity-main-info-container .Description .field { display:none; }
 .entity-main-info-container .Description .value { font-family:'gotham-regular'; text-align:justify; line-height:22px; }
 
@@ -2904,7 +2904,7 @@ stock-price-container .apexcharts-menu-icon svg {
 .stock-price-container .apexcharts-yaxistooltip {
     background:var(--color-bg2);
     border:1px solid var(--color-bg2);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     padding:4px 10px;  
 }
 .stock-price-container .apexcharts-yaxistooltip {
@@ -3333,7 +3333,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 
 .add-widget { 
     margin:20px 15px 0; 
-    border-radius:15px; 
+    border-radius:var(--border-radius1); 
     padding:20px; 
     display:flex; 
     align-items:center; 
@@ -3610,8 +3610,8 @@ main,
     flex-direction:column;
 }
 .wallet-items.funds .fund:first-child {
-    border-top-left-radius:15px;
-    border-top-right-radius:15px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
 }
 .wallet-items.funds .fund:last-child {
     border-bottom-left-radius:var(--border-radius1);
@@ -3678,7 +3678,7 @@ main,
 }
 .changer-v2 select {
     text-align:center;
-    border-radius:15px;
+    border-radius:var(--border-radius2);
     border:1px solid var(--color-base-invert);
     padding:5px 15px;
     
@@ -3840,7 +3840,7 @@ input:checked + .switch:before {
     margin:0 5px 15px;
     
     background-color:var(--color-bg2);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     overflow:hidden;
     
     text-align:center;
@@ -4181,8 +4181,8 @@ input:checked + .switch:before {
     margin-bottom:1px;
 }
 .players .moves .move:first-child {
-    border-top-left-radius:15px;
-    border-top-right-radius:15px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
 }
 .players .moves .move:last-child {
     border-bottom-left-radius:var(--border-radius1);
@@ -4428,7 +4428,7 @@ input:checked + .switch:before {
     width:40px;
     height:40px;
     border: 2px solid var(--color-bg);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     margin: 0 5px 15px;
     cursor:pointer;
 }
@@ -4471,7 +4471,7 @@ input:checked + .switch:before {
 .popup-avatars .avatar-type {
     position:relative;
     border:1px solid var(--color-bg);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     padding:15px;
     display:flex;
     align-items:center;
@@ -4547,7 +4547,7 @@ input:checked + .switch:before {
 }
 .popup-avatars .orientation { 
     overflow:hidden; 
-    border-radius:15px; 
+    border-radius:var(--border-radius1); 
 }
 .popup-avatars .frame-container.horizontal{
     transform: rotate(-90deg);
@@ -4608,7 +4608,7 @@ input:checked + .switch:before {
     justify-content:center;    
     text-align:center;
     background-color:var(--color-bg2);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     padding:30px;
     max-width:80%;
     -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
@@ -4724,7 +4724,7 @@ input:checked + .switch:before {
 .popup .btn-step {
     position:relative;
     border:1px solid var(--color-bg);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     padding:15px;
     display:flex;
     align-items:center;
