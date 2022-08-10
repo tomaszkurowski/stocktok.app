@@ -199,7 +199,7 @@ a {
 .btn.primary {
     background-color: var(--color-base);
     color: var(--color-base-invert);
-    border-radius: 15px;
+    border-radius: var(--border-radius2);
     padding: 10px 20px;
     font-family: 'gotham-bold';
     display: flex;
@@ -231,7 +231,7 @@ a {
     background-color: var(--color-bg2);
     color: var(--color-base);
     border:1px solid var(--color-base);
-    border-radius: 15px;
+    border-radius: var(--border-radius2);
     padding: 10px 20px;
     font-family: 'gotham-bold';    
 }
@@ -790,7 +790,7 @@ main {
     margin: 5px;
     padding: 15px 20px;
     background-color:var(--color-bg2);
-    border-radius:15px;
+    border-radius:var(--border-radius1);
     transition:all 0.1s ease-in;
     -webkit-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
@@ -958,7 +958,7 @@ body.scrolling-up .mystock-container{
     height: 0;
     padding: 20px;    
     width: 100%;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     left:100%;
     transition:left 0.2s ease-in;
     opacity:0;
@@ -1034,8 +1034,8 @@ body.scrolling-up .mystock-container{
     width:calc(100% - 2.5px);
     text-align:center;
 }
-.mystock-edit .actions .buy {border-bottom-left-radius:15px; border-top-left-radius:15px; }
-.mystock-edit .actions .sell { border-bottom-right-radius:15px; border-top-right-radius:15px; }
+.mystock-edit .actions .buy {border-bottom-left-radius:var(--border-radius1); border-top-left-radius:var(--border-radius1); }
+.mystock-edit .actions .sell { border-bottom-right-radius:var(--border-radius1); border-top-right-radius:var(--border-radius1); }
 
 .mystock-edit input[type="date"]::-webkit-calendar-picker-indicator {
   position:absolute;
@@ -1358,7 +1358,7 @@ input.error {
     background-color: #ffbfbf;
     padding: 12.5px 15px;
     width: 100%;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     margin-bottom: 10px;
     opacity: 0;
     transition: all 0.2s ease-in-out;
@@ -1407,7 +1407,7 @@ input.error {
     min-height: 80px;
     
     padding: 10px 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     font-family: 'gotham-regular';
     font-size: var(--size-small);
     
@@ -1475,11 +1475,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     bottom: 40px;
     background-color: var(--color-bg);
     z-index: 999;
-    border-bottom-left-radius:10px;
+    border-bottom-left-radius:var(--border-radius1);
     
     border: 1px solid var(--color-bg2);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-top-left-radius: var(--border-radius1);
+    border-top-right-radius: var(--border-radius1);
 }
 .select.focus .select-body {
     visibility: visible;
@@ -1639,7 +1639,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: inline-flex;
     align-items:center;
     padding: 3px 12px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     font-family: 'gotham-bold';
     position: absolute;
     top: -6px;
@@ -1672,7 +1672,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     line-height: 18px;
     color: var(--color-base-invert);
     background-color: var(--color-base);
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     padding: 15px;   
 }
 .add-new-stock .price-origin-historical input:disabled {
@@ -1723,8 +1723,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color:var(--color-base);
     color:var(--color-base-invert);
 }
-.add-new-stock .tabs .buy { border-top-left-radius:15px; border-bottom-left-radius:15px; }
-.add-new-stock .tabs .sell { border-top-right-radius:15px; border-bottom-right-radius:15px; }
+.add-new-stock .tabs .buy { border-top-left-radius:var(--border-radius1); border-bottom-left-radius:var(--border-radius1); }
+.add-new-stock .tabs .sell { border-top-right-radius:var(--border-radius1); border-bottom-right-radius:var(--border-radius1); }
 
 .add-new-stock .advanced {
     display:flex;
@@ -1758,7 +1758,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width:100%;
     padding: 0 15px 15px;
     border: 1px solid var(--color-bg);
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     border-top-right-radius: 0;
     border-top-left-radius:0;
     margin-top: -1px;
@@ -1876,7 +1876,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .add-new-stock .view-sell .item {
     border: 1px solid var(--color-bg);
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     padding: 10px;
     margin: 0 5px 15px;
     display:flex;
@@ -2024,7 +2024,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .my-account input {
     width: 100%;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     padding: 15px 20px;
     border: 1px solid #ffffff;
     margin-bottom: 10px;
@@ -2209,7 +2209,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: var(--color-base);
     color: var(--color-base-invert);
     padding: 5px 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
 }
 .tc .show span, .tc .close span {
     font-size:15px;
@@ -2371,7 +2371,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 1px solid var(--color-bg);
     padding: 10px;
     font-size: var(--size-small);
-    border-radius: 15px;
+    border-radius: var(--border-radius2);
     background-color: var(--color-base);
     color: var(--color-base-invert);
     text-align:center;
@@ -2383,7 +2383,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border: 1px solid var(--color-bg);
     padding: 10px;
     font-size: var(--size-small);
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     background-color: var(--color-base);
     color: var(--color-base-invert);
     text-align:center;
@@ -2427,7 +2427,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .settings textarea {
     width: 100%;
     margin-top: 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     border: 1px solid var(--color-bg);
     min-height: 100px;
     padding: 15px;
@@ -2743,8 +2743,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     visibility:hidden; 
     width:100%; 
     height:100%;
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
+    border-top-left-radius:var(--border-radius1);
+    border-top-right-radius:var(--border-radius1);
     
 }
 .stock-view .chart.stock-price-container .stock-price.active { 
@@ -2824,24 +2824,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .entity-main-info-container { margin:0 15px; border-radius:15px; }
 .entity-main-info-container .Description .field { display:none; }
 .entity-main-info-container .Description .value { font-family:'gotham-regular'; text-align:justify; line-height:22px; }
-
-
-.stock-view [data-view="website"] .website {
-    margin: 0px;
-    border-radius: 15px;
-    overflow: hidden;
-    position: relative;
-    height: 100vh;
-    width: calc(100% - 15px);
-}
-.stock-view [data-view="website"] .website iframe {
-    width: 100%;
-    border: none;
-    height: calc(100vh - 180px);
-    position: absolute;
-    left: 15px;
-    border-radius: 15px;
-}
 
 
 /* BROWSER NOTES ------------------------------------------------------------ */
@@ -3270,7 +3252,7 @@ body.stock-price-pro-mode { overflow:hidden; }
 .player {
     background-color: var(--color-bg2);
     margin: 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     padding: 20px; 
 }
 .player-header {
@@ -3575,8 +3557,8 @@ main,
 .editable .mystock-container .edit { 
     display:flex; 
     justify-content:center;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px; 
+    border-bottom-right-radius: var(--border-radius1);
+    border-bottom-left-radius: var(--border-radius1); 
     overflow:hidden;
 }
 .mystock-container .edit {
@@ -3632,8 +3614,8 @@ main,
     border-top-right-radius:15px;
 }
 .wallet-items.funds .fund:last-child {
-    border-bottom-left-radius:15px;
-    border-bottom-right-radius:15px;
+    border-bottom-left-radius:var(--border-radius1);
+    border-bottom-right-radius:var(--border-radius1);
 }
 .wallet-items.funds .fund {
     display: flex;
@@ -3686,7 +3668,7 @@ main,
     display: flex;
     align-items: center;
     padding: 2.5px 2.5px 2.5px 15px;
-    border-radius: 15px;
+    border-radius: var(--border-radius2);
     background: var(--color-base);
     margin-left: 10px;
 }
@@ -3714,8 +3696,8 @@ main,
 .range-selector {
     background-color:var(--color-bg2);
     
-    border-bottom-left-radius:10px;
-    border-bottom-right-radius:10px;
+    border-bottom-left-radius:var(--border-radius1);
+    border-bottom-right-radius:var(--border-radius1);
     
     border-top:1px solid var(--color-bg);
     
@@ -4203,8 +4185,8 @@ input:checked + .switch:before {
     border-top-right-radius:15px;
 }
 .players .moves .move:last-child {
-    border-bottom-left-radius:15px;
-    border-bottom-right-radius:15px;    
+    border-bottom-left-radius:var(--border-radius1);
+    border-bottom-right-radius:var(--border-radius1);    
 }
 .players .moves .move .header {
     font-family:'gotham-bold';
@@ -4232,7 +4214,7 @@ input:checked + .switch:before {
     margin: 15px;
     width: calc(100% - 30px);
     background-color: var(--color-base-invert);
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -4527,7 +4509,7 @@ input:checked + .switch:before {
     margin: 0 5px 15px;
     cursor: pointer;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: var(--border-radius1);
     cursor:pointer;
 }
 .popup-avatars .avatars .avatar.active {
