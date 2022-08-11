@@ -5,27 +5,27 @@
 @media only screen and (min-width: 766px) {
     .range-selector { width:360px; align-self:flex-end; }
     .chart.stock-price-container{
-        border-bottom-left-radius: 15px;
         overflow: hidden;
     }   
 }
 
 @media only screen and (min-width: 996px) {
+    
+    .results {
+        justify-content:flex-start;
+    }
+    .page.settings .tabs {
+        align-self:flex-end;
+    }
+    
     .stock-view .results-info {
         text-align:center;
     }
     .stock-view .results-info-table {
         text-align:left;
     }
-    .view-grid .mystock-container, .view-box .mystock-container {
-        width: calc(20% - 10px);
-        margin:5px;
-    }
     .stock-view .results-info table {
         max-width:500px;
-    }
-    .footer-bottom {
-        max-width:100%;
     }
     .footer .hamburger {
         font-size:32px;
@@ -40,7 +40,7 @@
     .popup.active { bottom:62px; }
     
     .entity-main-info-container { display:flex; flex-wrap:wrap; }
-    .entity-main-info-container .tab-container { width:calc(33.333333% - 10px); margin:0 5px 10px; }
+    .entity-main-info-container .tab-container { width:100%; margin:0; }
     
     nav {
         height:100vh;
@@ -62,15 +62,9 @@
         right:253px;
     }
     
-    .stock-view .results-info-table .label, .stock-view .results-info-table .value {
-        width:10%;
-        flex-basis:10%;
-    }
-    
     .widgets {
         display:flex;
         flex-wrap:wrap;
-        width: calc(100% - 30px);
         
     }
     .widgets .widget {
@@ -80,22 +74,94 @@
     }
     
     .entities h2 { text-align:left; }
-    .entities .box { width: calc(20% - 10px); }
+    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
+        width: calc(25% - 10px);
+    } 
     
+    .view-list .wallet-items, .view-list-small .wallet-items, .view-list-small-results .wallet-items { display:flex; flex-wrap:wrap; }
+    .view-list .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
+        width: calc(50% - 10px);
+        margin:0 5px 10px;
+    }
+    .view-list-small .wallet-items .mystock-container {
+        width: calc(33.3333% - 10px);
+        margin:0 5px 10px;
+    }
+    .players .box {
+        width: calc(16.6666% - 10px);
+    }
+    .entities .box {
+        width: calc(16.6666% - 10px);
+    }
     .items-container .item {
-        width: calc(20% - 10px);
+        width:calc(16.6666% - 10px);
     }
     
-    .players .box { width: calc(20% - 10px); }
+    .with-popup .footer {
+        min-width:calc(25vw - 22px);
+    }
+
+    .page-view[data-view="overview"] { float:right; width:33.3333%; }
+    .page-view[data-view="dashboard"] { float:left; width:66.6666%; margin-top:15px; height:calc(100vh - 30px); }
+    .page-view[data-view="info"] { float:right; width:33.3333%; margin-top:-15px; }
+    .page-view[data-view="financial"] { float:left; width:66.6666%; margin-top:5px; }
+    
+    .stock-page-views { padding-bottom:90px; }
+    #stock-price { height:calc(100vh - 90px); min-height:calc(100vh - 90px); }
+    .widgets {
+        margin:10px 5px 0;
+    }
+    .widgets .widget {
+        width:calc(50% - 20px);
+        flex-basis:calc(50% - 20px);
+        margin:0 10px 10px;
+
+    }
+    .heading-container { }
+    .chart.stock-price-container {
+        margin-left: 15px;
+        margin-right:0px;
+        border-radius: var(--border-radius1);
+    }
+    
+    .wallets .wallet { position:fixed; right:5px; width:248px; }
+    .wallet[data-id="0"] { bottom:80px; }
+    .wallet[data-id="1"] { bottom:80px; right:265px; }
+    .wallet[data-id="2"] { bottom:215px; }
+    .wallets.mini .wallet[data-id="2"] { bottom:147px; }
+    
+    .wallet-views { width:calc(100vw - 280px); }    
+     
+    .player-view .overview { float:left; width:50%; }
+    .player-view .results { padding:10px 10px 0 0; }
+    .player-view .results .box { padding:32px 15px; }
+    .player-view .trophies .trophy { width:calc(12.5% - 30px)}
+    .player-view .tabs { clear:both; }
+    
     
 }
 @media only screen and (min-width: 1445px) {
+
+    
+    .page-view[data-view="overview"] { float:right; width:25%; }
+    .page-view[data-view="dashboard"] { float:left; width:75%; margin-top:15px; height:calc(100vh - 30px); }
+    .page-view[data-view="info"] { float:right; width:25%; margin-top:-15px; }
+    .page-view[data-view="financial"] { float:left; width:75%; margin-top:5px; }
+
+    .items-container .item {
+        width:calc(12.5% - 10px);
+    }   
+    
     .view-grid .mystock-container, .view-box .mystock-container {
         width: calc(12.5% - 10px);
     }
-    .widgets .widget {
-        width:calc(33% - 20px);
-        flex-basis:calc(33% - 20px);
-        margin:10px;
-    }
+    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
+        width: calc(20% - 10px);
+    }  
+    
+    
+    .view-list .wallet-items .mystock-container, .view-list-small .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
+        width: calc(50% - 10px);
+    }     
+    
 }

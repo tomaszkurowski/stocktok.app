@@ -303,6 +303,23 @@
       return (location.search ? location.search.substr(1).split`&`.reduce((qd, item) => {let [k,v] = item.split`=`; v = v && decodeURIComponent(v); (qd[k] = qd[k] || []).push(v); return qd}, {}) : {});
     }
     
+    function updateQueryParams(params,full_url = false) {
+        var url_ending='';
+      
+        if (Object.keys(params).length>0) url_ending = '?';
+        Object.keys(params).forEach(function(index,value){            
+            if (url_ending !== '?'){ url_ending += '&'; }
+            url_ending += '' + index + '=' + params[index];            
+        });
+        
+        if (full_url){
+            return window.location.pathname+url_ending;
+        }else{
+            return url_ending;
+        }
+      
+    }
+    
     function getFiltersParams(){
         let params  = getQueryParams();
         let filters = [];       

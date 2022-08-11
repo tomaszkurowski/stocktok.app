@@ -1,110 +1,111 @@
     
     <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.15"></script>
     
-    <div class="page stock-view active">
 
-        <div class="widget box results-info collapsed">
-            <div class="results-info-title">
-                  
-                <div class="logo-container"></div>
-                <h2></h2>
-                
-                <div class="price-preview">
-                    <div class="info">
-                        <span class="price"></span>
-                        <span class="currency"></span>
-                    </div>
-                    <div class="date"></div>
-                </div>
-                
-                <div class="actions-all">
-                    <div class="actions">
-                       <div class="icon-btn btn-edit icon-settings"></div> 
-                    </div>
-                    <div class="icon icon-btn icon-expand_more1 widget-collapse"></div>
-                </div>
-                <!--
-                <div class="actions-additional">
-                    <div class="icon icon-btn icon-shopping_cart"></div>
-                    <div class="icon icon-btn icon-bookmark_outline"></div>
-                    
-                    <div class="icon icon-btn icon-google" style="font-size:25px"></div>
-                    <div class="icon icon-btn icon-sphere" style="font-size:25px"></div>
-                    
-                </div>
-                -->
-
-            </div>
-            <div class="content">                    
-                <div class="results-info-table">
-                    <div class="label label-current-price">Price</div>
-                    <div class="value current-price"></div>
-
-                    <div class="label label-current-volume">Volume</div>
-                    <div class="value current-volume">-</div>  
-
-                    <div class="label label-previous-price">Previous</div>
-                    <div class="value previous-price"></div>
-
-                    <div class="label label-open-price">Open</div>
-                    <div class="value open-price">-</div>                            
-
-                    <div class="label label-daily-change">Daily</div>
-                    <div class="value daily-change">-</div>
-
-                    <div class="label label-daily-change-percentage">Daily %</div>
-                    <div class="value daily-change-percentage percentage">-</div>
-
-                    <div class="label label-daily-max">Day Max</div>
-                    <div class="value daily-max">-</div>
-
-                    <div class="label label-daily-min">Day Min</div>
-                    <div class="value daily-min">-</div>
-                </div>
-
-                <div class="edit">
-                    <h3>Choose fields you would like to see here:</h3>
-                    <div class="form hidden-fields">
-                        <div class="field">
-                            <input type="checkbox" id="v-current-price" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-current-price">Current Price</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-current-volume" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-current-volume">Current Volume</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-previous-price" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-previous-price">Previous Price</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-open-price" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-open-price">Open Price</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-daily-max" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-daily-max">Daily Max</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-daily-min" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-daily-min">Daily Min</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-daily-change" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-daily-change">Daily Change</label>
-                        </div>
-                        <div class="field">
-                            <input type="checkbox" id="v-daily-change-percentage" data-role="none" checked="CHECKED" class="checkbox" />
-                            <label for="v-daily-change-percentage">Daily Change %</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="page-views stock-page-views">        
 
-            <div class="page-view active" data-view="dashboard">                            
+            <div class="page-view stock-view active" data-view="overview">
+                <div class="widget box results-info collapsed">
+                    <div class="results-info-title">
+
+                        <div class="logo-container"></div>
+                        <h2></h2>
+
+                        <div class="price-preview">
+                            <div class="info">
+                                <span class="price"></span>
+                                <span class="currency"></span>
+                            </div>
+                            <div class="date"></div>
+                        </div>
+
+                        <div class="actions-all">
+                            <div class="actions">
+                               <div class="icon-btn btn-edit icon-settings"></div> 
+                            </div>
+                            <div class="icon icon-btn icon-expand_more1 widget-collapse"></div>
+                        </div>
+                        <!--
+                        <div class="actions-additional">
+                            <div class="icon icon-btn icon-shopping_cart"></div>
+                            <div class="icon icon-btn icon-bookmark_outline"></div>
+
+                            <div class="icon icon-btn icon-google" style="font-size:25px"></div>
+                            <div class="icon icon-btn icon-sphere" style="font-size:25px"></div>
+
+                        </div>
+                        -->
+
+                    </div>
+                    <div class="content">                    
+                        <div class="results-info-table">
+                            <div class="label label-current-price">Price</div>
+                            <div class="value current-price"></div>
+
+                            <div class="label label-current-volume">Volume</div>
+                            <div class="value current-volume">-</div>  
+
+                            <div class="label label-previous-price">Previous</div>
+                            <div class="value previous-price"></div>
+
+                            <div class="label label-open-price">Open</div>
+                            <div class="value open-price">-</div>                            
+
+                            <div class="label label-daily-change">Daily</div>
+                            <div class="value daily-change">-</div>
+
+                            <div class="label label-daily-change-percentage">Daily %</div>
+                            <div class="value daily-change-percentage percentage">-</div>
+
+                            <div class="label label-daily-max">Day Max</div>
+                            <div class="value daily-max">-</div>
+
+                            <div class="label label-daily-min">Day Min</div>
+                            <div class="value daily-min">-</div>
+                        </div>
+
+                        <div class="edit">
+                            <h3>Choose fields you would like to see here:</h3>
+                            <div class="form hidden-fields">
+                                <div class="field">
+                                    <input type="checkbox" id="v-current-price" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-current-price">Current Price</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-current-volume" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-current-volume">Current Volume</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-previous-price" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-previous-price">Previous Price</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-open-price" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-open-price">Open Price</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-daily-max" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-daily-max">Daily Max</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-daily-min" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-daily-min">Daily Min</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-daily-change" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-daily-change">Daily Change</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-daily-change-percentage" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-daily-change-percentage">Daily Change %</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+            <div class="page-view" data-view="dashboard">                        
                 <div class="chart stock-price-container">  
                     <div id="stock-price" class="stock-price active"></div>                                
                 </div>
@@ -224,8 +225,9 @@
                 </div>
             </div>
             -->
+        <br style="clear:both" />    
         </div>
-    </div>
+
     <div class="template-widget hide" data-type="financial_graph">
 
         <div class="widget" data-type="financial_graph">
@@ -284,6 +286,7 @@
             </div>
         </div> 
     </div>
+    
 
     <div class="template-info-tab hide tab-container tab-info">
         <div class="tab-header">
@@ -326,6 +329,9 @@
 
         function stock_graph_adaptive_height(){
 
+            if ($(window).width()>996){
+                return;
+            };
             if ($('.results-info').hasClass('editable')) return;
             if ($('.results-info').hasClass('with-cover') && !$('.results-info').hasClass('collapsed')) return;
 

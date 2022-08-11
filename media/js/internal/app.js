@@ -104,7 +104,7 @@
         $('.footer .heading').html('');
         $('.page-views-slider').remove();
         $('#popup').html('');
-        $('body').removeClass('with-popup');
+        $('body').removeClass('with-popup').removeClass('no-blur');
         $('.toggleHeading').remove();
         $('.footer-bottom').removeClass('short');
         

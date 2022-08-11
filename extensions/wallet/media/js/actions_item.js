@@ -302,7 +302,7 @@
     $(document).off('click', '.mystock-container .view-action');
     $(document).on('click','.mystock-container .view-action',function(e){
         var symbol = $(this).closest('.mystock-container').attr('data-symbol');
-        var market = $(this).closest('.mystock-container').attr('data-market');
+        var market = $(this).closest('.mystock-container').attr('data-market');               
         location.href = '/entities/'+market+'/'+symbol;
     });
 
@@ -310,6 +310,15 @@
     $(document).on('click','.items-container [data-action="view"]',function(e){
         var symbol = $(this).parents('.item').attr('data-symbol');
         var market = $(this).parents('.item').attr('data-market');
+        
+        // Remember scroll
+        if (mvc.model === 'entities'){            
+            var params = getQueryParams();
+            params.last_clicked = parseInt($(this).parents('.item').attr('data-position'));
+            params.market = market;
+            
+            window.history.pushState({}, '', updateQueryParams(params,true)+'#'+symbol);            
+        }        
         location.href = '/entities/'+market+'/'+symbol;
     });
 
