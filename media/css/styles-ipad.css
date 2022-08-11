@@ -150,12 +150,13 @@
     .player-view .trophies .trophy { width:calc(12.5% - 30px)}
     .player-view .tabs { clear:both; }
     
+    .analysis-page-views { padding-bottom:75px; }
     .page-view[data-view="dynamic-wallet-trend"] { float:left; width:70%; }
     .page-view[data-view="wallet-strength"] { float:right; width:30%; }
     .page-view[data-view="wallet-structure"] { float:right; width:30%; }
     
-    .widget.wallet-strength { height:300px;}
-    .widget.wallet-structure { height:auto; }
+    .widget.wallet-strength { }
+    .widget.wallet-structure { height:calc(50vh - 90px); }
     .widget.dynamic-wallet-trend { height:calc(100vh - 100px); }
     
 }

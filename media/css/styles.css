@@ -316,7 +316,11 @@ a {
     align-self: flex-end;
     margin-left:-1px;
     padding-left:16px;
-
+}
+.left-handed .footer .hamburger-container {
+    margin-left:0;
+    margin-right:-1px;
+    order:-1;
 }
 .footer .hamburger {
     font-size:30px;
@@ -345,10 +349,12 @@ a {
 .footer-bottom.short .heading {
     direction:ltr;
 }
+.left-handed .footer-bottom {
+
+}
 
 body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
-body:not(.with-popup) .left-handed .heading > * { margin-right:15px; margin-left:0; }
-body:not(.with-popup) .left-handed .heading > *:last-child { margin-left:15px; }
+body:not(.with-popup) .left-handed .heading > * { margin-left:0; margin-right:15px; }
 
 .heading h2 {
     flex-grow:1;
@@ -625,6 +631,9 @@ body.editable .cover {
     border-top-left-radius:var(--border-radius1);
     border-top-right-radius:var(--border-radius1);
     transition:all 0.1s ease-in;
+}
+.left-handed .footer .toggleHeading {
+    order:10;
 }
 .footer .toggleHeading, .footer .toggleHeading .icon-btn {
     transition:all 0.1s ease-in;
@@ -2410,6 +2419,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding-left:15px;
     justify-content:center;
 }
+.left-handed .settings .tab-content .row .selector {
+    padding-left:0;
+    padding-right:15px;
+}
 .settings input[type="range"] {
     width:calc(100% - 15px);
 }
@@ -3347,9 +3360,12 @@ body.stock-price-pro-mode { overflow:hidden; }
     margin:20px 15px 0; 
     border-radius:var(--border-radius1); 
     padding:20px; 
-    display:flex; 
+    display:none; 
     align-items:center; 
     justify-content:center; 
+}
+.editable .add-widget {
+    display:flex;
 }
 .add-widget .icon-btn {
     background-color: var(--color-base);
@@ -3942,7 +3958,7 @@ input:checked + .switch:before {
 .icon-btn.icon-settings1     { font-size:30px; }
 .icon-btn.icon-google        { font-size:25px; }
 .icon-btn.icon-sphere        { font-size:28px; }
-.icon-btn.icon-create        { font-size:32px; order:-2; margin-right:-4px !important }
+.icon-btn.icon-create        { font-size:32px; order:-2; }
 
 
 .info-page {
@@ -4793,6 +4809,9 @@ input:checked + .switch:before {
     display:flex;
     align-items:center;
     padding:10px 15px;
+}
+.left-handed .find-in {
+    direction:rtl;
 }
 .find-in h2 {
     flex-grow:1;
