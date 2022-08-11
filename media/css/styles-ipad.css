@@ -98,7 +98,7 @@
     }
     
     .with-popup .footer {
-        min-width:calc(25vw - 22px);
+        min-width:400px;
     }
 
     .page-view[data-view="overview"] { float:right; width:33.3333%; }
@@ -125,9 +125,21 @@
     }
     
     .wallets .wallet { position:fixed; right:5px; width:248px; }
-    .wallet[data-id="0"] { bottom:80px; }
+    
+    
+    .wallet[data-id="0"] { bottom:80px; right:5px; }
     .wallet[data-id="1"] { bottom:80px; right:265px; }
-    .wallet[data-id="2"] { bottom:215px; }
+    .wallet[data-id="2"] { bottom:215px; right:5px; }
+    
+    [data-active="1"] .wallet[data-id="0"] { bottom:215px; right:5px; }
+    [data-active="1"] .wallet[data-id="1"] { bottom:80px; right:5px; }
+    [data-active="1"] .wallet[data-id="2"] { bottom:80px; right:265px; }
+    
+    [data-active="2"] .wallet[data-id="0"] { bottom:80px; right:265px; }
+    [data-active="2"] .wallet[data-id="1"] { bottom:215px; right:5px; }
+    [data-active="2"] .wallet[data-id="2"] { bottom:80px; right:5px; }    
+    
+    
     .wallets.mini .wallet[data-id="2"] { bottom:147px; }
     
     .wallet-views { width:calc(100vw - 280px); }    
@@ -138,6 +150,13 @@
     .player-view .trophies .trophy { width:calc(12.5% - 30px)}
     .player-view .tabs { clear:both; }
     
+    .page-view[data-view="dynamic-wallet-trend"] { float:left; width:70%; }
+    .page-view[data-view="wallet-strength"] { float:right; width:30%; }
+    .page-view[data-view="wallet-structure"] { float:right; width:30%; }
+    
+    .widget.wallet-strength { height:300px;}
+    .widget.wallet-structure { height:auto; }
+    .widget.dynamic-wallet-trend { height:calc(100vh - 100px); }
     
 }
 @media only screen and (min-width: 1445px) {

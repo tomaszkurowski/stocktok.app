@@ -7,7 +7,7 @@ function reload_stock_price(){
     $('.results-info .previous-price').text(format_price(stock.previous_price));
     
     $('.results-info .price-preview:not(.tooltip-hover) .price').text(format_price(stock.price));
-    $('.results-info .price-preview:not(.tooltip-hover) .date').text(format_datetime(stock.last_updated_at));
+    $('.results-info .price-preview:not(.tooltip-hover) .date').text(stock.last_updated_at);
     
     $('.results-info .current-volume').text(format_price(stock.volume));
     $('.results-info .daily-change').text(format_price(stock.daily_change,2));

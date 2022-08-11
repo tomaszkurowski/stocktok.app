@@ -1,5 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.15"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.16"></script>
     
 
 
@@ -40,8 +40,22 @@
                     </div>
                     <div class="content">                    
                         <div class="results-info-table">
+                            
+                            <div class="label label-current-symbol">Symbol</div>
+                            <div class="value symbol"></div>
+
+                            <div class="label label-market">Market</div>
+                            <div class="value market"></div>
+                            
+                            <div class="label label-sector">Sector</div>
+                            <div class="value sector"></div>                            
+                            
+                            <div class="label label-industry">Industry</div>
+                            <div class="value industry"></div>
+                            
                             <div class="label label-current-price">Price</div>
                             <div class="value current-price"></div>
+                            
 
                             <div class="label label-current-volume">Volume</div>
                             <div class="value current-volume">-</div>  
@@ -68,6 +82,22 @@
                         <div class="edit">
                             <h3>Choose fields you would like to see here:</h3>
                             <div class="form hidden-fields">
+                                <div class="field">
+                                    <input type="checkbox" id="v-symbol" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-symbol">Symbol</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-market" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-market">Market</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-sector" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-sector">Sector</label>
+                                </div>
+                                <div class="field">
+                                    <input type="checkbox" id="v-industry" data-role="none" checked="CHECKED" class="checkbox" />
+                                    <label for="v-industry">Industry</label>
+                                </div>                                
                                 <div class="field">
                                     <input type="checkbox" id="v-current-price" data-role="none" checked="CHECKED" class="checkbox" />
                                     <label for="v-current-price">Current Price</label>
@@ -162,22 +192,22 @@
                             </select>
                         </div>
 
-                        <!-- Yes/No Changers -->
+                        <!--
                         <div class="changer-v2">
                             <label>Fullscreen:</label>
                             <label class="switch-slider">
-                                <input id="graph_fullscreen" type="checkbox" onClick="updateSettings('graph_fullscreen',this.checked); change_graph_fullscreen()"> <!-- At the bottom -->
+                                <input id="graph_fullscreen" type="checkbox" onClick="updateSettings('graph_fullscreen',this.checked); change_graph_fullscreen()">
                                 <span class="switch"></span>
                             </label>
                         </div>                     
                         <div class="changer-v2">
                             <label>Show Labels:</label>
                             <label class="switch-slider">
-                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> <!-- At the bottom -->
+                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
                                 <span class="switch"></span>
                             </label>
                         </div>
-
+                        -->
 
                     </div>
                 </div>
@@ -549,8 +579,8 @@
 
                     $('.heading.stock-view .results-info-title h2').text(stock.symbol);
                     $('.heading.stock-view-menu h2').text(stock.symbol);
-                    $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);                    
-
+                    $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);
+                                       
                     $('.stock-view .results-info h2').text(stock.name);               
                     $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
                     
@@ -558,6 +588,11 @@
                         $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" />');
                     }
                     
+                    $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
+                    $('.stock-view .results-info-table .value.market').text(stock.market);
+                    $('.stock-view .results-info-table .value.sector').text(stock.sector);
+                    $('.stock-view .results-info-table .value.industry').text(stock.industry);
+                                        
                     $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
                     $('.stock-view .results-info .price-preview .currency').text(stock.currency);
                     $('.stock-view .results-info .price-preview .date').text(format_date(Date.parse(stock.last_updated_at)));
@@ -654,7 +689,13 @@
                                 window.open(stock.website,'_blank');
                             }
                         );                        
-                    }
+                    }                    
+                    button({ 
+                        class: 'icon-btn icon-share' }, 
+                        function(){                             
+                            navigator.clipboard.writeText(window.location.href);
+                            $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-share"></div><div class="title">Link Copied</div><div class="description">'+window.location.href+'</div></div></div>');                            
+                        });                     
                     
                     if (settings.contributor === 'yes'){
 

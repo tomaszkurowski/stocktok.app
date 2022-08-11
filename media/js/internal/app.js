@@ -120,7 +120,7 @@
             var audio = new Audio("/media/sounds/page-1.mp3");
             audio.play();
         }        
-        window.history.pushState({}, '', url+window.location.search);                              
+        //window.history.pushState({}, '', url+window.location.search);                              
     }
     
     function load_popup(url){

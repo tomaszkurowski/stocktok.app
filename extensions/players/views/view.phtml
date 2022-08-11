@@ -134,7 +134,13 @@
                              function(){ 
                                  load_page('/wallet/'+player.username,true);                   
                              }
-                        );                          
+                        ); 
+                        button({ 
+                            class: 'icon-btn icon-share' }, 
+                            function(){                             
+                                navigator.clipboard.writeText(window.location.href);
+                                $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-share"></div><div class="title">Link Copied</div><div class="description">'+window.location.href+'<br /><br />You can send or post url to this page anywhere you want</div></div></div>');                            
+                            });                      
                         
                         // Overview
                         $('.overview').attr('data-username',player.username);

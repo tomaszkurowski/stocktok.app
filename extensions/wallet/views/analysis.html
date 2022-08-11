@@ -1,5 +1,9 @@
 <div class="page about active">
     
+    <div class="inline-actions edit-actions inline-container">
+        <div class="inline"></div>
+    </div>    
+    
     <div class="page-views analysis-page-views">
         
         <div class="page-view" data-view="dynamic-wallet-trend">
@@ -43,19 +47,19 @@
 
 <script type="text/javascript">
 
-    $(document).ready(function(){
-        switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js   
-    });
+    var stock_chart;
+    var series_copy;
 
-
-    $('.page-views').not('.slick-initialized').slick({
-        arrows:false,
-        dots:false,
-        infinite: true,
-        initialSlide:2
-    }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
-        if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }     
-    }); 
+    if ($(window).width()<996){
+        $('.page-views').not('.slick-initialized').slick({
+            arrows:false,
+            dots:false,
+            infinite: true,
+            initialSlide:2
+        }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
+            if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }     
+        }); 
+    }
  
 
     var makeSumSeries = function (chart) {
@@ -134,7 +138,7 @@
                 if (config.debug) console.log(response);                
                 
                 
-                
+                series = response.series;
         
                 // Wallet Strength
                 var totals  = [];
@@ -153,7 +157,7 @@
                     return;
                 }  
                 
-                var stock_chart = Highcharts.stockChart('dynamic-wallet-trend', {
+                stock_chart = Highcharts.stockChart('dynamic-wallet-trend', {
                     global: {
                         useUTC: false
                     },
@@ -177,7 +181,7 @@
                         pointFormatter:function(){
                             
                             console.log(this);
-                            $('.tooltip-preview.dynamic-wallet-trend .total').text(format_price(this.y,2)+ ' '+ settings.display_currency);
+                            $('.tooltip-preview.dynamic-wallet-trend .total').text(format_price(this.y,2));
                             $('.tooltip-preview.dynamic-wallet-trend .date').text(this.series.name + ', '+format_date(this.x));
                             
                             return '';
@@ -221,16 +225,14 @@
                     //        }
                     //    }]
                     //}]                    
-                });
+                });                
                 
                 $.each(response.series,function(index,serie){
-                    if (settings.analysis_scope==='total') add_series(stock_chart,serie.total,index);
+                    if (settings.dynamic_trend==='total') add_series(stock_chart,serie.total,index);
                     else add_series(stock_chart,serie.margin,index);                    
                 });
                 var label='Margin';                
-                if (settings.analysis_scope==='total') label='Total';
-                
-                $('.changer.analysis-scope .selected').text(label);
+                if (settings.dynamic_trend==='total') label='Total';                
                 
                 stock_chart.addSeries({
                     data: [],
@@ -245,6 +247,7 @@
         });
         
     }
+    
     function wallet_strength(symbols,totals,margins){
                
         if (symbols.length === 0){
@@ -374,8 +377,29 @@
         
     }
     
+
+    
+    $(document).ready(function(){
+        switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js   
+        switcher({ 
+            key: 'editable',  
+            class: 'icon-settings1', 
+            value: settings.editable  ? settings.editable :  'false'},
+            function(){ editable();  // => ui.js                                              
+        });    
+        changer({ 
+            title: 'Dynamic trend', 
+            key: 'dynamic_trend', 
+            values: { 'margin':'in Margin', 'total': 'in Total' },
+            click: function(el){ 
+                updateSettings('dynamic_trend',$(el).find('select').val()); 
+                dynamic_wallet_trend();                  
+            }
+        });        
+        dynamic_wallet_trend();        
+    });    
     
     
-    dynamic_wallet_trend();
+    
 
 </script>

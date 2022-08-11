@@ -55,14 +55,11 @@ if($fileError == UPLOAD_ERR_OK){
     
     $x      =  filter_input(INPUT_POST, 'x');
     $y      =  filter_input(INPUT_POST, 'y');
-    $size   =  filter_input(INPUT_POST, 'size');
-        
-    $width  =  filter_input(INPUT_POST, 'width');
-    $height =  filter_input(INPUT_POST, 'height');
-    $newwidth  =  filter_input(INPUT_POST, 'newwidth');
-    $newheight =  filter_input(INPUT_POST, 'newheight');
 
-    // 300x200 = 450x300
+    list($width, $height, $type, $attr) = getimagesize($path);    
+            
+    $newwidth  =  450;
+    $newheight =  ($height / $width) * 450;
     
     $resized  = imagecreatetruecolor($newwidth, $newheight);
     

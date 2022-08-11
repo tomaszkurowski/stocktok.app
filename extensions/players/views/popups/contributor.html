@@ -100,48 +100,21 @@
         if (type === 'cover'){
             $('.frame-container').addClass('horizontal').width(300).height(450);
             $('.popup').css('maxHeight','900px');
-        }else{
-            $('.popup').css('maxHeight','calc(100vh - 210px)');
-        }
-        
-        $('.step1').slideUp(300,'swing',function(){
-            $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
-                
-                button({ 
-                    class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
-                    function(){ 
-                        $('.heading .icon-keyboard_backspace1').remove();
-                        $('.heading .icon-check1').remove();                        
-                        $('.step2').removeClass('active').slideUp(300,'swing',function(){
-                            $('.step1').slideDown(300,'swing',function(){});
-                        });
-                    }
-                );
-                var width   = frame.naturalWidth;
-                var height  = frame.naturalHeight;
-        
-                button({ class: "icon-btn popup-btn icon-check1" }, function(){ 
-                    
+            
+            
                     var symbol = $('.popup-add-logo #symbol').val();
                     var market = $('.popup-add-logo #market').val();
         
                     var formData = new FormData();
                     formData.append('me',me.username);
-                    formData.append('file', $('#'+type)[0].files[0]);
-                    formData.append('x',$('.frame-container').scrollLeft());
-                    formData.append('y',$('.frame-container').scrollTop());
-                    formData.append('size',$('#image-size').val());
-                    formData.append('width',width);
-                    formData.append('height',height);
-                    formData.append('newwidth',frame.width);
-                    formData.append('newheight',frame.height);
+                    formData.append('file', $('#cover')[0].files[0]);
                     formData.append('symbol',symbol);
                     formData.append('market',market);
                      
                     $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
                             
                     $.ajax({
-                            url : (type === 'cover' ? '/upload_cover.php' : '/upload_logo.php') ,
+                            url : '/upload_cover.php',
                             type : 'POST',
                             data : formData,
                             dataType: 'JSON',
@@ -155,23 +128,16 @@
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');
                                         //location.reload();
-                                        if (mvc.view === 'find-by'){
-                                            if (type === 'logo'){
-                                                $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
-                                            }
-                                        }else{
-                                            if (type === 'image'){
-                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" />');
-                                            }else{
-                                                $('.results-info .cover').remove();
-                                                $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" />'); 
-                                                stock_graph_adaptive_height(); 
-                                                if (stock_chart){ 
-                                                    setTimeout(function() {
-                                                        stock_chart.reflow();
-                                                    }, 400); // due to 300ms css transition
-                                                }                                                
-                                            }
+                                        
+                                        if ($('#stock-price').length){
+                                            $('.results-info .cover').remove();
+                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" />'); 
+                                            stock_graph_adaptive_height(); 
+                                            if (stock_chart){ 
+                                                setTimeout(function() {
+                                                    stock_chart.reflow();
+                                                }, 400); // due to 300ms css transition
+                                            }                         
                                         }
                                     });
                                 }else{
@@ -184,21 +150,99 @@
                                 }
                            }
                     });                    
-                    
+                            
+            
+        // logo    
+        }else{
+            $('.popup').css('maxHeight','calc(100vh - 210px)');
+            $('.step1').slideUp(300,'swing',function(){
+                $('.step2[data-type="image"]').addClass('active').slideDown(300,'swing',function(){
+
+                    button({ 
+                        class: 'icon-btn popup-btn icon-keyboard_backspace1' }, 
+                        function(){ 
+                            $('.heading .icon-keyboard_backspace1').remove();
+                            $('.heading .icon-check1').remove();                        
+                            $('.step2').removeClass('active').slideUp(300,'swing',function(){
+                                $('.step1').slideDown(300,'swing',function(){});
+                            });
+                        }
+                    );
+                    var width   = frame.naturalWidth;
+                    var height  = frame.naturalHeight;
+
+                    button({ class: "icon-btn popup-btn icon-check1" }, function(){ 
+
+                        var symbol = $('.popup-add-logo #symbol').val();
+                        var market = $('.popup-add-logo #market').val();
+
+                        var formData = new FormData();
+                        formData.append('me',me.username);
+                        formData.append('file', $('#'+type)[0].files[0]);
+                        formData.append('x',$('.frame-container').scrollLeft());
+                        formData.append('y',$('.frame-container').scrollTop());
+                        formData.append('size',$('#image-size').val());
+                        formData.append('width',width);
+                        formData.append('height',height);
+                        formData.append('newwidth',frame.width);
+                        formData.append('newheight',frame.height);
+                        formData.append('symbol',symbol);
+                        formData.append('market',market);
+
+                        $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
+
+                        $.ajax({
+                                url : '/upload_logo.php' ,
+                                type : 'POST',
+                                data : formData,
+                                dataType: 'JSON',
+                                processData: false,  // tell jQuery not to process the data
+                                contentType: false,  // tell jQuery not to set contentType
+                                success : function(response) {
+
+                                    if (response.success){
+                                        $('.popup-avatars').slideDown(300,'linear',function(){
+                                            $('.popup-btn').remove();
+                                            $('.popup-avatars').remove();
+                                            $('body').removeClass('with-popup');
+                                            //location.reload();
+                                            if (mvc.view === 'find-by'){
+                                                if (type === 'logo'){
+                                                    $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                                }
+                                            }else{
+                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                            }
+                                        });
+                                    }else{
+                                        $('.popup-btn.icon-check1').remove();
+                                        $('.popup-add-logo').html('\
+                                            <div class="popup-success">\n\
+                                                <div class="icon-btn icon-clear"></div>\n\
+                                                <div class="title">'+response.msg+'</div>\n\
+                                            </div>');                                      
+                                    }
+                               }
+                        });                    
+
+                    });
+
+                    var size = width;                
+                    if (width>height) size = height;
+
+                    if (size<300){
+                        $('#image-size').attr('max',300).attr('min',300).val(size);
+                    }else{
+                        $('#image-size').attr('max',size).val(size);
+                        $('.popup-avatars .icon-move').addClass('available');
+                    }                    
+
                 });
-                
-                var size = width;                
-                if (width>height) size = height;
-                
-                if (size<300){
-                    $('#image-size').attr('max',300).attr('min',300).val(size);
-                }else{
-                    $('#image-size').attr('max',size).val(size);
-                    $('.popup-avatars .icon-move').addClass('available');
-                }                    
+            });            
+            
+        }
         
-            });
-        });
+
     });
     
     $(document).off('input', '#image-size');

@@ -23,9 +23,9 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.98" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.101" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.30" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.33" />
     
     <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
@@ -41,7 +41,7 @@
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/external.js?version=1.5"></script>
     <script src="/media/js/internal.js?version=1.5.2"></script>
-    <script src="/media/js/internal/app.js?version=1.4"></script>
+    <script src="/media/js/internal/app.js?version=1.5"></script>
         
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>    
@@ -102,7 +102,7 @@
     <script type="text/javascript">                
         
         config = {
-            version:    '1.1.94',
+            version:    '1.1.96',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -114,7 +114,7 @@
             calculation_of_profit_with_purchased_rate:1,
             display_currency:       "pln",
             public:                 "yes",
-            analysis_scope:         "total",
+            dynamic_trend :         "total",
             graph_type:             "line",
             graph_line:              1,
             graph_touch:            'tooltip',

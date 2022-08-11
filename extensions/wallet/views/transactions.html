@@ -101,17 +101,17 @@
                     switch (nextSlide){
                         case 0:                           
                             $('.wallet[data-id="0"]').addClass('active'); 
-                            $('.wallets').stop().animate({scrollLeft:0}, 800, 'swing'); 
+                            $('.wallets').stop().animate({scrollLeft:0}, 800, 'swing').attr('data-active',0); 
                             $('.wallet-popup').attr('data-popup','add-new-stock');
                             break;
                         case 1: 
                             $('.wallet[data-id="1"]').addClass('active'); 
-                            $('.wallets').stop().animate({scrollLeft:200}, 700, 'swing'); 
+                            $('.wallets').stop().animate({scrollLeft:200}, 700, 'swing').attr('data-active',1); 
                             $('.wallet-popup').attr('data-popup','add-new-stock');
                             break;
                         case 2: 
                             $('.wallet[data-id="2"]').addClass('active'); 
-                            $('.wallets').stop().animate({scrollLeft:400}, 700, 'swing'); 
+                            $('.wallets').stop().animate({scrollLeft:400}, 700, 'swing').attr('data-active',2); 
                             $('.wallet-popup').attr('data-popup','funds-update');
                             break;
                     }
