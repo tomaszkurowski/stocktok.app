@@ -8,7 +8,7 @@
 </div>
 
 
-<script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.22"></script>
+<script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.25"></script>
 <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.7"></script>    
 
 <script type="text/javascript">
@@ -37,7 +37,19 @@
             load: function(el){
                 $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(el).find('select').val());
             }
-        });            
+        }); 
+        changer({ 
+            title: 'Sort by', 
+            key: 'find_sort', 
+            values: { 'alphabetically': 'Alphabetically', 'volume_desc':'Highest volume', 'volume_asc':'Lowest volume' },
+            click: function(el){ 
+                updateSettings('find_sort',$(el).find('select').val());
+                $('.items-container').html('');
+                get_search_items();
+            },
+            load: function(el){
+            }
+        });         
     });
 
     let scrollTimer,

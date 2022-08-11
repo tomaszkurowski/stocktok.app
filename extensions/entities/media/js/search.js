@@ -4,7 +4,7 @@ function get_search_items(){
     var params = getQueryParams();
     var page = $('.items-container .item').length;
     
-    if (params.last_clicked){
+    if (params.last_clicked && !ios){
         page = parseInt(params.last_clicked);
         delete params['last_clicked'];
         window.history.pushState({}, '', updateQueryParams(params,true));  
@@ -16,7 +16,8 @@ function get_search_items(){
             endpoint: '/entities', 
             filters: filters, // helpers.js
             page: page,
-            search: search
+            search: search,
+            sort: settings.find_sort ? settings.find_sort : null
         },
         type: 'GET',
         dataType: 'JSON',
