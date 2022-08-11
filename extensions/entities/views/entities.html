@@ -83,60 +83,49 @@
             </div>  
 
             <h2 class="find-stocks-by-sector">Stocks by sector</h2>
+      
 
-            <div class="box" onClick="location.href='/entities/find-by?sector=space'">
-                <div class="icon icon-aerospace" data-action="find-by" data-code="sector" data-value="aerospace"></div>
-                <div class="title">Military</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
-            </div>         
-
-            <div class="box" onClick="location.href='/entities/find-by?sector=automobiles'">
-                <div class="icon icon-automobiles" data-action="find-by" data-code="sector" data-value="automobile"></div>
-                <div class="title">Automobiles</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
-            </div> 
-
-            <div class="box" onClick="location.href='/entities/find-by?sector=banks'">
-                <div class="icon icon-banks"></div>
-                <div class="title">Banks</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
-            </div>        
-
-            <div class="box" onClick="location.href='/entities/find-by?sector=services'">
+            <div class="box" onClick="location.href='/entities/find-by?sector=consumer'">
                 <div class="icon icon-services"></div>
-                <div class="title">Services</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="title">Consumer</div>
+                <div class="label">Services & Cyclical</div>
             </div>      
 
             <div class="box" onClick="location.href='/entities/find-by?sector=energy'">
                 <div class="icon icon-energy"></div>
                 <div class="title">Energy</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="label">Energy suppliers & providers</div>
             </div> 
 
             <div class="box" onClick="location.href='/entities/find-by?sector=finance'">
                 <div class="icon icon-finance"></div>
                 <div class="title">Finance</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="label">Financial services & Banks</div>
             </div> 
 
             <div class="box" onClick="location.href='/entities/find-by?sector=health'">
                 <div class="icon icon-healthcare"></div>
-                <div class="title">Health-Care</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="title">Health</div>
+                <div class="label">Equipment, supplies & services</div>
             </div> 
 
-            <div class="box" onClick="location.href='/entities/find-by?sector=tech'">
+            <div class="box" onClick="location.href='/entities/find-by?sector=technology'">
                 <div class="icon icon-technology"></div>
                 <div class="title">Technology</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="label">IT, Software & Biotechnology</div>
             </div>     
 
-            <div class="box" onClick="location.href='/entities/find-by?sector=industr'">
+            <div class="box" onClick="location.href='/entities/find-by?sector=industry'">
                 <div class="icon icon-industry"></div>
                 <div class="title">Industrials</div>
-                <div class="label">Lorem Ipsum is simply dummy text</div>
+                <div class="label">Goods & Materials</div>
             </div> 
+            
+            <div class="box for-contributors" style="display:none" onClick="location.href='/entities/find-by?sector=empty'">
+                <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
+                <div class="title">Non-Classified</div>
+                <div class="label">Other & miscellaneous</div>
+            </div>            
 
             <div class="box" onClick="location.href='/entities/find-by?sector=all'">
                 <div class="icon icon-arrow-down21" style="transform:rotate(-90deg)"></div>
@@ -206,6 +195,10 @@
             $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
             $('body').addClass('with-popup no-blur');
             $('footer #popup input.search').focus();
+            
+            if (settings.contributor === 'yes'){
+                $('.for-contributors').show();
+            }
         });
         
     </script>
