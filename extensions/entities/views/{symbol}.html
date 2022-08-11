@@ -1,9 +1,9 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.16"></script>
-    
+    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.25"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.16"></script> 
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.7"></script> 
 
-
-        <div class="page-views stock-page-views">        
+        <div class="page page-views stock-page-views active">        
 
             <div class="page-view stock-view active" data-view="overview">
                 <div class="widget box results-info collapsed">
@@ -159,6 +159,13 @@
 
                         <!-- Select changers -->
                         <div class="changer-v2">
+                            <label for="related_layout">Related layout:</label>
+                            <select id="related_layout" onChange="updateSettings('related_layout',$(this).val()); $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(this).val())"> <!-- stockactions.js -->
+                                <option value="grid">grid</option>
+                                <option value="minimal">minimal</option>
+                            </select>
+                        </div>                         
+                        <div class="changer-v2">
                             <label for="graph_type">Graph type:</label>
                             <select id="graph_type" onChange="updateSettings('graph_type',$(this).val()); generate_graph();"> <!-- stockactions.js -->
                                 <option value="line">Line</option>
@@ -246,7 +253,21 @@
                  <div class="add-widget" data-type="financial_graph">
                      <div class="icon-btn icon-add"></div>                     
                  </div>
-            </div>           
+            </div>  
+            
+            <div class="page-view view-grid related-container" data-view="related-sector">                
+                <h2>From the same sector</h2>
+                <div class="related hide-scroll">
+                    <div class="items-container"></div>
+                </div>
+            </div>
+            
+            <div class="page-view view-grid related-container" data-view="related-industry">                
+                <h2>Top from the same industry</h2>
+                <div class="related hide-scroll">
+                    <div class="items-container"></div>
+                </div>
+            </div>            
             
             <!--
             <div class="page-view" data-view="news">
@@ -1118,6 +1139,24 @@
                         }
                     });
 
+                    
+                    
+                    // Get Related
+                    
+                    $('.page').addClass('view-'+settings.related_layout);
+                    
+                    if (stock.sector !== '' && stock.sector !== null){
+                        get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-sector"] ',10,'shuffle',true);                                                
+                    }else{
+                        $('[data-view="related-sector').hide();
+                    }
+                    if (stock.industry !== '' && stock.industry !== null){
+                        get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-industry"] ',10,'volume_desc',true);                                                
+                    }else{
+                        $('[data-view="related-industry').hide();
+                    }
+                    
+                    
                     
 
 

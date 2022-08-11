@@ -4847,7 +4847,7 @@ input:checked + .switch:before {
     width:100%;
 }
 
-.entities h2 {
+.entities h2, .related-container h2 {
     width: 100%;
     margin-left: 5px;
     color: var(--color-text);
@@ -4855,7 +4855,10 @@ input:checked + .switch:before {
     line-height:24px;
     padding:15px 5px;
     font-family:'gotham-regular';
-    text-align:center;
+    text-align:left;
+}
+.related-container h2 {
+    padding:25px 5px 0;
 }
 .entities h2:first-child {
     padding-top:12.5px
@@ -4879,5 +4882,16 @@ input:checked + .switch:before {
     font-family:'gotham-bold';
     margin:15px 0;
 }
+
+.related {
+    width:100%;
+    overflow-x:scroll;
+}
+.related .items-container {
+    width:max-content;
+    flex-wrap:inherit;
+    padding-bottom:0;
+}
+
     
     

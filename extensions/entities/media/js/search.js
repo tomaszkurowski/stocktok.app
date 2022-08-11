@@ -1,13 +1,18 @@
 var search = '';
-function get_search_items(){   
-    var filters = getFiltersParams();
-    var params = getQueryParams();
-    var page = $('.items-container .item').length;
+function get_search_items(filters=null,target='',size=30,sort = null,related=false){   
     
-    if (params.last_clicked && !ios){
+    if (!filters) filters = getFiltersParams();
+    
+    var params = getQueryParams();
+    var page = $(target+'.items-container .item').length;
+    
+    if (params.last_clicked && !ios && mvc.view === 'find-by'){
         page = parseInt(params.last_clicked);
         delete params['last_clicked'];
         window.history.pushState({}, '', updateQueryParams(params,true));  
+    }
+    if (sort === null){ 
+        sort = settings.find_sort ? settings.find_sort : null; 
     }
     
     $.ajax({
@@ -16,8 +21,9 @@ function get_search_items(){
             endpoint: '/entities', 
             filters: filters, // helpers.js
             page: page,
+            size:size,
             search: search,
-            sort: settings.find_sort ? settings.find_sort : null
+            sort: sort
         },
         type: 'GET',
         dataType: 'JSON',
@@ -29,10 +35,19 @@ function get_search_items(){
                 $('.form .search').focus();
             }
 
-            if (response.success === 'false') return;
+            if (response.success === 'false'){
+                if (related) $(target).hide();
+                return;
+            } 
             
             if (response.entities.length === 0 && !$('.items-container .item').length){
-                $('.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>')
+                
+                if (related){
+                    $(target).hide();
+                }else{
+                    $(target + '.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>');
+                }
+                
             }
             
             var it=0;
@@ -90,9 +105,11 @@ function get_search_items(){
                     $(el).append(btn_add_logo);
                 }
 
-                $('.items-container').append($(el));
+                $(target+'.items-container').append($(el));
 
-            });           
+            });
+            if (related){
+            }
 
 
         },

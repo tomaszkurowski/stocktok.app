@@ -105,6 +105,7 @@
     .page-view[data-view="dashboard"] { float:left; width:66.6666%; margin-top:15px; height:calc(100vh - 30px); }
     .page-view[data-view="info"] { float:right; width:33.3333%; margin-top:-15px; }
     .page-view[data-view="financial"] { float:left; width:66.6666%; margin-top:5px; }
+    .page-view[data-view="related-sector"] { clear:both; }
     
     .stock-page-views { padding-bottom:90px; }
     #stock-price { height:calc(100vh - 90px); min-height:calc(100vh - 90px); }
