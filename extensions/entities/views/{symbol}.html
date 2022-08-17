@@ -1,7 +1,7 @@
     
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.25"></script>
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.16"></script> 
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.7"></script> 
+    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.17"></script> 
+    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.15"></script> 
 
         <div class="page page-views stock-page-views active">        
 
@@ -174,6 +174,13 @@
                             </select>
                         </div>  
                         <div class="changer-v2">
+                            <label for="graph_tools">Graph tools:</label>
+                            <select id="graph_tools" onChange="updateSettings('graph_tools',$(this).val()); change_graph_tools()"> <!-- stockactions.js -->
+                                <option value="true">Show</option>
+                                <option value="false">Hide</option>
+                            </select>
+                        </div>                          
+                        <div class="changer-v2">
                             <label for="graph_touch">On touch:</label>
                             <select id="graph_touch" onChange="updateSettings('graph_touch',$(this).val()); change_graph_touch()"> <!-- At the bottom -->
                                 <option value="tooltip">Show Tooltip</option>
@@ -198,7 +205,14 @@
                                 <option value="-">No grid</option>
                             </select>
                         </div>
-
+                        <div class="changer-v2">
+                            <label>Graph labels:</label>
+                            <label class="switch-slider">
+                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
+                                <span class="switch"></span>
+                            </label>
+                        </div>
+                        
                         <!--
                         <div class="changer-v2">
                             <label>Fullscreen:</label>
@@ -382,9 +396,10 @@
 
             if ($(window).width()>996){
                 return;
-            };
+            };            
+            
             if ($('.results-info').hasClass('editable')) return;
-            if ($('.results-info').hasClass('with-cover') && !$('.results-info').hasClass('collapsed')) return;
+            if (!$('.results-info').hasClass('collapsed')) return;
 
             var optimal_graph_height = 10;
 
@@ -535,8 +550,8 @@
             stock_chart.update({
                 stockTools: {
                     gui: {
-                        visible: settings.graph_tools === 1 ? true : false,
-                        placed: settings.graph_tools === 1 ? true : false
+                        visible: settings.graph_tools === 'true' ? true : false,
+                        placed: settings.graph_tools === 'true' ? true : false
                     }
                 }
             });
@@ -576,7 +591,6 @@
         //$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q="+path[2]+"&callback=hndlr&sort=date");
     </script>
 
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=5.0.10"></script>
     <script type="text/javascript">
         
         var market = mvc.view;
@@ -658,9 +672,9 @@
                                     type: 'POST',
                                     dataType: 'JSON',
                                     success: function(response){
-                                        $(el).addClass('remove-from-observed').removeClass('add-to-observed');
-                                        $(el).addClass('icon-bookmark1').removeClass('icon-bookmark_outline');                                        
-                                        stock.observed = false;
+                                        $('.add-to-observed').addClass('icon-bookmark1').removeClass('icon-bookmark_outline');                                        
+                                        $('.add-to-observed').addClass('remove-from-observed').removeClass('add-to-observed');                                        
+                                        stock.observed = true;
                                     },
                                     error: function(response){                            
                                         console.log(response);
@@ -679,8 +693,8 @@
                                     dataType: 'JSON',
 
                                     success: function(response){
-                                        $(el).addClass('add-to-observed').removeClass('remove-from-observed');
-                                        $(el).addClass('icon-bookmark_outline').removeClass('icon-bookmark1');
+                                        $('.remove-from-observed').addClass('icon-bookmark_outline').removeClass('icon-bookmark1');
+                                        $('.remove-from-observed').addClass('add-to-observed').removeClass('remove-from-observed');
                                         stock.observed = false;
                                     },
                                     error: function(response){                            
@@ -734,7 +748,7 @@
                             $('body').toggleClass('with-popup');                            
                             if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }   
 
-                            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+                            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                            
                             $.ajax({
                                 url:"/extensions/players/views/popups/contributor.html",
                                 cache:false,
@@ -801,9 +815,6 @@
                         console.log(e);
                     };
                     /* */
-
-
-
 
 
                     stock_graph_adaptive_height();
@@ -899,8 +910,8 @@
                         },
                         stockTools:{
                             gui:{
-                                visible: settings.graph_tools,
-                                placed: settings.graph_tools,
+                                visible: settings.graph_tools === 'true' ? true : false,
+                                placed: settings.graph_tools === 'true' ? true : false,
                                 buttons:[ 
                                     'simpleShapes', 
                                     'lines', 
@@ -913,7 +924,7 @@
                                     'flags', 
                                 //    'separator',                             
                                 //    'typeChange' 
-                                //    'fullScreen',                                 
+                                    'fullScreen',                                 
                                 //    'zoomChange', // Not working    
                                 //    'indicators',  // on hold       
                                 //    'currentPriceIndicator', 
@@ -978,7 +989,7 @@
 
                             // MAIN INFO
                             if (entity.info.General){ main_info_tab('General','general','icon-info',entity.info.General); }
-                            if (entity.info.Highlists) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
+                            if (entity.info.Highlights) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
                             if (entity.info.Technicals) main_info_tab('Technicals','technicals','icon-star-full',entity.info.Technicals);
                             if (entity.info.Valuation) main_info_tab('Valuation','valuation','icon-finance',entity.info.Valuation);
                             if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores','icon-ruler',entity.info.ESGScores);
@@ -1163,7 +1174,7 @@
                     // Here add options custom configuration from user
                     if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
                     $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
-                    $('#graph_tools').prop('checked', settings.graph_tools);
+                    $('#graph_tools').prop('checked', settings.graph_tools === 'true' ? true : false);
                     $('#graph_labels').prop('checked', settings.graph_labels);
 
 

@@ -58,8 +58,8 @@ if($fileError == UPLOAD_ERR_OK){
 
     list($width, $height, $type, $attr) = getimagesize($path);    
             
-    $newwidth  =  450;
-    $newheight =  ($height / $width) * 450;
+    $newwidth  =  996;
+    $newheight =  ($height / $width) * 996;
     
     $resized  = imagecreatetruecolor($newwidth, $newheight);
     

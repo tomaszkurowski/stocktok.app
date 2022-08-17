@@ -5,6 +5,7 @@
             $('body').removeClass('with-popup');
             $('.popup-btn').remove();
             $('#popup').html('');
+            toggleHeading();
             return;
         }
         
@@ -36,6 +37,7 @@
             $('body').removeClass('with-popup');
             $('.popup-btn').remove();
             $('#popup').html('');
+            toggleHeading();
             return;
         }
         

@@ -32,6 +32,7 @@ body {
     background-color:var(--color-bg);
     height:100vh;
     width:100%;
+    position:relative;
 }
 
 img {
@@ -340,7 +341,10 @@ a {
     background-color:var(--color-base);
     padding-right:2.5px;
     direction:ltr;
-
+    transition:padding-left 0.3s ease-in;
+}
+.heading.with-buttons {
+    padding-left:10px;
 }
 .footer-bottom.short .heading-container {
     max-width:140px;
@@ -353,8 +357,10 @@ a {
 
 }
 
-body:not(.with-popup) .heading > *{ margin-left:15px; margin-right:0; }
-body:not(.with-popup) .left-handed .heading > * { margin-left:0; margin-right:15px; }
+body:not(.with-popup) .heading > *{ margin:0; padding:0 8px; }
+
+.heading { margin-right: -10px; }
+.left-handed .heading { margin-right:0; margin-left:-10px; }
 
 .heading h2 {
     flex-grow:1;
@@ -623,8 +629,7 @@ body.editable .cover {
 .footer .toggleHeading { 
     order:-5; 
     opacity:0.5; 
-    margin-right:-5px; 
-    margin-left:-5px; 
+    margin-right:-5px;  
     background-color:var(--color-base); 
     display:flex; 
     align-items:center; 
@@ -634,11 +639,18 @@ body.editable .cover {
 }
 .left-handed .footer .toggleHeading {
     order:10;
+    margin-left:-5px;
 }
-.footer .toggleHeading, .footer .toggleHeading .icon-btn {
+.footer .toggleHeading > div {
+    font-size: 30px;
+    margin: 0;
+    padding: 0px 2px 0 5px;
+    color: var(--color-base-invert);
+}
+.footer .toggleHeading, .footer .toggleHeading > div {
     transition:all 0.1s ease-in;
 }
-.footer .footer-bottom.short .toggleHeading .icon-btn {
+.footer .footer-bottom.short .toggleHeading > div {
     transform:rotate(180deg);
 }
 
@@ -742,6 +754,7 @@ body.editable .cover {
 
 .page.stock-view [data-view="dashboard"] { display:flex; flex-direction:column; }
 .stock-price-container { margin:0 15px; border-radius:var(--border-radius1); }
+.stock-price-container.chart { height:auto; width:auto; float:none; }
 
 .page.at-bottom {
     min-height:100vh;
@@ -1176,7 +1189,7 @@ body.scrolling-up .mystock-container{
 }
 .mystock .logo { 
     display:flex; 
-    max-height:40px; 
+    max-height:50px; 
     max-width:70px;
     margin-left:0px;
     
@@ -2382,7 +2395,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 40px;
 }
 .settings select {
-    width:100%;
     border: 1px solid var(--color-bg);
     padding: 10px;
     font-size: var(--size-small);
@@ -2394,7 +2406,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .settings .btn {
-    width:100%;
     border: 1px solid var(--color-bg);
     padding: 10px;
     font-size: var(--size-small);
@@ -2518,7 +2529,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
     padding: 0 10px;
 }
 .results .box {
@@ -2616,7 +2626,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .stock-view .cover {
     margin-bottom: -40px;   
     width: calc(100% + 30px);
-    max-width: 953px;
+    max-width: 966px;
     margin-top: -10px;
     margin-left: -15px;
     border-radius:var(--border-radius1);
@@ -2695,7 +2705,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-radius: var(--border-radius2);
     -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
-    box-shadow: 3px 4px 13px -11px rgb(66 68 90);  
+    box-shadow: 0px 0px 16px -9px rgb(66 68 90);
+    line-height:0;
 }
 
 .stock-view .results-info:not(.collapsed) .widget-collapse {
@@ -3412,16 +3423,21 @@ body.stock-price-pro-mode { overflow:hidden; }
     display:flex;        
 }
 .nav {
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end; 
     width:0px;
     overflow:hidden; 
     background-color:var(--color-base);
     z-index:7;
     position:fixed;
-    height:100vh;
+    height:100%;
     right:0;
+    bottom:0;
+}
+.nav-body {
+    display:flex;
+    min-height:100%;
+    flex-direction:column;
+    justify-content:flex-end;
+    flex-wrap:wrap;
 }
 .left-handed .nav {
     right:auto;
@@ -3730,6 +3746,7 @@ main,
     
     padding-top:15px;
     margin:0 15px;
+    max-width:360px;
 }
 .stock-price-pro-mode .range-selector {
     border-bottom-left-radius:0;
@@ -4846,7 +4863,10 @@ input:checked + .switch:before {
     flex-wrap:wrap;
     width:100%;
 }
-
+.related-container {
+    width:100%;
+    overflow:hidden;
+}
 .entities h2, .related-container h2 {
     width: 100%;
     margin-left: 5px;
@@ -4881,6 +4901,7 @@ input:checked + .switch:before {
     font-size:var(--size-medium);
     font-family:'gotham-bold';
     margin:15px 0;
+    line-height:20px;
 }
 
 .related {

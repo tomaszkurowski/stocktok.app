@@ -54,6 +54,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                     },
                     type: 'POST',
                     dataType: 'JSON',
+                    cache:false,
                     success: function(response){
                         
                         console.log(response);
@@ -64,7 +65,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                             sessionStorage.setItem('persistence', response.persistence);
                             
                             let params = getQueryParams();
-                            if (params.ref) location.href=params.ref[0];
+                            if (params.ref && params.ref !== '/me/login' && params.ref !== '/me/logout') location.href=params.ref[0];
                             else location.href='/';
                             return;
                             

@@ -100,11 +100,12 @@
     function load_page(url,push_url = false){
         
         if (push_url){ window.history.pushState({}, '', url) }
+        settings.editable = false;
         
         $('.footer .heading').html('');
         $('.page-views-slider').remove();
         $('#popup').html('');
-        $('body').removeClass('with-popup').removeClass('no-blur');
+        $('body').removeClass('with-popup').removeClass('no-blur').removeClass('editable').removeClass('not-swipeable');
         $('.toggleHeading').remove();
         $('.footer-bottom').removeClass('short');
         

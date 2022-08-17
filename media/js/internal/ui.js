@@ -1,4 +1,41 @@
-
+    
+    function toggleHeading(){
+        
+        if ($('.heading > *').length>0){
+            $('.heading').addClass('with-buttons');
+        }else{
+            $('.heading').removeClass('with-buttons');
+        }
+        
+        $('.toggleHeading').remove();
+        if ($('.heading > *').length>3 && !$('body').hasClass('with-popup')){
+            
+            if (settings.heading_short){
+                $('.footer-bottom').addClass('short');
+            }
+            
+            let button = $('<div class="toggleHeading"><div class="icon-navigate_next"></div></div>')
+            .bind('click',function(){ 
+                $(this).parents('.footer-bottom').toggleClass('short');
+                //$('.heading').scrollLeft(2000);
+                
+                if ($('.footer-bottom').hasClass('short')){
+                    settings.heading_short = 1;
+                }else{
+                    settings.heading_short = 0;
+                }
+                load_layout();
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }   
+                
+            }); 
+            $('.footer-bottom').prepend(button);
+        }
+    }
+    
     function switcher(options, callback){
         
         if (!options.target) options.target = '.heading';
@@ -46,35 +83,9 @@
         $(options.target).prepend(button);
         //$('.heading').scrollLeft(2000);
         
-        $('.toggleHeading').remove();
-        if ($('.heading > *').length>3 && !$('body').hasClass('with-popup')){
-            
-            if (settings.heading_short){
-                $('.footer-bottom').addClass('short');
-            }
-            
-            let button = $('<div class="toggleHeading"><div class="icon-btn icon-navigate_next"></div></div>')
-            .bind('click',function(){ 
-                $(this).parents('.footer-bottom').toggleClass('short');
-                //$('.heading').scrollLeft(2000);
-                
-                if ($('.footer-bottom').hasClass('short')){
-                    settings.heading_short = 1;
-                }else{
-                    settings.heading_short = 0;
-                }
-                load_layout();
-                
-                if (!settings.mute){
-                    var audio = new Audio("/media/sounds/button-50.mp3");
-                    audio.play();
-                }   
-                
-            }); 
-            $('.footer-bottom').prepend(button);
-        }
         
-    }
+        toggleHeading();       
+    }    
     
     function changer(options,callback){
         

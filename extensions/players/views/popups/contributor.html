@@ -127,6 +127,7 @@
                                         $('.popup-btn').remove();
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');
+                                        toggleHeading();
                                         //location.reload();
                                         
                                         if ($('#stock-price').length){
@@ -205,6 +206,7 @@
                                             $('.popup-btn').remove();
                                             $('.popup-avatars').remove();
                                             $('body').removeClass('with-popup');
+                                            toggleHeading();
                                             //location.reload();
                                             if (mvc.view === 'find-by'){
                                                 if (type === 'logo'){

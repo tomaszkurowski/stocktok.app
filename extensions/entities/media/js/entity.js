@@ -91,8 +91,6 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
 
     var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
     if (window.innerWidth>996) $(tabInfo).addClass('active');
-        console.log('Window height');
-        console.log(window.innerWidth);
 
     tabInfo.find('h2').text(tabName);
     tabInfo.find('.tab-content').attr('id','entity-'+tabCode);

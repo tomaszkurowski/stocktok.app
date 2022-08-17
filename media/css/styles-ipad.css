@@ -2,13 +2,42 @@
 .prevent-ipad-rubberscroll main { width: 100vw; height: 100vh; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
 
 
+/* Ipad Horizontal */
 @media only screen and (min-width: 766px) {
-    .range-selector { width:360px; align-self:flex-end; }
-    .chart.stock-price-container{
-        overflow: hidden;
-    }   
+   .view-box .mystock-container, .view-grid .mystock-container { 
+       width:calc(33.3333% - 10px); 
+   }
+   .players .box { 
+       width:calc(33.3333% - 10px); 
+   }
+   .entities .box {
+       width:calc(25% - 10px);
+   }
+   .items-container .item {
+       width:calc(33.3333% - 10px);
+   }
+   .stock-view .results-info .logo {
+       max-height:150px;       
+   }
+   .stock-view .cover {
+       margin-bottom:-95px;
+   }
+   .stock-view .results-info:not(.collapsed).with-cover .widget-collapse {
+       top:100px;
+   }
+   .stock-view .results-info:not(.collapsed) h2 {
+       font-size:22px;
+       margin-bottom:15px;
+   }
+   .stock-view .results-info-table .label, .stock-view .results-info-table .value{
+       font-size:var(--size-regular);
+       line-height:18px;
+   }
+   
 }
 
+
+/* Ipad Vertical */
 @media only screen and (min-width: 996px) {
     
     .results {
@@ -74,10 +103,13 @@
     }
     
     .entities h2 { text-align:left; }
+    
+    .view-grid .mystock-container, .view-box .mystock-container {
+        width: calc(16.6666% - 10px);
+    }    
     .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
         width: calc(25% - 10px);
-    } 
-    
+    }     
     .view-list .wallet-items, .view-list-small .wallet-items, .view-list-small-results .wallet-items { display:flex; flex-wrap:wrap; }
     .view-list .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
         width: calc(50% - 10px);
@@ -96,6 +128,18 @@
     .items-container .item {
         width:calc(16.6666% - 10px);
     }
+
+   .stock-view .results-info .logo {
+       max-height:70px;       
+   }
+   .stock-view .cover {
+       margin-bottom:-40px;
+   }
+   .stock-view .results-info:not(.collapsed).with-cover .widget-collapse {
+       top:40px;
+   }    
+
+        
     
     .with-popup .footer {
         min-width:400px;
