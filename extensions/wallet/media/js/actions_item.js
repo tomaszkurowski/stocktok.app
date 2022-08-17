@@ -5,6 +5,7 @@
             $('body').removeClass('with-popup');
             $('.popup-btn').remove();
             $('#popup').html('');
+            toggleHeading();
             return;
         }
         
@@ -36,6 +37,7 @@
             $('body').removeClass('with-popup');
             $('.popup-btn').remove();
             $('#popup').html('');
+            toggleHeading();
             return;
         }
         
@@ -251,6 +253,9 @@
                 if (config.debug) console.log(response);
                 $(element).attr('data-action','remove-from-observed');
                 $(element).addClass('secondary');
+                if ($(element).hasClass('icon-bookmark_outline')){
+                    $(element).removeClass('icon-bookmark_outline').addClass('icon-bookmark1');
+                }                
 
             },
             error: function(response){                            
@@ -281,7 +286,10 @@
 
                 if (config.debug) console.log(response);
                 $(element).attr('data-action','add-to-observed');
-                $(element).removeClass('secondary');     
+                $(element).removeClass('secondary');
+                if ($(element).hasClass('icon-bookmark1')){
+                    $(element).removeClass('icon-bookmark1').addClass('icon-bookmark_outline');
+                }
                 
                 if (mvc.model === 'wallet') get_my_observed();
 
@@ -296,7 +304,7 @@
     $(document).off('click', '.mystock-container .view-action');
     $(document).on('click','.mystock-container .view-action',function(e){
         var symbol = $(this).closest('.mystock-container').attr('data-symbol');
-        var market = $(this).closest('.mystock-container').attr('data-market');
+        var market = $(this).closest('.mystock-container').attr('data-market');               
         location.href = '/entities/'+market+'/'+symbol;
     });
 
@@ -304,6 +312,15 @@
     $(document).on('click','.items-container [data-action="view"]',function(e){
         var symbol = $(this).parents('.item').attr('data-symbol');
         var market = $(this).parents('.item').attr('data-market');
+        
+        // Remember scroll
+        if (mvc.model === 'entities'){            
+            var params = getQueryParams();
+            params.last_clicked = parseInt($(this).parents('.item').attr('data-position'));
+            params.market = market;
+            
+            window.history.pushState({}, '', updateQueryParams(params,true)+'#'+symbol);            
+        }        
         location.href = '/entities/'+market+'/'+symbol;
     });
 

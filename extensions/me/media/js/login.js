@@ -54,6 +54,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                     },
                     type: 'POST',
                     dataType: 'JSON',
+                    cache:false,
                     success: function(response){
                         
                         console.log(response);
@@ -61,8 +62,11 @@ $(document).on('click', '[data-action="step2"]', function(){
                         if (response.success){
                             
                             sessionStorage.setItem('username', response.username);
-                            sessionStorage.setItem('persistence', response.persistence);                            
-                            location.href='/';
+                            sessionStorage.setItem('persistence', response.persistence);
+                            
+                            let params = getQueryParams();
+                            if (params.ref && params.ref !== '/me/login' && params.ref !== '/me/logout') location.href=params.ref[0];
+                            else location.href='/';
                             return;
                             
                         }

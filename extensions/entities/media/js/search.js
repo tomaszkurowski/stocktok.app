@@ -1,13 +1,29 @@
 var search = '';
-function get_search_items(){   
-    var filters = getFiltersParams();
+function get_search_items(filters=null,target='',size=30,sort = null,related=false){   
+    
+    if (!filters) filters = getFiltersParams();
+    
+    var params = getQueryParams();
+    var page = $(target+'.items-container .item').length;
+    
+    if (params.last_clicked && !ios && mvc.view === 'find-by'){
+        page = parseInt(params.last_clicked);
+        delete params['last_clicked'];
+        window.history.pushState({}, '', updateQueryParams(params,true));  
+    }
+    if (sort === null){ 
+        sort = settings.find_sort ? settings.find_sort : null; 
+    }
+    
     $.ajax({
         url: config.api_url,
         data: { 
             endpoint: '/entities', 
             filters: filters, // helpers.js
-            page: $('.items-container .item').length,
-            search: search
+            page: page,
+            size:size,
+            search: search,
+            sort: sort
         },
         type: 'GET',
         dataType: 'JSON',
@@ -19,19 +35,30 @@ function get_search_items(){
                 $('.form .search').focus();
             }
 
-            if (response.success === 'false') return;
+            if (response.success === 'false'){
+                if (related) $(target).hide();
+                return;
+            } 
             
             if (response.entities.length === 0 && !$('.items-container .item').length){
-                $('.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>')
+                
+                if (related){
+                    $(target).hide();
+                }else{
+                    $(target + '.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>');
+                }
+                
             }
             
-            
+            var it=0;
             response.entities.forEach(function(item){
 
                 let el   = $('<div class="item"></div>')
                         .attr('data-symbol',item.symbol)
                         .attr('data-market',item.market)
-                        .attr('data-price',item.price);
+                        .attr('data-price',item.price)
+                        .attr('data-position',page + it); 
+                it++;
 
                 let view = $('<div class="view" data-action="view"></div>');                                                                                
 
@@ -41,13 +68,13 @@ function get_search_items(){
                 $(view).append('<div class="currency">'+item.market_currency+'</div>');
 
                 $(el).append($(view));
-                $(el).append('<div class="btn" data-action="buy-more">Buy</div>');
+                $(el).append('<div class="icon-btn icon-shopping_cart buy-more" data-action="buy-more"></div>');
 
-                if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-bookmarks" data-action="remove-from-observed"></div>');                
-                }else{ $(el).append('<div class="add-to-observed icon-bookmarks" data-action="add-to-observed"></div>'); }
+                if($.inArray(item.symbol+'.'+item.market,observed_symbols)!==-1){  $(el).append('<div class="add-to-observed icon-btn icon-bookmark1" data-action="remove-from-observed"></div>');                
+                }else{ $(el).append('<div class="add-to-observed icon-btn icon-bookmark_outline" data-action="add-to-observed"></div>'); }
 
                 if (settings.contributor === 'yes'){
-                    let btn_add_logo = $('<div class="icon-lifebuoy contributor-edit" data-action="edit"></div>').bind('click',function(){
+                    let btn_add_logo = $('<div class="icon-create contributor-edit" data-action="edit"></div>').bind('click',function(){
                         
                         if ($('footer #popup .search').length){ 
                             $('footer #popup').html(''); 
@@ -78,10 +105,11 @@ function get_search_items(){
                     $(el).append(btn_add_logo);
                 }
 
-                $('.items-container').append($(el));
+                $(target+'.items-container').append($(el));
 
             });
-
+            if (related){
+            }
 
 
         },

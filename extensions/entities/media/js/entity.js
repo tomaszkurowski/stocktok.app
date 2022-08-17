@@ -7,7 +7,7 @@ function reload_stock_price(){
     $('.results-info .previous-price').text(format_price(stock.previous_price));
     
     $('.results-info .price-preview:not(.tooltip-hover) .price').text(format_price(stock.price));
-    $('.results-info .price-preview:not(.tooltip-hover) .date').text(format_datetime(stock.last_updated_at));
+    $('.results-info .price-preview:not(.tooltip-hover) .date').text(stock.last_updated_at);
     
     $('.results-info .current-volume').text(format_price(stock.volume));
     $('.results-info .daily-change').text(format_price(stock.daily_change,2));
@@ -91,8 +91,6 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
 
     var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
     if (window.innerWidth>996) $(tabInfo).addClass('active');
-        console.log('Window height');
-        console.log(window.innerWidth);
 
     tabInfo.find('h2').text(tabName);
     tabInfo.find('.tab-content').attr('id','entity-'+tabCode);
@@ -157,7 +155,7 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
             if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
 
             if (label==='Description') tabInfoRow.addClass('only-value'); 
-            if (value && typeof value !== 'object') $('#entity-'+tabCode).append(tabInfoRow);
+            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" />') $('#entity-'+tabCode).append(tabInfoRow);
         }                         
         
 

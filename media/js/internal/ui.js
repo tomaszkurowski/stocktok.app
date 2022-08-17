@@ -1,4 +1,41 @@
-
+    
+    function toggleHeading(){
+        
+        if ($('.heading > *').length>0){
+            $('.heading').addClass('with-buttons');
+        }else{
+            $('.heading').removeClass('with-buttons');
+        }
+        
+        $('.toggleHeading').remove();
+        if ($('.heading > *').length>3 && !$('body').hasClass('with-popup')){
+            
+            if (settings.heading_short){
+                $('.footer-bottom').addClass('short');
+            }
+            
+            let button = $('<div class="toggleHeading"><div class="icon-navigate_next"></div></div>')
+            .bind('click',function(){ 
+                $(this).parents('.footer-bottom').toggleClass('short');
+                //$('.heading').scrollLeft(2000);
+                
+                if ($('.footer-bottom').hasClass('short')){
+                    settings.heading_short = 1;
+                }else{
+                    settings.heading_short = 0;
+                }
+                load_layout();
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }   
+                
+            }); 
+            $('.footer-bottom').prepend(button);
+        }
+    }
+    
     function switcher(options, callback){
         
         if (!options.target) options.target = '.heading';
@@ -14,14 +51,17 @@
                 $(this).attr('data-value',$(this).attr('data-value') === 'true' ? 'false' : 'true');
                 settings[options.key] = $(this).attr('data-value');
 
-                localStorage.setItem('settings',JSON.stringify(settings));
-        
+                localStorage.setItem('settings',JSON.stringify(settings));                                
                 if (callback) callback(switcher);                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }
             });                    
 
             $(options.target).prepend(switcher);        
             if (callback) callback(switcher);
-            $('.footer-bottom').scrollLeft($('.footer-bottom').width());
+            //$('.heading').scrollLeft(2000);
         
     }
     
@@ -32,12 +72,20 @@
         
         let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
             .bind('click',function(){ 
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-30.mp3");
+                    audio.play();
+                }
+                
                 if (callback) callback(button); 
         }); 
         $(options.target).prepend(button);
-        $('.footer-bottom').scrollLeft($('.footer-bottom').width());
+        //$('.heading').scrollLeft(2000);
         
-    }
+        
+        toggleHeading();       
+    }    
     
     function changer(options,callback){
         
@@ -48,6 +96,12 @@
             .append('<label for="'+options.key+'">'+options.title+':</label>')
             .append('<select data-key="'+options.key+'"></select>')
             .bind('change',function(){
+                
+                if (!settings.mute){
+                    var audio = new Audio("/media/sounds/button-50.mp3");
+                    audio.play();
+                }
+                
                 if (options.click){ 
                     options.click(changer); 
                 }
@@ -143,7 +197,7 @@
         if (settings.editable === 'true') $('body').addClass('editable');
         else $('body').removeClass('editable'); 
         
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }     
     }
 
     
@@ -198,6 +252,12 @@
     $(document).on('click', '.tab-header', function(){    
         $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-50.mp3");
+            audio.play();
+        }        
+        
     });
     
     
@@ -206,6 +266,10 @@
     $(document).on('click','.widget .actions .icon-btn',function(){
         $(this).toggleClass('active');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
     
     $(document).off('click', '.widget .actions .btn-edit');
@@ -216,6 +280,10 @@
             $(this).parents('.widget').removeClass('collapsed');
         }
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
     
     $(document).off('click', '.widget .actions .btn-delete');
@@ -232,6 +300,10 @@
 
         $(this).parents('.widget').remove();
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
     });
 
     $(document).off('click', '.widget .edit select');
@@ -261,6 +333,10 @@
         localStorage.setItem('widgets',JSON.stringify(widgets));    
 
         widget_financial_graph(id, widget);
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-50.mp3");
+            audio.play();
+        }        
 
     });
     
@@ -293,5 +369,9 @@
         $('.widgets').append($(widget));
 
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
+        if (!settings.mute){
+            var audio = new Audio("/media/sounds/button-30.mp3");
+            audio.play();
+        }        
 
     });     

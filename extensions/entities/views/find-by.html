@@ -1,66 +1,104 @@
 
-
+<div class="page active">
+    <div class="inline-actions edit-actions inline-container">
+        <div class="inline">        
+        </div>
+    </div>
     <div class="items-container"></div>
-    
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.14"></script>
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.2"></script>    
-    
-    <script type="text/javascript">
+</div>
 
-        get_observed_symbols();
-        get_currencies();
-        
-        if (mvc.controller){ search = mvc.controller; }
-        get_search_items();
-        
 
-        let scrollTimer,
-        doneScrollInterval = 250;
+<script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
+<script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.8"></script>    
 
-        $(window).scroll(function () {
+<script type="text/javascript">
 
-            if ($(document).height()-$(this).height()-10 < $(this).scrollTop()) {
-                if (scrollTimer) {
-                    clearTimeout(scrollTimer);
-                }
-                scrollTimer = setTimeout(function () {
-                    get_search_items();
-                }, doneScrollInterval);
+    get_observed_symbols();
+    get_currencies();
+
+    if (mvc.controller){ search = mvc.controller; }
+    get_search_items();
+
+    $(document).ready(function(){
+        switcher({ 
+            key: 'editable',  
+            class: 'icon-settings1', 
+            value: settings.editable  ? settings.editable :  'false'},
+            function(){ editable();  // => ui.js                                              
+        });
+        changer({ 
+            title: 'Layout', 
+            key: 'find_layout', 
+            values: { 'grid': 'Grid', 'minimal':'Minimal' },
+            click: function(el){ 
+                updateSettings('find_layout',$(el).find('select').val());
+                $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(el).find('select').val());
+            },
+            load: function(el){
+                $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(el).find('select').val());
             }
-        });
+        }); 
+        changer({ 
+            title: 'Sort by', 
+            key: 'find_sort', 
+            values: { 'alphabetically': 'Alphabetically', 'volume_desc':'Highest volume', 'volume_asc':'Lowest volume' },
+            click: function(el){ 
+                updateSettings('find_sort',$(el).find('select').val());
+                $('.items-container').html('');
+                get_search_items();
+            },
+            load: function(el){
+            }
+        });         
+    });
 
-        button({ class: 'icon-btn icon-search2' }, function(el){            
-                        
-            if ($('footer #popup .search').length){ 
-                $('footer #popup').html(''); 
-                $('.popup-btn').remove();
-                $('body').removeClass('with-popup');
-            }else{ 
-                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
-                $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
-                $('body').addClass('with-popup no-blur');
-                
-                if (mvc.controller) $('.popup .search').val(mvc.controller);
-            }            
-            
-        });
+    let scrollTimer,
+    doneScrollInterval = 250;
 
+    $(window).scroll(function () {
 
-        let typeTimer,
-        doneTypeInterval = 250;
-
-        $(document).off('keyup', '.search');
-        $(document).on('keyup','.search',function(){
-            search = $(this).val();
-            
+        if ($(document).height()-$(this).height()-10 < $(this).scrollTop()) {
             if (scrollTimer) {
                 clearTimeout(scrollTimer);
             }
             scrollTimer = setTimeout(function () {
-                $('.items-container').html('');
                 get_search_items();
             }, doneScrollInterval);
-                
-        });
+        }
+    });
 
-    </script>
+    button({ class: 'icon-btn icon-search2' }, function(el){            
+
+        if ($('footer #popup .search').length){ 
+            $('footer #popup').html(''); 
+            $('.popup-btn').remove();
+            $('body').removeClass('with-popup');
+        }else{ 
+            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup no-blur'); });
+            $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
+            $('body').addClass('with-popup no-blur');
+
+            if (mvc.controller) $('.popup .search').val(mvc.controller);
+        }            
+
+    });
+
+
+    let typeTimer,
+    doneTypeInterval = 250;
+
+    $(document).off('keyup', '.search');
+    $(document).on('keyup','.search',function(){
+        search = $(this).val();
+
+        if (scrollTimer) {
+            clearTimeout(scrollTimer);
+        }
+        scrollTimer = setTimeout(function () {
+            $('.items-container').html('');
+            get_search_items();
+        }, doneScrollInterval);
+
+    });
+
+</script>

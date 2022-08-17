@@ -133,6 +133,7 @@
                 cache:    false,
 
                 success: function(response){
+                    
                     if (config.debug) console.log(response);                
 
                     var stock_graphs = new Array();                
@@ -141,7 +142,7 @@
                     var symbols = [];
 
                     $(destination).html('');
-                    $(destination).removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+settings.observed_layout);
+                    $(destination).removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+settings.observed_layout).addClass('lock');
                     $('#observed_layout').val(settings.observed_layout);
 
                     if (!response.items || response.items.length === 0){
