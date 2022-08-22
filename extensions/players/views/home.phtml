@@ -200,11 +200,9 @@
                 type: 'GET',
                 dataType: 'JSON',
                 cache: false,
-                success: function(response){  
+                success: function(response){                                          
                     
-                    
-                    
-                    console.log(response);
+                    if (config.debug) console.log(response);
                     
                     if (!response.moves || response.moves.length === 0){
                         $('[data-view="moves"] .results').html('<div class="info-page"><div class="icon icon-clear"></div><h1>No moves yet</h1><p>Players you observe didn\'t do any moves yet.</p><div class="btn primary" onclick="$(\'.slick-initialized\').slick(\'slickGoTo\',0)">Find more players</div></div>');                           

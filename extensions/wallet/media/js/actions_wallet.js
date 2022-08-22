@@ -230,7 +230,7 @@
                             case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
                         }
 
-                        var options = {
+                        let options = {
                             series: [{ data: data }],
                             colors: [settings.design.color_base],
                             chart: {
@@ -248,6 +248,7 @@
                             grid: { row: { colors: ['transparent'] } },
                             tooltip: { enabled: false }
                         };
+
 
                         new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
                         
@@ -306,7 +307,7 @@
                 }
 
                 // Live
-
+                /*
                 var live = new WebSocket('wss://stocktok.online:8443');
                 live.onopen = function(e) {
 
@@ -346,12 +347,12 @@
                                
                 };
                 live.onerror = function(e){
-                    console.log(e);
+                    if (config.debug) console.log(e);
                 };                                                
-
+                */
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }

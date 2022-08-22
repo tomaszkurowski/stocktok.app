@@ -103,7 +103,7 @@
             $('[data-view="observed"] .mystock-container').each(function(index,value){        
                 items.push({ "symbol" : $(this).attr('data-symbol'), "market": $(this).attr('data-market'), "position": position++ });               
             }).promise().then(function(){
-                console.log(items);
+                if (config.debug) console.log(items);
                 $.ajax({
                     url: config.api_url,
                     data: { 
@@ -115,7 +115,9 @@
                     success: function(response){ 
                         get_my_observed();
                     },
-                    error: function(e){ console.log(e); }
+                    error: function(e){ 
+                        if (config.debug) console.log(e); 
+                    }
                 });
             });
         }
@@ -261,7 +263,7 @@
 
                 },
                 error: function(response){
-                    console.log(response);
+                    if (config.debug) console.log(response);
                 }
             });
 

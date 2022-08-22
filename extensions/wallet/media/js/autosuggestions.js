@@ -79,7 +79,7 @@ $(document).on('keyup', '#symbol', function(){
                 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         $('#autosuggestions').scrollTop($('#autosuggestions')[0].scrollHeight);
@@ -118,7 +118,7 @@ $(document).on('blur', '.add-new-stock .step2 #date', function(){
             }
         },
         error: function(response){
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 });

@@ -99,7 +99,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
                                 $('.popup-contributor #sector').val(item.sector);
                                 $('.popup-contributor #website').val(item.website);
                             },
-                            error: function(e){ console.log(e); }
+                            error: function(e){ if (config.debug) console.log(e); }
                         });
                     });
                     $(el).append(btn_add_logo);
@@ -114,7 +114,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
 
         },
         error: function(response){
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 

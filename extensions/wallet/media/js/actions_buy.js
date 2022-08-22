@@ -47,7 +47,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
  

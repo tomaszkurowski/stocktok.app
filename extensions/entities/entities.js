@@ -10,7 +10,7 @@
         url:"/extensions/entities/views/"+mvc.path+".html",
         cache:false,
         success: function(d){ $(mvc.target).html(d); },
-        error:   function(e){ console.log(e);    }        
+        error:   function(e){ if (config.debug) console.log(e);    }        
     });
     
 

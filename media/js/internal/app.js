@@ -57,8 +57,8 @@
                 dataType: 'JSON',
                 cache:false,
                 success: function(response){
-                    console.log('','Me:','');
-                    console.log('',response);
+                    if (config.debug) console.log('','Me:','');
+                    if (config.debug) console.log('',response);
                     
                     me = response.me;
                     
@@ -90,7 +90,7 @@
                     }
 
                 },
-                error: function(e){ console.log(e); }
+                error: function(e){ if (config.debug) console.log(e); }
             });       
         }else{ $.getScript('/extensions/me/me.js?version='+config.version); } 
         
@@ -114,12 +114,19 @@
         mvc.url     = url;        
         mvc.target  = $('main');
         mvc.params  = new URLSearchParams(window.location.search);
-        console.log(mvc.params);
+        if (config.debug) console.log(mvc.params);
         
         load_extension();
         if (!settings.mute){
             var audio = new Audio("/media/sounds/page-1.mp3");
-            audio.play();
+            
+            var promise = audio.play();
+            if (promise !== undefined) {
+                promise.then(_ => {
+                    audio.play();
+                }).catch(error => {});
+            }
+
         }        
         //window.history.pushState({}, '', url+window.location.search);                              
     }
@@ -171,7 +178,7 @@
                                     var waiting_version = '';
                                     if (registration.waiting!==null){
                                         waiting_version = registration.waiting.scriptURL;
-                                        console.log(waiting_version);
+                                        if (config.debug) console.log(waiting_version);
                                     }
 
                                     if (current_version!==registration.active.scriptURL && current_version!==waiting_version){   
@@ -180,7 +187,7 @@
                                     }
                                 }
                             });
-                            console.log(registrations);
+                            if (config.debug) console.log(registrations);
                         }).then(function(){
                             if (upgrade_needed===true){
                                 $('#loader').addClass('active');
@@ -208,7 +215,7 @@
               }
             });      
         } catch (e) {
-            console.log('ERROR: ServiceWorker registration failed'); 
+            if (config.debug) console.log('ERROR: ServiceWorker registration failed'); 
             $('#loader').addClass('hide');
         }
       } else {

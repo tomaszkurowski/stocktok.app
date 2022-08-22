@@ -162,9 +162,9 @@
         get_observed_symbols();
         get_currencies();
         
-        let typeTimer,
-        doneTypeInterval = 250;
-
+        var typeTimer        = (typeTimer === undefined) ? 250 : typeTimer;
+        var doneTypeInterval = (doneTypeInterval === undefined) ? 250 : doneTypeInterval;      
+        
         $(document).off('keyup', '.search');
         $(document).on('keyup','.search',function(){
             search = $(this).val();
@@ -184,9 +184,7 @@
                     
                     get_search_items();
                     window.history.pushState({}, '', '/entities/find-by/'+search);  
-                }
-                
-
+                }                
             }, doneTypeInterval);
                 
         });

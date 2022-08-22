@@ -43,8 +43,7 @@
             <div class="widget wallet-strength" id="wallet-strength"></div>
             
         </div>
-        
-    <br style="clear:both" />    
+           
     </div>    
 </div>
 
@@ -57,11 +56,8 @@
         $('.page-views').not('.slick-initialized').slick({
             arrows:false,
             dots:false,
-            infinite: true,
             initialSlide:1
-        }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
-            if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }     
-        }); 
+        });
     }
  
 
@@ -75,9 +71,9 @@
             data: []
         }, false);
         
-        console.log(series);
+        if (config.debug) console.log(series);
         each(series, function(p,z){
-            console.log(p.visible);
+            if (config.debug) console.log(p.visible);
             if(p.visible===true){
             each(p.xData, function(serie,i){
                
@@ -94,7 +90,7 @@
             }
         });
         
-        console.log(x);
+        if (config.debug) console.log(x);
         for (var i = 0; i < x.length; i++) {
             sum = 0;
             each(series, function (p, k) {
@@ -183,7 +179,7 @@
                         },
                         pointFormatter:function(){
                             
-                            console.log(this);
+                            if (config.debug) console.log(this);
                             $('.tooltip-preview.dynamic-wallet-trend .total').text(format_price(this.y,2));
                             $('.tooltip-preview.dynamic-wallet-trend .date').text(this.series.name + ', '+format_date(this.x));
                             
@@ -245,7 +241,7 @@
 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         
@@ -257,7 +253,7 @@
             $('#wallet-strength').html('<div class="no-transactions"><div class="icon icon-stats-bars"></div><div class="title">To see graph you need to have some active transactions in your wallet.</div></div>');
             return;
         }               
-        var options = {
+        let options = {
             series: [{
                 name: 'Total',
                 data: totals
@@ -302,12 +298,11 @@
             },
             fill: {
                 opacity: 1
-            },
+            }
           };
 
         $("#wallet-strength").html('');
-        var chart = new ApexCharts(document.querySelector("#wallet-strength"), options);
-        chart.render();
+        new ApexCharts(document.querySelector(".page-view:not(.slick-cloned) #wallet-strength"), options).render();
         
     }
    
@@ -327,7 +322,7 @@
             grand_total += serie; 
         });
         
-        var options = {
+        let options2 = {
             series: series,
             labels: symbols,
 
@@ -375,8 +370,7 @@
         };
         
         $("#wallet-structure").html('');
-        var chart2 = new ApexCharts(document.querySelector("#wallet-structure"), options);
-        chart2.render();
+        new ApexCharts(document.querySelector(".page-view:not(.slick-cloned) #wallet-structure"), options2).render();
         
     }
     

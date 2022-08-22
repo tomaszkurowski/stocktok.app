@@ -23,9 +23,9 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.127" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.128" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.39" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
     
     <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
@@ -39,11 +39,12 @@
     <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_640.png" sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/external.js?version=1.5"></script>
-    <script src="/media/js/internal.js?version=1.5.6"></script>
-    <script src="/media/js/internal/app.js?version=1.9"></script>
+    <script src="/media/js/external.js?version=1.6"></script>
+    <script src="/media/js/internal.js?version=1.5.7"></script>
+    <script src="/media/js/internal/app.js?version=1.10"></script>
         
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/media/js/external/apexchart.js"></script>
+    
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>  
     
     <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
@@ -56,6 +57,7 @@
     <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
     <script src="https://code.highcharts.com/modules/full-screen.js"></script>
     <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
        
     <?php if ($config->mode === 'production'): ?>
     
@@ -106,10 +108,10 @@
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.106',
+            version:    '1.1.112',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
-            debug:      true,
+            debug:      <?= $config->debug ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera,
             precision_rate:  11,
             precision_total: 4

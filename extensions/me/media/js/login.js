@@ -57,7 +57,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                     cache:false,
                     success: function(response){
                         
-                        console.log(response);
+                        if (config.debug) console.log(response);
                         
                         if (response.success){
                             

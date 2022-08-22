@@ -176,7 +176,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         
@@ -245,7 +245,7 @@
                 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         
@@ -281,8 +281,8 @@
             
             form.transactions.push(transaction);
         });
-        console.log('Form');
-        console.log(form);
+        if (config.debug) console.log('Form');
+        if (config.debug) console.log(form);
 
         $.ajax({
             url: config.api_url,
@@ -307,7 +307,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }

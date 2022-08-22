@@ -31,7 +31,7 @@ function generate_sort_placeholders(){
     });
 }
 
-function dragStart(e) { dragSrcEl = this; console.log('drag-start');};
+function dragStart(e) { dragSrcEl = this; if (config.debug){ console.log('drag-start'); } };
 function dragEnter(e) {}
 function dragLeave(e) { e.stopPropagation(); }
 function dragOver(e)  { e.preventDefault(); return false; }

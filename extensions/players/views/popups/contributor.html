@@ -301,7 +301,7 @@
                             $('.item[data-symbol="'+form.symbol+'"][data-market="'+form.market+'"] .name').html(form.name);
                         },
                         error: function(response){
-                            console.log(response);
+                            if (config.debug) console.log(response);
                         }
                     });                    
                     

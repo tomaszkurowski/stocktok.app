@@ -11,7 +11,7 @@
                 sessionStorage.clear();
                 location.href='/me/login';
             },
-            error:function(e){ console.log(e); }
+            error:function(e){ if (config.debug) console.log(e); }
         });
   
     }else{
@@ -20,7 +20,7 @@
             url:"/extensions/me/views/"+mvc.view+".phtml",
             cache:false,
             success: function(data){ $(mvc.target).html(data); },
-            error:   function(e)   { console.log(e); }        
+            error:   function(e)   { if (config.debug) console.log(e); }        
         });
 
     }

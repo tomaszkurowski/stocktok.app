@@ -33,7 +33,9 @@
        font-size:var(--size-regular);
        line-height:18px;
    }
-   
+   .range-selector {
+       max-width:360px;
+   }
 }
 
 

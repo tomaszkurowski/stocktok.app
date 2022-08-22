@@ -163,7 +163,7 @@
                     clearTimeout(swipingTimer);
                 }
                 swipingTimer = setTimeout(function () {
-                    console.log(val);
+                    if (config.debug) console.log(val);
                     $('.slick-initialized').slick('slickGoTo',val);
                     $('.page-views-slider .range-icons .icon').removeClass('active');
                     $('.page-views-slider .range-icons').children('.icon').eq(val).addClass('active');
@@ -205,7 +205,7 @@
 
         var lastScrollTop = 0, delta = 15;
         $(window).scroll(function(){
-            console.log('scrolling');
+            if (config.debug) console.log('scrolling');
             clearTimeout($.data(this, 'scrollTimer'));
 
             var nowScrollTop = $(this).scrollTop();
@@ -225,13 +225,13 @@
    }
 
    function scrolled_down(){
-        console.log('scrolled-down: '+($(window).scrollTop()));
+        if (config.debug) console.log('scrolled-down: '+($(window).scrollTop()));
         if ($(window).scrollTop() + $(window).height() === $(document).height()) {
                 return true;
         }else return false;
    }
    function scrolled_up(){
-        console.log('scrolled-up: '+($(window).scrollTop()));
+        if (config.debug) console.log('scrolled-up: '+($(window).scrollTop()));
         if ($(window).scrollTop()===0) {
                 return true;
         }else return false;

@@ -20,7 +20,7 @@
                 url:"/extensions/wallet/views/popups/funds-update.html",
                 cache:false,
                 success: function(data){ $("#popup").html(data); },
-                error:   function(e){ console.log(e); }
+                error:   function(e){ if (config.debug) console.log(e); }
             });
         }else{
             $('.popup-btn.step2-btn').remove();
@@ -30,8 +30,8 @@
     function buy_sell_popup(options = { action: 'buy', item: {} }){
 
         options_popup = options;
-        console.log('Buy sell popup');
-        console.log(options);
+        if (config.debug) console.log('Buy sell popup');
+        if (config.debug) console.log(options);
 
         if ($('.popup.add-new-stock').length){
             $('body').removeClass('with-popup');
@@ -71,7 +71,7 @@
 
                     }
                 },
-                error: function(e){ console.log(e); }
+                error: function(e){ if (config.debug) console.log(e); }
             });
         }else{
             $('.popup-btn.step2-btn').remove();
@@ -97,7 +97,7 @@
             dataType: 'JSON',        
             cache:    false,        
             success:  function() { init(); },
-            error:    function(e){ console.log(e); }
+            error:    function(e){ if (config.debug) console.log(e); }
 
         });
     });
@@ -120,10 +120,10 @@
                 type: 'PUT',
                 dataType: 'JSON',
                 success: function(response){ 
-                    console.log(response);
+                    if (config.debug) console.log(response);
                     generate_sort_placeholders();                           
                 },
-                error: function(e){ console.log(e); }
+                error: function(e){ if (config.debug) console.log(e); }
             });
         });
     }
@@ -144,7 +144,7 @@
             type:     'DELETE',
             dataType: 'JSON',        
             success:  function(){ if (mvc.model==='wallet'){ init(); }},
-            error:    function(e){ console.log(e) }
+            error:    function(e){ if (config.debug) console.log(e) }
         });
 
     });
@@ -259,7 +259,7 @@
 
             },
             error: function(response){                            
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
 
@@ -295,7 +295,7 @@
 
             },
             error: function(response){                            
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
 
@@ -373,7 +373,7 @@
     
     $(document).off('click', '.heading.active .buy-save');
     $(document).on('click', '.heading.active .buy-save', function(){
-        console.log('btn buy-save clicked');
+        if (config.debug) console.log('btn buy-save clicked');
         buy_save();
     });
 
@@ -445,7 +445,7 @@
                 init();
             },
             error: function(response){                            
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     });

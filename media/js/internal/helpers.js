@@ -116,7 +116,7 @@
 
         var lastScrollTop = 0, delta = 15;
         $(window).scroll(function(){
-            console.log('scrolling');
+            if (config.debug) console.log('scrolling');
             clearTimeout($.data(this, 'scrollTimer'));
 
             var nowScrollTop = $(this).scrollTop();
@@ -136,13 +136,13 @@
     }
 
     function scrolled_down(){
-        console.log('scrolled-down: '+($(window).scrollTop()));
+        if (config.debug) console.log('scrolled-down: '+($(window).scrollTop()));
         if ($(window).scrollTop() + $(window).height() === $(document).height()) {
                 return true;
         }else return false;
     }
     function scrolled_up(){
-        console.log('scrolled-up: '+($(window).scrollTop()));
+        if (config.debug) console.log('scrolled-up: '+($(window).scrollTop()));
         if ($(window).scrollTop()===0) {
                 return true;
         }else return false;
@@ -159,7 +159,7 @@
                 $('.version_update').text(response.updated_at);
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }
@@ -227,12 +227,12 @@
                 });
                 
                 if (config.debug) console.log('\n','Currency Rates:',currencies,'\n\n'); 
-                console.log(response.items);
+                if (config.debug) console.log(response.items);
                 if (callback) callback();
                 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }
