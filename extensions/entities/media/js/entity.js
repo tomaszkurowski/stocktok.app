@@ -268,7 +268,7 @@ function widget_financial_graph(id,widget){
         };
 
         $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph').html('');
-        //var graph = new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options);
+        new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options).render();
         //graph.render();
 
     }else{

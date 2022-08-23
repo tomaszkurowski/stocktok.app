@@ -16,6 +16,7 @@
   
     }else{
     
+        console.log(mvc.view);
         $.ajax({
             url:"/extensions/me/views/"+mvc.view+".phtml",
             cache:false,

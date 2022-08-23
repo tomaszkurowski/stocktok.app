@@ -108,7 +108,7 @@
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.112',
+            version:    '1.1.113',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -118,7 +118,7 @@
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,
-            display_currency:       "pln",
+            display_currency:       "usd",
             public:                 "yes",
             dynamic_trend :         "total",
             graph_type:             "line",

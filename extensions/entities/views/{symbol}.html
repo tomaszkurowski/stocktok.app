@@ -1,6 +1,6 @@
     
     <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.18"></script> 
+    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.19"></script> 
     <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.15"></script> 
 
         <div class="page page-views stock-page-views active">        
@@ -1087,7 +1087,7 @@
                                     stroke:{ colors: [settings.design.color_bg2], width:1 }
                                 };
 
-                                //new ApexCharts(document.querySelector("#graph-shareholders"), options).render();
+                                new ApexCharts(document.querySelector("#graph-shareholders"), options).render();
                             }else{
                                 $('.widget.shareholders').hide();
                             }
