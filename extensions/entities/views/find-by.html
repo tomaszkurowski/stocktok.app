@@ -9,14 +9,13 @@
 
 <script type="text/javascript">
 
-    $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
+    $.getScript('/extensions/entities/media/js/search.js?version='+config.version,function(){
+        if (mvc.controller){ search = mvc.controller; } 
+        get_observed_symbols();
+        get_currencies();          
+        get_search_items();
+    }); 
     $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
-
-    get_observed_symbols();
-    get_currencies();
-
-    if (mvc.controller){ search = mvc.controller; }
-    get_search_items();
 
     $(document).ready(function(){
         switcher({ 

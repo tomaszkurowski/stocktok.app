@@ -43,7 +43,7 @@
     <script src="/media/js/internal.js?version=1.5.8"></script>
     <script src="/media/js/internal/app.js?version=1.10"></script>  
     
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="/media/js/external/apexchart.min.js?version=0.0.1"></script>
        
     <?php if ($config->mode === 'production'): ?>
     
@@ -94,7 +94,7 @@
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.124',
+            version:    '1.1.134',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,

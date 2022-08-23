@@ -1245,7 +1245,10 @@
                         {
                             key: "setAttrs",
                             value: function (t, e) {
-                                for (var i in e) e.hasOwnProperty(i) && t.setAttribute(i, e[i]);
+                                for (var i in e){ 
+                                    if ((i === 'height' && isNaN(e[i])) || e[i] === 'translate(NaN, 0)') break;                                    
+                                    e.hasOwnProperty(i) && t.setAttribute(i, e[i]); 
+                                };
                             },
                         },
                     ]
@@ -13713,9 +13716,11 @@
                                 r = Math.max(2.05 * t.globals.radialSize, n);
                             }
                             var l = r + e.translateY + i + a;
-                            e.dom.elLegendForeign && e.dom.elLegendForeign.setAttribute("height", l),
-                                (t.config.chart.height && String(t.config.chart.height).indexOf("%") > 0) ||
-                                    ((e.dom.elWrap.style.height = l + "px"), m.setAttrs(e.dom.Paper.node, { height: l }), (e.dom.Paper.node.parentNode.parentNode.style.minHeight = l + "px"));
+                            if (!isNaN(l)){
+                                e.dom.elLegendForeign && e.dom.elLegendForeign.setAttribute("height", l),
+                                    (t.config.chart.height && String(t.config.chart.height).indexOf("%") > 0) ||
+                                        ((e.dom.elWrap.style.height = l + "px"), m.setAttrs(e.dom.Paper.node, { height: l }), (e.dom.Paper.node.parentNode.parentNode.style.minHeight = l + "px"));
+                            }
                         },
                     },
                     {
@@ -14867,7 +14872,7 @@
                         if ("object" === i(t)) for (var r in t) this.attr(r, t[r]);
                         else if (null === e) this.node.removeAttribute(t);
                         else {
-                            if (null == e) return null == (e = this.node.getAttribute(t)) ? a.defaults.attrs[t] : a.regex.isNumber.test(e) ? parseFloat(e) : e;
+                            if (null == e || e.toString().includes('NaN')) return null == (e = this.node.getAttribute(t)) ? a.defaults.attrs[t] : a.regex.isNumber.test(e) ? parseFloat(e) : e;
                             "stroke-width" == t ? this.attr("stroke", parseFloat(e) > 0 ? this._stroke : null) : "stroke" == t && (this._stroke = e),
                                 ("fill" != t && "stroke" != t) ||
                                     (a.regex.isImage.test(e) && (e = this.doc().defs().image(e, 0, 0)),

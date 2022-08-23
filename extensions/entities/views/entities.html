@@ -135,8 +135,7 @@
     
     <script type="text/javascript">
     
-        $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
-        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
+
     
         $('[data-action="find-stocks"]').click(function() {
             $([document.documentElement, document.body]).animate({
@@ -157,10 +156,12 @@
             }            
             
         });
-        
-        get_observed_symbols();
-        get_currencies();
-        
+        $.getScript('/extensions/entities/media/js/search.js?version='+config.version,function(){
+            get_observed_symbols();
+            get_currencies();             
+        }); 
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
+                
         var typeTimer        = (typeTimer === undefined) ? 250 : typeTimer;
         var doneTypeInterval = (doneTypeInterval === undefined) ? 250 : doneTypeInterval;      
         

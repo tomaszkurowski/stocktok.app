@@ -338,18 +338,34 @@
         return filters;
     }
     
+    var highcharts;
     function load_highcharts(callback){
         
-        $.getScript('https://code.highcharts.com/stock/highstock.js',function(){
-            $.getScript('https://code.highcharts.com/modules/accessibility.js');
-            $.getScript('https://code.highcharts.com/stock/modules/data.js');
-            $.getScript('https://code.highcharts.com/stock/indicators/indicators-all.js');
-            $.getScript('https://code.highcharts.com/stock/modules/drag-panes.js');
-            $.getScript('https://code.highcharts.com/modules/annotations-advanced.js');
-            $.getScript('https://code.highcharts.com/modules/price-indicator.js');
-            $.getScript('https://code.highcharts.com/modules/full-screen.js');
-            $.getScript('https://code.highcharts.com/modules/stock-tools.js');
+        if (highcharts){
+            if (callback) callback();            
+        }else{
+            highcharts = true;
+            $.getScript('https://code.highcharts.com/stock/highstock.js',function(){
+                $.getScript('https://code.highcharts.com/modules/accessibility.js');
+                $.getScript('https://code.highcharts.com/stock/modules/data.js');
+                $.getScript('https://code.highcharts.com/stock/indicators/indicators-all.js');
+                $.getScript('https://code.highcharts.com/stock/modules/drag-panes.js');
+                $.getScript('https://code.highcharts.com/modules/annotations-advanced.js');
+                $.getScript('https://code.highcharts.com/modules/price-indicator.js');
+                $.getScript('https://code.highcharts.com/modules/full-screen.js');
+                $.getScript('https://code.highcharts.com/modules/stock-tools.js');
+                if (callback) callback();
+            });
+        }
+    }
+    
+    function load_apexcharts(callback){
+       
+        if (typeof ApexCharts !== undefined){ 
+            delete ApexCharts;            
+        }
+        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts',function(){
             if (callback) callback();
-        });
+        }); 
     }
     

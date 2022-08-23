@@ -45,7 +45,7 @@ async function networkFirst(req) {
     try { 
         const fresh = await fetch(req);
         if (req.method!=="POST" && req.method!=="PUT" && req.method!=="DELETE" && req.destination !== 'audio'){
-            cache.put(req, fresh.clone());
+            //cache.put(req, fresh.clone());
         }    
         return fresh;
     } catch (e) { 
