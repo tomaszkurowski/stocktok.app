@@ -1,7 +1,5 @@
-    
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.19"></script> 
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.15"></script> 
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
 
         <div class="page page-views stock-page-views active">        
 
@@ -369,11 +367,13 @@
             <div class="value"></div>         
         </div>
         <div class="tooltip-info"></div>
-    </div>
-
-
+    </div>   
     
     <script type="text/javascript">
+        
+        $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
+        $.getScript('/extensions/entities/media/js/entity.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
 
         /*
         $('.page-views').not('.slick-initialized').slick({
@@ -388,9 +388,7 @@
             $("html").animate({scrollTop: 0}, "slow");
         }); 
         swiper({ initial: 0 });
-        */
-        
-
+        */        
 
         function stock_graph_adaptive_height(){
 
@@ -617,10 +615,10 @@
                     $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);
                                        
                     $('.stock-view .results-info h2').text(stock.name);               
-                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
                     
                     if (stock.cover){
-                        $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" />');
+                        $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" />');
                     }
                     
                     $('.stock-view .results-info-table .value.symbol').text(stock.symbol);

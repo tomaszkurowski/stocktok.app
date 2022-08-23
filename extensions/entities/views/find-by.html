@@ -5,13 +5,12 @@
         </div>
     </div>
     <div class="items-container"></div>
-</div>
-
-
-<script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
-<script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.8"></script>    
+</div>   
 
 <script type="text/javascript">
+
+    $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
+    $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
 
     get_observed_symbols();
     get_currencies();

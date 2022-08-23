@@ -70,7 +70,7 @@
                         
 
                         if (me.avatar_type === 'image'){
-                            $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' />");
+                            $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
                         }else{
                             $('.nav .avatar-container').html('<div class="avatar avatar-user"></div>').css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
                         }

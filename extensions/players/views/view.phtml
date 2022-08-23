@@ -89,8 +89,9 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.4"></script> 
     <script type="text/javascript">
+        
+        $.getScript('/extensions/players/media/js/actions_player.js?version='+config.version); 
 
         function trophy(options,code){
             if (!options.target) options.target = '.trophies';
@@ -146,7 +147,7 @@
                         $('.overview').attr('data-username',player.username);
 
                         if (player.avatar_type){
-                            $('.player-view .avatar-container').html("<img src='"+player.avatar+"' class='avatar-image' />");
+                            $('.player-view .avatar-container').html("<img src='"+player.avatar+"' class='avatar-image' alt='player-"+player.username+"' />");
                         }else{
                             $('.player-view .avatar-container').html('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
                         }
@@ -164,7 +165,7 @@
                         if (player.username !== me.username){
                             $('.overview .actions').prepend('<div class="icon-btn icon-'+(player.observed ? 'bookmark1' : 'bookmark_outline')+'" data-action="'+(player.observed ? 'stop-observe' : 'observe')+'"></div>');
                         }
-                        if (player.country) $('.overview').prepend('<img src="/media/img/flags/'+player.country+'.svg" class="country" />');
+                        if (player.country) $('.overview').prepend('<img src="/media/img/flags/'+player.country+'.svg" class="country" alt="country-'+player.country+'" />');
                         
                         // Results                        
                         $('.results [data-result="margin"] .value').text(format_price(player.margin * currencies[settings.display_currency],2) + ' ' + settings.display_currency);
@@ -177,15 +178,15 @@
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="active"]').addClass('active');
-                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }
                             if (item.type === 'sold' && item.margin>=0 && !($('[data-type="sold-profit"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-profit"]').addClass('active');
-                                $('[data-type="sold-profit"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-profit"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }
                             if (item.type === 'sold' && item.margin<0 && !($('[data-type="sold-lost"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-lost"]').addClass('active');
-                                $('[data-type="sold-lost"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-lost"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                             }                            
                             
                         });

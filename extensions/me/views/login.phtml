@@ -1,6 +1,5 @@
     
-    <script type="text/javascript" src="/extensions/me/media/js/login.js?v=3.0.4"></script>
-    <script type="text/javascript"> $('footer').remove(); </script>
+
     
     <div class="my-account-container">
         <div class="my-account">
@@ -41,9 +40,9 @@
                         </div>
                     </div>
                     <div class="actions">                                            
-                        <a data-action="step2">
+                        <div data-action="step2">
                             <span class="icon icon-fingerprint"></span>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div> 
@@ -68,3 +67,10 @@
             </div>
         </div>
     </div>
+    
+    <script type="text/javascript">
+        
+        $('footer').remove();
+        $.getScript('/extensions/me/media/js/login.js?version='+config.version); 
+        
+    </script>

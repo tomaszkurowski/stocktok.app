@@ -203,7 +203,7 @@
             var item = $('<div></div>').addClass('item');
             $(item).attr('data-symbol',transaction.symbol);
             $(item).attr('data-market',transaction.market);
-            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
+            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" alt="logo-'+transaction.symbol+'" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
 
             $('[data-step="1"] .items').append($(item));
         });

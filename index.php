@@ -9,7 +9,7 @@
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
-    <meta name="viewport"                        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport"                        content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color"                     content="<?= $config->theme_color ?>" />
     <meta name="description"                     content="Be a market player" /> 
     <meta name="mobile-web-app-capable"          content="yes" />
@@ -23,7 +23,7 @@
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.128" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.129" />
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
     
@@ -35,29 +35,15 @@
     <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1536.png" sizes="1536x2048" />
     <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1125.png" sizes="1125x2436" />
     <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1242.png" sizes="1242x2208" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_750.png" sizes="750x1334" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_640.png" sizes="640x1136" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_750.png"  sizes="750x1334" />
+    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/external.js?version=1.6"></script>
-    <script src="/media/js/internal.js?version=1.5.7"></script>
-    <script src="/media/js/internal/app.js?version=1.10"></script>
-        
-    <script src="/media/js/external/apexchart.js"></script>
+    <script src="/media/js/external.js?version=1.9"></script>
+    <script src="/media/js/internal.js?version=1.5.8"></script>
+    <script src="/media/js/internal/app.js?version=1.10"></script>  
     
-    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>  
-    
-    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
-    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/data.js"></script>
-    <script src="https://code.highcharts.com/stock/indicators/indicators-all.js"></script>
-    <script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
-    <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
-    <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
-    <script src="https://code.highcharts.com/modules/full-screen.js"></script>
-    <script src="https://code.highcharts.com/modules/stock-tools.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
        
     <?php if ($config->mode === 'production'): ?>
     
@@ -108,7 +94,7 @@
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.113',
+            version:    '1.1.124',
             api_url:    '/api.php',
             base_url:   '<?= $config->base_url ?>',            
             debug:      <?= $config->debug ?>,
@@ -151,7 +137,7 @@
                 color_label:        '#b2b2b2',
                 color_bg:           '#f1f2f4',
                 color_bg2:          '#ffffff',
-                size_small:         '11px',
+                size_small:         '12px',
                 size_regular:       '12px',
                 size_medium:        '15px',
                 size_big:           '17px',
@@ -178,10 +164,8 @@
             if (ios && localStorage.getItem('note_iossafari')===null) mvc.url = "/cms/note_iossafari"; 
             if (fbb && localStorage.getItem('note_fb')===null)        mvc.url = "/cms/note_fb";
             
-            init_SW();
-            
-            load_layout( () => load_page(mvc.url) );            
-            
+            init_SW();            
+            load_layout( () => load_page(mvc.url) );                        
             
         });
                 

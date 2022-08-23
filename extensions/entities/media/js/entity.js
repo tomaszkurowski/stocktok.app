@@ -140,7 +140,7 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
         } 
         if (label === 'CountryISO' && value !== 'NA'){
             label='Country';
-            value='<img src="/media/img/flags/'+value+'.png" class="flag" />';
+            value='<img src="/media/img/flags/'+value+'.png" class="flag" alt="flag-'+value+'" />';
         }
         
         if (tabCode === 'officers'){
@@ -158,7 +158,7 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
             if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
 
             if (label==='Description') tabInfoRow.addClass('only-value'); 
-            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" />') $('#entity-'+tabCode).append(tabInfoRow);
+            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" alt="flag-'+value+'" />') $('#entity-'+tabCode).append(tabInfoRow);
         }                         
         
 
