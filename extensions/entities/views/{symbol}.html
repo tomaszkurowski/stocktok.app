@@ -900,7 +900,7 @@
                             followTouchMove: true,
                             followPointer:false
                         },
-                        colors:[settings.design.color_base],
+                        //colors:[settings.design.color_base],
                         series: [{ name: 'Main', data:[] }],
                         chart:{
                             spacing:[10,15,5,5],
@@ -943,6 +943,19 @@
                                         $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                         reload_stock_price();
                                     }
+                                },
+                                color: {
+                                    linearGradient: {
+                                        x1: 0,
+                                        y1: 0,
+                                        x2: 0,
+                                        y2: 1
+                                    },
+                                    stops: [
+                                        [0, '#00e691'],
+                                        [0.5, '#0091e6'],
+                                        [1, '#e63900']
+                                    ]
                                 }
                             }
                         }

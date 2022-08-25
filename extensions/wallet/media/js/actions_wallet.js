@@ -242,7 +242,7 @@
                             dataLabels: { enabled: false },
                             stroke: {
                                 curve: 'smooth',
-                                width: 2
+                                width: 1
                             },
                             grid: { row: { colors: ['transparent'] } },
                             tooltip: { enabled: false }

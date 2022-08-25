@@ -1,5 +1,5 @@
 <?php 
-session_start();
+session_start(['cookie_lifetime' => 43200,'cookie_secure' => true,'cookie_httponly' => true]);
 
 /*
  * NOTE:
@@ -21,13 +21,18 @@ session_start();
  * 
  */
 
-
+include('config.php');
 
 try{
     
     $api_mode = 'session';
-    include('../api/index.php');
     
+    if ($config->mode === 'staging'){       
+        include('../api-STG/index.php');
+    }else{
+        include('../api/index.php');
+    }
+      
 }catch(error $e){
     die($e);
 }

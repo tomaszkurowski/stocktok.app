@@ -57,16 +57,24 @@
 
                     if (!options.item.hasOwnProperty('symbol')){
 
-                        sell_step1();
-                        buy_step1();  
+                        $.getScript('/extensions/wallet/media/js/actions_sell.js?version='+config.version,function(){
+                            sell_step1();
+                        });                        
+                        $.getScript('/extensions/wallet/media/js/actions_buy.js?version='+config.version,function(){
+                            buy_step1();  
+                        });
 
                     }else{
 
                         if (options.action === 'sell'){
-                            sell_step2(options.item);
+                            $.getScript('/extensions/wallet/media/js/actions_sell.js?version='+config.version,function(){
+                                sell_step2(options.item);
+                            });
                         }
                         if (options.action === 'buy'){
-                            buy_step2(options.item);
+                            $.getScript('/extensions/wallet/media/js/actions_buy.js?version='+config.version,function(){
+                                buy_step2(options.item);
+                            });
                         } 
 
                     }
