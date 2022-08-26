@@ -1,5 +1,7 @@
 <?php
 $config->api_token        = '{your_token}';
+$config->api_connection   = 'private';
+
 $config->base_url         = 'https://{your_url}/';
 $config->title            = 'Stocktok App';
 $config->mode             = 'staging';

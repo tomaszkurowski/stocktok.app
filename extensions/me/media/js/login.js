@@ -62,7 +62,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                         if (response.success){
                             
                             sessionStorage.setItem('username', response.username);
-                            sessionStorage.setItem('persistence', response.persistence);
+                            if (response.persistence) sessionStorage.setItem('persistence', response.persistence);
                             
                             let params = getQueryParams();
                             if (params.ref && params.ref !== '/me/login' && params.ref !== '/me/logout') location.href=params.ref[0];
@@ -106,8 +106,18 @@ $(document).on('click', '[data-action="step2"]', function(){
                     $('.registration-form').addClass('step-2');
                     $('.info-inner').removeClass('active');
 
-                    if (response.success) $('.login-info').addClass('active');
-                    else $('.registration-info').addClass('active');
+                    switch(response.success){
+                        
+                        case 1: 
+                            $('.login-info').addClass('active'); 
+                            break;
+                        case 2: 
+                            $('.token-info').addClass('active'); $('#username').val(response.username); 
+                            break;                            
+                        default: 
+                            $('.registration-info').addClass('active'); 
+                            break;
+                    }
                     
                     $('#password').focus();
 

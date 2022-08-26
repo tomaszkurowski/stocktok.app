@@ -1,10 +1,11 @@
 <?php 
+/*
 header("Access-Control-Allow-Origin: *");
 header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com ");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
-
+*/
 include('config.php') ?>
 
 <!DOCTYPE html>
