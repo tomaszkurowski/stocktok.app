@@ -176,7 +176,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         
@@ -203,7 +203,7 @@
             var item = $('<div></div>').addClass('item');
             $(item).attr('data-symbol',transaction.symbol);
             $(item).attr('data-market',transaction.market);
-            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
+            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" alt="logo-'+transaction.symbol+'" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
 
             $('[data-step="1"] .items').append($(item));
         });
@@ -245,7 +245,7 @@
                 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         
@@ -281,8 +281,8 @@
             
             form.transactions.push(transaction);
         });
-        console.log('Form');
-        console.log(form);
+        if (config.debug) console.log('Form');
+        if (config.debug) console.log(form);
 
         $.ajax({
             url: config.api_url,
@@ -307,7 +307,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }

@@ -33,7 +33,9 @@
        font-size:var(--size-regular);
        line-height:18px;
    }
-   
+   .range-selector {
+       max-width:360px;
+   }
 }
 
 
@@ -128,6 +130,7 @@
     .items-container .item {
         width:calc(16.6666% - 10px);
     }
+    .moves .move { width:calc(33.3333% - 10px); }
 
    .stock-view .results-info .logo {
        max-height:70px;       
@@ -169,7 +172,7 @@
         border-radius: var(--border-radius1);
     }
     
-    .wallets .wallet { position:fixed; right:5px; width:248px; }
+    .wallets .wallet { position:fixed; right:5px; width:248px; z-index:2 }
     
     
     .wallet[data-id="0"] { bottom:80px; right:5px; }

@@ -1,6 +1,3 @@
-
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.16"></script>
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.4"></script>
     
     <div class="find-by"> 
         <div class="entities">
@@ -135,9 +132,10 @@
         </div>
     </div>
     <div class="items-container" style="display:none"></div>  
- 
     
     <script type="text/javascript">
+    
+
     
         $('[data-action="find-stocks"]').click(function() {
             $([document.documentElement, document.body]).animate({
@@ -158,13 +156,15 @@
             }            
             
         });
+        $.getScript('/extensions/entities/media/js/search.js?version='+config.version,function(){
+            get_observed_symbols();
+            get_currencies();             
+        }); 
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
+                
+        var typeTimer        = (typeTimer === undefined) ? 250 : typeTimer;
+        var doneTypeInterval = (doneTypeInterval === undefined) ? 250 : doneTypeInterval;      
         
-        get_observed_symbols();
-        get_currencies();
-        
-        let typeTimer,
-        doneTypeInterval = 250;
-
         $(document).off('keyup', '.search');
         $(document).on('keyup','.search',function(){
             search = $(this).val();
@@ -184,9 +184,7 @@
                     
                     get_search_items();
                     window.history.pushState({}, '', '/entities/find-by/'+search);  
-                }
-                
-
+                }                
             }, doneTypeInterval);
                 
         });

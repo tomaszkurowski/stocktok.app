@@ -169,7 +169,7 @@
                                     $("#popup").html(data); 
                                     $('.popup-avatars').slideDown(300,'linear');
                                 },
-                                error: function(e){ console.log(e); }
+                                error: function(e){ if (config.debug) console.log(e); }
                             });
                         });
                         
@@ -188,7 +188,7 @@
                                 url:"/extensions/settings/views/popups/countries.html",
                                 cache:false,
                                 success: function(data){ $("#popup").html(data); },
-                                error: function(e){ console.log(e); }
+                                error: function(e){ if (config.debug) console.log(e); }
                             });
                         });
                         
@@ -261,12 +261,12 @@
         
         if (me.avatar){
             if (me.avatar_type === 'image'){
-                $('.avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' />");
+                $('.avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
             }else{
                 $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));            
             }
         } 
-        if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" />');
+        if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" alt="country-'+me.country+'" />');
         
         if (me.public === 0){ $('[data-row="restart-game"]').hide(); }
         if (me.bio){ $('#bio').val(me.bio); }

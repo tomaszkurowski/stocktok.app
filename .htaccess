@@ -3,11 +3,13 @@
     RewriteCond %{REQUEST_FILENAME}  -f [OR]
     RewriteCond %{REQUEST_FILENAME} !-f
 
+    RewriteRule ^(test.php(.*))($) - [L]
     RewriteRule ^(extensions(.*))($) - [L]
     RewriteRule ^(html(.*))($) - [L]
     RewriteRule ^(pages(.*))($) - [L]
     RewriteRule ^(media(.*))($) - [L]
     RewriteRule ^(api(.*))($) - [L]
+    RewriteRule ^(robots.txt(.*))($) - [L]
     RewriteRule ^(upload.php(.*))($) - [L]
     RewriteRule ^(upload_logo.php(.*))($) - [L]
     RewriteRule ^(upload_cover.php(.*))($) - [L]

@@ -69,7 +69,6 @@
                     });
                 }
                                 
-
                 wallet.symbols = [];
                 $.each(wallet.items, function(i, item){ 
 
@@ -127,7 +126,7 @@
                             '<div class="mystock">' +
                                 '<div class="mystock-view">' +
                                     '<div class="symbol view-action">'+item.symbol+'</div>'+
-                                    '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
+                                    '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
                                     '<div class="results view-action" data-results="neutral">' +
                                         '<span class="label">Total & Margin:</span>'+
                                         '<div class="info">'+
@@ -230,7 +229,7 @@
                             case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
                         }
 
-                        var options = {
+                        let options = {
                             series: [{ data: data }],
                             colors: [settings.design.color_base],
                             chart: {
@@ -243,11 +242,12 @@
                             dataLabels: { enabled: false },
                             stroke: {
                                 curve: 'smooth',
-                                width: 2
+                                width: 1
                             },
                             grid: { row: { colors: ['transparent'] } },
                             tooltip: { enabled: false }
                         };
+
 
                         new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
                         
@@ -264,49 +264,49 @@
                 
                 reload();
 
-                // FUNDS
+                // Moves                
                 if (wallet.moves.length>0){
-                    
-                    var funds_total = 0;
                     $('.wallet-items.moves').html('');
                     $.each(wallet.moves, function(i, move){
 
                         let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
                         let logo = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('.logo-container').html();
                         let name = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol')+' ('+$('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market')+')';
-                                                
+
                         let total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.purchased_total').val();
                         let margin  = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.margin').val();
-                        
+
                         if (move.action === 'sell'){
                             total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.sold_total').val();
                         }                        
-                        
+
                         $(el).append(logo);
                         $(el).append('<div class="info"></div>');
                         $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+name+'</div>');
                         $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
-                        
+
                         $(el).append('<div class="totals"></div>');
                         $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
-                        
+
                         if (move.action === 'sell'){
                             $(el).find('.totals').append('<div class="profit">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                         }
 
                         $('.wallet-items.moves').append(el);                                    
                     });                    
-                    var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
-                    
-                    $('.wallet.funds .funds-total').text(funds_total);
-                    $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
-
                 }else{                    
                     $('.wallet-items.moves').html('<div class="no-transactions"><div class="icon icon-shopping_cart"></div><div class="title">No moves</div></div>');                
-                }
+                } 
+                
+                // Funds
+                var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
+                $('.wallet.funds .funds-total').text(funds_total);
+                $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
+
+
 
                 // Live
-
+                /*
                 var live = new WebSocket('wss://stocktok.online:8443');
                 live.onopen = function(e) {
 
@@ -346,12 +346,12 @@
                                
                 };
                 live.onerror = function(e){
-                    console.log(e);
+                    if (config.debug) console.log(e);
                 };                                                
-
+                */
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
     }

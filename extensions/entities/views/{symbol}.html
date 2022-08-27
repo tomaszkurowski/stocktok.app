@@ -1,7 +1,5 @@
-    
-    <script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
-    <script type="text/javascript" src="/extensions/entities/media/js/entity.js?ver=9.0.17"></script> 
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.15"></script> 
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
+    <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
 
         <div class="page page-views stock-page-views active">        
 
@@ -236,7 +234,7 @@
                         
             <div class="page-view" data-view="info">
                 <div class="box find-in">
-                    <h2>Find in</h2>
+                    <h2>Research</h2>
                     <div class="icon-google google"></div>
                     <div class="icon-twitter twitter"></div>
                     <div class="icon-youtube-play youtube"></div>
@@ -369,11 +367,13 @@
             <div class="value"></div>         
         </div>
         <div class="tooltip-info"></div>
-    </div>
-
-
+    </div>   
     
     <script type="text/javascript">
+        
+        $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
+        $.getScript('/extensions/entities/media/js/entity.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
 
         /*
         $('.page-views').not('.slick-initialized').slick({
@@ -388,9 +388,7 @@
             $("html").animate({scrollTop: 0}, "slow");
         }); 
         swiper({ initial: 0 });
-        */
-        
-
+        */        
 
         function stock_graph_adaptive_height(){
 
@@ -499,8 +497,8 @@
                     $(this).val(settings[id]);
 
                 }
-                console.log('value selected: '+id+' '+settings[id]);
-                console.log(settings);
+                if (config.debug) console.log('value selected: '+id+' '+settings[id]);
+                if (config.debug) console.log(settings);
             });
 
 
@@ -605,8 +603,8 @@
                 dataType: 'JSON',
                 cache:false, // @TODO: Online/Offline
                 success: function(response){
-                    console.log('entity');
-                    console.log(response);
+                    if (config.debug) console.log('entity');
+                    if (config.debug) console.log(response);
                     stock = response.entity;
 
                     if (market==='gpw') stock.currency = 'pln';
@@ -617,10 +615,10 @@
                     $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);
                                        
                     $('.stock-view .results-info h2').text(stock.name);               
-                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
                     
                     if (stock.cover){
-                        $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" />');
+                        $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" />');
                     }
                     
                     $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
@@ -677,7 +675,7 @@
                                         stock.observed = true;
                                     },
                                     error: function(response){                            
-                                        console.log(response);
+                                        if (config.debug) console.log(response);
                                     }
                                 });                                
                                 
@@ -698,7 +696,7 @@
                                         stock.observed = false;
                                     },
                                     error: function(response){                            
-                                        console.log(response);
+                                        if (config.debug) console.log(response);
                                     } 
                                 });
                                 
@@ -762,7 +760,7 @@
                                     $('.popup-contributor #sector').val(stock.sector);
                                     $('.popup-contributor #website').val(stock.website);
                                 },
-                                error: function(e){ console.log(e); }
+                                error: function(e){ if (config.debug) console.log(e); }
                             });
                         });
                     }                     
@@ -779,6 +777,7 @@
                     reload_stock_price();
 
                    // Live
+                   /*
                     var live = new WebSocket('wss://stocktok.online:8443');
                     live.onopen = function(e) {
 
@@ -812,7 +811,7 @@
                         }                                
                     };
                     live.onerror = function(e){
-                        console.log(e);
+                        if (config.debug) console.log(e);
                     };
                     /* */
 
@@ -901,7 +900,7 @@
                             followTouchMove: true,
                             followPointer:false
                         },
-                        colors:[settings.design.color_base],
+                        //colors:[settings.design.color_base],
                         series: [{ name: 'Main', data:[] }],
                         chart:{
                             spacing:[10,15,5,5],
@@ -944,6 +943,19 @@
                                         $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                         reload_stock_price();
                                     }
+                                },
+                                color: {
+                                    linearGradient: {
+                                        x1: 0,
+                                        y1: 0,
+                                        x2: 0,
+                                        y2: 1
+                                    },
+                                    stops: [
+                                        [0, '#00e691'],
+                                        [0.5, '#0091e6'],
+                                        [1, '#e63900']
+                                    ]
                                 }
                             }
                         }
@@ -1040,7 +1052,7 @@
                                     data.push(value.totalShares);
                                 });                                                
                                 //console.log(categories);
-                                var options = {
+                                let options = {
                                     series: data, 
                                     labels: categories,
                                     chart: {                                
@@ -1086,8 +1098,7 @@
                                     stroke:{ colors: [settings.design.color_bg2], width:1 }
                                 };
 
-                                var chart = new ApexCharts(document.querySelector("#graph-shareholders"), options);
-                                chart.render();
+                                new ApexCharts(document.querySelector("#graph-shareholders"), options).render();
                             }else{
                                 $('.widget.shareholders').hide();
                             }
@@ -1098,7 +1109,7 @@
 
                         },
                         error: function(response){
-                            console.log(response);
+                            if (config.debug) console.log(response);
                         }
                     });
 
@@ -1121,7 +1132,7 @@
                             generate_graph();                                                                                                
                         },
                         error: function(response){
-                            console.log(response);
+                            if (config.debug) console.log(response);
                         }
                     });
 
@@ -1146,7 +1157,7 @@
                             generate_graph();                                                
                         },
                         error: function(response){
-                            console.log(response);
+                            if (config.debug) console.log(response);
                         }
                     });
 
@@ -1183,7 +1194,7 @@
                     if (config.debug) console.log(response.stock);
                 },
                 error: function(response){
-                    console.log(response);
+                    if (config.debug) console.log(response);
                 }
             });
             });

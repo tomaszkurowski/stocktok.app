@@ -5,19 +5,17 @@
         </div>
     </div>
     <div class="items-container"></div>
-</div>
-
-
-<script type="text/javascript" src="/extensions/entities/media/js/search.js?v=1.0.26"></script>
-<script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=8.0.8"></script>    
+</div>   
 
 <script type="text/javascript">
 
-    get_observed_symbols();
-    get_currencies();
-
-    if (mvc.controller){ search = mvc.controller; }
-    get_search_items();
+    $.getScript('/extensions/entities/media/js/search.js?version='+config.version,function(){
+        if (mvc.controller){ search = mvc.controller; } 
+        get_observed_symbols();
+        get_currencies();          
+        get_search_items();
+    }); 
+    $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
 
     $(document).ready(function(){
         switcher({ 
@@ -83,9 +81,6 @@
 
     });
 
-
-    let typeTimer,
-    doneTypeInterval = 250;
 
     $(document).off('keyup', '.search');
     $(document).on('keyup','.search',function(){

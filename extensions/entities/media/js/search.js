@@ -62,7 +62,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
 
                 let view = $('<div class="view" data-action="view"></div>');                                                                                
 
-                $(view).append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                $(view).append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                 $(view).append(('<div class="name label">'+(item.name ? item.name : '')+'</div>'));
                 $(view).append('<div class="price">'+item.price+'</div>');
                 $(view).append('<div class="currency">'+item.market_currency+'</div>');
@@ -99,7 +99,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
                                 $('.popup-contributor #sector').val(item.sector);
                                 $('.popup-contributor #website').val(item.website);
                             },
-                            error: function(e){ console.log(e); }
+                            error: function(e){ if (config.debug) console.log(e); }
                         });
                     });
                     $(el).append(btn_add_logo);
@@ -114,7 +114,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
 
         },
         error: function(response){
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 

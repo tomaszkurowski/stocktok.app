@@ -45,7 +45,7 @@
             <div class="icon-move"></div>
             <div class="orientation">
                 <div class="frame-container hide-scroll" style="border-radius:15px">                
-                    <img id="frame" src="" />
+                    <img id="frame" src="" alt="Uploaded photo" />
                 </div>
             </div>
             <h2>Adjust size</h2>
@@ -132,7 +132,7 @@
                                         
                                         if ($('#stock-price').length){
                                             $('.results-info .cover').remove();
-                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" />'); 
+                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" alt="New cover" />'); 
                                             stock_graph_adaptive_height(); 
                                             if (stock_chart){ 
                                                 setTimeout(function() {
@@ -210,10 +210,10 @@
                                             //location.reload();
                                             if (mvc.view === 'find-by'){
                                                 if (type === 'logo'){
-                                                    $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                                    $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" />');
                                                 }
                                             }else{
-                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" />');
+                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" />');
                                             }
                                         });
                                     }else{
@@ -301,7 +301,7 @@
                             $('.item[data-symbol="'+form.symbol+'"][data-market="'+form.market+'"] .name').html(form.name);
                         },
                         error: function(response){
-                            console.log(response);
+                            if (config.debug) console.log(response);
                         }
                     });                    
                     

@@ -31,7 +31,7 @@
         var balance = $('.form.update-funds #balance').val();
         var comment = $('.form.update-funds #comment').val();
         
-        console.log('Funds Save: '+balance);
+        if (config.debug) console.log('Funds Save: '+balance);
         
         if (balance>99999999) { balance = 99999999; $('.form.update-funds #balance').val(balance); return; }
         if (balance<-99999999){ balance = -9999999; $('.form.update-funds #balance').val(balance); return; }
@@ -55,7 +55,7 @@
                 if (config.debug) console.log(response);               
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
            

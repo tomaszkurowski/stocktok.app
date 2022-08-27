@@ -54,7 +54,7 @@ $(document).on('keyup', '#symbol', function(){
                                     'data-price="'+item.price+'"'+
                                     'data-currency="'+item.currency.toLowerCase()+'"'+
                                     'data-last-updated-at="'+item.last_updated_at+'">'+
-                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
+                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
                                 '<div class="info">'+
                                     '<div class="name">'+item.highlighted_name+'</div>'+
                                     '<div class="label">'+
@@ -79,7 +79,7 @@ $(document).on('keyup', '#symbol', function(){
                 
             },
             error: function(response){
-                console.log(response);
+                if (config.debug) console.log(response);
             }
         });
         $('#autosuggestions').scrollTop($('#autosuggestions')[0].scrollHeight);
@@ -118,7 +118,7 @@ $(document).on('blur', '.add-new-stock .step2 #date', function(){
             }
         },
         error: function(response){
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 });

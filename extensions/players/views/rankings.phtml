@@ -1,5 +1,4 @@
     
-    <script type="text/javascript" src="/extensions/players/media/js/actions_player.js?v=1.0.3"></script> 
     <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.5" />
     
     <div class="page players rankings active view-box">            
@@ -8,7 +7,7 @@
             <div class="page-view" data-view="all">                
                 <div class="ranking">
                     <!--<div class="ranking-icon icon-trophy"></div>-->
-                    <img src="/media/img/trophies/trophy1.png" class="trophy" />
+                    <img src="/media/img/trophies/trophy1.png" class="trophy" alt="Trophy" />
                     <h2>Top Margin Makers</h2>
                     <div class="ranking-types">
                         <div class="ranking-type active">Ranking is based on total <a>sold margin</a><br />in <a>All-time</a> period.</div>
@@ -22,6 +21,8 @@
     </div>    
     
     <script type="text/javascript">
+        
+        $.getScript('/extensions/players/media/js/actions_player.js?version='+config.version); 
         
         $(document).ready(function(){                          
             get_currencies(function(){
@@ -53,12 +54,12 @@
                         let el = $('<div class="view"></div>');
                         
                         if (player.avatar_type){
-                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' />");
+                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' alt='player-"+player.username+"' />");
                         }else{
                             $(el).append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
                         }
                         
-                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
+                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" alt="country-'+player.country+'" />' : ''))
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){

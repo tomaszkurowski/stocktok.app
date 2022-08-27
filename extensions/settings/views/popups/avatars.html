@@ -105,7 +105,7 @@
         <div class="step2" data-type="image">
             <h2>Adjust position</h2>
             <div class="frame-container hide-scroll">
-                <img id="frame" src="" />
+                <img id="frame" src="" alt="Uploaded photo" />
             </div>
             <h2>Adjust size</h2>
             <div class="image-resizer slidecontainer">
@@ -245,7 +245,7 @@
                            success : function(response) {
                                if (response.success){
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
                                     $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();
@@ -325,8 +325,8 @@
                                 Webcam.upload( photo, 'upload.php?type=photo&width='+camera_width+'&height='+camera_height+'&x='+camera_x+'&y='+camera_y+'&me='+me.username, function(code, json) {
                                     let response = JSON.parse(json);
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
+                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
 
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();

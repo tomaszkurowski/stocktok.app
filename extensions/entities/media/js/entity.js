@@ -61,8 +61,8 @@ function generate_graph(){
             }
         }                        
         
-        console.log('All prices');
-        console.log(stock.all_prices);
+        if (config.debug) console.log('All prices');
+        if (config.debug) console.log(stock.all_prices);
         
         stock_chart.series[0].remove();
         stock_chart.addSeries({
@@ -134,11 +134,14 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
             case 'profitMargin': value=value+ '%'; break;            
             case 'OperatingMarginTTM': value=value+ '%'; break;
             case 'ReturnOnAssetsTTM': value=value+ '%'; break;
-            case 'ReturnOnEquityTTM': value=value+ '%'; break;            
-            case 'CountryISO': value='<img src="/media/img/flags/'+value+'.png" class="flag" />'; label='Country'; break;                        
+            case 'ReturnOnEquityTTM': value=value+ '%'; break;                                   
             case 'WebURL': value = '<a href="'+value+'">'+value+'</a>'; break;
             case 'UpdatedAt': return;                            
         } 
+        if (label === 'CountryISO' && value !== 'NA'){
+            label='Country';
+            value='<img src="/media/img/flags/'+value+'.png" class="flag" alt="flag-'+value+'" />';
+        }
         
         if (tabCode === 'officers'){
             tabInfoRow.addClass('only-value');
@@ -155,7 +158,7 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
             if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
 
             if (label==='Description') tabInfoRow.addClass('only-value'); 
-            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" />') $('#entity-'+tabCode).append(tabInfoRow);
+            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" alt="flag-'+value+'" />') $('#entity-'+tabCode).append(tabInfoRow);
         }                         
         
 
@@ -255,8 +258,8 @@ function widget_financial_graph(id,widget){
             },
             tooltip: {
                 custom: function ({series, seriesIndex, dataPointIndex, w}) {   
-                    console.log('w');
-                    console.log(w);
+                    if (config.debug) console.log('w');
+                    if (config.debug) console.log(w);
                     $('[data-type="financial_graph"][data-id="'+id+'"] .x').html(w.globals.categoryLabels[dataPointIndex]);
                     $('[data-type="financial_graph"][data-id="'+id+'"] .y').text(format_price(series[seriesIndex][dataPointIndex],2));                                            
                     return;
@@ -265,8 +268,8 @@ function widget_financial_graph(id,widget){
         };
 
         $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph').html('');
-        var graph = new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options);
-        graph.render();
+        new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options).render();
+        //graph.render();
 
     }else{
         $('.widget[data-id="'+id+'"]').hide();

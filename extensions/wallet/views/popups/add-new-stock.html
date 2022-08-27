@@ -187,12 +187,11 @@
         </div>
     </div> 
 
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_buy.js?v=3.0.72"></script>  
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_sell.js?v=2.0.24"></script> 
-
-
     <script type="text/javascript">
-
+        
+        $.getScript('/extensions/wallet/media/js/actions_buy.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_sell.js?version='+config.version); 
+        
         var transactions   = [];        
         function init_slick(){
 

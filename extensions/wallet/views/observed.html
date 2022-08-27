@@ -45,11 +45,10 @@
         </div>    
     </div>
 
-
-    <script type="text/javascript" src="/extensions/wallet/media/js/sorting.js?v=2.0.46"></script>
-    <script type="text/javascript" src="/extensions/wallet/media/js/actions_item.js?v=6.0.2"></script> 
     <script type="text/javascript"> 
 
+        $.getScript('/extensions/wallet/media/js/sorting.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
 
         $(document).ready(function(){
             
@@ -103,7 +102,7 @@
             $('[data-view="observed"] .mystock-container').each(function(index,value){        
                 items.push({ "symbol" : $(this).attr('data-symbol'), "market": $(this).attr('data-market'), "position": position++ });               
             }).promise().then(function(){
-                console.log(items);
+                if (config.debug) console.log(items);
                 $.ajax({
                     url: config.api_url,
                     data: { 
@@ -115,7 +114,9 @@
                     success: function(response){ 
                         get_my_observed();
                     },
-                    error: function(e){ console.log(e); }
+                    error: function(e){ 
+                        if (config.debug) console.log(e); 
+                    }
                 });
             });
         }
@@ -180,7 +181,7 @@
                         $(entity_template).attr('data-price',entity.price);
 
                         $(entity_template).find('.symbol').html(entity.symbol);
-                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
+                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
                         $(entity_template).find('.name').html(entity.name);
 
                         if (price_change>0) $(entity_template).find('.current').attr('data-results','with profit');
@@ -261,7 +262,7 @@
 
                 },
                 error: function(response){
-                    console.log(response);
+                    if (config.debug) console.log(response);
                 }
             });
 

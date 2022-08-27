@@ -14,7 +14,7 @@
 
     $(document).on('click','.goto-login',function(){ 
         if (window.location.pathname !=='/me/login' && window.location.pathname !=='/me/logout'){
-            load_page('/me/login?ref='+window.location.pathname,true);
+            load_page('/me/login/?ref='+window.location.pathname,true);
         }else{
             load_page('/me/login',true);
         }

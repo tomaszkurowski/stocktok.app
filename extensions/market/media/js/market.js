@@ -47,7 +47,7 @@ function get_observed(){
                                
         },
         error: function(response){
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 }
@@ -178,7 +178,7 @@ function find(filters,page,size,append){
         },
         error: function(response){
             alert(JSON.stringify(response));
-            console.log(response);
+            if (config.debug) console.log(response);
         }
     });
 }
