@@ -3,6 +3,7 @@
     RewriteCond %{REQUEST_FILENAME}  -f [OR]
     RewriteCond %{REQUEST_FILENAME} !-f
 
+    RewriteRule ^(test.php(.*))($) - [L]
     RewriteRule ^(extensions(.*))($) - [L]
     RewriteRule ^(html(.*))($) - [L]
     RewriteRule ^(pages(.*))($) - [L]

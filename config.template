@@ -1,12 +1,12 @@
 <?php
-$config->api_token        = '{your_token}';
-$config->api_connection   = 'private';
+$config['api_token']        = '{your_token}';
+$config['api_connection']   = 'private';
 
-$config->base_url         = 'https://{your_url}/';
-$config->title            = 'Stocktok App';
-$config->mode             = 'staging';
-$config->theme_color      = '#002ce1';
-$config->debug            = 'false';
+$config['base_url']         = 'https://{your_url}/';
+$config['title']            = 'Stocktok App';
+$config['mode']             = 'staging';
+$config['theme_color']      = '#002ce1';
+$config['debug']            = 'false';
 
-$config->dir_splash       = '/media/img/splash_screen/';
-$config->dir_icons        = '/media/img/icons/';
+$config['dir_splash']       = '/media/img/splash_screen/';
+$config['dir_icons']        = '/media/img/icons/';

@@ -51,11 +51,11 @@ try{
     $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD');
     $params = get_parameters($method); 
     
-    if ($config->api_connection === 'public'){ 
+    if ($config['api_connection'] === 'public'){ 
                 
         $api_mode = 'session';
 
-        if ($config->mode === 'staging'){       
+        if ($config['mode'] === 'staging'){       
             include('../api-STG/index.php');
         }else{
             include('../api/index.php');
@@ -68,8 +68,8 @@ try{
         // https://requests.ryanmccue.info/docs/why-requests.html      
         $api_mode = 'token';
         
-        $headers  = array('Authorization' => 'Bearer '.$config->api_token);
-        $headers['Authorization'] = 'Bearer '.$config->api_token;
+        $headers  = array('Authorization' => 'Bearer '.$config['api_token']);
+        $headers['Authorization'] = 'Bearer '.$config['api_token'];
         $headers['Content-Type']  = 'application/json';
         
         switch($method){

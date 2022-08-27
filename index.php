@@ -6,28 +6,28 @@ header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
 */
-include('config.php') ?>
+include('config.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     
-    <title><?= $config->title ?></title>
+    <title><?= $config['title'] ?></title>
       
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
     <meta name="viewport"                        content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color"                     content="<?= $config->theme_color ?>" />
+    <meta name="theme-color"                     content="<?= $config['theme_color'] ?>" />
     <meta name="description"                     content="Be a market player" /> 
     <meta name="mobile-web-app-capable"          content="yes" />
     <meta name="mobile-web-app-status-bar-style" content="black" />
     <meta name="mobile-web-app-title"            content="Stocktok" />    
     <meta name="apple-mobile-web-app-capable"    content="yes" />            
     
-    <meta property="og:title"                    content="<?= $config->title ?>" />
-    <meta property="og:url"                      content="<?= $config->base_url ?>" />
-    <meta property="og:image"                    content="<?= $config->base_url ?>/media/img/icons/icon-512x512.png" />    
+    <meta property="og:title"                    content="<?= $config['title'] ?>" />
+    <meta property="og:url"                      content="<?= $config['base_url'] ?>" />
+    <meta property="og:image"                    content="<?= $config['base_url'] ?>/media/img/icons/icon-512x512.png" />    
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
@@ -35,16 +35,16 @@ include('config.php') ?>
     <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
     
-    <link rel="icon"                             href="<?= $config->dir_icons ?>favicon.png" type="image/png" />
-    <link rel="apple-touch-icon"                 href="<?= $config->dir_icons ?>icon-144x144.png" />
+    <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
+    <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
     
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_2048.png" sizes="2048x2732" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1668.png" sizes="1668x2224" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1536.png" sizes="1536x2048" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1125.png" sizes="1125x2436" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_1242.png" sizes="1242x2208" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_750.png"  sizes="750x1334" />
-    <link rel="apple-touch-startup-image"        href="<?= $config->dir_splash ?>apple_splash_640.png"  sizes="640x1136" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_2048.png" sizes="2048x2732" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_1668.png" sizes="1668x2224" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_1536.png" sizes="1536x2048" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_1125.png" sizes="1125x2436" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_1242.png" sizes="1242x2208" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_750.png"  sizes="750x1334" />
+    <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/external.js?version=1.9"></script>
@@ -53,7 +53,7 @@ include('config.php') ?>
     
     <script src="/media/js/external/apexchart.min.js?version=0.0.1"></script>
        
-    <?php if ($config->mode === 'production'): ?>
+    <?php if ($config['mode'] === 'production'): ?>
     
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
@@ -104,8 +104,8 @@ include('config.php') ?>
         config = {
             version:    '1.1.135',
             api_url:    '/api.php',
-            base_url:   '<?= $config->base_url ?>',            
-            debug:      <?= $config->debug ?>,
+            base_url:   '<?= $config['base_url'] ?>',            
+            debug:      <?= $config['debug'] ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera,
             precision_rate:  11,
             precision_total: 4
