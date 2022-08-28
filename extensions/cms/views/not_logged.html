@@ -1,23 +1,15 @@
-
-<div class="info-page">
-    
+<div class="info-page">  
     <div class="icon icon-locked"></div>
-
     <h1>Please, login first</h1>
-    <p>Features are related with your player profile.</p>
-    
-    <a class="btn primary goto-login">Register/Login</a>
-    
+    <p>Features are related with your player profile.</p>    
+    <a class="btn primary goto-login">Register/Login</a>   
 </div>
-
 <script type="text/javascript">
-
     $(document).on('click','.goto-login',function(){ 
         if (window.location.pathname !=='/me/login' && window.location.pathname !=='/me/logout'){
             load_page('/me/login/?ref='+window.location.pathname,true);
         }else{
             load_page('/me/login',true);
         }
-    });
-    
+    });  
 </script>

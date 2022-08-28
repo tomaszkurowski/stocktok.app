@@ -23,20 +23,12 @@ function reload_stock_price(){
     $('.results-info .daily-max').text(format_price(stock.daily_max),2);
     $('.results-info .daily-min').text(format_price(stock.daily_min),2);
     $('.results-info .open-price').text(format_price(stock.open_price));
-    
-    // DATA: OHLC
-    // [1589203800000,77.03,79.26,76.81,78.75]
-    // Data: Current
-    // [1652107802000, 806.76]
-   
-   
     return;
 }
 
 var current_stock  = '';
 var current_market = '';
 var entity = {};
-
 
 // MYSTOCK - VIEW
 var stock;
@@ -59,11 +51,9 @@ function generate_graph(){
             }else{
                 stock.all_prices = stock.historical;
             }
-        }                        
-        
+        }                              
         if (config.debug) console.log('All prices');
-        if (config.debug) console.log(stock.all_prices);
-        
+        if (config.debug) console.log(stock.all_prices);        
         stock_chart.series[0].remove();
         stock_chart.addSeries({
             data: stock.all_prices,
@@ -73,31 +63,21 @@ function generate_graph(){
                 valueDecimals: 2,
                 pointFormat: '{point.y}'
             }
-        });
-        
+        });       
         // Changers settings
-        stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line }} });    
-        
+        stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line }} });         
         stock_graph_adaptive_height();
-        stock_chart.reflow();                             
-        
-        stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);
-                
-    }
-                        
+        stock_chart.reflow();                                    
+        stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);              
+    }                     
 }
-
 function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
-
     var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
     if (window.innerWidth>996) $(tabInfo).addClass('active');
-
     tabInfo.find('h2').text(tabName);
     tabInfo.find('.tab-content').attr('id','entity-'+tabCode);
     tabInfo.find('.tab-header').prepend('<div class="icon '+tabIcon+'"></div>');
-
-    $('.entity-main-info-container').append(tabInfo);
-    
+    $('.entity-main-info-container').append(tabInfo);    
     var tooltips = [];
     tooltips['MarketCapitalization'] = "Refers to the <b>total value of all a company's shares</b> of stock. It is calculated by multiplying the price of a stock by its total number of outstanding shares.<br /><br />For example, a company with 20 million shares selling at $50 a share would have a market cap of $1 billion.";
     tooltips['EBITDA'] = "EBITDA stands for <b>E</b>arnings <b>B</b>efore Interest, <b>T</b>axes, <b>D</b>epreciation, and <b>A</b>mortization and is a metric used to evaluate a company’s operating performance. It can be seen as a proxy for cash flow from the entire company’s operations.";
@@ -111,18 +91,9 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
     tooltips['ReturnOnEquityTTM']='This value is the Income Available to Common Stockholders for the trailing twelve months divided by the Average Common Equity and is expressed as a percentage. Average Common Equity is calculated by adding the Common Equity for the 5 most recent quarters and dividing by 5.';
     tooltips['RevenueTTM'] = "TTM revenue refers to a company's revenue over the trailing twelve months (TTM) of operations. This financial measure is sometimes overlooked by buyers who are focused more on a company's profitability and ability to generate EBITDA.<br /><br />However, it can be useful to determine if a company has seen top line growth and where the revenue growth is coming from. The trailing twelve months should be reviewed particularly if there has been a catalyst during the period such as an acquisition or introduction of a new product.";
     tooltips['BookValue']="The book value of a company is the net difference between that company's total assets and total liabilities, where book value reflects the total value of a company's assets that shareholders of that company would receive if the company were to be liquidated.";    
-    tooltips['EarningsShare']="Earnings per share (EPS) is calculated as a company's profit divided by the outstanding shares of its common stock. The resulting number serves as an indicator of a company's profitability. It is common for a company to report EPS that is adjusted for extraordinary items and potential share dilution.<br /><br />The higher a company's EPS, the more profitable it is considered to be.";
-    
-    
-    
-    //$tooltips['ReturnOnAssets']='<h3>Return on Assets TTM</h3>';
-    
-    
-    $.each(tabInfoContent, function(label,value){  
-        
+    tooltips['EarningsShare']="Earnings per share (EPS) is calculated as a company's profit divided by the outstanding shares of its common stock. The resulting number serves as an indicator of a company's profitability. It is common for a company to report EPS that is adjusted for extraordinary items and potential share dilution.<br /><br />The higher a company's EPS, the more profitable it is considered to be.";  
+    $.each(tabInfoContent, function(label,value){          
         var tabInfoRow=$('.template-info-tab-row.hide').clone().removeClass('hide');
-        
-
         // Mappings
         switch(label){
             case 'MarketCapitalization': value = format_price(value); break;
@@ -160,55 +131,35 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
             if (label==='Description') tabInfoRow.addClass('only-value'); 
             if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" alt="flag-'+value+'" />') $('#entity-'+tabCode).append(tabInfoRow);
         }                         
-        
-
     });
 }
-
-
 function widget_financial_graph(id,widget){
-            
-     
-     
-    if ($('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"]').length === 0){
-        
+    if ($('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"]').length === 0){      
         var template = $('.template-widget > .widget').clone();
         $(template).attr('data-id',id);
         $(template).attr('data-type','financial_graph');
                                         
         $.each(widget, function(key,value){
             $(template).find('.edit [data-id="'+key+'"]').val(value);
-        });         
-        
-        $('.page-view:not(.slick-cloned) .widgets').append($(template));
-        
-    }
-    
+        });          
+        $('.page-view:not(.slick-cloned) .widgets').append($(template));   
+    }  
     if (!widget.hasOwnProperty('scope') && !widget.hasOwnProperty('range')) return;
     if (widget.scope===null || widget.range===null) return;
-    
     var title = (widget.scope).replace(/([A-Z])/g, ' $1').trim()+ ' ('+widget.range+')';
     $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"]').find('.title h2').text(title);
-    
-    
     if (config.debug) console.log('Widget');
     if (config.debug) console.log(entity);
-    
     var categories  = [];
     var data        = [];
-    
-    if (entity.info.Financials && entity.info.Financials.hasOwnProperty('Income_Statement')){
-        
-        $('.widget[data-id="'+id+'"]').css('minHeight','300px');
-        
+    if (entity.info.Financials && entity.info.Financials.hasOwnProperty('Income_Statement')){   
+        $('.widget[data-id="'+id+'"]').css('minHeight','300px');      
         $.each(entity.info.Financials.Income_Statement[widget.range], function(label,value){ 
             categories.push(label.substring(0,4)); 
             data.push(value[widget.scope]);
         });                                                
         categories.reverse();
         data.reverse();
-
-
         var options = {
             series: [{ data: data, name: widget.scope+" [Usd]"}],
             xaxis: {
@@ -266,11 +217,9 @@ function widget_financial_graph(id,widget){
                 }
             },
         };
-
         $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph').html('');
         new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options).render();
         //graph.render();
-
     }else{
         $('.widget[data-id="'+id+'"]').hide();
     }

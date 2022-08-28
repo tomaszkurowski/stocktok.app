@@ -213,18 +213,7 @@
                             }
                         }                                               
                     },
-                    legend: { enabled: true }
-                    //annotations: [{
-                    //    labels: [{
-                    //        point: {
-                    //            xAxis: 0,
-                    //            yAxis: 0,
-                    //            x: '865839600000',
-                    //            y: 250,
-                    //            text: 'Purchase'
-                    //        }
-                    //    }]
-                    //}]                    
+                    legend: { enabled: true }                    
                 });                
                 
                 $.each(response.series,function(index,serie){
@@ -373,12 +362,7 @@
         $("#wallet-structure").html('');
         new ApexCharts(document.querySelector(".page-view:not(.slick-cloned) #wallet-structure"), options2).render();
                 
-        
-        
     }
-    
-
-    
     $(document).ready(function(){
         switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js   
         switcher({ 

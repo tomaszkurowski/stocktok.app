@@ -13,8 +13,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
     }
     if (sort === null){ 
         sort = settings.find_sort ? settings.find_sort : null; 
-    }
-    
+    }   
     $.ajax({
         url: config.api_url,
         data: { 
@@ -29,27 +28,22 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
         dataType: 'JSON',
         cache: false,
         success: function(response){
-
             if (filters[0] && filters[0].code === 'with-popup'){
                 $('.icon-search').click();
                 $('.form .search').focus();
             }
-
             if (response.success === 'false'){
                 if (related) $(target).hide();
                 return;
-            } 
-            
+            }           
             if (response.entities.length === 0 && !$('.items-container .item').length){
                 
                 if (related){
                     $(target).hide();
                 }else{
                     $(target + '.items-container').html('<div class="info-page in-container"><div class="icon icon-clear"></div><h1>No Results</h1><p>Unfortunatelly, there are no results on phrase: <b>'+search+'</b>.</p></div>');
-                }
-                
-            }
-            
+                }               
+            }         
             var it=0;
             response.entities.forEach(function(item){
 
@@ -104,22 +98,14 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
                     });
                     $(el).append(btn_add_logo);
                 }
-
                 $(target+'.items-container').append($(el));
-
             });
-            if (related){
-            }
-
-
         },
         error: function(response){
             if (config.debug) console.log(response);
         }
     });
-
 };
-
 var observed_symbols = [];
 function get_observed_symbols(){
     $.ajax({

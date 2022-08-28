@@ -1,4 +1,3 @@
-
 <div class="page active">
     <div class="inline-actions edit-actions inline-container">
         <div class="inline">        
@@ -6,9 +5,7 @@
     </div>
     <div class="items-container"></div>
 </div>   
-
 <script type="text/javascript">
-
     $.getScript('/extensions/entities/media/js/search.js?version='+config.version,function(){
         if (mvc.controller){ search = mvc.controller; } 
         get_observed_symbols();
@@ -16,7 +13,6 @@
         get_search_items();
     }); 
     $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
-
     $(document).ready(function(){
         switcher({ 
             key: 'editable',  
@@ -49,10 +45,8 @@
             }
         });         
     });
-
     let scrollTimer,
     doneScrollInterval = 250;
-
     $(window).scroll(function () {
 
         if ($(document).height()-$(this).height()-10 < $(this).scrollTop()) {
@@ -64,9 +58,7 @@
             }, doneScrollInterval);
         }
     });
-
     button({ class: 'icon-btn icon-search2' }, function(el){            
-
         if ($('footer #popup .search').length){ 
             $('footer #popup').html(''); 
             $('.popup-btn').remove();
@@ -78,14 +70,10 @@
 
             if (mvc.controller) $('.popup .search').val(mvc.controller);
         }            
-
     });
-
-
     $(document).off('keyup', '.search');
     $(document).on('keyup','.search',function(){
         search = $(this).val();
-
         if (scrollTimer) {
             clearTimeout(scrollTimer);
         }
@@ -93,7 +81,5 @@
             $('.items-container').html('');
             get_search_items();
         }, doneScrollInterval);
-
     });
-
 </script>

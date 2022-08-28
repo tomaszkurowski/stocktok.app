@@ -1,11 +1,6 @@
 
-    // Login check
-    // Untypical redirections, global variables etc.
-    // ACL
-    
     mvc.path = 'transactions';
-    if (mvc.view === 'analysis'){
-        
+    if (mvc.view === 'analysis'){        
         mvc.path = 'analysis';
         load_highcharts(function(){
             $.ajax({
@@ -16,8 +11,7 @@
                     if (config.debug) console.log(e); 
                 }        
             });               
-        });
-        
+        });        
     }else{
         if (mvc.view === 'observed') mvc.path = 'observed';
     

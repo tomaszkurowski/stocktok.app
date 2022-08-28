@@ -20,13 +20,6 @@
                             <span class="price current-price">0.00</span>
                             <span class="currency market-currency">USD</span>
                         </div>
-                        <!--
-                        <div class="additionals">                                    
-                            <span class="price previous-price">-</span>
-                            <span class="percentage daily-change with-brackets">-</span>
-                            <div class="icon icon-arrow-up"></div>
-                        </div>
-                        -->
                     </div>
                     <div class="stock-graph-container view-action">
                         <span class="label">5-days trend</span>                                     
@@ -204,7 +197,6 @@
                         $(destination).append($(entity_template));
 
                         // TRENDS
-
                         if (entity.trend){
 
                             var data;
@@ -270,6 +262,5 @@
         get_currencies(function(){
             get_my_observed();
         });
-
 
     </script>

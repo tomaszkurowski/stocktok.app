@@ -1,40 +1,37 @@
      
     <link rel="stylesheet" href="/extensions/entities/media/css/entities.css?v=1.5" />
     
-        <div class="page players active">
+    <div class="page players active">
 
-        <div class="inline-actions edit-actions inline-container">
-            <div class="inline"></div>
+    <div class="inline-actions edit-actions inline-container">
+        <div class="inline"></div>
+    </div>
+
+    <div class="page-views">
+
+        <div class="page-view" data-view="all">                
+            <div class="players">   
+                <h2>All Players</h2>
+                <div class="results"></div>                                      
+            </div>                    
         </div>
-            
-        <div class="page-views">
-            
-            <div class="page-view" data-view="all">                
-                <div class="players">   
-                    <h2>All Players</h2>
-                    <div class="results"></div>                                      
-                </div>                    
-            </div>
 
-            <div class="page-view" data-view="observed">                
-                <div class="players">   
-                    <h2>Observed players</h2>
-                    <div class="results"></div>
-                </div>                    
-            </div>    
-            
-            <div class="page-view" data-view="moves">                
-                <div class="players">   
-                    <h2>Players moves</h2>
-                    <div class="moves results"></div>
-                </div>                    
-            </div>              
-            
-        </div>
-            
+        <div class="page-view" data-view="observed">                
+            <div class="players">   
+                <h2>Observed players</h2>
+                <div class="results"></div>
+            </div>                    
+        </div>    
 
-    
-    
+        <div class="page-view" data-view="moves">                
+            <div class="players">   
+                <h2>Players moves</h2>
+                <div class="moves results"></div>
+            </div>                    
+        </div>              
+
+    </div>
+
     <script type="text/javascript">
         
         $.getScript('/extensions/players/media/js/actions_player.js?version='+config.version);
@@ -151,46 +148,6 @@
             });
         
         }  
-        /*
-        function get_ranking_players(){
-        
-            $.ajax({
-                url: config.api_url,
-                data: { 
-                    endpoint: '/players',
-                    ranking:'highest-total-profit'
-                },
-                type: 'GET',
-                dataType: 'JSON',
-                cache: false,
-                success: function(response){  
-                    if (response.success === 'false') return;                    
-                               
-                    $('[data-view="highest-total-margin"] .results').html('');
-                    var position = 1;
-                    $.each(response.players, function(i,player){
-                        
-                        let el = $('<div class="view"></div>')                           
-                            .append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>')
-                            .append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" />' : ''))
-                            .append('<div class="position">'+(position++)+'</div>')
-                            .append('<div class="title">'+player.username+'</div>')
-                            .append('<div class="total">'+player.margin+' $</div>')
-                            .bind('click',function(){
-                                location.href = '/wallet/'+player.username;
-                            });
-                        let box = $('<div class="box"></div>')
-                            .append(el)
-                            .append('<div class="icon-bookmark_outline" data-action="observe"></div>')
-                            .attr('data-username',player.username);                            
-                        
-                        $('[data-view="highest-total-profit"] .results').append(box);                        
-                        
-                    });
-                }
-            });        
-        }
-        */
         
         function get_observed_moves(){
             $.ajax({
@@ -317,7 +274,5 @@
                     });
                 }
             });
-        
-        }
-    
+        }   
     </script>

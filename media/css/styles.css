@@ -4525,7 +4525,7 @@ input:checked + .switch:before {
     padding:15px;
     display:flex;
     align-items:center;
-    width:calc(33% - 5px);
+    width:calc(50% - 5px);
     flex-direction:column;
     
 }

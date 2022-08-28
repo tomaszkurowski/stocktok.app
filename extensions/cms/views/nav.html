@@ -1,69 +1,52 @@
-    <div class="nav hide-scroll">
-        <div class="nav-body">
-            <div class="profile">
-                <div class="avatar-container"></div>
-                <div class="info">
-                    <span class="username">Not logged</span>
-                    <span class="rank">Login to get started</span>
-                </div>
-            </div>           
-
-            <div class="btn-menu me" onclick="load_page('/me/login',true)">
-                <span class="icon icon-power_settings_new"></span>
-                <span class="info">Login/Register<br /><span class="label">Here you can login or register</span></span>             
-            </div>       
-
-            <div class="btn-menu" onclick="load_page('/settings',true)">
-                <span class="icon icon-settings"></span>
-                <span class="info">Settings<br /><span class="label">Adjust app to your needs</span></span>                    
+<div class="nav hide-scroll">
+    <div class="nav-body">
+        <div class="profile">
+            <div class="avatar-container"></div>
+            <div class="info">
+                <span class="username">Not logged</span>
+                <span class="rank">Login to get started</span>
             </div>
-
-            <div class="btn-menu" onclick="$('.submenu.sub-players').slideToggle(100,'linear'); $(this).toggleClass('active');">
-                <span class="icon icon-gamepad"></span>
-                <span class="info">Players<br /><span class="label">All rankings & community</span></span>                                      
-            </div>
-
-            <div class="submenu sub-players">
-                <div class="submenu-btn" onclick="load_page('/players',true)">All players</div>
-                <div class="submenu-btn" onclick="load_page('/players/rankings',true)">Rankings</div>
-                <div class="submenu-btn" onclick="load_page('/players/view/'+me.username,true)">Me</div>
-            </div>
-
-            <div class="btn-menu" onclick="load_page('/wallet/analysis',true)">
-                <span class="icon icon-trending_up1"></span>
-                <span class="info">Analysis<br /><span class="label">Review your performance</span></span>                     
-            </div>
-
-            <div class="btn-menu" onclick="load_page('/entities',true)">
-                <span class="icon icon-search1"></span>
-                <span class="info">Find<br /><span class="label">Find assets</span></span>                      
-            </div>
-
-            <div class="btn-menu" onclick="$('.submenu.sub-observed').slideToggle(100,'linear'); $(this).toggleClass('active');">
-                <span class="icon icon-bookmark"></span>
-                <span class="info">Observed<br /><span class="label">All your saved entities</span></span>                 
-            </div>    
-            <div class="submenu sub-observed">
-                <div class="submenu-btn" onclick="load_page('/players/observed',true)">Players</div>
-                <div class="submenu-btn" onclick="load_page('/players/moves',true)">Moves</div>
-                <div class="submenu-btn" onclick="load_page('/wallet/observed',true)">Entities</div>
-            </div>        
-
-            <div class="btn-menu" onclick="load_page('/wallet',true)">
-                <span class="icon icon-account_balance_wallet"></span>
-                <span class="info">Wallet<br /><span class="label">All your assets</span></span>                       
-            </div>
-
-            <!--
-            <div class="btn-menu" onclick="load_page('/about'">
-                <span class="icon icon-thumbs_up_down"></span>
-                <span class="info">About<br /><span class="label">About author & app</span></span>                     
-            </div>
-            -->
-
-            <div class="btn-menu" onclick="load_menu()">
-                <span class="icon icon-clear"></span>                
-            </div>
+        </div>           
+        <div class="btn-menu me" onclick="load_page('/me/login',true)">
+            <span class="icon icon-power_settings_new"></span>
+            <span class="info">Login/Register<br /><span class="label">Here you can login or register</span></span>             
+        </div>       
+        <div class="btn-menu" onclick="load_page('/settings',true)">
+            <span class="icon icon-settings"></span>
+            <span class="info">Settings<br /><span class="label">Adjust app to your needs</span></span>                    
         </div>
-        
+        <div class="btn-menu" onclick="$('.submenu.sub-players').slideToggle(100,'linear'); $(this).toggleClass('active');">
+            <span class="icon icon-gamepad"></span>
+            <span class="info">Players<br /><span class="label">All rankings & community</span></span>                                      
+        </div>
+        <div class="submenu sub-players">
+            <div class="submenu-btn" onclick="load_page('/players',true)">All players</div>
+            <div class="submenu-btn" onclick="load_page('/players/rankings',true)">Rankings</div>
+            <div class="submenu-btn" onclick="load_page('/players/view/'+me.username,true)">Me</div>
+        </div>
+        <div class="btn-menu" onclick="load_page('/wallet/analysis',true)">
+            <span class="icon icon-trending_up1"></span>
+            <span class="info">Analysis<br /><span class="label">Review your performance</span></span>                     
+        </div>
+        <div class="btn-menu" onclick="load_page('/entities',true)">
+            <span class="icon icon-search1"></span>
+            <span class="info">Find<br /><span class="label">Find assets</span></span>                      
+        </div>
+        <div class="btn-menu" onclick="$('.submenu.sub-observed').slideToggle(100,'linear'); $(this).toggleClass('active');">
+            <span class="icon icon-bookmark"></span>
+            <span class="info">Observed<br /><span class="label">All your saved entities</span></span>                 
+        </div>    
+        <div class="submenu sub-observed">
+            <div class="submenu-btn" onclick="load_page('/players/observed',true)">Players</div>
+            <div class="submenu-btn" onclick="load_page('/players/moves',true)">Moves</div>
+            <div class="submenu-btn" onclick="load_page('/wallet/observed',true)">Entities</div>
+        </div>        
+        <div class="btn-menu" onclick="load_page('/wallet',true)">
+            <span class="icon icon-account_balance_wallet"></span>
+            <span class="info">Wallet<br /><span class="label">All your assets</span></span>                       
+        </div>
+        <div class="btn-menu" onclick="load_menu()">
+            <span class="icon icon-clear"></span>                
+        </div>
     </div>
+</div>

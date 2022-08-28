@@ -31,8 +31,7 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.130" />
-    <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.132" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
@@ -61,7 +60,6 @@ include('config.php'); ?>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-
           gtag('config', 'G-HYTRSZLWJV');
         </script>
         
@@ -69,36 +67,18 @@ include('config.php'); ?>
     
 </head>  
 <body class="hide-scroll">
-    <!--
-    <div class="popup-info">
-        <div class="popup-info-body">
-            <div class="icon icon-message"></div>
-            <div class="title">Welcome in Stocktok</div>
-            <div class="description">This is your first visit<br /><br />To make your game more convinient you can choose some basic settings here.<br /><br /></div>       
-            <div class="actions">
-                <div class="btn primary">Ok</div>
-            </div>
-        </div>           
-    </div>
-    -->
-    <div id="css">        
-    </div>
-    
+    <div id="css"></div>   
     <div id="app">
         <div class="app-body">
             <main></main>
             <footer></footer>
         </div>
         <nav></nav>
-    </div>
-        
+    </div>   
     <div id="loader">
         <div class="icon icon-logo"></div>
         <span></span>
     </div>
-
-    
-    
     <script type="text/javascript">                
 
         config = {
@@ -123,20 +103,17 @@ include('config.php'); ?>
             graph_tools:            false,
             graph_labels:           true,
             stock_chart_range:      6,
-            homepage:               'wallet',
-            
+            homepage:               'wallet',            
             wallet_switch_behavior:     'itself',
             wallet_layout:              'grid',
             wallet_trend_size:          '5-days',
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
-            wallet_header:              'regular',
-            
+            wallet_header:              'regular',            
             players_layout:         'box',
             find_layout:            'minimal',
             find_sort:              'volume_desc',
             related_layout:         'minimal',
-
             design:{
                 color_base:         '#002ce1',
                 color_base_invert:  '#ffffff',
@@ -155,8 +132,7 @@ include('config.php'); ?>
             },            
             mute:1,
             contributor: 'no'
-        };
-        
+        };        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
         settings.design.border_radius1 = '5px';
         settings.design.border_radius2 = '5px';
@@ -177,7 +153,6 @@ include('config.php'); ?>
             
         });
                 
-    </script> 
-    
+    </script>     
   </body>
 </html>

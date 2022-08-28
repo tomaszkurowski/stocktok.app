@@ -1,15 +1,11 @@
     <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
     <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
-
         <div class="page page-views stock-page-views active">        
-
             <div class="page-view stock-view active" data-view="overview">
                 <div class="widget box results-info collapsed">
                     <div class="results-info-title">
-
                         <div class="logo-container"></div>
                         <h2></h2>
-
                         <div class="price-preview">
                             <div class="info">
                                 <span class="price"></span>
@@ -17,66 +13,40 @@
                             </div>
                             <div class="date"></div>
                         </div>
-
                         <div class="actions-all">
                             <div class="actions">
                                <div class="icon-btn btn-edit icon-settings"></div> 
                             </div>
                             <div class="icon icon-btn icon-expand_more1 widget-collapse"></div>
                         </div>
-                        <!--
-                        <div class="actions-additional">
-                            <div class="icon icon-btn icon-shopping_cart"></div>
-                            <div class="icon icon-btn icon-bookmark_outline"></div>
-
-                            <div class="icon icon-btn icon-google" style="font-size:25px"></div>
-                            <div class="icon icon-btn icon-sphere" style="font-size:25px"></div>
-
-                        </div>
-                        -->
-
                     </div>
                     <div class="content">                    
-                        <div class="results-info-table">
-                            
+                        <div class="results-info-table">                           
                             <div class="label label-current-symbol">Symbol</div>
                             <div class="value symbol"></div>
-
                             <div class="label label-market">Market</div>
-                            <div class="value market"></div>
-                            
+                            <div class="value market"></div>                       
                             <div class="label label-sector">Sector</div>
-                            <div class="value sector"></div>                            
-                            
+                            <div class="value sector"></div>                                                
                             <div class="label label-industry">Industry</div>
-                            <div class="value industry"></div>
-                            
+                            <div class="value industry"></div>                          
                             <div class="label label-current-price">Price</div>
-                            <div class="value current-price"></div>
-                            
-
+                            <div class="value current-price"></div>                         
                             <div class="label label-current-volume">Volume</div>
                             <div class="value current-volume">-</div>  
-
                             <div class="label label-previous-price">Previous</div>
                             <div class="value previous-price"></div>
-
                             <div class="label label-open-price">Open</div>
                             <div class="value open-price">-</div>                            
-
                             <div class="label label-daily-change">Daily</div>
                             <div class="value daily-change">-</div>
-
                             <div class="label label-daily-change-percentage">Daily %</div>
                             <div class="value daily-change-percentage percentage">-</div>
-
                             <div class="label label-daily-max">Day Max</div>
                             <div class="value daily-max">-</div>
-
                             <div class="label label-daily-min">Day Min</div>
                             <div class="value daily-min">-</div>
                         </div>
-
                         <div class="edit">
                             <h3>Choose fields you would like to see here:</h3>
                             <div class="form hidden-fields">
@@ -146,16 +116,12 @@
                         <span data-id="5">1Y</span>
                         <span data-id="6">All</span>
                     </div>
-
                     <div class="slidecontainer">
                         <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
                     </div>
                 </div>
                 <div class="edit-view-actions inline-container">                                
                     <div class="inline"> 
-
-
-                        <!-- Select changers -->
                         <div class="changer-v2">
                             <label for="related_layout">Related layout:</label>
                             <select id="related_layout" onChange="updateSettings('related_layout',$(this).val()); $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(this).val())"> <!-- stockactions.js -->
@@ -210,28 +176,9 @@
                                 <span class="switch"></span>
                             </label>
                         </div>
-                        
-                        <!--
-                        <div class="changer-v2">
-                            <label>Fullscreen:</label>
-                            <label class="switch-slider">
-                                <input id="graph_fullscreen" type="checkbox" onClick="updateSettings('graph_fullscreen',this.checked); change_graph_fullscreen()">
-                                <span class="switch"></span>
-                            </label>
-                        </div>                     
-                        <div class="changer-v2">
-                            <label>Show Labels:</label>
-                            <label class="switch-slider">
-                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
-                                <span class="switch"></span>
-                            </label>
-                        </div>
-                        -->
-
                     </div>
                 </div>
-            </div>                          
-                        
+            </div>                                              
             <div class="page-view" data-view="info">
                 <div class="box find-in">
                     <h2>Research</h2>
@@ -241,9 +188,7 @@
                     
                 </div>
                 <div class="entity-main-info-container"></div>
-            </div>
-
-            
+            </div>          
              <div class="page-view" data-view="financial">
                  <div class="widgets" id="financial-graphs">
 
@@ -260,39 +205,26 @@
                             <div class="edit"></div>
                         </div>
                     </div>
-
                  </div>
                  <div class="add-widget" data-type="financial_graph">
                      <div class="icon-btn icon-add"></div>                     
                  </div>
-            </div>  
-            
+            </div>             
             <div class="page-view view-grid related-container" data-view="related-sector">                
                 <h2>From the same sector</h2>
                 <div class="related hide-scroll">
                     <div class="items-container"></div>
                 </div>
-            </div>
-            
+            </div>           
             <div class="page-view view-grid related-container" data-view="related-industry">                
                 <h2>Top from the same industry</h2>
                 <div class="related hide-scroll">
                     <div class="items-container"></div>
                 </div>
             </div>            
-            
-            <!--
-            <div class="page-view" data-view="news">
-                <div class="box news-container">
-                    <div id="news">News, soon ..</div>
-                </div>
-            </div>
-            -->
         <br style="clear:both" />    
         </div>
-
     <div class="template-widget hide" data-type="financial_graph">
-
         <div class="widget" data-type="financial_graph">
             <div class="header">
                 <div class="title">
@@ -307,7 +239,6 @@
                 </div>
             </div>
             <div class="content">
-
                 <div class="graph"></div>
                 <div class="edit edit-box">
                     <h3>Choose graph parameters</h3>
@@ -319,7 +250,6 @@
                             <option value="yearly">Yearly</option>
                         </select>
                     </div>
-
                     <div class="field">
                         <div class="label">Scope</div>
                         <select class="select" data-id="scope">
@@ -332,7 +262,6 @@
                             <option value="operatingIncome">Operating Income</option>
                         </select>
                     </div>
-
                     <div class="separator"></div>
                     <div class="field">
                         <div class="label">Chart</div>
@@ -342,15 +271,11 @@
                             <option value="bar">Bars</option>
                         </select>
                     </div>
-
                     <div class="separator"></div>
-
                 </div>
             </div>
         </div> 
     </div>
-    
-
     <div class="template-info-tab hide tab-container tab-info">
         <div class="tab-header">
             <h2>Title</h2>
@@ -368,54 +293,27 @@
         </div>
         <div class="tooltip-info"></div>
     </div>   
-    
-    <script type="text/javascript">
-        
+    <script type="text/javascript"> 
         $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
         $.getScript('/extensions/entities/media/js/entity.js?version='+config.version); 
-        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
-
-        /*
-        $('.page-views').not('.slick-initialized').slick({
-            arrows:false,
-            dots:false,
-            infinite: true,
-            initialSlide:0,
-            adaptiveHeight:true,
-            swipe:false
-        }).on('beforeChange', (event, slick, currentSlide, nextSlide) => {
-            if (currentSlide !== nextSlide) { $('.changer-page-views .changer').removeClass('active'); $('.changer[data-slick-position='+(nextSlide+1)+']').addClass('active'); }
-            $("html").animate({scrollTop: 0}, "slow");
-        }); 
-        swiper({ initial: 0 });
-        */        
-
+        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version);     
         function stock_graph_adaptive_height(){
-
             if ($(window).width()>996){
                 return;
-            };            
-            
+            };                     
             if ($('.results-info').hasClass('editable')) return;
             if (!$('.results-info').hasClass('collapsed')) return;
-
             var optimal_graph_height = 10;
-
             optimal_graph_height += $('.footer-container').outerHeight();
             optimal_graph_height += $('.range-selector').outerHeight();
-
             if (!$('body').hasClass('stock-price-pro-mode')){
                 optimal_graph_height += $('.results-info').outerHeight(); 
                 optimal_graph_height += 25; 
             }
-
             optimal_graph_height += 20; // FullScreen: 20, Not Fullscreen: 45,                
-
             optimal_graph_height += ($('.editable .edit-view-actions').outerHeight() ? $('.editable .edit-view-actions').outerHeight()+15 : 0);         
-
             $('.chart.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
         }
-        
         $(document).off('click', '[data-label="view_stock_edit"]');
         $(document).on('click','[data-label="view_stock_edit"]',function(){
             stock_graph_adaptive_height();
@@ -423,12 +321,8 @@
                 stock_chart.reflow();
             }, 20); // due to 300ms css transition
         });
-
-
-        // Results Info - Collapse/Expand
         $(document).off('click', '.widget-collapse');
-        $(document).on('click','.widget-collapse',function(){
-            
+        $(document).on('click','.widget-collapse',function(){           
             $(this).parents('.widget').toggleClass('collapsed');
             $(this).parents('.widget').find('.content').slideToggle('linear',function(){
                 stock_graph_adaptive_height();
@@ -437,18 +331,11 @@
                 }, 20); // due to 300ms css transition
 
             });
-            
-
-            // Remember collapse state
             var widgets = JSON.parse(localStorage.getItem('widgets'));
             if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
-
             widgets.results_info.collapsed = 'false';                
             if ($(this).parents('.widget').hasClass('collapsed')){ widgets.results_info.collapsed = 'true'; }
-
             localStorage.setItem('widgets',JSON.stringify(widgets));
-
-            
         });
         $(document).ready(function(){
             var widgets = JSON.parse(localStorage.getItem('widgets'));
@@ -458,8 +345,6 @@
                 $('.widget.results-info').addClass('collapsed');
             }        
         });
-
-        // Results Info - Visible Fields
         $(document).off('click', '.results-info .edit .form.hidden-fields input');
         $(document).on('click','.results-info .edit .form.hidden-fields input',function(){
             var id = $(this).attr('id').substring(2); // v-{field}
@@ -476,9 +361,7 @@
             });
             widgets.results_info.hidden_fields = hidden_fields;
             localStorage.setItem('widgets',JSON.stringify(widgets));        
-
         });
-
         $(document).ready(function(){
             var widgets = JSON.parse(localStorage.getItem('widgets'));
             if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('hidden_fields')){
@@ -488,24 +371,16 @@
                     $('.results-info .edit input#v-'+id).prop('checked',false);
                 });
             }
-
-            // Set changer-v2 selected option values
             $(':not(.slick-cloned) .changer-v2 select').each(function(){
-
                 var id = $(this).attr('id');
                 if (settings.hasOwnProperty($(this).attr('id'))){
                     $(this).val(settings[id]);
-
                 }
                 if (config.debug) console.log('value selected: '+id+' '+settings[id]);
                 if (config.debug) console.log(settings);
             });
-
-
         });
-
         function change_graph_touch(){
-
             switch (settings.graph_touch){
                 case 'tooltip':
                     stock_chart.update({ 
@@ -531,19 +406,16 @@
             }
             stock_chart.reflow();
         }
-
         function change_graph_grid(){
             // Grid lines are controlled in CSS
             $('#stock-price').attr('grid',settings.graph_grid);
         }
         change_graph_grid();
-
         function change_graph_fullscreen(){
             $('body').toggleClass('stock-price-pro-mode');
             stock_graph_adaptive_height();
             stock_chart.reflow();
         }
-
         function change_graph_tools(){
             stock_chart.update({
                 stockTools: {
@@ -582,18 +454,10 @@
 
             stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);
         });
-
     </script>
-    <script type="text/javascript">
-        //var path = window.location.pathname.substring(1).split('/');
-        //$.getScript("https://www.googleapis.com/customsearch/v1?key=AIzaSyCNVN5hLVcHLjOXySnK36hQsKkDpbajdyQ&cx=f2716fa8ddff5fecc&q="+path[2]+"&callback=hndlr&sort=date");
-    </script>
-
-    <script type="text/javascript">
-        
+    <script type="text/javascript">      
         var market = mvc.view;
-        var symbol = mvc.controller;
-                    
+        var symbol = mvc.controller;                 
         $(document).ready(function(){
             get_currencies(function(){
             $.ajax({
@@ -654,8 +518,7 @@
 
                             buy_sell_popup({ action:'buy', item:item });                     
                         }
-                    );
-                                
+                    );                            
                     button({ 
                         class: 'icon-btn '+(!stock.observed ? 'add-to-observed' : 'remove-from-observed')+' icon-bookmark'+(!stock.observed ? '_outline' : '1' ) }, 
                         function(el){ 
@@ -677,8 +540,7 @@
                                     error: function(response){                            
                                         if (config.debug) console.log(response);
                                     }
-                                });                                
-                                
+                                });                                                              
                             }else{
                                 $.ajax({
                                     url: config.api_url,
@@ -698,12 +560,10 @@
                                     error: function(response){                            
                                         if (config.debug) console.log(response);
                                     } 
-                                });
-                                
+                                });                               
                             }
                         }
-                    ); 
-            
+                    );          
                     $('.find-in .google').bind('click',function(){
                         window.open('https://www.google.com/search?q='+stock.name,'_blank');
                     });
@@ -713,8 +573,6 @@
                     $('.find-in .twitter').bind('click',function(){
                         window.open('https://twitter.com/search?src=typed_query&q='+stock.name,'_blank');
                     });                    
-                    
-                    
                     if (stock.website){
                         button({ 
                             class: 'icon-btn icon-web_asset' }, 
@@ -775,7 +633,6 @@
                         }}); // => ui.js                
 
                     reload_stock_price();
-
                    // Live
                    /*
                     var live = new WebSocket('wss://stocktok.online:8443');
@@ -796,7 +653,6 @@
                         }, 1000);
 
                     };
-
                     live.onmessage = function(msg) {
 
                         var data = msg.data;
@@ -814,21 +670,15 @@
                         if (config.debug) console.log(e);
                     };
                     /* */
-
-
                     stock_graph_adaptive_height();
                     stock_chart = Highcharts.stockChart('stock-price', {
                         global: {
                             useUTC: false
                           },
-
                         rangeSelector: { 
                             selected: settings.stock_chart_range,
                             verticalAlign: 'bottom',
                             floating:true,
-                            //dropdown:'never',
-                            //buttonPosition: { align: 'right' },
-                            //inputPosition: { align: 'right' },
                             y:30,
                             buttons: [
                             {
@@ -849,13 +699,7 @@
                                 type: 'month', count: 6, text: '6m',
                                 dataGrouping: { units: [['day', [1]]] },
                                 events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
-                            }, 
-                            /*{
-                                type: 'ytd', text: 'YTD',
-                                dataGrouping: { units: [['day', [1]]] },
-                                events: { click: function() { localStorage.setItem('stock-graph-range',5); }}
-                            },
-                            */    
+                            },   
                             {
                                 type: 'year', count: 1, text: '1y',
                                 dataGrouping: { units: [['day', [1]]] },
@@ -920,8 +764,7 @@
                                 //    'toggleAnnotations', 
                                 //    'separator', 
                                     'verticalLabels', 
-                                    'flags', 
-                                //    'separator',                             
+                                    'flags',                             
                                 //    'typeChange' 
                                     'fullScreen',                                 
                                 //    'zoomChange', // Not working    
@@ -958,22 +801,8 @@
                                     ]
                                 }
                             }
-                        }
-                        //annotations: [{
-                        //    labels: [{
-                        //        point: {
-                        //            xAxis: 0,
-                        //            yAxis: 0,
-                        //            x: '865839600000',
-                        //            y: 250,
-                        //            text: 'Purchase'
-                        //        }
-                        //    }]
-                        //}]                    
-                    });
-
-
-                    
+                        }                  
+                    });                 
                     // GET Entity info
                     $.ajax({
                         url: config.api_url,
@@ -986,19 +815,15 @@
                         dataType: 'JSON',
                         cache: false,
                         success: function(response){
-
                             if (response.success === false){
                                 $('.page-view[data-view="financial"]').hide();
                                 $('.page-view[data-view="website"]').hide();
                                 return;
-                            }                                                        
-                            
+                            }                                                                                   
                             entity.info=response;
-
                             if (config.debug) console.log('Entity Info:');
                             if (config.debug) console.log(response);
                             $('.entity-main-info-container').html('');
-
                             // MAIN INFO
                             if (entity.info.General){ main_info_tab('General','general','icon-info',entity.info.General); }
                             if (entity.info.Highlights) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
@@ -1007,8 +832,6 @@
                             if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores','icon-ruler',entity.info.ESGScores);
                             if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings','icon-trending_up1',entity.info.AnalystRatings);
                             if (entity.info.General.Officers) main_info_tab('Officers','officers','icon-person1',entity.info.General.Officers);
-
-
                             // WEBSITE
                             if ( entity.info.General && entity.info.General.WebURL && !stock.website){  
                                 button({ 
@@ -1018,8 +841,6 @@
                                     }
                                 );                                                                                                
                             }else{}
-
-
                             // FINANCIAL GRAPHS
                             var widgets = {};
                             if (localStorage.getItem('widgets')){
@@ -1034,15 +855,12 @@
                                         chartType: 'line'
                                     }                            
                                 };
-
                             }  
                             localStorage.setItem('widgets',JSON.stringify(widgets));
 
                             $.each(widgets.financial_graph, function(id,widget){
                                 widget_financial_graph(id, widget);                            
                             });
-
-
                             // FINANCIALS GRAPHS - Shareholders
                             if (entity.info.hasOwnProperty('Holders') && entity.info.Holders!==null){
                                 var categories  = [];
@@ -1051,7 +869,6 @@
                                     categories.push(value.name); 
                                     data.push(value.totalShares);
                                 });                                                
-                                //console.log(categories);
                                 let options = {
                                     series: data, 
                                     labels: categories,
@@ -1102,18 +919,11 @@
                             }else{
                                 $('.widget.shareholders').hide();
                             }
-
-
-                            //if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
-
-
                         },
                         error: function(response){
                             if (config.debug) console.log(response);
                         }
                     });
-
-
                     // GET Historical
                     $.ajax({
                         url: config.api_url,
@@ -1135,7 +945,6 @@
                             if (config.debug) console.log(response);
                         }
                     });
-
                     // GET Intraday
                     $.ajax({
                         url: config.api_url,
@@ -1160,13 +969,7 @@
                             if (config.debug) console.log(response);
                         }
                     });
-
-                    
-                    
-                    // Get Related
-                    
-                    $('.page').addClass('view-'+settings.related_layout);
-                    
+                    $('.page').addClass('view-'+settings.related_layout);                   
                     if (stock.sector !== '' && stock.sector !== null){
                         get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-sector"] ',10,'shuffle',true);                                                
                     }else{
@@ -1177,18 +980,11 @@
                     }else{
                         $('[data-view="related-industry').hide();
                     }
-                    
-                    
-                    
 
-
-                    // Here add options custom configuration from user
                     if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
                     $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
                     $('#graph_tools').prop('checked', settings.graph_tools === 'true' ? true : false);
                     $('#graph_labels').prop('checked', settings.graph_labels);
-
-
 
                     if (config.debug) console.log('Main info:');
                     if (config.debug) console.log(response.stock);
@@ -1200,14 +996,3 @@
             });
     });
     </script>
-    
-
-    <script type="text/javascript">
-    
-        //switcher({ key: 'swipeable', class: 'icon-swipe',  value: settings.swipeable ? settings.swipeable : 'false'},function(){ swipeable(); }); // => ui.js             
-                    
-        $(document).on('click','.popup-btn.icon-clear',function(){
-            //$('.heading').scrollLeft(2000);
-        });
-    
-    </script>    

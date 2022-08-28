@@ -98,7 +98,6 @@
                         item.group_closed = true;
                     }
 
-
                     // HTML
                     var mystock = '';
                     mystock += '' +
@@ -162,9 +161,7 @@
                                             mystock += '<div class="silent-transaction icon-user-secret"></div>';
                                         }                                        
                                     mystock +='</div>'+
-                                '</div>';
-                        
-                        
+                                '</div>';              
                                 
                                 mystock += 
                                 '<div class="mystock-edit" data-stock-id="'+item.wallet_entities_id+'" data-stock-type="">' +
@@ -197,8 +194,7 @@
                                     '<input type="hidden" value="'+item.sold_total+'" class="sold_total" />'+
                                     '<input type="hidden" value="'+item.margin+'" class="margin" />'+
                                 '</div>';
-                                
-                                
+                     
                             mystock +=
                             '</div>' +
                             '<div class="visibility-layer"><div class="icon icon-visibility_off"></div></div>';                        
@@ -303,8 +299,6 @@
                 $('.wallet.funds .funds-total').text(funds_total);
                 $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
 
-
-
                 // Live
                 /*
                 var live = new WebSocket('wss://stocktok.online:8443');
@@ -323,7 +317,6 @@
                     }, 1500);
 
                 };
-
                 live.onmessage = function(msg) {
                                         
                     var data = msg.data;
@@ -339,11 +332,9 @@
                         live_prices[item.s].price = item.p;
                         live_prices[item.s].live = true;
                         live_prices[item.s].last_updated_at = format_datetime(item.t);
-                    }
-                        
+                    }                        
                     //reload();
-                    //if (config.debug) console.log(item.s+': '+item.p);
-                               
+                    //if (config.debug) console.log(item.s+': '+item.p);                             
                 };
                 live.onerror = function(e){
                     if (config.debug) console.log(e);
@@ -365,8 +356,6 @@
         }
         return 1;
     }
-    
-    
 
     function reload(){
 
@@ -375,9 +364,6 @@
         wallet.sold_purchased   = 0;
         wallet.sold_total       = 0;
         wallet.sold_margin      = 0;
-        
-        
-        
 
         var groups = [];
         $.each(wallet.items,function(symbol,item){
@@ -450,8 +436,7 @@
             $(element).find('.updated-at').text(item.last_updated_at);
 
         });
-        
-        
+ 
         wallet.sold_margin_percentage = (wallet.sold_margin / (wallet.sold_purchased ? wallet.sold_purchased : 1) * 100).toFixed(2);
         if (!wallet.sold_margin_percentage) wallet.sold_margin_percentage = 0;
 
@@ -475,7 +460,6 @@
         $('.wallet.active .results .margin').text(format_price(wallet.current_margin * currencies[settings.display_currency],2));
         $('.wallet.sold   .results .total ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2));
         $('.wallet.sold   .results .margin').text(wallet.sold_margin_percentage+'%');      
-
 
         var targets = document.querySelectorAll('.drag-container .icon-move');
         [].forEach.call(targets, function(target) {

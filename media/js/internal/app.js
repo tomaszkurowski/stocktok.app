@@ -21,10 +21,8 @@
                 $("nav").html(data).addClass('initiated'); 
                 if (callback) callback();
                 
-            });
-            
+            });  
         });                     
-        
     }
     
     function reload_ui(){
@@ -73,9 +71,7 @@
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
                         }else{
                             $('.nav .avatar-container').html('<div class="avatar avatar-user"></div>').css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
-                        }
-                                                
-                        
+                        } 
                     }
 
                     // ACL 
@@ -92,9 +88,7 @@
                 },
                 error: function(e){ if (config.debug) console.log(e); }
             });       
-        }else{ $.getScript('/extensions/me/me.js?version='+config.version); } 
-        
-              
+        }else{ $.getScript('/extensions/me/me.js?version='+config.version); }     
     }
     
     function load_page(url,push_url = false){

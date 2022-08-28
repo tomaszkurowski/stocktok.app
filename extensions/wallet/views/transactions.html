@@ -122,18 +122,8 @@
         $(document).off('click', '.wallet[data-action="slickGoTo"]');
         $(document).on('click','.wallet[data-action="slickGoTo"]',function(e){ $('.page-views').slick('slickGoTo',$(this).attr('data-id')); e.preventDefault(); });
 
-        //$('.wallets .wallet').removeClass('active'); 
-        //$('.wallet[data-id="funds"]').addClass('active'); 
-        //$('.wallets').stop().animate({scrollLeft:400}, 700, 'swing');
-        //$('.wallet-popup').attr('data-popup','funds-update');
-        
-
-        
         $(document).ready(function(){
-            //$('.page-views').slick('slickGoTo',2); 
-            // UI                        
-
-                    
+  
             if (me.username){
                 
                 changer({ 
@@ -180,8 +170,8 @@
                 });                                              
                 
                 get_currencies(function(){
-                    init();              // => actions_wallet.js
-                    smooth_scrolling();  // => ui.js
+                    init();
+                    smooth_scrolling();
                 });
             }
                         
