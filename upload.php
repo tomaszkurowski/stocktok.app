@@ -22,7 +22,7 @@ if ($type && $type === 'photo'){
     $username   = strtolower($username);
     
     $path       = '../data/avatars/'.$username.'.'.$fileExt;
-    $dest       = '../data/avatars/'.$username.'.png';   
+    $dest       = '../data/avatars/nextGen/'.$username.'.webp';   
                     
     move_uploaded_file($_FILES['webcam']['tmp_name'],$path);
     
@@ -71,11 +71,11 @@ if ($type && $type === 'photo'){
     imageconvolution($resized, $sharpenMatrix, $divisor, $offset);     
 
     if ($path !== $dest){ unlink($path); }    
-    imagepng($resized, $dest);
+    imagewebp($resized, $dest);
     
     imagedestroy($resized);
     
-    echo json_encode(['success' => true, 'photo' => 'yes', 'path' => str_replace('../data/','https://data.stocktok.online/',$path) ]);
+    echo json_encode(['success' => true, 'photo' => 'yes', 'path' => str_replace('../data/','https://data.stocktok.online/',$dest) ]);
     die();
 }
 
@@ -92,7 +92,7 @@ if($fileError == UPLOAD_ERR_OK){
     $username   = strtolower($username);        
     
     $path       = '../data/avatars/'.$username.'.'.$fileExt;
-    $dest       = '../data/avatars/'.$username.'.png';
+    $dest       = '../data/avatars/nextGen/'.$username.'.webp';
            
     file_put_contents($path, $fileContent); 
     
@@ -150,7 +150,7 @@ if($fileError == UPLOAD_ERR_OK){
     imageconvolution($resized, $sharpenMatrix, $divisor, $offset);     
 
     if ($path !== $dest){ unlink($path); }    
-    imagepng($resized, $dest);
+    imagewebp($resized, $dest);
     
     imagedestroy($resized);
     echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$dest) ]);

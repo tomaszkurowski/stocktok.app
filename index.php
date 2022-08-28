@@ -31,7 +31,7 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.132" />
+    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.134" />
     <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
@@ -46,9 +46,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/external.js?version=1.9"></script>
-    <script src="/media/js/internal.js?version=1.5.8"></script>
-    <script src="/media/js/internal/app.js?version=1.10"></script>  
+    <script src="/media/js/internal.js?version=1.5.13"></script>
+    <script src="/media/js/internal/app.js?version=1.10"></script>          
+    <script src="/media/js/external.js?version=1.11"></script>
     
     <script src="/media/js/external/apexchart.min.js?version=0.0.1"></script>
        
@@ -82,7 +82,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.135',
+            version:    '1.1.140',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,

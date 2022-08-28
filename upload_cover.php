@@ -27,7 +27,7 @@ if($fileError == UPLOAD_ERR_OK){
     $username   = strtolower($username);        
     
     $path       = '../data/covers/'.$market.'/'.$symbol.'.'.$fileExt;
-    $dest       = '../data/covers/'.$market.'/'.$symbol.'.png';
+    $dest       = '../data/covers/'.$market.'/nextGen/'.$symbol.'.webp';
 
     file_put_contents($path, $fileContent); 
 
@@ -86,7 +86,7 @@ if($fileError == UPLOAD_ERR_OK){
     
 
     if ($path !== $dest){ unlink($path); }    
-    imagepng($resized, $dest);
+    imagewebp($resized, $dest);
 
     imagedestroy($resized);
     //imagedestroy($cropped);

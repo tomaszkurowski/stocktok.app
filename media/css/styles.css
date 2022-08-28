@@ -133,11 +133,13 @@ input[type=number] { -moz-appearance: textfield; }
 
 @font-face {
     font-family: "gotham-bold";
-    src: url("../fonts/gotham-bold.otf")
+    src: url("../fonts/gotham-bold.otf");
+    font-display: swap;
 }
 @font-face {
     font-family: "gotham-regular";
-    src: url("../fonts/gotham-regular.otf")
+    src: url("../fonts/gotham-regular.otf");
+    font-display: swap;
 }
 h1 {
     font-family:'gotham-regular';

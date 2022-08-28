@@ -336,36 +336,29 @@
         });
         
         return filters;
-    }
-    
+    }  
     var highcharts;
-    function load_highcharts(callback){
-        
+    function load_highcharts(callback){       
         if (highcharts){
             if (callback) callback();            
         }else{
             highcharts = true;
-            $.getScript('https://code.highcharts.com/stock/highstock.js',function(){
-                $.getScript('https://code.highcharts.com/modules/accessibility.js');
-                $.getScript('https://code.highcharts.com/stock/modules/data.js');
-                $.getScript('https://code.highcharts.com/stock/indicators/indicators-all.js');
-                $.getScript('https://code.highcharts.com/stock/modules/drag-panes.js');
-                $.getScript('https://code.highcharts.com/modules/annotations-advanced.js');
-                $.getScript('https://code.highcharts.com/modules/price-indicator.js');
-                $.getScript('https://code.highcharts.com/modules/full-screen.js');
-                $.getScript('https://code.highcharts.com/modules/stock-tools.js');
+            $.getScript('/media/js/external/highcharts.js',function(){
+                $.getScript('/media/js/external/highcharts-accessibility.js');
+                $.getScript('/media/js/external/highcharts-data.js');
+                $.getScript('/media/js/external/highcharts-indicators.js');
+                $.getScript('/media/js/external/highcharts-annotations.js');
+                $.getScript('/media/js/external/highcharts-fullscreen.js');
+                $.getScript('/media/js/external/highcharts-tools.js');
                 if (callback) callback();
             });
         }
-    }
-    
-    function load_apexcharts(callback){
-       
+    }   
+    function load_apexcharts(callback){      
         if (typeof ApexCharts !== undefined){ 
             delete ApexCharts;            
         }
-        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts',function(){
+        $.getScript('/media/js/external/apexchart.min.js',function(){
             if (callback) callback();
         }); 
-    }
-    
+    }   
