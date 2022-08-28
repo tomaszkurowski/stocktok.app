@@ -1,11 +1,12 @@
 <?php 
-/*
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com ");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
-*/
+header("Cache-Control: max-age=31536000");
+
 include('config.php'); ?>
 
 <!DOCTYPE html>
@@ -46,11 +47,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.13"></script>
-    <script src="/media/js/internal/app.js?version=1.10"></script>          
+    <script src="/media/js/internal.js?version=1.5.14"></script>
+    <script src="/media/js/internal/app.js?version=1.11"></script>          
     <script src="/media/js/external.js?version=1.11"></script>
-    
-    <script src="/media/js/external/apexchart.min.js?version=0.0.1"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
     
@@ -82,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.140',
+            version:    '1.1.149',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,

@@ -4809,6 +4809,7 @@ input:checked + .switch:before {
     justify-content: center;
     width: 100%;
     height: calc(100vh - 240px); 
+    opacity:0.2;
 }
 .no-transactions .icon {
     font-size:70px;

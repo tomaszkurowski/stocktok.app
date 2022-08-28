@@ -7,7 +7,12 @@
             $.ajax({
                 url:"/extensions/entities/views/"+mvc.path+".html",
                 cache:false,
-                success: function(d){ $(mvc.target).html(d); },
+                success: function(d){ 
+                    $(mvc.target).html(d); 
+                        $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
+                        $.getScript('/extensions/entities/media/js/entity.js?version='+config.version); 
+                        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version);  
+                },
                 error:   function(e){ if (config.debug) console.log(e);    }        
             });              
         });

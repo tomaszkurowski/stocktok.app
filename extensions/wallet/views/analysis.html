@@ -135,8 +135,6 @@
             
             success: function(response){
                 if (config.debug) console.log(response);                
-                
-                
                 series = response.series;
         
                 // Wallet Strength
@@ -148,9 +146,11 @@
                     totals.push(serie.total[serie.total.length - 1][1]);
                     margins.push(serie.margin[serie.margin.length - 1][1]);
                 });
-                wallet_strength(symbols,totals,margins);
-                wallet_structure(symbols,totals,margins);
                 
+                load_apexcharts(function(){
+                    wallet_strength(symbols,totals,margins);
+                    wallet_structure(symbols,totals,margins);
+                });
                 
                 if (!response.series){
                     $('#dynamic-wallet-trend').html('<div class="no-transactions"><div class="icon icon-trending_up"></div><div class="title">To see graph you need to have some active transactions in your wallet.</div></div>');
@@ -292,7 +292,7 @@
           };
 
         $("#wallet-strength").html('');
-        //new ApexCharts(document.querySelector(".page-view:not(.slick-cloned) #wallet-strength"), options).render();
+        new ApexCharts(document.querySelector(".page-view:not(.slick-cloned) #wallet-strength"), options).render();
         
     }
    

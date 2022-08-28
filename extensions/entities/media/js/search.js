@@ -56,7 +56,7 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
 
                 let view = $('<div class="view" data-action="view"></div>');                                                                                
 
-                $(view).append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                $(view).append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
                 $(view).append(('<div class="name label">'+(item.name ? item.name : '')+'</div>'));
                 $(view).append('<div class="price">'+item.price+'</div>');
                 $(view).append('<div class="currency">'+item.market_currency+'</div>');

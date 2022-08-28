@@ -54,7 +54,7 @@ $(document).on('keyup', '#symbol', function(){
                                     'data-price="'+item.price+'"'+
                                     'data-currency="'+item.currency.toLowerCase()+'"'+
                                     'data-last-updated-at="'+item.last_updated_at+'">'+
-                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
+                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
                                 '<div class="info">'+
                                     '<div class="name">'+item.highlighted_name+'</div>'+
                                     '<div class="label">'+

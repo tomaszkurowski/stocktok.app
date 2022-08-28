@@ -111,8 +111,8 @@
                            success : function(response) {
                                if (response.success){
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
+                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' loading='lazy' />");
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();
                                         $('.popup-avatars').remove();
@@ -191,8 +191,8 @@
                                 Webcam.upload( photo, 'upload.php?type=photo&width='+camera_width+'&height='+camera_height+'&x='+camera_x+'&y='+camera_y+'&me='+me.username, function(code, json) {
                                     let response = JSON.parse(json);
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
+                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
 
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();

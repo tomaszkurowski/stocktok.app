@@ -65,8 +65,6 @@
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
-                        
-
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
                         }else{
@@ -75,7 +73,7 @@
                     }
 
                     // ACL 
-                    if (response.me.hasOwnProperty('username')){
+                    if (response.me.hasOwnProperty('username') || mvc.model === 'entities' || mvc.model === 'players'){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
                             $.getScript('/extensions/cms/cms.js?version='+config.version);

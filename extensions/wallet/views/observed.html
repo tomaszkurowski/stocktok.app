@@ -174,7 +174,7 @@
                         $(entity_template).attr('data-price',entity.price);
 
                         $(entity_template).find('.symbol').html(entity.symbol);
-                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
+                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
                         $(entity_template).find('.name').html(entity.name);
 
                         if (price_change>0) $(entity_template).find('.current').attr('data-results','with profit');

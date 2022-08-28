@@ -353,12 +353,16 @@
                 if (callback) callback();
             });
         }
-    }   
+    } 
+    
+    var apexcharts;
     function load_apexcharts(callback){      
-        if (typeof ApexCharts !== undefined){ 
-            delete ApexCharts;            
+        if (apexcharts){
+            if (callback) callback();            
+        }else{
+            apexcharts = true;
+            $.getScript('/media/js/external/apexchart.min.js',function(){
+                if (callback) callback();
+            }); 
         }
-        $.getScript('/media/js/external/apexchart.min.js',function(){
-            if (callback) callback();
-        }); 
     }   

@@ -7,7 +7,7 @@
             <div class="page-view" data-view="all">                
                 <div class="ranking">
                     <!--<div class="ranking-icon icon-trophy"></div>-->
-                    <img src="/media/img/trophies/trophy1.png" class="trophy" alt="Trophy" />
+                    <img src="/media/img/trophies/trophy1.png" class="trophy" alt="Trophy" loading="lazy" />
                     <h2>Top Margin Makers</h2>
                     <div class="ranking-types">
                         <div class="ranking-type active">Ranking is based on total <a>sold margin</a><br />in <a>All-time</a> period.</div>
@@ -54,12 +54,12 @@
                         let el = $('<div class="view"></div>');
                         
                         if (player.avatar_type){
-                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' alt='player-"+player.username+"' />");
+                            $(el).append("<img src='"+player.avatar+"' class='avatar-image' alt='player-"+player.username+"' loading='lazy' />");
                         }else{
                             $(el).append('<div class="avatar avatar-'+(player.avatar ? player.avatar : 'user')+'" style="color:'+(player.avatar_color ? player.avatar_color : 'var(--color-bg)')+'"></div>');
                         }
                         
-                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" alt="country-'+player.country+'" />' : ''))
+                        $(el).append((player.country ? '<img src="/media/img/flags/'+player.country+'.svg" class="country" alt="country-'+player.country+'" loading="lazy" />' : ''))
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){
