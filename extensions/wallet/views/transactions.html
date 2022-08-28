@@ -80,10 +80,10 @@
     
     <script type="text/javascript">
         
-        $.getScript('/extensions/wallet/media/js/actions_wallet.js?version='+config.version); 
-        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version); 
-        $.getScript('/extensions/wallet/media/js/sorting.js?version='+config.version); 
-        $.getScript('/extensions/wallet/media/js/autosuggestions.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_wallet'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/sorting'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version); 
+        $.getScript('/extensions/wallet/media/js/autosuggestions'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version); 
         
         function wallet_slick(initialSlide=0){
              $('.page-views').not('.slick-initialized').slick({

@@ -338,18 +338,18 @@
         return filters;
     }  
     var highcharts;
-    function load_highcharts(callback){       
+    function load_highcharts(callback){   
         if (highcharts){
             if (callback) callback();            
         }else{
             highcharts = true;
-            $.getScript('/media/js/external/highcharts.js',function(){
-                $.getScript('/media/js/external/highcharts-accessibility.js');
-                $.getScript('/media/js/external/highcharts-data.js');
-                $.getScript('/media/js/external/highcharts-indicators.js');
-                $.getScript('/media/js/external/highcharts-annotations.js');
-                $.getScript('/media/js/external/highcharts-fullscreen.js');
-                $.getScript('/media/js/external/highcharts-tools.js');
+            $.getScript('/media/js/external/highcharts'+(config.minify===1 ? '.min' : '')+'.js',function(){
+                $.getScript('/media/js/external/highcharts-accessibility'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-data'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-indicators'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-annotations'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-fullscreen'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-tools'+(config.minify===1 ? '.min' : '')+'.js');
                 if (callback) callback();
             });
         }
@@ -361,7 +361,7 @@
             if (callback) callback();            
         }else{
             apexcharts = true;
-            $.getScript('/media/js/external/apexchart.min.js',function(){
+            $.getScript('/media/js/external/apexchart'+(config.minify===1 ? '.min' : '')+'.js',function(){
                 if (callback) callback();
             }); 
         }

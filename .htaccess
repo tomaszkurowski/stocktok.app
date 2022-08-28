@@ -3,6 +3,7 @@
     RewriteCond %{REQUEST_FILENAME}  -f [OR]
     RewriteCond %{REQUEST_FILENAME} !-f
 
+    RewriteRule ^(minifier.php(.*))($) - [L]
     RewriteRule ^(test.php(.*))($) - [L]
     RewriteRule ^(extensions(.*))($) - [L]
     RewriteRule ^(html(.*))($) - [L]

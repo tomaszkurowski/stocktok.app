@@ -32,8 +32,8 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.134" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
+    <link rel="stylesheet"                       href="/media/css/styles<?= $config['minify'] ? '.min' : '' ?>.css?v=1.1.134" />
+    <link rel="stylesheet"                       href="/media/css/styles-ipad<?= $config['minify'] ? '.min' : '' ?>.css?v=1.1.40" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -47,9 +47,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.14"></script>
-    <script src="/media/js/internal/app.js?version=1.11"></script>          
-    <script src="/media/js/external.js?version=1.11"></script>
+    <script src="/media/js/internal.js?version=1.5.17"></script>
+    <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.11"></script>          
+    <script src="/media/js/external.js?version=1.12"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
     
@@ -81,13 +81,14 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.149',
+            version:    '1.1.155',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera,
             precision_rate:  11,
-            precision_total: 4
+            precision_total: 4,
+            minify: <?= $config['minify'] ?>
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,

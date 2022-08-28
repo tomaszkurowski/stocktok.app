@@ -1,5 +1,6 @@
 {
     "require": {
-        "rmccue/requests": "^2.0"
+        "rmccue/requests": "^2.0",
+        "matthiasmullie/minify": "^1.3"
     }
 }

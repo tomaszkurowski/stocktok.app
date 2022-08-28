@@ -29,24 +29,18 @@ function reload_stock_price(){
 var current_stock  = '';
 var current_market = '';
 var entity = {};
-
-// MYSTOCK - VIEW
 var stock;
-var stock_chart; // @todo: it can be stock.chart
+var stock_chart;
 
 function generate_graph(){
     
     if (stock.intraday && stock.historical){
         
         if (settings.graph_type === 'ohlc'){
-            // At the moment I've got only Open/High/Low/Close for Historical prices (not for intraday)
             stock.all_prices = stock.historical                        
         }else{
-            // Last historical = First Intraday (10d interval)
             if (stock.intraday !== 1){
                 stock.historical[stock.historical.length-1][4]=stock.intraday[0][4]
-
-                // Join Intraday with Historical into one serie
                 stock.all_prices = stock.historical.concat(stock.intraday);
             }else{
                 stock.all_prices = stock.historical;
@@ -64,7 +58,6 @@ function generate_graph(){
                 pointFormat: '{point.y}'
             }
         });       
-        // Changers settings
         stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line }} });         
         stock_graph_adaptive_height();
         stock_chart.reflow();                                    
@@ -229,8 +222,8 @@ function widget_financial_graph(id,widget){
             if ($(window).width()>996){
                 return;
             };                     
-            if ($('.results-info').hasClass('editable')) return;
-            if (!$('.results-info').hasClass('collapsed')) return;
+            if ($('.results-info').hasClass('editable')){ return; }
+            if (!$('.results-info').hasClass('collapsed')){ return; }
             var optimal_graph_height = 10;
             optimal_graph_height += $('.footer-container').outerHeight();
             optimal_graph_height += $('.range-selector').outerHeight();
@@ -238,7 +231,7 @@ function widget_financial_graph(id,widget){
                 optimal_graph_height += $('.results-info').outerHeight(); 
                 optimal_graph_height += 25; 
             }
-            optimal_graph_height += 20; // FullScreen: 20, Not Fullscreen: 45,                
+            optimal_graph_height += 20;               
             optimal_graph_height += ($('.editable .edit-view-actions').outerHeight() ? $('.editable .edit-view-actions').outerHeight()+15 : 0);         
             $('.chart.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
         }
@@ -247,7 +240,7 @@ function widget_financial_graph(id,widget){
             stock_graph_adaptive_height();
             setTimeout(function() {
                 stock_chart.reflow();
-            }, 20); // due to 300ms css transition
+            }, 20); 
         });
         $(document).off('click', '.widget-collapse');
         $(document).on('click','.widget-collapse',function(){           
@@ -256,7 +249,7 @@ function widget_financial_graph(id,widget){
                 stock_graph_adaptive_height();
                 setTimeout(function() {
                     stock_chart.reflow();
-                }, 20); // due to 300ms css transition
+                }, 20); 
 
             });
             var widgets = JSON.parse(localStorage.getItem('widgets'));
@@ -275,7 +268,7 @@ function widget_financial_graph(id,widget){
         });
         $(document).off('click', '.results-info .edit .form.hidden-fields input');
         $(document).on('click','.results-info .edit .form.hidden-fields input',function(){
-            var id = $(this).attr('id').substring(2); // v-{field}
+            var id = $(this).attr('id').substring(2); 
             $('.results-info').find('.'+id).toggleClass('hide');
             $('.results-info').find('.label-'+id).toggleClass('hide');
 
@@ -392,7 +385,7 @@ function widget_financial_graph(id,widget){
                 data: { endpoint: '/entity', symbol: symbol, market:market },
                 type: 'GET',
                 dataType: 'JSON',
-                cache:false, // @TODO: Online/Offline
+                cache:false,
                 success: function(response){
                     if (config.debug) console.log('entity');
                     if (config.debug) console.log(response);
@@ -406,7 +399,7 @@ function widget_financial_graph(id,widget){
                     $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);
                                        
                     $('.stock-view .results-info h2').text(stock.name);               
-                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+                    $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
                     
                     if (stock.cover){
                         $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
@@ -550,7 +543,7 @@ function widget_financial_graph(id,widget){
                                 error: function(e){ if (config.debug) console.log(e); }
                             });
                         });
-                    }                     
+                    };                     
             
                     switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
                         editable(); 
@@ -558,47 +551,10 @@ function widget_financial_graph(id,widget){
                         if (stock_chart){ 
                             setTimeout(function() {
                                 stock_chart.reflow();
-                            }, 400); // due to 300ms css transition
-                        }}); // => ui.js                
+                            }, 400);
+                        }});              
 
                     reload_stock_price();
-                   // Live
-                   /*
-                    var live = new WebSocket('wss://stocktok.online:8443');
-                    live.onopen = function(e) {
-
-                        stock.currencies = [];
-
-                        symbols = [stock.symbol.toUpperCase()];                    
-                        symbols.push('USDPLN');
-
-                        var message = { action: "subscribe", tickers: symbols };
-                        live.send(JSON.stringify(message));
-
-                        if (config.debug) console.log("Live Connection established!");
-                        
-                        var liveInterval = window.setInterval(function(){
-                            reload_stock_price();
-                        }, 1000);
-
-                    };
-                    live.onmessage = function(msg) {
-
-                        var data = msg.data;
-                        var item = JSON.parse(data);
-
-                        if (item.hasOwnProperty('s')){                                        
-                            if (stock.symbol.toUpperCase()===item.s){ 
-                                stock.price = item.p;   
-                                stock.last_updated_at = format_datetime(item.t);
-
-                            }                      
-                        }                                
-                    };
-                    live.onerror = function(e){
-                        if (config.debug) console.log(e);
-                    };
-                    /* */
                     stock_graph_adaptive_height();
                     stock_chart = Highcharts.stockChart('stock-price', {
                         global: {

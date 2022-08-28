@@ -9,9 +9,9 @@
                 cache:false,
                 success: function(d){ 
                     $(mvc.target).html(d); 
-                        $.getScript('/extensions/entities/media/js/search.js?version='+config.version); 
-                        $.getScript('/extensions/entities/media/js/entity.js?version='+config.version); 
-                        $.getScript('/extensions/wallet/media/js/actions_item.js?version='+config.version);  
+                        $.getScript('/extensions/entities/media/js/search'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version); 
+                        $.getScript('/extensions/entities/media/js/entity'+(config.minify === 1 ? '' : '')+'.js?version='+config.version); 
+                        $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version);  
                 },
                 error:   function(e){ if (config.debug) console.log(e);    }        
             });              
