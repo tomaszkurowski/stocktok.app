@@ -1,7 +1,7 @@
 <?php 
 
 header("Access-Control-Allow-Origin: *");
-header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com ");
+header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
@@ -32,8 +32,8 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"      href="/manifest.json?v=1.1">
-    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.137" />
-    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.42" />
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.142" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.43" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -81,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.161',
+            version:    '1.1.167',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,

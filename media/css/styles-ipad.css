@@ -36,6 +36,8 @@
    .range-selector {
        max-width:360px;
    }
+   
+   .with-popup .footer-container { left:auto; }
 }
 
 
