@@ -3458,12 +3458,15 @@ body.stock-price-pro-mode { overflow:hidden; }
     justify-content:flex-start; 
 }
 .nav .profile .avatar-container {
-    border-radius: 50%;
+border-radius: 50%;
     overflow: hidden;
-    width: 37px;
-    height: 37px;
-    order:1;
-    font-size:37px;
+    width: 32px;
+    height: 32px;
+    order: 1;
+    font-size: 32px;
+    border: 2px solid var(--color-base-invert);
+    margin-right: 2px;
+    margin-left: 4px;
 }
 .left-handed .nav .profile .avatar-container {
     order:0;

@@ -31,9 +31,9 @@ include('config.php'); ?>
     <meta property="og:image"                    content="<?= $config['base_url'] ?>/media/img/icons/icon-512x512.png" />    
     <meta property="og:description"              content="Be a market player" />
     
-    <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles<?= $config['minify'] ? '.min' : '' ?>.css?v=1.1.134" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad<?= $config['minify'] ? '.min' : '' ?>.css?v=1.1.40" />
+    <link rel="manifest"      href="/manifest.json?v=1.1">
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.137" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.42" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -81,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.157',
+            version:    '1.1.159',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
@@ -96,7 +96,7 @@ include('config.php'); ?>
             public:                 "yes",
             dynamic_trend :         "total",
             graph_type:             "line",
-            graph_line:              1,
+            graph_line:              2,
             graph_touch:            'tooltip',
             graph_grid:             'xy',
             graph_fullscreen:       false,

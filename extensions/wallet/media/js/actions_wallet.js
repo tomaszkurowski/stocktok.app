@@ -127,7 +127,7 @@
                                 '<div class="mystock">' +
                                     '<div class="mystock-view">' +
                                         '<div class="symbol view-action">'+item.symbol+'</div>'+
-                                        '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
+                                        '<div class="logo-container view-action">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
                                         '<div class="results view-action" data-results="neutral">' +
                                             '<span class="label">Total & Margin:</span>'+
                                             '<div class="info">'+
