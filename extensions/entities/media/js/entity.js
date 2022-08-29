@@ -89,6 +89,8 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
         var tabInfoRow=$('.template-info-tab-row.hide').clone().removeClass('hide');
         // Mappings
         switch(label){
+            case 'Sector':   value = value = '<a href="/entities/find-by?sector='+value+'">'+value+'</a>'; break;
+            case 'Industry': value = value = '<a href="/entities/find-by?industry='+value+'">'+value+'</a>'; break;
             case 'MarketCapitalization': value = format_price(value); break;
             case 'MarketCapitalizationMln': return;
             case 'EBITDA': value=format_price(value); break;
@@ -410,8 +412,9 @@ function widget_financial_graph(id,widget){
                     
                     $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
                     $('.stock-view .results-info-table .value.market').text(stock.market);
-                    $('.stock-view .results-info-table .value.sector').text(stock.sector);
-                    $('.stock-view .results-info-table .value.industry').text(stock.industry);
+                    
+                    $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>');
+                    $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>');
                                         
                     $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
                     $('.stock-view .results-info .price-preview .currency').text(stock.currency);
