@@ -364,16 +364,19 @@ function widget_financial_graph(id,widget){
             stock_chart.reflow();
         }
 
-        $(document).off('click', '#stock_chart_range');
-        $(document).on('input','#stock_chart_range',function(){
-            var val = $(this).val();
+        function change_graph_range(val=1){
             $('.range-selector .labels span').removeClass('selected');
             $('.range-selector .labels span[data-id='+val+']').addClass('selected');
 
             settings.stock_chart_range = val;
             localStorage.setItem('settings',JSON.stringify(settings));
 
-            stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);
+            stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);                                    
+        }
+        
+        $(document).off('click', '#stock_chart_range');
+        $(document).on('input','#stock_chart_range',function(){
+            change_graph_range($(this).val());
         });
     
         var market = mvc.view;
@@ -420,6 +423,11 @@ function widget_financial_graph(id,widget){
                     $('.range-selector .labels span').removeClass('selected');
                     $('.range-selector .labels span[data-id='+settings.stock_chart_range+']').addClass('selected');   
                     $('.range-selector input').val(settings.stock_chart_range);
+                    $('.range-selector .labels span').bind('click',function(){
+                        let val = parseInt($(this).attr('data-id'));
+                        change_graph_range(val);
+                        $('#stock_chart_range').val(val);
+                    });
 
                     button({ 
                         class: 'icon-btn icon-search2' }, 
