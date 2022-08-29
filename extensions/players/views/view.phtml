@@ -178,15 +178,15 @@
                             
                             if (item.type === 'active' && !($('[data-type="active"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="active"]').addClass('active');
-                                $('[data-type="active"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="active"] .slider-items').append('<a class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" href="/entities/'+item.market+'/'+item.symbol+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</a>');
                             }
                             if (item.type === 'sold' && item.margin>=0 && !($('[data-type="sold-profit"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-profit"]').addClass('active');
-                                $('[data-type="sold-profit"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-profit"] .slider-items').append('<a class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" href="/entities/'+item.market+'/'+item.symbol+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</a>');
                             }
                             if (item.type === 'sold' && item.margin<0 && !($('[data-type="sold-lost"] [data-symbol="'+item.symbol+'"][data-market="'+item.market+'"]')).length){
                                 $('[data-type="sold-lost"]').addClass('active');
-                                $('[data-type="sold-lost"] .slider-items').append('<div class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" onclick="location.href=\'/entities/'+item.market+'/'+item.symbol+'\'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</div>');
+                                $('[data-type="sold-lost"] .slider-items').append('<a class="item" data-symbol="'+item.symbol+'" data-market="'+item.market+'" href="/entities/'+item.market+'/'+item.symbol+'">'+(item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>')+'</a>');
                             }                            
                             
                         });

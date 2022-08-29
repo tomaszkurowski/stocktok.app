@@ -140,7 +140,7 @@
                     $('#observed_layout').val(settings.observed_layout);
 
                     if (!response.items || response.items.length === 0){
-                        $(destination).html('<div class="info-page"><div class="icon icon-clear"></div><h1>No observed items</h1><p>You have no observed entities yet</p><div class="btn primary" onclick="location.href=\'/entities\'">Find entities</div></div>')
+                        $(destination).html('<div class="info-page"><div class="icon icon-clear"></div><h1>No observed items</h1><p>You have no observed entities yet</p><a class="btn primary" href="/entities">Find entities</a></div>')
                         return;
                     }
 
