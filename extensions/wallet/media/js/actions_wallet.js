@@ -226,7 +226,6 @@
                                 case '5-weeks':  data = item.trend.weekly.length ? item.trend.weekly.reverse() : null; break;
                                 case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
                             }
-                            console.log(data);
 
                             let options = {
                                 series: [{ data: data }],
