@@ -54,7 +54,7 @@ $(document).on('keyup', '#symbol', function(){
                                     'data-price="'+item.price+'"'+
                                     'data-currency="'+item.currency.toLowerCase()+'"'+
                                     'data-last-updated-at="'+item.last_updated_at+'">'+
-                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
+                                '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+
                                 '<div class="info">'+
                                     '<div class="name">'+item.highlighted_name+'</div>'+
                                     '<div class="label">'+
@@ -92,10 +92,6 @@ $(document).on('keyup', '#symbol', function(){
     $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
     
 });
-
-
-//$(document).on('click', '.add-new-stock .step2 #price-origin', function(){ $('.add-new-stock .step2 .field.price').toggleClass('hide'); });
-// After unchecking this checkbox I could take open/high/low from purchased_date and give slider (good UX)
 
 $(document).off('blur', '.add-new-stock .step2 #date');
 $(document).on('blur', '.add-new-stock .step2 #date', function(){ 

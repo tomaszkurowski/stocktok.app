@@ -109,8 +109,6 @@ function touchStart(e) {
         that.style.left = currentLocation.clientX - w/2 + 'px';
         that.style.top = currentLocation.clientY - h/2 + 'px';
 
-        
-
         var targets = document.querySelectorAll('.mystock-container');
 
         [].forEach.call(targets, function(target) {
@@ -209,8 +207,6 @@ function touchMove(e) {
             //$('body').removeClass('can-drop');
         }
     });
-
-
 
     if (currentLocation.clientY > window.innerHeight || currentLocation.clientY < 0 ) {
         if (x === 1) {

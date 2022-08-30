@@ -1,11 +1,12 @@
 <?php 
-/*
+
 header("Access-Control-Allow-Origin: *");
-header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com ");
+header("Content-Security-Policy: default-src 'self' data.stocktok.online api.stocktok.online googletagmanager.com js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
-*/
+header("Cache-Control: max-age=31536000");
+
 include('config.php'); ?>
 
 <!DOCTYPE html>
@@ -30,10 +31,9 @@ include('config.php'); ?>
     <meta property="og:image"                    content="<?= $config['base_url'] ?>/media/img/icons/icon-512x512.png" />    
     <meta property="og:description"              content="Be a market player" />
     
-    <link rel="manifest"                         href="/manifest.json?v=1.1">
-    <link rel="stylesheet"                       href="/media/css/styles.css?v=1.1.130" />
-    <link rel="stylesheet"                       href="/media/avatars/avatars.css?v=1.1.1" />
-    <link rel="stylesheet"                       href="/media/css/styles-ipad.css?v=1.1.40" />
+    <link rel="manifest"      href="/manifest.json?v=1.1">
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.152" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.53" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -47,11 +47,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/external.js?version=1.9"></script>
-    <script src="/media/js/internal.js?version=1.5.8"></script>
-    <script src="/media/js/internal/app.js?version=1.10"></script>  
-    
-    <script src="/media/js/external/apexchart.min.js?version=0.0.1"></script>
+    <script src="/media/js/internal.js?version=1.5.18"></script>
+    <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.12"></script>          
+    <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
     
@@ -61,7 +59,6 @@ include('config.php'); ?>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-
           gtag('config', 'G-HYTRSZLWJV');
         </script>
         
@@ -69,46 +66,29 @@ include('config.php'); ?>
     
 </head>  
 <body class="hide-scroll">
-    <!--
-    <div class="popup-info">
-        <div class="popup-info-body">
-            <div class="icon icon-message"></div>
-            <div class="title">Welcome in Stocktok</div>
-            <div class="description">This is your first visit<br /><br />To make your game more convinient you can choose some basic settings here.<br /><br /></div>       
-            <div class="actions">
-                <div class="btn primary">Ok</div>
-            </div>
-        </div>           
-    </div>
-    -->
-    <div id="css">        
-    </div>
-    
+    <div id="css"></div>   
     <div id="app">
         <div class="app-body">
             <main></main>
             <footer></footer>
         </div>
         <nav></nav>
-    </div>
-        
+    </div>   
     <div id="loader">
         <div class="icon icon-logo"></div>
         <span></span>
     </div>
-
-    
-    
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.135',
+            version:    '1.1.180',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera,
             precision_rate:  11,
-            precision_total: 4
+            precision_total: 4,
+            minify: <?= $config['minify'] ?>
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,
@@ -116,27 +96,24 @@ include('config.php'); ?>
             public:                 "yes",
             dynamic_trend :         "total",
             graph_type:             "line",
-            graph_line:              1,
+            graph_line:              2,
             graph_touch:            'tooltip',
             graph_grid:             'xy',
             graph_fullscreen:       false,
             graph_tools:            false,
             graph_labels:           true,
             stock_chart_range:      6,
-            homepage:               'wallet',
-            
+            homepage:               'wallet',            
             wallet_switch_behavior:     'itself',
             wallet_layout:              'grid',
             wallet_trend_size:          '5-days',
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
-            wallet_header:              'regular',
-            
-            players_layout:         'box',
+            wallet_header:              'regular',            
+            players_layout:         'grid',
             find_layout:            'minimal',
             find_sort:              'volume_desc',
             related_layout:         'minimal',
-
             design:{
                 color_base:         '#002ce1',
                 color_base_invert:  '#ffffff',
@@ -155,17 +132,17 @@ include('config.php'); ?>
             },            
             mute:1,
             contributor: 'no'
-        };
-        
+        };        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
         settings.design.border_radius1 = '5px';
         settings.design.border_radius2 = '5px';
         
         var me;
         
-        var mvc = { url: window.location.pathname !== '/' ? window.location.pathname : settings.homepage }; 
-        var ios = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
-        var fbb = (config.browser.indexOf("FBAN") > -1) || (config.browser.indexOf("FBAV") > -1);
+        var mvc     = { url: window.location.pathname !== '/' ? window.location.pathname : settings.homepage }; 
+        var ios     = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
+        var fbb     = (config.browser.indexOf("FBAN") > -1) || (config.browser.indexOf("FBAV") > -1);
+        var mobile  = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
                 
         $(document).ready(function(){
             
@@ -177,7 +154,6 @@ include('config.php'); ?>
             
         });
                 
-    </script> 
-    
+    </script>     
   </body>
 </html>

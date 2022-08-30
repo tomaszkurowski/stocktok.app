@@ -4,13 +4,6 @@
         <div class="step1">
             <h2>Choose Avatar type:</h2>
             <div class="avatar-types">
-                <div class="avatar-type" data-action="icon">
-                    <div class="icon icon-person"></div>
-                    <div class="title">
-                        <h2>Icon</h2>
-                    </div>
-                </div>
-                
                 <div class="avatar-type" data-action="image">
                     <label for="image"></label>
                     <span class="icon icon-upload"></span>
@@ -27,81 +20,7 @@
                 </div>               
             </div>
         </div>
-        
-        <div class="step2" data-type="icon">
-            <div class="avatars">
-                <div class="avatar avatar-angry"></div>
-                <div class="avatar avatar-angry2"></div>
-                <div class="avatar avatar-astonished-face"></div>
-                <div class="avatar avatar-baffled"></div>
-                <div class="avatar avatar-baffled2"></div>
-                <div class="avatar avatar-bank"></div>
-                <div class="avatar avatar-bug"></div>
-                <div class="avatar avatar-confused"></div>
-                <div class="avatar avatar-confused2"></div>
-                <div class="avatar avatar-cool"></div>
-                <div class="avatar avatar-cool2"></div>
-                <div class="avatar avatar-crying"></div>
-                <div class="avatar avatar-crying2"></div>
-                <div class="avatar avatar-evil"></div>
-                <div class="avatar avatar-evil2"></div>
-                <div class="avatar avatar-face"></div>
-                <div class="avatar avatar-face-missing-moth"></div>
-                <div class="avatar avatar-face-moustache"></div>
-                <div class="avatar avatar-face-moustache1"></div>
-                <div class="avatar avatar-face-sunglasses"></div>
-                <div class="avatar avatar-face_retouching_natural"></div>
-                <div class="avatar avatar-finder"></div>
-                <div class="avatar avatar-flashed-face"></div>
-                <div class="avatar avatar-flashed-face-glasses"></div>
-                <div class="avatar avatar-flashed-face1"></div>
-                <div class="avatar avatar-flickr4"></div>
-                <div class="avatar avatar-frustrated"></div>
-                <div class="avatar avatar-frustrated2"></div>
-                <div class="avatar avatar-github"></div>
-                <div class="avatar avatar-grin"></div>
-                <div class="avatar avatar-grin2"></div>
-                <div class="avatar avatar-group"></div>
-                <div class="avatar avatar-happy"></div>
-                <div class="avatar avatar-happy2"></div>
-                <div class="avatar avatar-hipster"></div>
-                <div class="avatar avatar-hipster2"></div>
-                <div class="avatar avatar-money"></div>
-                <div class="avatar avatar-neutral"></div>
-                <div class="avatar avatar-neutral2"></div>
-                <div class="avatar avatar-pacman"></div>
-                <div class="avatar avatar-pig"></div>
-                <div class="avatar avatar-reddit"></div>
-                <div class="avatar avatar-reddit-alien"></div>
-                <div class="avatar avatar-rocket"></div>
-                <div class="avatar avatar-sad"></div>
-                <div class="avatar avatar-sad2"></div>
-                <div class="avatar avatar-shocked"></div>
-                <div class="avatar avatar-shocked2"></div>
-                <div class="avatar avatar-sleepy"></div>
-                <div class="avatar avatar-sleepy2"></div>
-                <div class="avatar avatar-smile"></div>
-                <div class="avatar avatar-smile2"></div>
-                <div class="avatar avatar-smirking-face-sunglasses"></div>
-                <div class="avatar avatar-tongue"></div>
-                <div class="avatar avatar-tongue2"></div>
-                <div class="avatar avatar-tux"></div>
-                <div class="avatar avatar-user"></div>
-                <div class="avatar avatar-user-md"></div>
-                <div class="avatar avatar-user-secret"></div>
-                <div class="avatar avatar-user-tie"></div>
-                <div class="avatar avatar-users"></div>
-                <div class="avatar avatar-wink"></div>
-                <div class="avatar avatar-wink2"></div>
-                <div class="avatar avatar-wondering"></div>
-                <div class="avatar avatar-wondering2"></div>
-            </div>
-            <div class="color">
-                <div class="label info">Choose your color:</div>
-                <input type="color" class="avatar-color" />
-            </div>
-        </div>
-        
+                
         <div class="step2" data-type="image">
             <h2>Adjust position</h2>
             <div class="frame-container hide-scroll">
@@ -124,59 +43,6 @@
 </div>
 <script type="text/javascript" src="/extensions/settings/media/webcamjs/webcam.min.js"></script>
 <script type="text/javascript">
-
-    $(document).off('click', '.popup-avatars .avatars > *');
-    $(document).on('click','.popup-avatars .avatars > *',function(){
-        
-        var avatar = $(this).attr('class').replace('avatar-','').replace('avatar ','');
-        $.ajax({
-            url: config.api_url,
-            data: { 
-                endpoint: '/me',
-                avatar: avatar
-            },
-            type: 'PUT',
-            dataType: 'JSON',
-            cache: false,
-            success: function(response){  
-                $(".settings .avatar-container .avatar").removeClass().addClass('avatar avatar-'+avatar);
-                $(".nav .avatar").removeClass().addClass('avatar avatar-'+avatar);
-                
-                $('.popup-avatars .avatar').removeClass('active').css('color','var(--color-base)');
-                $('.popup-avatars .avatar-'+avatar).addClass('active').css('color',me.avatar_color);
-            }
-        });
-    });
-    
-    $(document).off('click', '.popup-avatars .avatar-color');
-    $(document).on('change','.popup-avatars .avatar-color',function(){
-        
-        var avatar_color = $(this).val();
-        $.ajax({
-            url: config.api_url,
-            data: { 
-                endpoint: '/me',
-                avatar_color: avatar_color
-            },
-            type: 'PUT',
-            dataType: 'JSON',
-            cache: false,
-            success: function(response){  
-                $(".settings .avatar-container .avatar").css('color',avatar_color);
-                $(".nav .avatar").css('color',avatar_color);
-                
-                $('.popup-avatars .avatar').css('color','var(--color-base');
-                $('.popup-avatars .avatar.active').css('color',avatar_color);
-            }
-        });
-    });
-    
-    $(document).ready(function(){
-        if (me.avatar && !me.avatar_type){            
-            $('.popup-avatars .avatar-'+me.avatar).addClass('active').css('color',me.avatar_color);
-            $('.popup-avatars .avatar-color').val(me.avatar_color);
-        }
-    });
     
     $(document).off('click', '[data-action="icon"]');
     $(document).on('click','[data-action="icon"]',function(){
@@ -245,8 +111,8 @@
                            success : function(response) {
                                if (response.success){
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
+                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' loading='lazy' />");
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();
                                         $('.popup-avatars').remove();
@@ -325,8 +191,8 @@
                                 Webcam.upload( photo, 'upload.php?type=photo&width='+camera_width+'&height='+camera_height+'&x='+camera_x+'&y='+camera_y+'&me='+me.username, function(code, json) {
                                     let response = JSON.parse(json);
                                     d = new Date();
-                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' />");
+                                    $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
+                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
 
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();

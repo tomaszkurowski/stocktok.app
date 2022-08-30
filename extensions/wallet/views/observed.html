@@ -20,13 +20,6 @@
                             <span class="price current-price">0.00</span>
                             <span class="currency market-currency">USD</span>
                         </div>
-                        <!--
-                        <div class="additionals">                                    
-                            <span class="price previous-price">-</span>
-                            <span class="percentage daily-change with-brackets">-</span>
-                            <div class="icon icon-arrow-up"></div>
-                        </div>
-                        -->
                     </div>
                     <div class="stock-graph-container view-action">
                         <span class="label">5-days trend</span>                                     
@@ -147,7 +140,7 @@
                     $('#observed_layout').val(settings.observed_layout);
 
                     if (!response.items || response.items.length === 0){
-                        $(destination).html('<div class="info-page"><div class="icon icon-clear"></div><h1>No observed items</h1><p>You have no observed entities yet</p><div class="btn primary" onclick="location.href=\'/entities\'">Find entities</div></div>')
+                        $(destination).html('<div class="info-page"><div class="icon icon-clear"></div><h1>No observed items</h1><p>You have no observed entities yet</p><a class="btn primary" href="/entities">Find entities</a></div>')
                         return;
                     }
 
@@ -181,7 +174,7 @@
                         $(entity_template).attr('data-price',entity.price);
 
                         $(entity_template).find('.symbol').html(entity.symbol);
-                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
+                        $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
                         $(entity_template).find('.name').html(entity.name);
 
                         if (price_change>0) $(entity_template).find('.current').attr('data-results','with profit');
@@ -204,7 +197,6 @@
                         $(destination).append($(entity_template));
 
                         // TRENDS
-
                         if (entity.trend){
 
                             var data;
@@ -270,6 +262,5 @@
         get_currencies(function(){
             get_my_observed();
         });
-
 
     </script>

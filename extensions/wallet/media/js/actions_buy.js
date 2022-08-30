@@ -118,11 +118,7 @@
         
         // Slick adaptiveHeight
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-    }
-    
-    
-    
-    
+    } 
     
     function buy_reload_totals(){
 

@@ -336,36 +336,33 @@
         });
         
         return filters;
-    }
-    
+    }  
     var highcharts;
-    function load_highcharts(callback){
-        
+    function load_highcharts(callback){   
         if (highcharts){
             if (callback) callback();            
         }else{
             highcharts = true;
-            $.getScript('https://code.highcharts.com/stock/highstock.js',function(){
-                $.getScript('https://code.highcharts.com/modules/accessibility.js');
-                $.getScript('https://code.highcharts.com/stock/modules/data.js');
-                $.getScript('https://code.highcharts.com/stock/indicators/indicators-all.js');
-                $.getScript('https://code.highcharts.com/stock/modules/drag-panes.js');
-                $.getScript('https://code.highcharts.com/modules/annotations-advanced.js');
-                $.getScript('https://code.highcharts.com/modules/price-indicator.js');
-                $.getScript('https://code.highcharts.com/modules/full-screen.js');
-                $.getScript('https://code.highcharts.com/modules/stock-tools.js');
+            $.getScript('/media/js/external/highcharts'+(config.minify===1 ? '.min' : '')+'.js',function(){
+                $.getScript('/media/js/external/highcharts-accessibility'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-data'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-indicators'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-annotations'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-fullscreen'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-tools'+(config.minify===1 ? '.min' : '')+'.js');
                 if (callback) callback();
             });
         }
-    }
+    } 
     
-    function load_apexcharts(callback){
-       
-        if (typeof ApexCharts !== undefined){ 
-            delete ApexCharts;            
+    var apexcharts;
+    function load_apexcharts(callback){      
+        if (apexcharts){
+            if (callback) callback();            
+        }else{
+            apexcharts = true;
+            $.getScript('/media/js/external/apexchart'+(config.minify===1 ? '.min' : '')+'.js',function(){
+                if (callback) callback();
+            }); 
         }
-        $.getScript('https://cdn.jsdelivr.net/npm/apexcharts',function(){
-            if (callback) callback();
-        }); 
-    }
-    
+    }   

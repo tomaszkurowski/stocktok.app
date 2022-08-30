@@ -11,3 +11,4 @@ Disallow: /config.template
 Disallow: /upload.php
 Disallow: /upload_cover.php
 Disallow: /upload_logo.php
+Disallow: /minifier.php

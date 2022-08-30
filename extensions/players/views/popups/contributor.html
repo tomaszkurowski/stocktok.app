@@ -132,7 +132,7 @@
                                         
                                         if ($('#stock-price').length){
                                             $('.results-info .cover').remove();
-                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" alt="New cover" />'); 
+                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" alt="New cover" loading="lazy" />'); 
                                             stock_graph_adaptive_height(); 
                                             if (stock_chart){ 
                                                 setTimeout(function() {
@@ -210,10 +210,10 @@
                                             //location.reload();
                                             if (mvc.view === 'find-by'){
                                                 if (type === 'logo'){
-                                                    $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" />');
+                                                    $('.item[data-symbol="'+symbol+'"][data-market="'+market+'"] .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" loading="lazy" />');
                                                 }
                                             }else{
-                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" />');
+                                                $('.results-info .logo-container').html('<img src="'+response.path+'" class="logo" alt="New logo" loading="lazy" />');
                                             }
                                         });
                                     }else{

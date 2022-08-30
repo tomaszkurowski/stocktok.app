@@ -26,7 +26,7 @@ if($fileError == UPLOAD_ERR_OK){
     $username   = strtolower($username);        
     
     $path       = '../data/logos/'.$market.'/'.$symbol.'.'.$fileExt;
-    $dest       = '../data/logos/'.$market.'/'.$symbol.'.png';
+    $dest       = '../data/logos/'.$market.'/nextGen/'.$symbol.'.webp';
 
     file_put_contents($path, $fileContent); 
 
@@ -83,7 +83,7 @@ if($fileError == UPLOAD_ERR_OK){
     imageconvolution($resized, $sharpenMatrix, $divisor, $offset); 
     
     if ($path !== $dest){ unlink($path); }    
-    imagepng($resized, $dest);
+    imagewebp($resized, $dest);
 
     imagedestroy($resized);
 

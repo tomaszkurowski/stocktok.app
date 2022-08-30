@@ -68,243 +68,267 @@
                         function(){ editable();  // => ui.js                                              
                     });
                 }
-                                
-                wallet.symbols = [];
-                $.each(wallet.items, function(i, item){ 
-
-                    wallet.symbols.push(item.symbol.toUpperCase());           
-                    item.last_updated_at = iosDatesFix(item.last_updated_at);
-
-                    // GROUPS 
-                    item.group_id = item.wallet_entities_id;
-
-                    if ((item.type_of_transaction==='active') && $(".wallet-items.active [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])").length){ 
-                        var master = $(".wallet-items.active [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])");
-
-                        item.group_id = $(master).attr('data-stock-id');
-                        item.group = "child";                     
-                        $(master).attr('data-group','master');
-                        $(master).attr('data-group-id',item.group_id);    
-                    }
-                    if ((item.type_of_transaction==='sold') && $(".wallet-items.sold [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])").length){                    
-                        var master = $(".wallet-items.sold [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])");
-
-                        item.group_id = $(master).attr('data-stock-id');
-                        item.group = "child";                     
-                        $(master).attr('data-group','master');
-                        $(master).attr('data-group-id',item.group_id);                                        
-                    }
-                    if (settings.hasOwnProperty('closed_groups') && $.inArray(String(item.group_id),settings.closed_groups)!==-1){
-                        item.group_closed = true;
-                    }
-
-
-                    // HTML
-                    var mystock = '';
-                    mystock += '' +
-                    '<div class="mystock-container item'+' drag-item active'+' live'+
-                                (item.group_closed && item.group_closed===true ? ' group-closed' : '')+
-                            '" '+
-                            'draggable="true" '+
-                            'data-stock-id="'+item.wallet_entities_id+'" '+
-                            'data-position='+item.position+' '+
-                            'data-symbol="'+item.symbol+'" '+
-                            'data-market="'+item.market+'" '+
-                            'data-price="'+item.price+'" '+
-                            'data-visibility="visible" '+                        
-                            (item.group === 'child' ? 'data-group="child" data-group-id="'+item.group_id+'" ' : '') +
-                            'data-transaction-type="'+item.type_of_transaction+'" '+
-                        '>';
+                      
                 
-                    
-                    mystock += '' +                
-                            '<div class="group-info">'+
-                                (item.group_closed && item.group_closed===true ? 
-                                    '<div class="icon icon-chain"></div>' : 
-                                    '<div class="icon icon-chain-broken"></div>')+
-                            '</div>'+
-                            '<div class="mystock">' +
-                                '<div class="mystock-view">' +
-                                    '<div class="symbol view-action">'+item.symbol+'</div>'+
-                                    '<div class="logo-container">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
-                                    '<div class="results view-action" data-results="neutral">' +
-                                        '<span class="label">Total & Margin:</span>'+
-                                        '<div class="info">'+
-                                            '<span class="price total"></span>'+
-                                            '<span class="currency display-currency">'+settings.display_currency+'</span>' +
-                                        '</div>'+
-                                        '<div class="additionals">'+                                    
-                                            '<span class="price margin"></span>'+
-                                            '<span class="percentage margin-percentage with-brackets"></span>'+
-                                            '<div class="icon icon-arrow-up"></div>'+
-                                        '</div>'+                                                                                       
-                                    '</div>';
+                wallet.symbols = [];
+                load_apexcharts(function(){
+                    $.each(wallet.items, function(i, item){ 
 
-                                    // Current price & Trend
-                                    if (item.type_of_transaction==='active'){
-                                        mystock += 
-                                        '<div class="current view-action">'+
-                                            '<span class="label updated-at"></span>'+
-                                            '<div class="info">'+
-                                                '<span class="current-price"></span>'+
-                                                '<span class="currency market-currency">'+item.market_currency+'</span>' +
-                                            '</div>'+
-                                        '</div>'+                                                                    
-                                        '<div class="stock-graph-container view-action">'+
-                                            '<span class="label">Trend: '+settings.wallet_trend_size+'</span>'+                                     
-                                            '<div class="stock-graph-line" id="trend-'+item.wallet_entities_id+'"></div>'+
-                                        '</div>';
-                                    }
-                                                                        
-                                    mystock += '<div class="visibility">';
-                                        mystock +='<div class="switcher"><span></span></div>';
-                                        if (me.username === wallet.username && item.public === 0){
-                                            mystock += '<div class="silent-transaction icon-user-secret"></div>';
-                                        }                                        
-                                    mystock +='</div>'+
-                                '</div>';
-                        
-                        
-                                
-                                mystock += 
-                                '<div class="mystock-edit" data-stock-id="'+item.wallet_entities_id+'" data-stock-type="">' +
-                                    
-                                    '<h3>Edit: '+item.symbol.toUpperCase()+'</h3>'+
-                                    '<input type="hidden" value="'+item.symbol+'" class="symbol" name="symbol" />' +
-                                    '<div class="field"><span class="label">Purchased price</span>  <input type="number" value="'+item.purchased_price+'" placeholder="Price"      class="purchased_price" name="purchased_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
-                                    '<div class="field"><span class="label">Purchased qty</span>    <input type="number" value="'+item.purchased_qty+'"   placeholder="Qty"        class="purchased_qty"   name="purchased_qty"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
-                                    '<div class="field"><span class="label">Purchased date</span>   <input type="date"   value="'+item.purchased_date+'"  placeholder="yyyy-mm-dd" class="purchased_date"  name="purchased_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
-                                    '';
+                        wallet.symbols.push(item.symbol.toUpperCase());           
+                        item.last_updated_at = iosDatesFix(item.last_updated_at);
 
-                                    // Sold fields
-                                    if (item.type_of_transaction==='sold'){
-                                        mystock += ''+
-                                        '<div class="sep"></div>'+
-                                        '<div class="field"><span class="label">Sold price</span>       <input type="number" value="'+item.sold_price+'" placeholder="Sold Price"  class="sold_price" name="sold_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
-                                        '<div class="field"><span class="label">Sold date</span>        <input type="date" value="'+item.sold_date+'" placeholder="Sold Date"      class="sold_date"  name="sold_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
-                                        '';
-                                    }
+                        // GROUPS 
+                        item.group_id = item.wallet_entities_id;
 
-                                    mystock += ''+
-                                    '<div class="actions">'+
-                                        '<div class="buy"  data-action="buy-more">More</div>'+
-                                        '<div class="sell" data-action="sell-it">Sell</div>'+
-                                    '</div>'+
-                                    '<input type="hidden" value="'+item.market_currency+'" class="currency" />'+
-                                    '<input type="hidden" value="'+item.price+'" class="price" />'+
-                                    '<input type="hidden" value="'+item.price_change+'" class="price_change" />'+
-                                    '<input type="hidden" value="'+item.purchased_total+'" class="purchased_total" />'+
-                                    '<input type="hidden" value="'+item.sold_total+'" class="sold_total" />'+
-                                    '<input type="hidden" value="'+item.margin+'" class="margin" />'+
-                                '</div>';
-                                
-                                
-                            mystock +=
-                            '</div>' +
-                            '<div class="visibility-layer"><div class="icon icon-visibility_off"></div></div>';                        
-                            
-                            if (me.username === wallet.username){
-                                mystock += 
-                                '<div class="edit">'+
-                                    (item.public === 0 ? '<div class="icon icon-trash mystock-delete"></div>' : '')+
-                                    '<div class="icon icon-create"></div>'+                            
-                                    '<div class="icon icon-move"></div>'+
-                                '</div>';
-                            }
-                    
-                        mystock +=
-                        '</div>';                                     
+                        if ((item.type_of_transaction==='active') && $(".wallet-items.active [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])").length){ 
+                            var master = $(".wallet-items.active [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])");
 
-                    if (item.type_of_transaction==='active'){ $(".wallet-items.active").append(mystock); }
-                    if (item.type_of_transaction==='sold')  { $(".wallet-items.sold").append(mystock); }
+                            item.group_id = $(master).attr('data-stock-id');
+                            item.group = "child";                     
+                            $(master).attr('data-group','master');
+                            $(master).attr('data-group-id',item.group_id);    
+                        }
+                        if ((item.type_of_transaction==='sold') && $(".wallet-items.sold [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])").length){                    
+                            var master = $(".wallet-items.sold [data-symbol='"+item.symbol+"'][data-market='"+item.market+"']:not([data-group='child'])");
 
-
-                    // Trend sparkline graph
-                    if (item.type_of_transaction==='active' && item.trend && settings.wallet_trend_size){
-
-                        var data;
-                        switch (settings.wallet_trend_size){
-                            case '5-days':   data = item.trend.daily.length ? item.trend.daily.reverse() : null; break;
-                            case '5-weeks':  data = item.trend.weekly.length ? item.trend.weekly.reverse() : null; break;
-                            case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
+                            item.group_id = $(master).attr('data-stock-id');
+                            item.group = "child";                     
+                            $(master).attr('data-group','master');
+                            $(master).attr('data-group-id',item.group_id);                                        
+                        }
+                        if (settings.hasOwnProperty('closed_groups') && $.inArray(String(item.group_id),settings.closed_groups)!==-1){
+                            item.group_closed = true;
                         }
 
-                        let options = {
-                            series: [{ data: data }],
-                            colors: [settings.design.color_base],
-                            chart: {
-                                height: 50,
-                                type: 'area',
-                                zoom: { enabled: false },                        
-                                toolbar: { show: false },
-                                sparkline: { enabled: true },
-                            },
-                            dataLabels: { enabled: false },
-                            stroke: {
-                                curve: 'smooth',
-                                width: 1
-                            },
-                            grid: { row: { colors: ['transparent'] } },
-                            tooltip: { enabled: false }
-                        };
+                        // HTML
+                        var mystock = '';
+                        mystock += '' +
+                        '<div class="mystock-container item'+' drag-item active'+' live'+
+                                    (item.group_closed && item.group_closed===true ? ' group-closed' : '')+
+                                '" '+
+                                'draggable="true" '+
+                                'data-stock-id="'+item.wallet_entities_id+'" '+
+                                'data-position='+item.position+' '+
+                                'data-symbol="'+item.symbol+'" '+
+                                'data-market="'+item.market+'" '+
+                                'data-price="'+item.price+'" '+
+                                'data-visibility="visible" '+                        
+                                (item.group === 'child' ? 'data-group="child" data-group-id="'+item.group_id+'" ' : '') +
+                                'data-transaction-type="'+item.type_of_transaction+'" '+
+                            '>';
 
 
-                        new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
-                        
+                        mystock += '' +                
+                                '<div class="group-info">'+
+                                    (item.group_closed && item.group_closed===true ? 
+                                        '<div class="icon icon-chain"></div>' : 
+                                        '<div class="icon icon-chain-broken"></div>')+
+                                '</div>'+
+                                '<div class="mystock">' +
+                                    '<div class="mystock-view">' +
+                                        '<div class="symbol view-action">'+item.symbol+'</div>'+
+                                        '<div class="logo-container view-action">' + (item.logo ? '<img src="'+item.logo+'" class="logo" alt="logo-'+item.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+item.symbol+'</div>') + '</div>'+                                       
+                                        '<div class="results view-action" data-results="neutral">' +
+                                            '<span class="label">Total & Margin:</span>'+
+                                            '<div class="info">'+
+                                                '<span class="price total"></span>'+
+                                                '<span class="currency display-currency">'+settings.display_currency+'</span>' +
+                                            '</div>'+
+                                            '<div class="additionals">'+                                    
+                                                '<span class="price margin"></span>'+
+                                                '<span class="percentage margin-percentage with-brackets"></span>'+
+                                                '<div class="icon icon-arrow-up"></div>'+
+                                            '</div>'+                                                                                       
+                                        '</div>';
+
+                                        // Current price & Trend
+                                        if (item.type_of_transaction==='active'){
+                                            mystock += 
+                                            '<div class="current view-action">'+
+                                                '<span class="label updated-at"></span>'+
+                                                '<div class="info">'+
+                                                    '<span class="current-price"></span>'+
+                                                    '<span class="currency market-currency">'+item.market_currency+'</span>' +
+                                                '</div>'+
+                                            '</div>'+                                                                    
+                                            '<div class="stock-graph-container view-action">'+
+                                                '<span class="label">Trend: '+settings.wallet_trend_size+'</span>'+                                     
+                                                '<div class="stock-graph-line" id="trend-'+item.wallet_entities_id+'"></div>'+
+                                            '</div>';
+                                        }
+
+                                        mystock += '<div class="visibility">';
+                                            mystock +='<div class="switcher"><span></span></div>';
+                                            if (me.username === wallet.username && item.public === 0){
+                                                mystock += '<div class="silent-transaction icon-user-secret"></div>';
+                                            }                                        
+                                        mystock +='</div>'+
+                                    '</div>';              
+
+                                    mystock += 
+                                    '<div class="mystock-edit" data-stock-id="'+item.wallet_entities_id+'" data-stock-type="">' +
+
+                                        '<h3>Edit: '+item.symbol.toUpperCase()+'</h3>'+
+                                        '<input type="hidden" value="'+item.symbol+'" class="symbol" name="symbol" />' +
+                                        '<div class="field"><span class="label">Purchased price</span>  <input type="number" value="'+item.purchased_price+'" placeholder="Price"      class="purchased_price" name="purchased_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                        '<div class="field"><span class="label">Purchased qty</span>    <input type="number" value="'+item.purchased_qty+'"   placeholder="Qty"        class="purchased_qty"   name="purchased_qty"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                        '<div class="field"><span class="label">Purchased date</span>   <input type="date"   value="'+item.purchased_date+'"  placeholder="yyyy-mm-dd" class="purchased_date"  name="purchased_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                        '';
+
+                                        // Sold fields
+                                        if (item.type_of_transaction==='sold'){
+                                            mystock += ''+
+                                            '<div class="sep"></div>'+
+                                            '<div class="field"><span class="label">Sold price</span>       <input type="number" value="'+item.sold_price+'" placeholder="Sold Price"  class="sold_price" name="sold_price"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                            '<div class="field"><span class="label">Sold date</span>        <input type="date" value="'+item.sold_date+'" placeholder="Sold Date"      class="sold_date"  name="sold_date"'+(item.public === 1 ? ' disabled':'')+' /></div>' +
+                                            '';
+                                        }
+
+                                        mystock += ''+
+                                        '<div class="actions">'+
+                                            '<div class="buy"  data-action="buy-more">More</div>'+
+                                            '<div class="sell" data-action="sell-it">Sell</div>'+
+                                        '</div>'+
+                                        '<input type="hidden" value="'+item.market_currency+'" class="currency" />'+
+                                        '<input type="hidden" value="'+item.price+'" class="price" />'+
+                                        '<input type="hidden" value="'+item.price_change+'" class="price_change" />'+
+                                        '<input type="hidden" value="'+item.purchased_total+'" class="purchased_total" />'+
+                                        '<input type="hidden" value="'+item.sold_total+'" class="sold_total" />'+
+                                        '<input type="hidden" value="'+item.margin+'" class="margin" />'+
+                                    '</div>';
+
+                                mystock +=
+                                '</div>' +
+                                '<div class="visibility-layer"><div class="icon icon-visibility_off"></div></div>';                        
+
+                                if (me.username === wallet.username){
+                                    mystock += 
+                                    '<div class="edit">'+
+                                        (item.public === 0 ? '<div class="icon icon-trash mystock-delete"></div>' : '')+
+                                        '<div class="icon icon-create"></div>'+                            
+                                        '<div class="icon icon-move"></div>'+
+                                    '</div>';
+                                }
+
+                            mystock +=
+                            '</div>';                                     
+
+                        if (item.type_of_transaction==='active'){ $(".wallet-items.active").append(mystock); }
+                        if (item.type_of_transaction==='sold')  { $(".wallet-items.sold").append(mystock); }
+
+
+                        // Trend sparkline graph
+                        if (item.type_of_transaction==='active' && item.trend && settings.wallet_trend_size){
+
+                            var data;
+                            switch (settings.wallet_trend_size){
+                                case '5-days':   data = item.trend.daily.length ? item.trend.daily.reverse() : null; break;
+                                case '5-weeks':  data = item.trend.weekly.length ? item.trend.weekly.reverse() : null; break;
+                                case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
+                            }
+                            console.log(data);
+
+                            let options = {
+                                series: [{ data: data }],
+                                colors: [settings.design.color_base],
+                                chart: {
+                                    height: 50,
+                                    type: 'area',
+                                    zoom: { enabled: false },                        
+                                    toolbar: { show: false },
+                                    sparkline: { enabled: true },
+                                },
+                                dataLabels: { enabled: false },
+                                stroke: {
+                                    curve: 'smooth',
+                                    width: 2
+                                },
+                                grid: { row: { colors: ['transparent'] } },
+                                tooltip: { enabled: false }
+                            };
+
+                            if (settings.wallet_layout === 'grid'){
+                                new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
+                            }
+
+
+                        }
+
+                    });
+                
+                
+                    if ($('.wallet-items.active .mystock-container').length === 0){
+                        $('.wallet-items.active').html('<div class="no-transactions"><div class="icon icon-account_balance_wallet"></div><div class="title">No active transactions</div></div>');
                     }
+                    if ($('.wallet-items.sold .mystock-container').length === 0){
+                        $('.wallet-items.sold').html('<div class="no-transactions"><div class="icon icon-auction"></div><div class="title">Nothing sold</div></div>');
+                    }
+
+                    reload();
+                
+                    // Moves                
+                    if (wallet.moves.length>0){
+                        $('.wallet-items.moves').html('');
+                        $.each(wallet.moves, function(i, move){
+
+                            let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
+                            let logo = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('.logo-container').html();
+                            let name = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol')+' ('+$('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market')+')';
+                            let symbol = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol');
+                            let market = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market');
+
+
+                            let total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.purchased_total').val();
+                            let margin  = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.margin').val();
+
+                            //$(el).append(wallet.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+wallet.username+'"><img src="'+wallet.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '<a class="username" href="/players/view/'+wallet.username+'">'+wallet.username+'</a>');
+                            $(el).append('<a class="logo-container" href="/entities/'+market+'/'+symbol+'">'+logo+'</a>');
+                            $(el).append('<div class="tags"></div>');
+
+                            $(el).find('.tags').append('<div class="tag '+move.action+''+((move.action === 'sell' && margin>=0) ? ' with-profit' : ' with-lost')+'">'+move.action+'</div>');
+                            $(el).find('.tags').append('<div class="tag long">Long</div>');
+                            $(el).find('.tags').append('<div class="tag leverage">x1</div>');
+
+                            $(el).append('<div class="totals"></div>');
+                            $(el).find('.totals').append('<div class="date">'+move.date+'</div>');
+                            $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+
+                            if (move.action === 'sell'){
+                                $(el).find('.totals').append('<div class="profit'+(margin < 0 ? ' with-lost' : '')+'">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                            }
+
+
+                            /*
+                            if (move.action === 'sell'){
+                                total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.sold_total').val();
+                            }                        
+
+                            $(el).append(logo);
+                            $(el).append('<div class="info"></div>');
+                            $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+name+'</div>');
+                            $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
+
+                            $(el).append('<div class="totals"></div>');
+                            $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+
+                            if (move.action === 'sell'){
+                                $(el).find('.totals').append('<div class="profit">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                            }
+                            */
+                            $('.wallet-items.moves').append(el);                                    
+                        });                    
+                    }else{                    
+                        $('.wallet-items.moves').html('<div class="no-transactions"><div class="icon icon-shopping_cart"></div><div class="title">No moves</div></div>');                
+                    } 
+
+
+                    // Funds
+                    var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
+                    $('.wallet.funds .funds-total').text(funds_total);
+                    $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
 
                 });
                 
-                if ($('.wallet-items.active .mystock-container').length === 0){
-                    $('.wallet-items.active').html('<div class="no-transactions"><div class="icon icon-account_balance_wallet"></div><div class="title">No active transactions</div></div>');
-                }
-                if ($('.wallet-items.sold .mystock-container').length === 0){
-                    $('.wallet-items.sold').html('<div class="no-transactions"><div class="icon icon-auction"></div><div class="title">Nothing sold</div></div>');
-                }
-                
-                reload();
-
-                // Moves                
-                if (wallet.moves.length>0){
-                    $('.wallet-items.moves').html('');
-                    $.each(wallet.moves, function(i, move){
-
-                        let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
-                        let logo = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('.logo-container').html();
-                        let name = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol')+' ('+$('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market')+')';
-
-                        let total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.purchased_total').val();
-                        let margin  = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.margin').val();
-
-                        if (move.action === 'sell'){
-                            total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.sold_total').val();
-                        }                        
-
-                        $(el).append(logo);
-                        $(el).append('<div class="info"></div>');
-                        $(el).find('.info').append('<div class="action"><span>'+move.action+'</span>: '+name+'</div>');
-                        $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
-
-                        $(el).append('<div class="totals"></div>');
-                        $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
-
-                        if (move.action === 'sell'){
-                            $(el).find('.totals').append('<div class="profit">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
-                        }
-
-                        $('.wallet-items.moves').append(el);                                    
-                    });                    
-                }else{                    
-                    $('.wallet-items.moves').html('<div class="no-transactions"><div class="icon icon-shopping_cart"></div><div class="title">No moves</div></div>');                
-                } 
-                
-                // Funds
-                var funds_total = (parseFloat(wallet.funds_total)*currencies[settings.display_currency]).toFixed(2);
-                $('.wallet.funds .funds-total').text(funds_total);
-                $('.wallet.funds .funds-total-base').text(wallet.funds_total+' $');
-
-
-
                 // Live
                 /*
                 var live = new WebSocket('wss://stocktok.online:8443');
@@ -323,7 +347,6 @@
                     }, 1500);
 
                 };
-
                 live.onmessage = function(msg) {
                                         
                     var data = msg.data;
@@ -339,16 +362,15 @@
                         live_prices[item.s].price = item.p;
                         live_prices[item.s].live = true;
                         live_prices[item.s].last_updated_at = format_datetime(item.t);
-                    }
-                        
+                    }                        
                     //reload();
-                    //if (config.debug) console.log(item.s+': '+item.p);
-                               
+                    //if (config.debug) console.log(item.s+': '+item.p);                             
                 };
                 live.onerror = function(e){
                     if (config.debug) console.log(e);
                 };                                                
                 */
+               
             },
             error: function(response){
                 if (config.debug) console.log(response);
@@ -365,8 +387,6 @@
         }
         return 1;
     }
-    
-    
 
     function reload(){
 
@@ -375,9 +395,6 @@
         wallet.sold_purchased   = 0;
         wallet.sold_total       = 0;
         wallet.sold_margin      = 0;
-        
-        
-        
 
         var groups = [];
         $.each(wallet.items,function(symbol,item){
@@ -450,8 +467,7 @@
             $(element).find('.updated-at').text(item.last_updated_at);
 
         });
-        
-        
+ 
         wallet.sold_margin_percentage = (wallet.sold_margin / (wallet.sold_purchased ? wallet.sold_purchased : 1) * 100).toFixed(2);
         if (!wallet.sold_margin_percentage) wallet.sold_margin_percentage = 0;
 
@@ -475,7 +491,6 @@
         $('.wallet.active .results .margin').text(format_price(wallet.current_margin * currencies[settings.display_currency],2));
         $('.wallet.sold   .results .total ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2));
         $('.wallet.sold   .results .margin').text(wallet.sold_margin_percentage+'%');      
-
 
         var targets = document.querySelectorAll('.drag-container .icon-move');
         [].forEach.call(targets, function(target) {

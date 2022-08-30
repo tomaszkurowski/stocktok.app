@@ -1,4 +1,23 @@
-    
+    jQuery.event.special.touchstart = {
+        setup: function( _, ns, handle ) {
+            this.addEventListener("touchstart", handle, { passive: !ns.includes("noPreventDefault") });
+        }
+    };
+    jQuery.event.special.touchmove = {
+        setup: function( _, ns, handle ) {
+            this.addEventListener("touchmove", handle, { passive: !ns.includes("noPreventDefault") });
+        }
+    };
+    jQuery.event.special.wheel = {
+        setup: function( _, ns, handle ){
+            this.addEventListener("wheel", handle, { passive: true });
+        }
+    };
+    jQuery.event.special.mousewheel = {
+        setup: function( _, ns, handle ){
+            this.addEventListener("mousewheel", handle, { passive: true });
+        }
+    };  
     function toggleHeading(){
         
         if ($('.heading > *').length>0){
@@ -136,63 +155,7 @@
             $('.slick-initialized').slick("slickSetOption","swipe",false); 
         }           
     }
-    
-    var swipingTimer,
-    doneSwipingInterval = 250;
-    function swiper(options={}){
-        var max = 3;
-        var it  = 0;
-        
-        if (max>0){
-            $('<div class="page-views-slider">'+
-                    '<div class="range-icons">'+                                                
-                        '<div class="icon icon-line-chart active"></div>'+
-                        '<div class="icon icon-info"></div>'+
-                        '<div class="icon icon-finance"></div>'+
-                        '<div class="icon icon-read"></div>'+
-                    '</div>'+
-                    '<input type="range" min="0" max="'+max+'" value="'+(options.initial ? options.initial : 0)+'"  />'+
-              '</div>')
-              .insertBefore('.hamburger-container');
-
-            $('.footer-bottom .page-views-slider input').css('width',((max+1)*30)+'px').bind('input',function(){
-
-                var val = $(this).val();
-                
-                if (swipingTimer) {
-                    clearTimeout(swipingTimer);
-                }
-                swipingTimer = setTimeout(function () {
-                    if (config.debug) console.log(val);
-                    $('.slick-initialized').slick('slickGoTo',val);
-                    $('.page-views-slider .range-icons .icon').removeClass('active');
-                    $('.page-views-slider .range-icons').children('.icon').eq(val).addClass('active');
-                    
-                }, doneSwipingInterval);            
-
-            });
-        }else{
-            $('[data-key="swipeable"]').remove(); // Nothing to swipe
-        }
-        
-        //if (options.initial) $('.slick-initialized').slick('slickGoTo',options.initial);
-    }
-    
-    $(document).off('click', '.range-icons .icon');
-    $(document).on('click','.range-icons .icon',function(){
-        
-        var clicked = $(this).attr("class");
-        $('.range-icons .icon').each(function(val){
-            if ($(this).attr("class") === clicked){
-                $('.page-views-slider input').val(val);
-                $('.slick-initialized').slick('slickGoTo',val);
-                $('.page-views-slider .range-icons .icon').removeClass('active');
-                $('.page-views-slider .range-icons').children('.icon').eq(val).addClass('active');                
-            }
-        });
-    });
-    
-    
+ 
     function editable(){
         if (settings.editable === 'true') $('body').addClass('editable');
         else $('body').removeClass('editable'); 
@@ -205,7 +168,7 @@
 
         var lastScrollTop = 0, delta = 15;
         $(window).scroll(function(){
-            if (config.debug) console.log('scrolling');
+            console.log('scrolling');
             clearTimeout($.data(this, 'scrollTimer'));
 
             var nowScrollTop = $(this).scrollTop();

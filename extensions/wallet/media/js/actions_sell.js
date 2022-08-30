@@ -81,11 +81,7 @@
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
        
     }
-        
-    
-    
 
-    
     function sell_step2_html(transactions){
         
         $('.view-sell:not(.slick-cloned) .transactions .transaction:not(.template)').remove();
@@ -119,17 +115,11 @@
         sell_reload_totals();        
     }
     
-    
-    
-    
-    
     // View Sell - Step 2
     function sell_step2(item){
         
         $('.popup-btn.step2-btn').remove();       
-        //$('.popup.add-new-stock .views').slick('slickGoTo',1);
-        
-        
+
         // Reset tabs
         $('.tab.buy').removeClass('active');
         $('.tab.sell').addClass('active');
@@ -188,10 +178,7 @@
         button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ sell_step1(); });
     
     }
-    
-    
-    
-    
+
     function sell_step1_html(transactions){
         
         $('[data-step="1"] .items').html('');
@@ -203,17 +190,13 @@
             var item = $('<div></div>').addClass('item');
             $(item).attr('data-symbol',transaction.symbol);
             $(item).attr('data-market',transaction.market);
-            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" alt="logo-'+transaction.symbol+'" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
+            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" alt="logo-'+transaction.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
 
             $('[data-step="1"] .items').append($(item));
         });
         
     }
-    
-    
-    
-    
-    
+
     // View Sell - Step 1
     function sell_step1(){
         
@@ -253,9 +236,6 @@
         $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
 
     }
-    
-
-    
     
     // Buy/Sell - Save
     function sell_save(){                

@@ -21,10 +21,8 @@
                 $("nav").html(data).addClass('initiated'); 
                 if (callback) callback();
                 
-            });
-            
+            });  
         });                     
-        
     }
     
     function reload_ui(){
@@ -67,19 +65,15 @@
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
-                        
-
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
                         }else{
                             $('.nav .avatar-container').html('<div class="avatar avatar-user"></div>').css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
-                        }
-                                                
-                        
+                        } 
                     }
 
                     // ACL 
-                    if (response.me.hasOwnProperty('username')){
+                    if (response.me.hasOwnProperty('username') || mvc.model === 'entities' || mvc.model === 'players'){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
                             $.getScript('/extensions/cms/cms.js?version='+config.version);
@@ -92,9 +86,7 @@
                 },
                 error: function(e){ if (config.debug) console.log(e); }
             });       
-        }else{ $.getScript('/extensions/me/me.js?version='+config.version); } 
-        
-              
+        }else{ $.getScript('/extensions/me/me.js?version='+config.version); }     
     }
     
     function load_page(url,push_url = false){

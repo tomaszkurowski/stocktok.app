@@ -26,7 +26,8 @@
        top:100px;
    }
    .stock-view .results-info:not(.collapsed) h2 {
-       font-size:22px;
+       font-size:20px;
+       line-height:28px;
        margin-bottom:15px;
    }
    .stock-view .results-info-table .label, .stock-view .results-info-table .value{
@@ -36,6 +37,10 @@
    .range-selector {
        max-width:360px;
    }
+   
+   .with-popup .footer-container { left:auto; }
+  
+   
 }
 
 
@@ -130,7 +135,7 @@
     .items-container .item {
         width:calc(16.6666% - 10px);
     }
-    .moves .move { width:calc(33.3333% - 10px); }
+    .moves .move { width:calc(20% - 10px); }
 
    .stock-view .results-info .logo {
        max-height:70px;       
@@ -172,23 +177,14 @@
         border-radius: var(--border-radius1);
     }
     
-    .wallets .wallet { position:fixed; right:5px; width:248px; z-index:2 }
-    
-    
-    .wallet[data-id="0"] { bottom:80px; right:5px; }
-    .wallet[data-id="1"] { bottom:80px; right:265px; }
-    .wallet[data-id="2"] { bottom:215px; right:5px; }
-    
-    [data-active="1"] .wallet[data-id="0"] { bottom:215px; right:5px; }
-    [data-active="1"] .wallet[data-id="1"] { bottom:80px; right:5px; }
-    [data-active="1"] .wallet[data-id="2"] { bottom:80px; right:265px; }
-    
-    [data-active="2"] .wallet[data-id="0"] { bottom:80px; right:265px; }
-    [data-active="2"] .wallet[data-id="1"] { bottom:215px; right:5px; }
-    [data-active="2"] .wallet[data-id="2"] { bottom:80px; right:5px; }    
-    
-    
-    .wallets.mini .wallet[data-id="2"] { bottom:147px; }
+    .wallets {
+        flex-direction:column-reverse;
+        position:fixed;
+        z-index:2;
+        width:272.5px;
+        right:0;
+        bottom:75px;
+    }
     
     .wallet-views { width:calc(100vw - 280px); }    
      
@@ -218,7 +214,13 @@
 
     .items-container .item {
         width:calc(12.5% - 10px);
-    }   
+    } 
+    .players .box {
+        width:calc(12.5% - 10px);
+    }
+    .moves .move {
+        width:calc(12.5% - 10px);
+    }
     
     .view-grid .mystock-container, .view-box .mystock-container {
         width: calc(12.5% - 10px);
@@ -226,7 +228,6 @@
     .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
         width: calc(20% - 10px);
     }  
-    
     
     .view-list .wallet-items .mystock-container, .view-list-small .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
         width: calc(50% - 10px);

@@ -261,12 +261,12 @@
         
         if (me.avatar){
             if (me.avatar_type === 'image'){
-                $('.avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
+                $('.avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' loading='lazy' />");
             }else{
                 $('.avatar-container .avatar').removeClass('avatar-user').addClass('avatar-'+me.avatar).css('color',(me.avatar_color ? me.avatar_color : 'var(--color-bg)'));            
             }
         } 
-        if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" alt="country-'+me.country+'" />');
+        if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" alt="country-'+me.country+'" loading="lazy" />');
         
         if (me.public === 0){ $('[data-row="restart-game"]').hide(); }
         if (me.bio){ $('#bio').val(me.bio); }
