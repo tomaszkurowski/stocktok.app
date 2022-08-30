@@ -1,7 +1,7 @@
 <?php 
 
 header("Access-Control-Allow-Origin: *");
-header("Content-Security-Policy: default-src 'self' www.googletagmanager.com data.stocktok.online api.stocktok.online js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' www.googletagmanager.com *.google-analytics.com code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
+header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.google-analytics.com data.stocktok.online api.stocktok.online js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' www.googletagmanager.com *.google-analytics.com code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
@@ -47,11 +47,11 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.18"></script>
+    <script src="/media/js/internal.js?version=1.5.19"></script>
     <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.12"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
-    <?php if ($config['mode'] === 'production'): ?>
+    <?php if ($config['mode'] !== 'production'): ?>
     
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
@@ -81,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.181',
+            version:    '1.1.182',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
