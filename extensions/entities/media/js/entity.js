@@ -376,8 +376,17 @@ $(document).ready(function(){
             $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
             $('.stock-view .results-info-table .value.market').text(stock.market);
 
-            $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>');
-            $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>');
+            if (stock.sector.length > 0){
+                $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>').show(); 
+            }else{
+                $('.stock-view .results-info-table .value.sector, .stock-view .results-info-table .label-sector').hide();
+            }
+            if (stock.sector.length > 0){
+                $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>').show();
+            }else{
+                $('.stock-view .results-info-table .value.industry, .stock-view .results-info-table .label-industry').hide();
+            }
+            if (!stock.volume){ $('.stock-view .results-info-table .value.current-volume, .stock-view .results-info-table .label-current-volume').hide(); }
 
             $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
             $('.stock-view .results-info .price-preview .currency').text(stock.currency);

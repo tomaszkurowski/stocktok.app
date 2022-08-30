@@ -2762,12 +2762,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     padding:2.5px 10px;
     flex-basis:20%;
 }
+.stock-view .results-info-table .label {
+    white-space:nowrap;
+}
 .stock-view .results-info-table .value{
     font-family:'gotham-bold';
     text-overflow:ellipsis;
     overflow:hidden;
     flex-basis:30%;
+    text-transform:capitalize;
 }
+.stock-view .results-info-table .value.symbol { text-transform:uppercase; }
 .stock-view .results-info .current-price { color:var(--color-base); }
 
 .stock-view .chart.stock-price-container {
