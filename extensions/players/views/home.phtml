@@ -172,24 +172,25 @@
                         
                         var total = move.purchased_total;
                         if (move.action === 'sell') total = move.sold_total;
-                        
+                                                
                         let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
-                        if (move.avatar_type === 'image'){
-                            $(el).append('<div class="avatar-container"><img src="'+move.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></div>');
-                            $(el).find('.avatar-container').bind('click',function(){
-                                location.href='/players/view/'+move.username;
-                            });
-                        } 
                         
-                        $(el).append('<div class="info"></div>');
-                        $(el).find('.info').append('<div class="action">'+move.action+': <span class="symbol">'+move.symbol+'</span> ('+move.market+')</div>');
-                        $(el).find('.action .symbol').bind('click',function(){
-                                location.href='/entities/'+move.market+'/'+move.symbol;
-                            });
+                        $(el).append('<div class="column column1"></div>');                        
+                        $(el).append('<div class="column column2"></div>');
+                        $(el).append('<div class="column column3"></div>');
                         
-                        $(el).find('.info').append('<div class="date label">'+move.date+'</div>');
+                        
+                        $(el).find('.column1').append(move.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+move.username+'"><img src="'+move.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '<a class="username" href="/players/view/'+move.username+'">'+move.username+'</a>');
+                        
+                        $(el).find('.column2').append('<a class="logo-container" href="/entities/'+move.market+'/'+move.symbol+'">'+(move.logo ? '<img src="'+move.logo+'" class="logo" alt="logo-'+move.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+move.symbol+'</div>')+'</a>');
+                        $(el).find('.column3').append('<div class="tags"></div>');
+                                                                        
+                        $(el).find('.tags').append('<div class="tag '+move.action+'">'+move.action+'</div>');
+                        $(el).find('.tags').append('<div class="tag long">Long</div>');
+                        $(el).find('.tags').append('<div class="tag leverage">x1</div>');
                         
                         $(el).append('<div class="totals"></div>');
+                        $(el).find('.totals').append('<div class="date">'+move.date+'</div>');
                         $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                         
                         if (move.action === 'sell'){

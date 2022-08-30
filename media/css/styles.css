@@ -1194,8 +1194,8 @@ body.scrolling-up .mystock-container{
 }
 .mystock .logo { 
     display:flex; 
-    max-height:50px; 
-    max-width:70px;
+    max-height:40px; 
+    max-width:40px;
     margin-left:0px;
     
     border-radius:5px;
@@ -2745,6 +2745,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .stock-view .results-info h2 {
     flex-grow:1;
+    line-height:24px;
 }
 
 .stock-view .results-info .icon { margin-right:-5px; margin-left:0; transition:all 0.3s ease-in; }
@@ -3659,7 +3660,6 @@ main,
 }
 .wallet-items.funds {
     display:flex;
-    flex-direction:column;
 }
 .wallet-items.funds .fund:first-child {
     border-top-left-radius:var(--border-radius1);
@@ -3704,10 +3704,6 @@ main,
     display:block;
 }
 
-.wallet-items.funds .info {
-    margin:0 15px;
-    text-align:right;
-}
 .wallet-items.funds .btn.primary {
     align-self:flex-end;
 }
@@ -4100,11 +4096,10 @@ input:checked + .switch:before {
 }
 .page-views-slider .range-icons .active { opacity:0.3 }
 
-.players {
-}
 .players .results {
     display:flex;
     flex-wrap:wrap;
+    align-items:stretch
 }
 
 
@@ -4150,7 +4145,6 @@ input:checked + .switch:before {
 }
 
 .players .box .total {
-    font-family: 'gotham-bold';
     margin: 0px 0 15px;
 }
 
@@ -4233,25 +4227,37 @@ input:checked + .switch:before {
     max-height:40px;
 }
 
-.players .moves .move {
-    width:100%;
+.moves .move {
     background-color:var(--color-bg2);
     padding:15px;
-    margin-bottom:1px;
 }
-.players .moves .move:first-child {
-    border-top-left-radius:var(--border-radius1);
-    border-top-right-radius:var(--border-radius1);
-}
-.players .moves .move:last-child {
-    border-bottom-left-radius:var(--border-radius1);
-    border-bottom-right-radius:var(--border-radius1);    
-}
-.players .moves .move .header {
+.moves .move .username {
+    color: var(--color-base);
     font-family:'gotham-bold';
-    margin-bottom:10px;
-    font-size:var(--size-regular);
+    max-width:69px;
+    text-overflow:ellipsis;
+    overflow:hidden;
 }
+.moves .move .tags {
+    display:inline-flex;
+    align-items:center;
+    margin:0;
+}
+.moves .move .tags .tag { 
+    margin-right:5px; 
+    font-size:var(--size-small); 
+    padding:2px 5px; 
+    border-radius:var(--border-radius2); 
+    background-color:var(--color-base); 
+    color:var(--color-base-invert); 
+    white-space:nowrap; 
+    text-transform:capitalize;
+}
+.tags .tag.buy      { background-color:#e38800 !important; }
+.tags .tag.sell     { background-color:#00c26e !important; }
+.tags .tag.long     {  }
+.tags .tag.leverage {  }
+
 .players .moves .move .body {
     display:flex;
     align-items:center;
@@ -4261,9 +4267,6 @@ input:checked + .switch:before {
     font-family:'gotham-bold';
     color:var(--color-base);
     font-size:var(--size-regular);
-}
-.players .moves .move .comment {
-    margin-top:10px;
 }
 .player-view {
     padding-bottom:80px;
@@ -4431,36 +4434,41 @@ input:checked + .switch:before {
 .moves .move {
     width: 100%;
     display: flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
     margin:0 5px 10px;    
     border-radius:var(--border-radius1);
+    flex-wrap:wrap;
 }
+.moves .move .column {
+    width:33.3333%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
 .moves .move .logo, .moves .move .avatar {
-    max-width:40px;
-    border-radius:var(--border-radius1);
+    width:45px;
+    border-radius:var(--border-radius1);  
 }
-.moves .move .info {
-    margin-left:15px;
-    flex-grow:1;
-    text-align:left;
-}
-.moves .move .action {
-    font-family: 'gotham-bold';
-    font-size: var(--size-regular);    
-    text-transform: capitalize;
-    margin-bottom: 5px;
-}
-.moves .move .action span {
-    color: var(--color-base);
-}
+
 .moves .move .totals {
+    border-top:1px solid var(--color-bg);
+    padding-top:15px;
     text-align:right;
+    width:100%;
+    margin:15px auto 0;        
 }
 .moves .move .total {
-    font-family:'gotham-bold';
     font-size:var(--size-regular);
-    margin-bottom:5px;
+    margin-top:5px;
+    font-family:'gotham-bold';
+    white-space:nowrap;
+}
+.moves .move .profit {
+    font-family:'gotham-bold';
+    font-size:var(--size-big);
+    margin-top:15px;
 }
 
 .settings .country-container {

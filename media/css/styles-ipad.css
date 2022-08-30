@@ -26,7 +26,8 @@
        top:100px;
    }
    .stock-view .results-info:not(.collapsed) h2 {
-       font-size:22px;
+       font-size:20px;
+       line-height:28px;
        margin-bottom:15px;
    }
    .stock-view .results-info-table .label, .stock-view .results-info-table .value{
@@ -38,6 +39,8 @@
    }
    
    .with-popup .footer-container { left:auto; }
+  
+   
 }
 
 
