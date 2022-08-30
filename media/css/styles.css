@@ -4110,12 +4110,13 @@ input:checked + .switch:before {
 
 .players h2 {
     width: 100%;
-    margin-top:30px;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
+    margin-left: 5px;
     color: var(--color-text);
-    font-size: var(--size-big);
-    text-align:center;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 15px;
+    font-family: 'gotham-regular';
+    text-align: left;
 }
 
 .players .box {
@@ -4126,9 +4127,16 @@ input:checked + .switch:before {
     padding:25px;
 }
 
-.players .box .avatar {
-    color:var(--color-bg);
+.players .players .box .avatar {
+    height:60px;
     font-size:60px;
+    color: var(--color-bg);
+}
+.players.view-box .players .box .avatar {
+    font-size: 40px;
+    margin-right: 16px;
+    margin-left: 4px;
+    height:auto;
 }
 .players .box .avatar-image {
     max-width:100%;
@@ -4152,6 +4160,10 @@ input:checked + .switch:before {
 .players .box .total {
     margin: 0px 0 15px;
 }
+.players.view-box .box .total {
+    margin-bottom:0;
+}
+
 
 .players .box .country {
     border: 2px solid var(--color-bg);
@@ -4208,71 +4220,29 @@ input:checked + .switch:before {
     border-radius:5px;
 }
 .players.view-box .box .country {
-    width:15px;
-    height:15px;
+    width:25px;
+    height:25px;
     top:5px;
-    left:5px;
+    right:5px;
 }
 .players.view-box .box .title {
     margin:0;
     padding-top:5px;
 }
-.players.view-box .box .total {
-    margin:0;
-}
-.players.view-box .box .avatar {
-    font-size:40px;
-    width:40px;
+
+.players.view-box .players .box .avatar {
+    font-size:30px;
+    width:30px;
     float:left;
     margin-right:10px;
 }
-.players.view-box .box .avatar-image {
+.players.view-box .players .box .avatar-image {
     float:left;
     margin:0 10px 0 0;
     max-height:40px;
 }
 
-.moves .move {
-    background-color:var(--color-bg2);
-    padding:15px;
-}
-.moves .move .username {
-    color: var(--color-base);
-    font-family:'gotham-bold';
-    max-width:69px;
-    text-overflow:ellipsis;
-    overflow:hidden;
-}
-.moves .move .tags {
-    display:inline-flex;
-    align-items:center;
-    margin:0;
-}
-.moves .move .tags .tag { 
-    margin-right:5px; 
-    font-size:var(--size-small); 
-    padding:2px 5px; 
-    border-radius:var(--border-radius2); 
-    background-color:var(--color-base); 
-    color:var(--color-base-invert); 
-    white-space:nowrap; 
-    text-transform:capitalize;
-}
-.tags .tag.buy      { background-color:#e38800 !important; }
-.tags .tag.sell     { background-color:#00c26e !important; }
-.tags .tag.long     {  }
-.tags .tag.leverage {  }
 
-.players .moves .move .body {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-.players .moves .move .balance {
-    font-family:'gotham-bold';
-    color:var(--color-base);
-    font-size:var(--size-regular);
-}
 .player-view {
     padding-bottom:80px;
 }
@@ -4437,32 +4407,67 @@ input:checked + .switch:before {
 
 
 .moves .move {
-    width: 100%;
+    width: calc(50% - 10px);
     display: flex;
     align-items:center;
     justify-content:space-between;
     margin:0 5px 10px;    
     border-radius:var(--border-radius1);
     flex-wrap:wrap;
-}
-.moves .move .column {
-    width:33.3333%;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
+    background-color:var(--color-bg2);
+    padding:15px;   
+    flex-direction:column;
 }
 
-.moves .move .logo, .moves .move .avatar {
+.moves .move .username {
+    color: var(--color-base);
+    font-family:'gotham-bold';
+    margin-bottom:15px;
+}
+.moves .move .date {
+    color:var(--color-label);
+    font-size:var(-size-small);
+}
+.moves .move .tags {
+    display:inline-flex;
+    align-items:flex-start;
+    margin:15px 0 0;   
+}
+.moves .move .tags .tag { 
+    margin-right:5px; 
+    font-size:var(--size-small); 
+    padding:2px 5px; 
+    border-radius:var(--border-radius2); 
+    border:1px solid var(--color-bg);  
+    white-space:nowrap; 
+    text-transform:capitalize;
+}
+.tags .tag.buy      { }
+.tags .tag.sell.with-profit { border-color:#00c26e !important; color:#00c26e !important; font-family:'gotham-bold' }
+.tags .tag.sell.with-lost   { border-color:#e0003c !important; color:#e0003c !important; font-family:'gotham-bold' }
+.tags .tag.long     {  }
+.tags .tag.leverage {  }
+
+.moves .move .logo-container { height:45px; display:flex; align-items:center; justify-content:center; text-align:center; }
+.moves .move .logo {
+    width:45px;
+    border-radius:var(--border-radius1);  
+}    
+.moves .move .avatar {
     width:45px;
     border-radius:var(--border-radius1);  
 }
+.moves .move .avatar-container { position:absolute; margin-left:-60px; margin-top:30px; }
+.moves .move .avatar-container+.logo-container { margin-left:60px; }
 
 .moves .move .totals {
     border-top:1px solid var(--color-bg);
     padding-top:15px;
-    text-align:right;
+    text-align:center;
     width:100%;
-    margin:15px auto 0;        
+    margin:15px auto 0;
+    flex-grow:1;
+
 }
 .moves .move .total {
     font-size:var(--size-regular);

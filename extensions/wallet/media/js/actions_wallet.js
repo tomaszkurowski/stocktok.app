@@ -274,22 +274,18 @@
                             let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
                             let logo = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('.logo-container').html();
                             let name = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol')+' ('+$('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market')+')';
+                            let symbol = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-symbol');
+                            let market = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').attr('data-market');
+
 
                             let total   = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.purchased_total').val();
                             let margin  = $('.mystock-container[data-stock-id="'+move.wallet_entities_id+'"]').find('input.margin').val();
 
-                            //$(el).append('<div class="column column1"></div>');
-                            
-                            $(el).append('<div class="column column2"></div>');
-                            $(el).append('<div class="column column3"></div>');
+                            //$(el).append(wallet.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+wallet.username+'"><img src="'+wallet.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '<a class="username" href="/players/view/'+wallet.username+'">'+wallet.username+'</a>');
+                            $(el).append('<a class="logo-container" href="/entities/'+market+'/'+symbol+'">'+logo+'</a>');
+                            $(el).append('<div class="tags"></div>');
 
-
-                            //$(el).find('.column1').append(me.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+wallet.username+'"><img src="'+wallet.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '<a class="username" href="/players/view/'+wallet.username+'">'+wallet.username+'</a>');
-
-                            $(el).find('.column2').append('<a class="logo-container" href="/entities/'+move.market+'/'+move.symbol+'">'+logo+'</a>');
-                            $(el).find('.column3').append('<div class="tags"></div>');
-
-                            $(el).find('.tags').append('<div class="tag '+move.action+'">'+move.action+'</div>');
+                            $(el).find('.tags').append('<div class="tag '+move.action+''+((move.action === 'sell' && margin>0) ? ' with-profit' : ' with-lost')+'">'+move.action+'</div>');
                             $(el).find('.tags').append('<div class="tag long">Long</div>');
                             $(el).find('.tags').append('<div class="tag leverage">x1</div>');
 

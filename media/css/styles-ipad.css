@@ -135,7 +135,7 @@
     .items-container .item {
         width:calc(16.6666% - 10px);
     }
-    .moves .move { width:calc(33.3333% - 10px); }
+    .moves .move { width:calc(20% - 10px); }
 
    .stock-view .results-info .logo {
        max-height:70px;       
@@ -214,7 +214,13 @@
 
     .items-container .item {
         width:calc(12.5% - 10px);
-    }   
+    } 
+    .players .box {
+        width:calc(12.5% - 10px);
+    }
+    .moves .move {
+        width:calc(12.5% - 10px);
+    }
     
     .view-grid .mystock-container, .view-box .mystock-container {
         width: calc(12.5% - 10px);
@@ -222,7 +228,6 @@
     .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
         width: calc(20% - 10px);
     }  
-    
     
     .view-list .wallet-items .mystock-container, .view-list-small .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
         width: calc(50% - 10px);
