@@ -168,7 +168,7 @@
 
         var lastScrollTop = 0, delta = 15;
         $(window).scroll(function(){
-            if (config.debug) console.log('scrolling');
+            console.log('scrolling');
             clearTimeout($.data(this, 'scrollTimer'));
 
             var nowScrollTop = $(this).scrollTop();

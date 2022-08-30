@@ -285,7 +285,7 @@
                             $(el).append('<a class="logo-container" href="/entities/'+market+'/'+symbol+'">'+logo+'</a>');
                             $(el).append('<div class="tags"></div>');
 
-                            $(el).find('.tags').append('<div class="tag '+move.action+''+((move.action === 'sell' && margin>0) ? ' with-profit' : ' with-lost')+'">'+move.action+'</div>');
+                            $(el).find('.tags').append('<div class="tag '+move.action+''+((move.action === 'sell' && margin>=0) ? ' with-profit' : ' with-lost')+'">'+move.action+'</div>');
                             $(el).find('.tags').append('<div class="tag long">Long</div>');
                             $(el).find('.tags').append('<div class="tag leverage">x1</div>');
 
@@ -294,7 +294,7 @@
                             $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
 
                             if (move.action === 'sell'){
-                                $(el).find('.totals').append('<div class="profit">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                                $(el).find('.totals').append('<div class="profit'+(margin < 0 ? ' with-lost' : '')+'">'+(margin >= 0 ? '+' : '') + format_price(margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                             }
 
 

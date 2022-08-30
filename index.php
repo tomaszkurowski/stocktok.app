@@ -32,8 +32,8 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"      href="/manifest.json?v=1.1">
-    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.146" />
-    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.48" />
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.152" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.53" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -47,9 +47,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.17"></script>
-    <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.11"></script>          
-    <script src="/media/js/external.js?version=1.12"></script>
+    <script src="/media/js/internal.js?version=1.5.18"></script>
+    <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.12"></script>          
+    <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
     
@@ -81,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.170',
+            version:    '1.1.180',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
@@ -110,7 +110,7 @@ include('config.php'); ?>
             wallet_observed_layout:     'box',
             wallet_observed_trend_size: '5-days',
             wallet_header:              'regular',            
-            players_layout:         'box',
+            players_layout:         'grid',
             find_layout:            'minimal',
             find_sort:              'volume_desc',
             related_layout:         'minimal',
@@ -139,9 +139,10 @@ include('config.php'); ?>
         
         var me;
         
-        var mvc = { url: window.location.pathname !== '/' ? window.location.pathname : settings.homepage }; 
-        var ios = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
-        var fbb = (config.browser.indexOf("FBAN") > -1) || (config.browser.indexOf("FBAV") > -1);
+        var mvc     = { url: window.location.pathname !== '/' ? window.location.pathname : settings.homepage }; 
+        var ios     = (/iPad|iPhone|iPod/.test(navigator.platform) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
+        var fbb     = (config.browser.indexOf("FBAN") > -1) || (config.browser.indexOf("FBAV") > -1);
+        var mobile  = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
                 
         $(document).ready(function(){
             

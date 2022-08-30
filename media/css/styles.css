@@ -1,4 +1,4 @@
-@import "icons.css?v=1.9"; 
+@import "icons.css?v=1.10"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -129,6 +129,8 @@ input[type=number] { -moz-appearance: textfield; }
 .ui-icon-triangle-1-s { background-position:-60px -17px !important}
 
 .chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink { display:none; }
+
+.rotate180deg { transform:rotate(180deg); }
 
 /* -------------------------------------------------------------------------- */
 /* FONTS -------------------------------------------------------------------- */
@@ -3985,7 +3987,7 @@ input:checked + .switch:before {
 .icon-btn.icon-google        { font-size:25px; }
 .icon-btn.icon-sphere        { font-size:28px; }
 .icon-btn.icon-create        { font-size:32px; order:-2; }
-
+.icon-btn.icon-move-up       { order:10; margin-top:-5px !important; }
 
 .info-page {
     height:100vh; 
@@ -4157,7 +4159,7 @@ input:checked + .switch:before {
     overflow: hidden;
 }
 
-.players .box .total {
+.players .players .box .total {
     margin: 0px 0 15px;
 }
 .players.view-box .box .total {
@@ -4195,6 +4197,7 @@ input:checked + .switch:before {
     justify-content:center;
     width:100%;
 }
+
 .players .box .actions .icon-btn {
     margin:0 2.5px;
     font-size:28px;
@@ -4240,6 +4243,23 @@ input:checked + .switch:before {
     float:left;
     margin:0 10px 0 0;
     max-height:40px;
+}
+
+.players.view-avatars .box .actions,
+.players.view-avatars .box .total,
+.players.view-avatars .box .icon-bookmark_outline,
+.players.view-avatars .box .icon-bookmark1 {
+    display:none;
+}
+.players.view-avatars .box .country {
+    top:5px;
+}
+.players.view-avatars .box .avatar-image {
+    max-height:100px;
+}
+.players.view-avatars .players .box .avatar {
+    height:100px;
+    font-size:100px;
 }
 
 
@@ -4358,7 +4378,7 @@ input:checked + .switch:before {
 .ranking h2 {
     margin:30px 15px 15px;
     padding:0;
-    font-size:var(--size-big);
+    text-align:center;
 }
 .ranking .trophy {
     max-width: 110px;
@@ -4422,16 +4442,15 @@ input:checked + .switch:before {
 .moves .move .username {
     color: var(--color-base);
     font-family:'gotham-bold';
-    margin-bottom:15px;
 }
 .moves .move .date {
     color:var(--color-label);
-    font-size:var(-size-small);
+    font-size:var(-size-small);    
 }
 .moves .move .tags {
     display:inline-flex;
     align-items:flex-start;
-    margin:15px 0 0;   
+    margin-top:15px;  
 }
 .moves .move .tags .tag { 
     margin-right:5px; 
@@ -4448,6 +4467,7 @@ input:checked + .switch:before {
 .tags .tag.long     {  }
 .tags .tag.leverage {  }
 
+.moves .move .logos { display:inline-flex; align-items:center; justify-content:center; width:100%; }
 .moves .move .logo-container { height:45px; display:flex; align-items:center; justify-content:center; text-align:center; }
 .moves .move .logo {
     width:45px;
@@ -4457,8 +4477,8 @@ input:checked + .switch:before {
     width:45px;
     border-radius:var(--border-radius1);  
 }
-.moves .move .avatar-container { position:absolute; margin-left:-60px; margin-top:30px; }
-.moves .move .avatar-container+.logo-container { margin-left:60px; }
+.moves .move .avatar-container,
+.moves .move .logo-container { margin:0 5px 10px; }
 
 .moves .move .totals {
     border-top:1px solid var(--color-bg);
@@ -4479,6 +4499,10 @@ input:checked + .switch:before {
     font-family:'gotham-bold';
     font-size:var(--size-big);
     margin-top:15px;
+    color:#00c26e;
+}
+.moves .move .profit.with-lost {
+   color:#e0003c;
 }
 
 .settings .country-container {

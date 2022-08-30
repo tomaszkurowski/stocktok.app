@@ -13,7 +13,8 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
     }
     if (sort === null){ 
         sort = settings.find_sort ? settings.find_sort : null; 
-    }   
+    }
+
     $.ajax({
         url: config.api_url,
         data: { 
@@ -125,3 +126,15 @@ function get_observed_symbols(){
         }
     });
 }
+$(window).scroll(function(){
+    if ($(this).scrollTop()>(screen.height + 400) && !$('.heading .scrollTop').length){
+        button({ 
+            class: 'icon-btn icon-move-up scrollTop' }, 
+            function(){                
+                $("html, body").animate({ scrollTop: 0 }, "slow",function(){
+                    $('.heading .scrollTop').remove();
+                });                    
+            }
+        ); 
+    }
+});

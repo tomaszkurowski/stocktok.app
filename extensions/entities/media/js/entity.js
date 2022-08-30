@@ -93,22 +93,22 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
         switch(label){
             case 'Sector':   value = value = '<a href="/entities/find-by?sector='+value+'">'+value+'</a>'; break;
             case 'Industry': value = value = '<a href="/entities/find-by?industry='+value+'">'+value+'</a>'; break;
-            case 'MarketCapitalization': value = format_price(value); break;
+            case 'MarketCapitalization': if (value===null) break; value = format_price(value); break;
             case 'MarketCapitalizationMln': return;
-            case 'EBITDA': value=format_price(value); break;
-            case 'RevenueTTM': value=format_price(value); break;
-            case 'GrossProfitTTM': value=format_price(value); break;
-            case 'BookValue': value=format_price(value); break;                        
-            case 'profitMargin': value=value+ '%'; break;            
-            case 'OperatingMarginTTM': value=value+ '%'; break;
-            case 'ReturnOnAssetsTTM': value=value+ '%'; break;
-            case 'ReturnOnEquityTTM': value=value+ '%'; break;                                   
-            case 'WebURL': value = '<a href="'+value+'">'+value+'</a>'; break;
+            case 'EBITDA': if (value===null) break; value=format_price(value); break;
+            case 'RevenueTTM': if (value===null) break; value=format_price(value); break;
+            case 'GrossProfitTTM': if (value===null) break; value=format_price(value); break;
+            case 'BookValue': if (value===null) break; value=format_price(value); break;                        
+            case 'profitMargin': if (value===null) break; value=value+ '%'; break;            
+            case 'OperatingMarginTTM': if (value===null) break; value=value+ '%'; break;
+            case 'ReturnOnAssetsTTM': if (value===null) break; value=value+ '%'; break;
+            case 'ReturnOnEquityTTM': if (value===null) break; value=value+ '%'; break;                                   
+            case 'WebURL': if (value===null) break; value = '<a href="'+value+'">'+value+'</a>'; break;
             case 'UpdatedAt': return;   
             case 'LogoURL': return;
-            case 'Phone': value= '<a href="tel:'+value+'">'+value+'</a>'; break;
-            case 'Description': value = '<div class="description-popup" data-value="'+value+'">'+(value.length>255 ? value.slice(0,255)+'... <span class="icon icon-navigate_next"></span>' : value)+'</div>'; break;
-            case 'Address': value='<a href="https://www.google.com/maps?q='+value+'">'+value+'</a>'; break;
+            case 'Phone': if (value===null) break; value= '<a href="tel:'+value+'">'+value+'</a>'; break;
+            case 'Description': if (value === null) break; value = '<div class="description-popup" data-value="'+value+'">'+(value.length>255 ? value.slice(0,255)+'... <span class="icon icon-navigate_next"></span>' : value)+'</div>'; break;
+            case 'Address': if (value===null) break; value='<a href="https://www.google.com/maps?q='+value+'">'+value+'</a>'; break;
         } 
         if (label === 'CountryISO' && value !== 'NA'){
             label='Country';
@@ -311,8 +311,8 @@ function change_graph_tools(){
     stock_chart.update({
         stockTools: {
             gui: {
-                visible: settings.graph_tools === 'true' ? true : false,
-                placed: settings.graph_tools === 'true' ? true : false
+                visible: settings.graph_tools === 'true' && !ios && !mobile ? true : false,
+                placed: settings.graph_tools === 'true' && !ios && !mobile ? true : false
             }
         }
     });
@@ -347,6 +347,9 @@ function change_graph_range(val=1){
 
               
 $(document).ready(function(){
+    
+    if (mobile || ios) $('.graph-tools').hide();
+    
     get_currencies(function(){
     $.ajax({
         url: config.api_url,
@@ -621,8 +624,8 @@ $(document).ready(function(){
                 },
                 stockTools:{
                     gui:{
-                        visible: settings.graph_tools === 'true' ? true : false,
-                        placed: settings.graph_tools === 'true' ? true : false,
+                        visible: settings.graph_tools === 'true' && !ios & !mobile ? true : false,
+                        placed: settings.graph_tools === 'true' && !ios && !mobile ? true : false,
                         buttons:[ 
                             'simpleShapes', 
                             'lines', 

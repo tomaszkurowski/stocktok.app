@@ -45,15 +45,15 @@
                 function(){ editable();  // => ui.js                                              
             });    
             changer({ 
-                title: 'Layout', 
+                title: 'Players layout', 
                 key: 'players_layout', 
-                values: { 'grid': 'Grid', 'box':'Boxes'},
+                values: { 'grid': 'Grid', 'box':'Boxes', 'avatars':'Avatars' },
                 click: function(el){ 
                     updateSettings('players_layout',$(el).find('select').val());
-                    $('.page').removeClass('view-grid view-box').addClass('view-'+$(el).find('select').val());
+                    $('.page').removeClass('view-grid view-box view-avatars').addClass('view-'+$(el).find('select').val());
                 },
                 load: function(el){
-                    $('.page').removeClass('view-grid view-box').addClass('view-'+$(el).find('select').val());
+                    $('.page').removeClass('view-grid view-box view-avatars').addClass('view-'+$(el).find('select').val());
                 }
             });
                 
@@ -175,9 +175,10 @@
                                                 
                         let el =  $('<div class="move box" data-id="'+move.id+'"></div>');
 
+                        $(el).append('<div class="logos"></div>');
                         $(el).append('<a class="username" href="/players/view/'+move.username+'">'+move.username+'</a>');
-                        $(el).append(move.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+move.username+'"><img src="'+move.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '');                       
-                        $(el).append('<a class="logo-container" href="/entities/'+move.market+'/'+move.symbol+'">'+(move.logo ? '<img src="'+move.logo+'" class="logo" alt="logo-'+move.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+move.symbol+'</div>')+'</a>');
+                        $(el).find('.logos').append(move.avatar_type === 'image' ? '<a class="avatar-container" href="/players/view/'+move.username+'"><img src="'+move.avatar+'" class="avatar" alt="avatar-'+move.id+'" loading="lazy" /></a>' : '');                       
+                        $(el).find('.logos').append('<a class="logo-container" href="/entities/'+move.market+'/'+move.symbol+'">'+(move.logo ? '<img src="'+move.logo+'" class="logo" alt="logo-'+move.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+move.symbol+'</div>')+'</a>');
                         $(el).append('<div class="tags"></div>');
                                                                         
                         $(el).find('.tags').append('<div class="tag '+move.action+''+((move.action === 'sell' && move.margin>0) ? ' with-profit' : ' with-lost')+'">'+move.action+'</div>');
@@ -187,7 +188,7 @@
                         $(el).append('<div class="totals"></div>');
                         $(el).find('.totals').append('<div class="date">'+move.date+'</div>');
                         if (move.action === 'sell'){
-                            $(el).find('.totals').append('<div class="profit">'+(move.margin >= 0 ? '+' : '') + format_price(move.margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
+                            $(el).find('.totals').append('<div class="profit'+(move.margin < 0 ? ' with-lost' : '')+'">'+(move.margin >= 0 ? '+' : '') + format_price(move.margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                         }
                         $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                                                 
