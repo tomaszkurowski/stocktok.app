@@ -22,11 +22,9 @@ function reload_stock_price(){
     $('.results-info .daily-change-percentage').text(stock.daily_change_percentage);
    
    
-    if (stock.historical && !stock.open && !stock.high && !stock.low){
+    if (stock.historical && !stock.open){
         var last_element = stock.historical.length-1;
         stock.open_price = stock.historical[last_element][2];
-        stock.daily_max  = stock.historical[last_element][3];
-        stock.daily_min  = stock.historical[last_element][4];
     }
     $('.results-info .daily-max').text(format_price(stock.daily_max),2);
     $('.results-info .daily-min').text(format_price(stock.daily_min),2);
@@ -379,16 +377,17 @@ $(document).ready(function(){
             $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
             $('.stock-view .results-info-table .value.market').text(stock.market);
 
-            if (stock.sector.length > 0){
-                $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>').show(); 
-            }else{
-                $('.stock-view .results-info-table .value.sector, .stock-view .results-info-table .label-sector').hide();
-            }
-            if (stock.sector.length > 0){
-                $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>').show();
-            }else{
-                $('.stock-view .results-info-table .value.industry, .stock-view .results-info-table .label-industry').hide();
-            }
+            if (stock.sector){ $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>').show();  }else{ $('.stock-view .results-info-table .value.sector, .stock-view .results-info-table .label-sector').hide(); }
+            
+            if (stock.industry){ $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>').show();
+            }else{ $('.stock-view .results-info-table .value.industry, .stock-view .results-info-table .label-industry').hide(); }
+            
+            if (stock.daily_min){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.daily_min));
+            }else{ $('.stock-view .results-info-table .value.daily-min, .stock-view .results-info-table .label-daily-min').hide(); }
+            
+            if (stock.daily_max){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.daily_max));
+            }else{ $('.stock-view .results-info-table .value.daily-max, .stock-view .results-info-table .label-daily-max').hide(); }            
+            
             if (!stock.volume){ $('.stock-view .results-info-table .value.current-volume, .stock-view .results-info-table .label-current-volume').hide(); }
 
             $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
@@ -540,7 +539,7 @@ $(document).ready(function(){
                     }, 400);
                 }});              
 
-            reload_stock_price();
+            
             stock_graph_adaptive_height();
             stock_chart = Highcharts.stockChart('stock-price', {
                 global: {
@@ -813,7 +812,8 @@ $(document).ready(function(){
                     if (config.debug) console.log('Historical Prices:');
                     if (config.debug) console.log(response);
                     stock.historical = response;                         
-                    generate_graph();                                                                                                
+                    generate_graph();
+                    reload_stock_price();
                 },
                 error: function(response){
                     if (config.debug) console.log(response);
