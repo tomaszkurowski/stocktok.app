@@ -32,8 +32,8 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"      href="/manifest.json?v=1.1">
-    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.152" />
-    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.53" />
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.154" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.54" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -47,11 +47,11 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.19"></script>
-    <script src="/media/js/internal/app<?= $config['minify'] ? '.min' : '' ?>.js?version=1.12"></script>          
+    <script src="/media/js/internal.js?version=1.5.20"></script>
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.16"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
-    <?php if ($config['mode'] !== 'production'): ?>
+    <?php if ($config['mode'] === 'production'): ?>
     
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-HYTRSZLWJV"></script>
@@ -81,7 +81,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.183',
+            version:    '1.1.184',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
@@ -103,7 +103,7 @@ include('config.php'); ?>
             graph_tools:            false,
             graph_labels:           true,
             stock_chart_range:      6,
-            homepage:               'wallet',            
+            homepage:               '/cms/dashboard',            
             wallet_switch_behavior:     'itself',
             wallet_layout:              'grid',
             wallet_trend_size:          '5-days',

@@ -73,7 +73,11 @@
                     }
 
                     // ACL 
-                    if (response.me.hasOwnProperty('username') || mvc.model === 'entities' || mvc.model === 'players'){
+                    if (response.me.hasOwnProperty('username') || 
+                        mvc.model === 'entities' || 
+                        mvc.model === 'players' || 
+                        (mvc.model === 'cms' && mvc.view === 'dashboard')
+                    ){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
                             $.getScript('/extensions/cms/cms.js?version='+config.version);
