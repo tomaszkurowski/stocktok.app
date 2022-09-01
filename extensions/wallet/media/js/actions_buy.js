@@ -19,7 +19,7 @@
         $.ajax({
             url: config.api_url,
             data: { 
-                endpoint: '/wallet/buy2', 
+                endpoint: '/wallet/buy', 
                 item: form 
             },
             type: 'POST',
