@@ -224,9 +224,9 @@
     $(document).ready(function(){
         
         
-        settings_row({ target: 'game', type:'avatar',  key: 'avatar',                info: 'Choose avatar to make your profile easier recognizable' }); 
-        settings_row({ target: 'game', type:'country', key: 'country',               info: 'Choose country, which you are representing' });         
-        settings_row({ target: 'game', type:'public',  key: 'public',                info: 'Choose if you want to play with others or silent' }); 
+        settings_row({ target: 'game', type:'avatar',  key: 'avatar', info: 'Choose avatar to make your profile easier recognizable' }); 
+        settings_row({ target: 'game', type:'country', key: 'country', info: 'Choose country, which you are representing' });         
+        settings_row({ target: 'game', type:'public',  key: 'public', info: 'Choose if you want to play with others or silent' }); 
         
         
         get_currencies(function(){
@@ -234,17 +234,19 @@
             $.each(currencies, function(i, rate){            
                 currency_values.push(i);                
             });
-            settings_row({ target: 'game', type:'select',  key: 'display_currency',      info: 'This is your main currency in reports & calculations', values: currency_values }); 
+            settings_row({ target: 'game', type:'select',  key: 'display_currency', info: 'This is your main currency in reports & calculations', values: currency_values }); 
         });
         
         //settings_row({ target: 'game', type:'select',  key: 'calculation_of_profit', info: 'If your currency is different than market currency you can switch this option to include currency-rate fluctuation in profit & trend calculation', values: [ 'incl. currency','excl. currency' ] }); 
         
-        settings_row({ target: 'game', type:'bio',           key: 'bio', info: 'Add 2-3 sentences about yourself' });      
-        settings_row({ target: 'game', type:'restart-game',  key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
+        settings_row({ target: 'game', type:'bio', key: 'bio', info: 'Add 2-3 sentences about yourself' });      
+        settings_row({ target: 'game', type:'restart-game', key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});      
         
         if (me.username === 'Qba'){
-            settings_row({ target: 'game', type:'select',  key: 'contributor',       info: 'If you want to help builiding better application select yes', values: ['yes','no'] });
+            settings_row({ target: 'game', type:'select',  key: 'contributor', info: 'If you want to help builiding better application select yes', values: ['yes','no'] });
         }
+        
+        settings_row({ target: 'game', type:'select',  key: 'homepage', info: 'Your init screen after login', values: ['cms/dashboard','wallet','wallet/observed','players/moves','players/rankings'] });
         
         settings_row({ target: 'design',  type: 'sounds', key: 'sounds',             info: 'Choose if you want to mute on/off sounds on buttons.' });     
         settings_row({ target: 'design',  type: 'hands', key: 'hand_preference',     info: 'Choose your prefered hand. Basing on that, elements will be aligned either to the right or to the left' });     
