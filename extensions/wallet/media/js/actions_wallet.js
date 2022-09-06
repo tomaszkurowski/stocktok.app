@@ -245,12 +245,7 @@
                                 grid: { row: { colors: ['transparent'] } },
                                 tooltip: { enabled: false }
                             };
-
-                            if (settings.wallet_layout === 'grid'){
-                                new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
-                            }
-
-
+                            new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
                         }
 
                     });

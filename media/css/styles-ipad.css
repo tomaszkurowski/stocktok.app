@@ -4,7 +4,7 @@
 
 /* Ipad Horizontal */
 @media only screen and (min-width: 766px) {
-   .view-box .mystock-container, .view-grid .mystock-container { 
+   .view-box .mystock-container, .view-grid .mystock-container, .view-minimal .mystock-container { 
        width:calc(33.3333% - 10px); 
    }
    .players .box { 
@@ -111,10 +111,10 @@
     
     .entities h2 { text-align:left; }
     
-    .view-grid .mystock-container, .view-box .mystock-container {
+    .view-grid .mystock-container, .view-box .mystock-container, .view-minimal .mystock-container {
         width: calc(16.6666% - 10px);
     }    
-    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
+    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container, .view-minimal .wallet-items .mystock-container {
         width: calc(25% - 10px);
     }     
     .view-list .wallet-items, .view-list-small .wallet-items, .view-list-small-results .wallet-items { display:flex; flex-wrap:wrap; }
@@ -222,10 +222,10 @@
         width:calc(12.5% - 10px);
     }
     
-    .view-grid .mystock-container, .view-box .mystock-container {
+    .view-grid .mystock-container, .view-box .mystock-container, .view-minimal .mystock-container {
         width: calc(12.5% - 10px);
     }
-    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container {
+    .view-grid .wallet-items .mystock-container, .view-box .wallet-items .mystock-container, .view-minimal .wallet-items .mystock-container {
         width: calc(20% - 10px);
     }  
     
