@@ -4344,6 +4344,7 @@ input:checked + .switch:before {
     width:100%;
     display:flex;
     justify-content:center;
+    align-items:center;
 }
 .player-view .overview .bio {
     text-align:center;
