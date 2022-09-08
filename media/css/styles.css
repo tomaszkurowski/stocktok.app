@@ -4126,7 +4126,7 @@ input:checked + .switch:before {
 }
 
 
-.players h2 {
+.players h2, .observed h2 {
     width: 100%;
     margin-left: 5px;
     color: var(--color-text);
