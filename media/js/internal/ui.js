@@ -336,4 +336,21 @@
             audio.play();
         }        
 
-    });     
+    });  
+    
+    $(window).scroll(function(){
+        if ($(this).scrollTop()>(screen.height + 1000) && !$('.heading .scrollTop').length){
+            button({ 
+                class: 'icon-btn icon-move-up scrollTop' }, 
+                function(){                
+                    $("html, body").animate({ scrollTop: 0 }, "slow",function(){
+                        $('.heading .scrollTop').remove();
+                    });                    
+                }
+            ); 
+        }
+        if ($(this).scrollTop()<(screen.height + 1000) && $('.heading .scrollTop').length){
+            $('.heading .scrollTop').remove(); 
+        }
+    });
+    

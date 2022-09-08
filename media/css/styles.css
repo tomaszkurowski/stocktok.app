@@ -4970,7 +4970,25 @@ h2.title {
 .entities h2:first-child {
     padding-top:12.5px
 }
+.entities .box { 
+    width:calc(50% - 10px);
+    margin:0 5px 10px;
+    text-align:center;
+    padding:25px;
+}
 
+.entities .box .icon {
+    color:var(--color-base);
+    font-size:65px;
+
+}
+.entities .box .title {
+    color:var(--color-text);
+    font-size:var(--size-medium);
+    font-family:'gotham-bold';
+    margin:15px 0;
+    line-height:20px;
+}
 .boxes .box { 
     width:calc(50% - 10px);
     margin:0 5px 10px;
