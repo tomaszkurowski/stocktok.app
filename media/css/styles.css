@@ -2269,11 +2269,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 /* SETTINGS ----------------------------------------------------------------- */
 
-.page.settings .tabs {
+
+
+.page.settings .tabs, .page.settings .boxes {
     width:calc(100% - 20px);
     max-width:440px;
     align-self:center;
 }
+.page.settings .boxes {
+    display:flex;
+    flex-wrap:wrap;
+}
+
 .tabs {
     margin:10px;
     display:flex;
@@ -2409,6 +2416,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #entity-officers .value { font-family:'gotham-bold'; line-height:22px; font-size:var(--size-regular) }
 #entity-officers .value span { display:inline-block; font-family:'gotham-regular'; font-size:var(--size-small); }
+
+.settings .entities {
+    padding-bottom:0;
+}
 
 .settings .color-container input[type="color"] { 
     border-radius: 5px;
@@ -4125,8 +4136,16 @@ input:checked + .switch:before {
     align-items:stretch
 }
 
-
-.players h2, .observed h2 {
+h2.title {
+    width: 100%;
+    color: var(--color-text);
+    font-size: 24px;
+    line-height: 24px;
+    padding: 15px;
+    font-family: 'gotham-regular';
+    text-align: left;    
+}
+.players h2, .observed h2{
     width: 100%;
     margin-left: 5px;
     color: var(--color-text);
@@ -4952,19 +4971,20 @@ input:checked + .switch:before {
     padding-top:12.5px
 }
 
-.entities .box { 
+.boxes .box { 
     width:calc(50% - 10px);
     margin:0 5px 10px;
     text-align:center;
     padding:25px;
+    display:inline-block;
 }
 
-.entities .box .icon {
+.boxes .box .icon {
     color:var(--color-base);
     font-size:65px;
 
 }
-.entities .box .title {
+.boxes .box .title {
     color:var(--color-text);
     font-size:var(--size-medium);
     font-family:'gotham-bold';
