@@ -126,15 +126,3 @@ function get_observed_symbols(){
         }
     });
 }
-$(window).scroll(function(){
-    if ($(this).scrollTop()>(screen.height + 400) && !$('.heading .scrollTop').length){
-        button({ 
-            class: 'icon-btn icon-move-up scrollTop' }, 
-            function(){                
-                $("html, body").animate({ scrollTop: 0 }, "slow",function(){
-                    $('.heading .scrollTop').remove();
-                });                    
-            }
-        ); 
-    }
-});

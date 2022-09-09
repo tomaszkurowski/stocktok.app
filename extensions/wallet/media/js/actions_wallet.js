@@ -245,12 +245,7 @@
                                 grid: { row: { colors: ['transparent'] } },
                                 tooltip: { enabled: false }
                             };
-
-                            if (settings.wallet_layout === 'grid'){
-                                new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
-                            }
-
-
+                            new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();
                         }
 
                     });
@@ -420,8 +415,11 @@
                     item.margin = item.total - item.purchased_total;  
                 }
 
-                item.margin_percentage  = item.purchased_total !== 0 ? (item.margin / (item.purchased_total) * 100).toFixed(2) : 0;
-                
+                if (item.margin === 0){
+                    item.margin_percentage = 0;
+                }else{
+                    item.margin_percentage  = item.purchased_total !== 0 ? (item.margin / (item.purchased_total) * 100).toFixed(2) : 0;
+                }
                 //console.log(item.symbol,item.margin,item.purchased_total);
 
                 if ($(element).attr('data-visibility')==='visible'){

@@ -129,13 +129,13 @@
                 changer({ 
                     title: 'Layout', 
                     key: 'wallet_layout', 
-                    values: { 'grid': 'Grid', 'list':'List', 'list-small': 'Table (prices)', 'list-small-results': 'Table (results)'},
+                    values: { 'grid': 'Grid', 'list':'List', 'list-small': 'Table (prices)', 'list-small-results': 'Table (results)', 'minimal': 'Minimal' },
                     click: function(el){ 
                         updateSettings('wallet_layout',$(el).find('select').val());
-                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results view-minimal').addClass('view-'+$(el).find('select').val());
                     },
                     load: function(el){
-                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results').addClass('view-'+$(el).find('select').val());
+                        $('.page').removeClass('view-grid view-list view-list-small view-list-small-results view-minimal').addClass('view-'+$(el).find('select').val());
                     }
                 });
                 changer({ 
