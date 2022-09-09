@@ -10,3 +10,5 @@ $config['debug']            = 'false';
 
 $config['dir_splash']       = '/media/img/splash_screen/';
 $config['dir_icons']        = '/media/img/icons/';
+
+$config['title_prefix']     = 'Stocktok - ';

@@ -48,7 +48,7 @@ include('config.php'); ?>
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/internal.js?version=1.5.20"></script>
-    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.16"></script>          
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.17"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
@@ -81,14 +81,15 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.186',
+            version:    '1.1.187',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
             browser:    navigator.userAgent || navigator.vendor || window.opera,
             precision_rate:  11,
             precision_total: 4,
-            minify: <?= $config['minify'] ?>
+            minify: <?= $config['minify'] ?>,
+            title_prefix: '<?= $config['title_prefix'] ?>'
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,
