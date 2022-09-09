@@ -42,6 +42,12 @@
         mvc.view        = mvc.url.split('/')[1];
         mvc.controller  = mvc.url.split('/')[2];
         
+        let title = config.title_prefix + (mvc.model ? ' - '+mvc.model : '') + (mvc.view ? ' - '+mvc.view : '') + (mvc.controller ? ' - '+mvc.controller : '');
+        if (mvc.model === 'entities'){
+            title = config.title_prefix + (mvc.view ? ' - '+mvc.view : '') + (mvc.controller ? ' - '+mvc.controller : '');
+        }
+        document.title = title;
+        
         // ACL
         if (mvc.model !== 'me'){
             $.ajax({
