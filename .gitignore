@@ -3,3 +3,4 @@ config.php
 backup/
 *.log
 sitemap.xml
+robots.txt
