@@ -48,7 +48,7 @@ include('config.php'); ?>
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/internal.js?version=1.5.20"></script>
-    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.17"></script>          
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.18"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>

@@ -43,7 +43,7 @@
         mvc.controller  = mvc.url.split('/')[2];
         
         let title = config.title_prefix + (mvc.model ? ' - '+mvc.model : '') + (mvc.view ? ' - '+mvc.view : '') + (mvc.controller ? ' - '+mvc.controller : '');
-        if (mvc.model === 'entities'){
+        if (mvc.model === 'entities' || mvc.model === 'cms' || mvc.model === 'me'){
             title = config.title_prefix + (mvc.view ? ' - '+mvc.view : '') + (mvc.controller ? ' - '+mvc.controller : '');
         }
         document.title = title;
