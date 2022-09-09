@@ -11,6 +11,7 @@
     RewriteRule ^(media(.*))($) - [L]
     RewriteRule ^(api(.*))($) - [L]
     RewriteRule ^(robots.txt(.*))($) - [L]
+    RewriteRule ^(sitemap.xml(.*))($) - [L]
     RewriteRule ^(upload.php(.*))($) - [L]
     RewriteRule ^(upload_logo.php(.*))($) - [L]
     RewriteRule ^(upload_cover.php(.*))($) - [L]
