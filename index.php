@@ -14,13 +14,23 @@ include('config.php'); ?>
 <head>
     
     <title><?= $config['title'] ?></title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["WebApplication", "MobileApplication"],
+      "name": "Stocktok",
+      "url":  "https://stocktok.app",
+      "logo": "https://stocktok.app/media/img/icons/icon-512x512.png"
+    }
+    </script>
+    </head>
       
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
     <meta name="viewport"                        content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color"                     content="<?= $config['theme_color'] ?>" />
-    <meta name="description"                     content="Be a market player" /> 
+    <meta name="description"                     content="Find stocks, currencies, crypto, fantokens, commodities, indices and more" /> 
     <meta name="mobile-web-app-capable"          content="yes" />
     <meta name="mobile-web-app-status-bar-style" content="black" />
     <meta name="mobile-web-app-title"            content="Stocktok" />    
@@ -48,7 +58,7 @@ include('config.php'); ?>
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
     <script src="/media/js/internal.js?version=1.5.20"></script>
-    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.17"></script>          
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.18"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
