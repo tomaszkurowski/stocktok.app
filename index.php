@@ -14,6 +14,16 @@ include('config.php'); ?>
 <head>
     
     <title><?= $config['title'] ?></title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["WebApplication", "MobileApplication"],
+      "name": "Stocktok",
+      "url":  "https://stocktok.app",
+      "logo": "https://stocktok.app/media/img/icons/icon-512x512.png"
+    }
+    </script>
+    </head>
       
     <meta charset="UTF-8" />
     
