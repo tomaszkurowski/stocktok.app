@@ -119,6 +119,5 @@ if($fileError == UPLOAD_ERR_OK){
          default: $message = 'Error: carga de archivo no completada.';
                   break;
         }
-        echo json_encode(['success' => true, //'message' => $message
-        ]);
+        echo json_encode(['success' => false, 'message' => $message ]);
 }
