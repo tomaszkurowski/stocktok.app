@@ -52,9 +52,9 @@ try{
         
         switch($method){
             case 'GET': $response = WpOrg\Requests\Requests::get('https://stg-api.stocktok.online'.$params['endpoint'].'?'.http_build_query($params), $headers); print_r($response->body); break;
-            case 'PUT': die('put'); break;
+            case 'PUT': $response = WpOrg\Requests\Requests::put('https://stg-api.stocktok.online'.$params['endpoint'].'?'.http_build_query($params), $headers); print_r($response->body); break;
             case 'POST': $response = WpOrg\Requests\Requests::post('https://stg-api.stocktok.online'.$params['endpoint'], $headers, json_encode($params)); print_r($response->body);  break;
-            case 'DELETE': die('delete'); break;
+            case 'DELETE': $response = WpOrg\Requests\Requests::delete('https://stg-api.stocktok.online'.$params['endpoint'].'?'.http_build_query($params), $headers); print_r($response->body); break;
         }
       
     }  

@@ -5,9 +5,7 @@ You can find it here: https://stocktok.app
 More info about stocktok itself here: https://stocktok.website
 
 To run this application on your server (or local) you only have to do two steps.
-1. Change config.template into config.php
+1. Duplicate config.template into config.php & manifest.template into manifest.json
 2. In config.php 
-    a) Add your access token. If you don't have it, contact: support@stocktok.online
-    b) Add base-url (url to place where app is installed)
-
-
+    a) Update parameter "api_token" with your access token. If you don't have it, contact: support@stocktok.online
+    b) Update parameter "base_url" with url to your repository.

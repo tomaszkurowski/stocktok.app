@@ -61,8 +61,13 @@ $(document).on('click', '[data-action="step2"]', function(){
                         
                         if (response.success){
                             
-                            sessionStorage.setItem('username', response.username);
-                            if (response.persistence) sessionStorage.setItem('persistence', response.persistence);
+                            if (settings.rememberMe){
+                                setCookie('username', response.username,365);
+                                if (response.persistence) setCookie('persistence', response.persistence,365);                                
+                            }else{
+                                sessionStorage.setItem('username', response.username);
+                                if (response.persistence) sessionStorage.setItem('persistence', response.persistence);
+                            }
                             
                             let params = getQueryParams();
                             if (params.ref && params.ref !== '/me/login' && params.ref !== '/me/logout') location.href=params.ref[0];

@@ -16,11 +16,11 @@ include('config.php'); ?>
     <title><?= $config['title'] ?></title>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": ["WebApplication", "MobileApplication"],
-      "name": "Stocktok",
-      "url":  "https://stocktok.app",
-      "logo": "https://stocktok.app/media/img/icons/icon-512x512.png"
+        "@context": "https://schema.org",
+        "@type": ["WebApplication", "MobileApplication"],
+        "name": "Stocktok",
+        "url":  "https://stocktok.app",
+        "logo": "https://stocktok.app/media/img/icons/icon-512x512.png"
     }
     </script>
     </head>
@@ -57,8 +57,8 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.20"></script>
-    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.18"></script>          
+    <script src="/media/js/internal.js?version=1.5.21"></script>
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.20"></script>          
     <script src="/media/js/external.js?version=1.13"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
@@ -91,7 +91,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.187',
+            version:    '1.1.189',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,
@@ -142,7 +142,8 @@ include('config.php'); ?>
                 border_radius2:     '5px'
             },            
             mute:1,
-            contributor: 'no'
+            contributor: 'no',
+            rememberMe: true
         };        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
         settings.design.border_radius1 = '5px';

@@ -7,7 +7,10 @@
     function init(){ 
 
         if (mvc.view) wallet.username = mvc.view; 
-        else          wallet.username = sessionStorage.getItem('username');
+        else{
+            if (settings.rememberMe){ wallet.username = getCookie('username');
+            }else{ wallet.username = sessionStorage.getItem('username'); }            
+        }          
 
         $("#mystock-result").html(''); 
         $.ajax({

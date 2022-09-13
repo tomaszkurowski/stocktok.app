@@ -50,12 +50,21 @@
         
         // ACL
         if (mvc.model !== 'me'){
+            
+            if (settings.rememberMe){
+                let username    = getCookie('username');
+                let persistence = getCookie('persistence');
+            }else{
+                let username    = sessionStorage.getItem('username');
+                let persistence = sessionStorage.getItem('persistence');
+            }
+            
             $.ajax({
                 url: config.api_url,
                 data: { 
                     endpoint:    '/me', 
-                    username:    sessionStorage.getItem('username'), 
-                    persistence: sessionStorage.getItem('persistence') 
+                    username:    getCookie('username'), 
+                    persistence: getCookie('persistence') 
                 },
                 type: 'GET',
                 dataType: 'JSON',
