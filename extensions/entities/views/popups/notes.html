@@ -1,0 +1,44 @@
+<div class="popup active popup-notes">
+    <div class="popup-body padding-side-regular">
+        
+        <div class="form">
+            <textarea placeholder="New note" id="new-note"></textarea>
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('.popup-notes textarea').focus();
+        button({ class: "icon-btn popup-btn icon-check1" }, function(){
+            if ($('.popup-notes textarea').val().length<1){
+                return;
+            }
+            
+            var id = $('.popup-notes textarea').attr('data-id') ? parseInt($('.popup-notes textarea').attr('data-id')) : null;
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/me/note',
+                    body: $('#new-note').val(),
+                    symbol: mvc.controller,
+                    market: mvc.view,
+                    id:id
+                },
+                type: !id ? 'POST' : 'PUT',
+                dataType: 'JSON',
+                cache: false,
+                success: function(response){                  
+                    $('.popup-btn').remove();
+                    $('.popup-notes').remove();
+                    $('body').removeClass('with-popup');
+                    toggleHeading();
+                    get_notes();
+                }
+            });
+        });
+    });
+
+</script>

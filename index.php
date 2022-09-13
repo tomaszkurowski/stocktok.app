@@ -42,8 +42,8 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"      href="/manifest.json?v=1.1">
-    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.157" />
-    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=1.1.55" />
+    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
+    <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -57,9 +57,9 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/internal.js?version=1.5.21"></script>
-    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=1.20"></script>          
-    <script src="/media/js/external.js?version=1.13"></script>
+    <script src="/media/js/internal.js?version=<?= $config['version_js'] ?>"></script>
+    <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=<?= $config['version_js'] ?>"></script>          
+    <script src="/media/js/external.js?version=<?= $config['version_js'] ?>"></script>
        
     <?php if ($config['mode'] === 'production'): ?>
     
@@ -91,7 +91,7 @@ include('config.php'); ?>
     <script type="text/javascript">                
 
         config = {
-            version:    '1.1.189',
+            version:    '<?= $config['version_js'] ?>',
             api_url:    '/api.php',
             base_url:   '<?= $config['base_url'] ?>',            
             debug:      <?= $config['debug'] ?>,

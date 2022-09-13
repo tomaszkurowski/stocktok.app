@@ -123,8 +123,21 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 input[type=number] { -moz-appearance: textfield; }
 .input-checkbox input[type="checkbox"], input.checkbox { transform:scale(1.3); appearance: auto; webkit-appearance:auto; -moz-appearance:auto; width:auto !important; margin-right:10px; margin-top:0; background-color: var(--color-base); }
-
-
+textarea{
+    width: 100%;
+    margin-top: 15px;
+    border-radius: var(--border-radius1);
+    border: 1px solid var(--color-bg);
+    min-height: 100px;
+    padding: 15px;
+    color:var(--color-text);
+    font-family:'gotham-regular';
+    font-size:var(--size-regular);
+    -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
+    -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
+    box-shadow: 8px 8px 24px -25px rgb(66 68 90);   
+    line-height:22px;
+}
 .ui-selectmenu-button.ui-button { width:auto !important; }
 .ui-icon-triangle-1-s { background-position:-60px -17px !important}
 
@@ -533,7 +546,7 @@ body:not(.with-popup) .heading > *{ margin:0; padding:0 8px; }
     color:var(--color-bg);
 }
 .with-popup .heading > :not(.popup-btn) { display:none; }
-
+.with-popup .footer .toggleHeading { display:none; }
 
 
 .menu-container {
@@ -628,7 +641,11 @@ body.editable .mystock-view,
 body.editable .wallets,
 body.editable .results-info-title > *:not(.actions-all),
 body.editable .range-selector,
-body.editable .cover {
+body.editable .cover,
+body.editable .find-in,
+body.editable .my-notes [data-action="add-note"],
+body.editable .entity-main-info-container
+{
     opacity: 0.3;
     filter: blur(2px);
 }
@@ -2487,21 +2504,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-}
-.settings textarea {
-    width: 100%;
-    margin-top: 15px;
-    border-radius: var(--border-radius1);
-    border: 1px solid var(--color-bg);
-    min-height: 100px;
-    padding: 15px;
-    color:var(--color-text);
-    font-family:'gotham-regular';
-    font-size:var(--size-regular);
-    -webkit-box-shadow: 8px 8px 24px -23px rgb(66 68 90);
-    -moz-box-shadow: 8px 8px 24px -23px rgba(66, 68, 90, 1);
-    box-shadow: 8px 8px 24px -25px rgb(66 68 90);   
-    line-height:22px;
 }
 
 .settings .sounds-container .sound { font-size:30px; transition:all 0.3s ease-in; }
@@ -5019,6 +5021,46 @@ h2.title {
     flex-wrap:inherit;
     padding-bottom:0;
 }
-
-    
-    
+.my-notes {
+    margin: 0 15px 15px;
+    width: calc(100% - 30px);
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+}
+.my-notes .tab-content {
+    padding:15px;
+}
+.my-notes .actions {
+    display: flex;
+    justify-content: center;
+}
+.my-notes .body {
+    line-height: 25px;
+    margin: 15px 0 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-bg);
+}
+.my-notes .note .actions {
+    float:right;
+    display:none;
+}
+body.editable .my-notes .note .actions {
+    display:flex;
+}
+.my-notes .note .actions .icon-btn {
+    font-size:20px;
+    margin: 0 5px;
+}    
+.counter {
+    background-color: var(--color-bg);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: var(--size_small);
+    margin-right: 15px;
+    font-family: 'gotham-bold';
+}
+.counter.active {
+    background-color:var(--color-base);
+    color:var(--color-base-invert);
+}
