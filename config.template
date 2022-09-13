@@ -12,3 +12,6 @@ $config['dir_splash']       = '/media/img/splash_screen/';
 $config['dir_icons']        = '/media/img/icons/';
 
 $config['title_prefix']     = 'Stocktok - ';
+
+$config['version_css']      = '0.1';
+$config['version_js']       = '0.1';
