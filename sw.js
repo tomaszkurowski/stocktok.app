@@ -1,11 +1,11 @@
-const cacheName = 'stocktok-1002';
+const cacheName = 'stocktok-1004';
 const staticAssets = [
     '/index.html'
 ];
 
 self.addEventListener('install', async event => {
   
-    var cacheAllowlist = ['stocktok-1002'];
+    var cacheAllowlist = ['stocktok-1004'];
 
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
@@ -44,7 +44,7 @@ async function networkFirst(req) {
     try { 
         const fresh = await fetch(req);
         if (req.method!=="POST" && req.method!=="PUT" && req.method!=="DELETE" && req.destination !== 'audio'){
-            //cache.put(req, fresh.clone());
+            cache.put(req, fresh.clone());
         }    
         return fresh;
     } catch (e) { 
