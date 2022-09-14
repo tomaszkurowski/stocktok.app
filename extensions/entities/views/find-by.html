@@ -44,6 +44,22 @@
             }
         });         
     });
+    
+    let scrollTimer,
+    doneScrollInterval = 250;
+
+    $(window).scroll(function () {
+
+        if ($(document).height()-$(this).height()-10 < $(this).scrollTop()) {
+            if (scrollTimer) {
+                clearTimeout(scrollTimer);
+            }
+            scrollTimer = setTimeout(function () {
+                get_search_items();
+            }, doneScrollInterval);
+        }
+    });      
+    
     button({ class: 'icon-btn icon-search2' }, function(el){            
         if ($('footer #popup .search').length){ 
             $('footer #popup').html(''); 

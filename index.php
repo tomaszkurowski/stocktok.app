@@ -5,7 +5,7 @@ header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.g
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
-header("Cache-Control: max-age=31536000");
+//header("Cache-Control: max-age=31536000");
 
 include('config.php'); ?>
 
@@ -69,7 +69,7 @@ include('config.php'); ?>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'G-HYTRSZLWJV');
+          gtag('config', '<?= $config['google_analytics'] ?>');
         </script>
         
     <?php endif; ?>
