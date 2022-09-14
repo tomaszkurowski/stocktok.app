@@ -4148,6 +4148,9 @@ h2.title {
     font-family: 'gotham-regular';
     text-align: left;    
 }
+.page-title h2.title {
+    padding:0;
+}
 .players h2, .observed h2{
     width: 100%;
     margin-left: 5px;
