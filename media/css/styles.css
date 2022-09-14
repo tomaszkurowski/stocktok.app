@@ -1662,9 +1662,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .add-new-stock .currency {
     margin-left: 10px;
-    border-radius: 25px;
-    padding: 8px 15px 8px 19px;
-    height: 40px;
+    border-radius: var(--border-radius1);
+    padding: 5px 15px 5px 19px;
     background-color: var(--color-bg);
     border-color: var(--color-bg);
     font-size: var(--size-small);
@@ -1824,12 +1823,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .add-new-stock .advanced-body {
     display:none;
     width:100%;
-    padding: 0 15px 15px;
+    padding: 15px 15px 30px;
     border: 1px solid var(--color-bg);
     border-radius: var(--border-radius1);
     border-top-right-radius: 0;
     border-top-left-radius:0;
     margin-top: -1px;
+    background-color:var(--color-bg);
 }
 .add-new-stock .advanced .row {
     display: flex;
@@ -1844,11 +1844,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top:0;
 }
 .add-new-stock .advanced select {
-    background-color:var(--color-bg2);
-    color:var(--color-base);
+    background-color:var(--color-base);
+    color:var(--color-base-invert);
     font-family:'gotham-bold';
     width:60px;
-    text-align:center
+    text-align:center;
+    text-transform:capitalize;
 }
 
 .add-new-stock .advanced.active .advanced-header {
@@ -1856,7 +1857,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-bottom-right-radius:0;
     z-index:2;    
 }
-.add-new-stock .advanced.active .icon {
+.add-new-stock .advanced.active .advanced-header .icon {
     transform:rotate(180deg);
 }
 .add-new-stock .advanced * {
@@ -5063,4 +5064,29 @@ body.editable .my-notes .note .actions {
 .counter.active {
     background-color:var(--color-base);
     color:var(--color-base-invert);
+}
+
+.select-options {
+    display: flex;
+    align-items: center;
+}
+.select-options .option {
+    display: inline-flex;
+    background-color: var(--color-bg2);
+    margin: 0 0 0 5px;
+    padding: 5px 15px;
+    align-items: center;
+    border-radius: var(--border-radius1);
+}
+.select-options .option.active{
+    background-color: var(--color-base);
+    color: var(--color-base-invert);
+    font-family:'gotham-bold';
+}
+.select-options .option .icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+.select-options .option.no-icon {
+    padding:10px 15px;
 }

@@ -38,7 +38,12 @@
                             <div class="field input focus">
                                 <label id="add-new-stock-label-qty">Quantity:</label>
                                 <input type="number" id="qty" name="qty" data-role="none" value="" />
-                            </div>    
+                            </div>
+                            
+                            <div class="slidecontainer">
+                                <input type="range" min="1" max="107659" step="1" value="107659" class="slider-range" >
+                            </div>
+                            
                             <div class="advanced">
                                 <div class="advanced-header">
                                     <div class="icon icon-expand_more"></div>                                     
@@ -48,6 +53,31 @@
                                     <div class="row">
                                         <div class="option">Buy in</div>
                                         <select class="currency" id="currency" onchange="buy_reload_totals()"></select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="select-options">
+                                            <div class="option active">
+                                                <div class="icon icon-trending_up2"></div>
+                                                <div class="title">Long</div>
+                                            </div>
+                                            <div class="option">
+                                                <div class="icon icon-trending_up2" style="transform:scaleY(-1)"></div>
+                                                <div class="title">Short</div>
+                                            </div>                      
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="select-options">
+                                            <div class="option active no-icon">
+                                                <div class="title">x1</div>
+                                            </div>
+                                            <div class="option no-icon">
+                                                <div class="title">x2</div>
+                                            </div>                      
+                                            <div class="option no-icon">
+                                                <div class="title">x4</div>
+                                            </div>                                                          
+                                        </div>
                                     </div>
                                     <!--
                                     <div class="row">
@@ -278,5 +308,12 @@
         
         get_currencies();
         init_slick();
+        
+        $(document).on('input','.add-new-stock .slider-range',function(){            
+            $('.popup.add-new-stock .views').slick('slickSetOption','swipe',false,false);
+        });
+        $(document).on('change','.add-new-stock .slider-range',function(){
+            $('.popup.add-new-stock .views').slick('slickSetOption','swipe',true,false);
+        });
 
     </script>
