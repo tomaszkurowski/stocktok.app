@@ -5,7 +5,7 @@ header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.g
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
-header("Cache-Control: max-age=31536000");
+//header("Cache-Control: max-age=31536000");
 
 include('config.php'); ?>
 
