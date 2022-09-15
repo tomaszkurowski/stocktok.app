@@ -1,4 +1,4 @@
-@import "icons.css?v=1.10"; 
+@import "icons.css?v=1.11"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -2289,12 +2289,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 
-.page.settings .tabs, .page.settings .boxes {
+.page.settings .tabs, .page.settings .boxes, .page.more-info .boxes {
     width:calc(100% - 20px);
     max-width:440px;
     align-self:center;
+    margin:0 auto;
 }
-.page.settings .boxes {
+.page.settings .boxes, .page.more-info .boxes {
     display:flex;
     flex-wrap:wrap;
 }
@@ -2574,14 +2575,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin: 5px;
     padding: 30px 15px;
 }
-.results .box .title {
-    font-family:'gotham-bold';
-    color:var(--color-base);
-} 
 .results .box .value { 
-    font-family:'gotham-bold'; 
-    font-size:var(--size-medium); 
-    margin-bottom:15px;
+    font-family: 'gotham-bold';
+    font-size: var(--size-medium);
+    margin-bottom: 10px;
+    margin-top: 30px;
 }
 .results .box .icon {
     font-size:35px;
@@ -4142,11 +4140,11 @@ input:checked + .switch:before {
 h2.title {
     width: 100%;
     color: var(--color-text);
-    font-size: 24px;
-    line-height: 24px;
+    font-size: 26px;
+    line-height: 26px;
     padding: 15px;
     font-family: 'gotham-regular';
-    text-align: left;    
+    text-align: center;    
 }
 .page-title h2.title {
     padding:0;
@@ -4159,7 +4157,7 @@ h2.title {
     line-height: 24px;
     padding: 15px;
     font-family: 'gotham-regular';
-    text-align: left;
+    text-align: center;
 }
 
 .players .box {
@@ -4349,9 +4347,9 @@ h2.title {
     color: var(--color-bg);
 }
 .player-view .overview .username {
-    margin-top:30px;
-    font-family:'gotham-bold';
-    font-size:var(--size-big);
+    margin-top:45px;
+    margin-bottom:15px;
+    font-size:26px;   
 }
 .player-view .overview .country {
     border-radius: 50%;
@@ -5092,4 +5090,38 @@ body.editable .my-notes .note .actions {
 }
 .select-options .option.no-icon {
     padding:10px 15px;
+}
+
+.more-info .title {
+    text-align:center;
+}
+.more-info .banner {
+    margin-bottom:15px;
+    width:100%;
+    max-width:596px;
+}
+.more-info p {
+    line-height:22px;
+    text-align:center;
+}
+.more-info .box .icon {
+    margin: 0px auto;
+    text-align: center;
+    font-size: 100px;
+    margin-bottom: 30px;
+    color: var(--color-base);
+}
+.more-info h3 {
+    font-size:22px;
+    text-align:center;
+}
+.more-info .icons {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.more-info .icons > * {
+    font-size:24px;
+    color:var(--color-base) !important;
+    margin:15px 5px;
 }
