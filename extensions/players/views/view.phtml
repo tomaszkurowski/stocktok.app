@@ -111,7 +111,7 @@
                     url: config.api_url,
                     data: { 
                         endpoint: '/player',
-                        username: mvc.controller
+                        username: decodeURI(mvc.controller)
                     },
                     type: 'GET',
                     dataType: 'JSON',
