@@ -8,7 +8,7 @@
 
         if (mvc.view) wallet.username = mvc.view; 
         else{
-            wallet.username = sessionStorage.getItem('username') ? sessionStorage.getItem('username') : getCookie('username');           
+            wallet.username = sessionStorage.getItem('username') ? sessionStorage.getItem('username') : Cookies.get('username');           
         }          
 
         $("#mystock-result").html(''); 
