@@ -1,4 +1,4 @@
-@import "icons.css?v=1.11"; 
+@import "icons.css?v=1.13"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -3754,6 +3754,7 @@ main,
     border-radius: var(--border-radius2);
     background: var(--color-base);
     margin-left: 10px;
+    white-space:nowrap;
 }
 .changer-v2 label {
     margin-right:10px;
@@ -3777,15 +3778,12 @@ main,
 }
 
 .range-selector {
-    background-color:var(--color-bg2);
-    
+    background-color:var(--color-bg2);    
     border-bottom-left-radius:var(--border-radius1);
-    border-bottom-right-radius:var(--border-radius1);
-    
-    border-top:1px solid var(--color-bg);
-    
+    border-bottom-right-radius:var(--border-radius1);    
+    border-top:1px solid var(--color-bg);    
     padding-top:15px;
-    margin:0 15px;
+    flex-grow:1;
 }
 .stock-price-pro-mode .range-selector {
     border-bottom-left-radius:0;
@@ -3960,6 +3958,7 @@ input:checked + .switch:before {
     text-transform: uppercase;
     font-size: var(--size-medium);
     overflow: hidden;
+    border: 1px solid var(--color-bg);
 }
 .items-container .item .logo.no-img {
     border-radius:0;
@@ -5124,4 +5123,93 @@ body.editable .my-notes .note .actions {
     font-size:24px;
     color:var(--color-base) !important;
     margin:15px 5px;
+}
+.quick-tools {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: var(--color-bg2);
+    width: calc(100% - 30px);
+    margin: 0px auto;
+}
+.quick-tools .actions{
+    border-top: 1px solid var(--color-bg);
+    /* height: 100%; */
+    display: inline-flex;
+    align-items: center;
+    border-left: 1px solid var(--color-bg);
+    padding-left: 5px;
+    padding-right:5px;
+}
+.quick-tools .toggleTool {
+    transition:all 0.3s ease-in;
+}
+.quick-tools.active .toggleTool {
+    transform:rotate(180deg);
+}
+.graph-editor {
+    flex-grow: 1;
+    display: inline-flex;
+    justify-content: flex-end;
+    padding: 15px;
+    border-top: 1px solid var(--color-bg);
+    width: calc(100% - 55px);
+}
+.graph-editor .inline {
+    display: inline-flex;
+    overflow-x: scroll;
+}
+.graph-editor .changer-v2 {
+    background-color:var(--color-bg2);
+    border:1px solid var(--color-bg);
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgb(66 68 90);    
+}
+.graph-editor .changer-v2 label {
+    color:var(--color-label);
+}
+.graph-editor .changer-v2 select {
+    padding: 5px 10px 5px 0px;
+}
+.popup-calculator .row {
+    display:flex;
+    width:100%;
+    align-items:center;
+    justify-content:space-between;
+}
+.popup-calculator input {
+    text-align:right;
+    padding:10px 5px;
+    border-radius:var(--border-radius2);
+    border:1px solid var(--color-bg);
+    flex-grow:1;
+    width:100%;
+    font-family:'gotham-bold';
+    background-color:var(--color-bg);
+    text-align:center;
+}
+.popup-calculator select {
+    background-color: var(--color-bg);
+    text-align: center;
+    text-transform: capitalize;
+    margin-left:10px;
+    padding:10px 5px;
+    border-radius:var(--border-radius2);
+    border:1px solid var(--color-bg);
+}
+.popup-calculator .sep {
+    font-size: 25px;
+    margin:0 10px;
+}
+.popup-calculator .form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+.popup-calculator .column {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;   
 }

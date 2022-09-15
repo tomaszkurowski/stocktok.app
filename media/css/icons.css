@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?lwd73d');
-  src:  url('../fonts/icomoon.eot?lwd73d#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?lwd73d') format('truetype'),
-    url('../fonts/icomoon.woff?lwd73d') format('woff'),
-    url('../fonts/icomoon.svg?lwd73d#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?9algxh');
+  src:  url('../fonts/icomoon.eot?9algxh#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?9algxh') format('truetype'),
+    url('../fonts/icomoon.woff?9algxh') format('woff'),
+    url('../fonts/icomoon.svg?9algxh#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,11 +25,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-google:before {
-  content: "\e92f";
+.icon-calculator:before {
+  content: "\e9a1";
 }
-.icon-youtube-play:before {
-  content: "\e995";
+.icon-ohlc:before {
+  content: "\e9a0";
 }
 .icon-twitter1:before {
   content: "\e999";
@@ -465,6 +465,18 @@
 }
 .icon-healthcare:before {
   content: "\e9da";
+}
+.icon-google:before {
+  content: "\e92f";
+}
+.icon-youtube-play:before {
+  content: "\e995";
+}
+.icon-web_asset:before {
+  content: "\e98e";
+}
+.icon-support_agent:before {
+  content: "\e98b";
 }
 .icon-donut_large:before {
   content: "\e992";

@@ -1,0 +1,52 @@
+<div class="popup active popup-calculator">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Currency Converter</h2>
+        </div>
+        
+        <div class="form">
+            <div class="column">
+                <input type="text" class="input" placeholder="0.00" value="1" id="amount" />
+                <select id="cc-currency1"></select>
+                <input type="hidden" id="cc_rate1" />
+            </div>
+            <span class="sep">=</span>
+            <div class="column"> 
+                <input type="text" class="input" placeholder="0.00" value="1" id="total" />
+                <select id="cc-currency2"></select>
+                <input type="hidden" id="cc_rate2" />                
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    function calculate(invert = false){
+        if (invert){
+            var amount = parseFloat($('#total').val()) / parseFloat(currencies[$('#cc-currency1').val()]) * parseFloat(currencies[$('#cc-currency2').val()]);
+            $('#amount').val(amount.toFixed(2)); 
+        }else{
+            var total = parseFloat($('#amount').val()) * parseFloat(currencies[$('#cc-currency1').val()]) * parseFloat(currencies[$('#cc-currency2').val()]);
+            $('#total').val(total.toFixed(2)); 
+        }
+               
+    }
+    $(document).ready(function(){
+        $.each(currencies,function(value){ $('#cc-currency1').append('<option value="'+value+'">'+value+'</option>'); });
+        $.each(currencies,function(value){ $('#cc-currency2').append('<option value="'+value+'"'+('usd' === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });
+        
+        calculate();
+    });
+    
+    $(document).on('change','#cc-currency1,#cc-currency2',function(){
+        calculate();
+    });
+    $(document).on('keyup','#amount',function(){
+        calculate();
+    });
+    $(document).on('keyup','#total',function(){
+        calculate(true);
+    });
+</script>

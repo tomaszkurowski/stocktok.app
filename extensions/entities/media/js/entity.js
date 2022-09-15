@@ -58,7 +58,15 @@ function generate_graph(){
                 pointFormat: '{point.y}'
             }
         });       
-        stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line }} });         
+        
+        if (settings.graph_type === 'line'){
+            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] } }}});
+        }else if (settings.graph_type === 'ohlc') {
+            stock_chart.update({ plotOptions: { series: { lineWidth:1, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
+        }else if (settings.graph_type === 'area') {
+            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
+        }
+        
         stock_graph_adaptive_height();
         stock_chart.reflow();                                    
         stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);              
@@ -473,6 +481,28 @@ $(document).ready(function(){
                 $('#stock_chart_range').val(val);
             });
 
+            if (stock.market === 'forex'){
+                button({ 
+                    class: 'icon-btn icon-calculator' }, 
+                    function(){
+                        $('body').toggleClass('with-popup');                            
+                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
+                        $.ajax({
+                            url:"/extensions/entities/views/popups/calculator.html",
+                            cache:false,
+                            success: function(data){
+                                                                
+                                $("#popup").html(data);
+                                $('#cc-currency1').append('<option value="'+stock.symbol+'" selected="SELECTED">'+stock.symbol+'</option>');
+                            },
+                            error: function(e){ if (config.debug) console.log(e); }
+                        });
+                    }
+                );                        
+            }    
+            
             button({ 
                 class: 'icon-btn icon-search2' }, 
                 function(){ location.href='/entities'; });  
@@ -595,16 +625,7 @@ $(document).ready(function(){
                         error: function(e){ if (config.debug) console.log(e); }
                     });
                 });
-            };                     
-
-            switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
-                editable(); 
-                stock_graph_adaptive_height(); 
-                if (stock_chart){ 
-                    setTimeout(function() {
-                        stock_chart.reflow();
-                    }, 400);
-                }});              
+            };                                
 
             
             stock_graph_adaptive_height();
@@ -723,19 +744,6 @@ $(document).ready(function(){
                                 $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                 reload_stock_price();
                             }
-                        },
-                        color: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, '#00e691'],
-                                [0.5, '#0091e6'],
-                                [1, '#e63900']
-                            ]
                         }
                     }
                 }                  
@@ -1008,6 +1016,12 @@ $(document).on('input','#stock_chart_range',function(){
 $(document).off('click', '.description-popup');
 $(document).on('click','.description-popup',function(){
     $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body hide-scroll"><div class="logo-container">'+$('.results-info-title .logo-container').html()+'</div><div class="title">'+$('.results-info-title h2').html()+'</div><div class="description">'+$(this).attr('data-value').replace(';','<br /><br />')+'</div></div></div>');
+});
+
+$(document).off('click', '.toggleTool');
+$(document).on('click','.toggleTool',function(){
+    $('.quick-tools > *:not(.actions)').toggle();
+    $('.quick-tools').toggleClass('active');
 });
 
 

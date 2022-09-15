@@ -106,30 +106,24 @@
                 <div class="chart stock-price-container">  
                     <div id="stock-price" class="stock-price active"></div>                                
                 </div>
-                <div class="range-selector">                   
-                    <div class="labels">
-                        <span data-id="1">Today</span>
-                        <span data-id="2">1W</span>
-                        <span data-id="3">3M</span>
-                        <span data-id="4">6M</span>
-                        <span data-id="5">1Y</span>
-                        <span data-id="6">All</span>
+                <div class="quick-tools">
+                    <div class="range-selector">                   
+                        <div class="labels">
+                            <span data-id="1">Today</span>
+                            <span data-id="2">1W</span>
+                            <span data-id="3">3M</span>
+                            <span data-id="4">6M</span>
+                            <span data-id="5">1Y</span>
+                            <span data-id="6">All</span>
+                        </div>
+                        <div class="slidecontainer">
+                            <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
+                        </div>
                     </div>
-                    <div class="slidecontainer">
-                        <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
-                    </div>
-                </div>
-                <div class="edit-view-actions inline-container">                                
-                    <div class="inline"> 
+                    <div class="graph-editor" style="display:none;">                            
+                    <div class="inline hide-scroll">                                              
                         <div class="changer-v2">
-                            <label for="related_layout">Related layout:</label>
-                            <select id="related_layout" onChange="updateSettings('related_layout',$(this).val()); $('.page').removeClass('view-grid view-minimal').addClass('view-'+$(this).val())"> <!-- stockactions.js -->
-                                <option value="grid">grid</option>
-                                <option value="minimal">minimal</option>
-                            </select>
-                        </div>                         
-                        <div class="changer-v2">
-                            <label for="graph_type">Graph type:</label>
+                            <label for="graph_type">Type:</label>
                             <select id="graph_type" onChange="updateSettings('graph_type',$(this).val()); generate_graph();"> <!-- stockactions.js -->
                                 <option value="line">Line</option>
                                 <option value="ohlc">OHLC</option>
@@ -137,7 +131,7 @@
                             </select>
                         </div>  
                         <div class="changer-v2 graph-tools">
-                            <label for="graph_tools">Graph tools:</label>
+                            <label for="graph_tools">Tools:</label>
                             <select id="graph_tools" onChange="updateSettings('graph_tools',$(this).val()); change_graph_tools()"> <!-- stockactions.js -->
                                 <option value="true">Show</option>
                                 <option value="false">Hide</option>
@@ -152,7 +146,7 @@
                             </select>
                         </div>
                         <div class="changer-v2">
-                            <label for="graph_line">Graph line:</label>
+                            <label for="graph_line">Stroke:</label>
                             <select id="graph_line" onChange="updateSettings('graph_line',$(this).val()); generate_graph();"> <!-- stockactions.js -->
                                 <option value="1">Thin</option>
                                 <option value="2">Regular</option>
@@ -160,7 +154,7 @@
                             </select>
                         </div>                                        
                         <div class="changer-v2">
-                            <label for="graph_grid">Grid type:</label>
+                            <label for="graph_grid">Grid:</label>
                             <select id="graph_grid" onChange="updateSettings('graph_grid',$(this).val()); change_graph_grid()"> <!-- At the bottom -->
                                 <option value="x">Only X axis</option>
                                 <option value="y">Only Y axis</option>
@@ -169,14 +163,23 @@
                             </select>
                         </div>
                         <div class="changer-v2">
-                            <label>Graph labels:</label>
+                            <label>Labels:</label>
                             <label class="switch-slider">
                                 <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
                                 <span class="switch"></span>
                             </label>
-                        </div>
-                    </div>
+                        </div>                        
+                    </div>                   
+
                 </div>
+                    
+                    <div class="actions">
+                        <div class="icon-btn icon-navigate_next toggleTool"></div>
+                    </div>                    
+                </div>
+
+                        
+
             </div>                                              
             <div class="page-view" data-view="info">
                 <div class="box find-in">
