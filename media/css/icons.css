@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?4y3xzd');
-  src:  url('../fonts/icomoon.eot?4y3xzd#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?4y3xzd') format('truetype'),
-    url('../fonts/icomoon.woff?4y3xzd') format('woff'),
-    url('../fonts/icomoon.svg?4y3xzd#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?lwd73d');
+  src:  url('../fonts/icomoon.eot?lwd73d#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?lwd73d') format('truetype'),
+    url('../fonts/icomoon.woff?lwd73d') format('woff'),
+    url('../fonts/icomoon.svg?lwd73d#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -478,6 +478,27 @@
 .icon-support_agent:before {
   content: "\e98b";
 }
+.icon-facebook:before {
+  content: "\e99f";
+}
+.icon-instagram:before {
+  content: "\e99d";
+}
+.icon-brand:before {
+  content: "\e99d";
+}
+.icon-social:before {
+  content: "\e99d";
+}
+.icon-pinterest:before {
+  content: "\e99e";
+}
+.icon-brand1:before {
+  content: "\e99e";
+}
+.icon-social1:before {
+  content: "\e99e";
+}
 .icon-move-up:before {
   content: "\e99c";
 }
@@ -511,7 +532,7 @@
 .icon-google2:before {
   content: "\e98c";
 }
-.icon-brand:before {
+.icon-brand2:before {
   content: "\e98c";
 }
 .icon-lifebuoy:before {
