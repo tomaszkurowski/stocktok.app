@@ -1,5 +1,4 @@
-    // Src: http://www.quirksmode.org/js/cookies.html
-    
+
     function load_layout(callback = null){
         
         localStorage.setItem('settings',JSON.stringify(settings));
@@ -52,8 +51,8 @@
         // ACL
         if (mvc.model !== 'me'){
             
-            var username    = sessionStorage.getItem('username') ? sessionStorage.getItem('username') : getCookie('username');
-            var persistence = sessionStorage.getItem('persistence') ? sessionStorage.getItem('persistence') : getCookie('persistence');
+            var username    = sessionStorage.getItem('username') ? sessionStorage.getItem('username') : Cookies.get('username');
+            var persistence = sessionStorage.getItem('persistence') ? sessionStorage.getItem('persistence') : Cookies.get('persistence');
             
             $.ajax({
                 url: config.api_url,
@@ -199,7 +198,7 @@
                             if (upgrade_needed===true){
                                 $('#loader').addClass('active');
                                 $('#loader > span').html('Automatic upgrade to version: '+response.version);
-                                setTimeout(location.reload.bind(location), 3000);
+                                setTimeout(window.location.reload.bind(location), 3000);
                             }else{
                                 navigator.serviceWorker.register('/sw.js?version='+response.version);
                                 $('#loader').removeClass('active').addClass('hide');

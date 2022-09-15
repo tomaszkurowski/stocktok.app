@@ -9,8 +9,8 @@
             dataType: 'JSON',
             success:function(){
                 sessionStorage.clear();
-                eraseCookie('username');
-                eraseCookie('persistence');
+                Cookies.remove('username');
+                Cookies.remove('persistence');
                 location.href='/me/login';
             },
             error:function(e){ if (config.debug) console.log(e); }

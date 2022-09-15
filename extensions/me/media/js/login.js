@@ -62,8 +62,8 @@ $(document).on('click', '[data-action="step2"]', function(){
                         if (response.success){
                             
                             if (settings.rememberMe === true){
-                                setCookie('username', response.username,365);
-                                if (response.persistence) setCookie('persistence', response.persistence,365);    
+                                Cookies.set('username', response.username, { expires: 365, path: '/' });
+                                if (response.persistence) Cookies.set('persistence', response.persistence, { expires: 365, path: '/' });
                             }
                             sessionStorage.setItem('username', response.username);
                             if (response.persistence) sessionStorage.setItem('persistence', response.persistence);
