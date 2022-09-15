@@ -11,7 +11,7 @@
                 sessionStorage.clear();
                 Cookies.remove('username');
                 Cookies.remove('persistence');
-                location.href='/me/login';
+                location.href='/me/login/?version='+config.version;
             },
             error:function(e){ if (config.debug) console.log(e); }
         });

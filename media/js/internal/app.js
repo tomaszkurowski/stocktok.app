@@ -73,7 +73,7 @@
                     // Navigation update
                     if (response.me.hasOwnProperty('username')){
                         $('.nav .username').text(response.me.username);
-                        $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
+                        $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout/?version="+config.version+"'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
