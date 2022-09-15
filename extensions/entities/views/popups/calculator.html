@@ -6,13 +6,13 @@
         
         <div class="form">
             <div class="column">
-                <input type="text" class="input" placeholder="0.00" value="1" id="amount" />
+                <input type="number" class="input" placeholder="0.00" value="1" id="amount" />
                 <select id="cc-currency1"></select>
                 <input type="hidden" id="cc_rate1" />
             </div>
             <span class="sep">=</span>
             <div class="column"> 
-                <input type="text" class="input" placeholder="0.00" value="1" id="total" />
+                <input type="number" class="input" placeholder="0.00" value="1" id="total" />
                 <select id="cc-currency2"></select>
                 <input type="hidden" id="cc_rate2" />                
             </div>
@@ -24,6 +24,10 @@
 <script type="text/javascript">
     
     function calculate(invert = false){
+        
+        if ($('#total').val()==='' || $('#amount').val()===''){
+            return;
+        }
         if (invert){
             var amount = parseFloat($('#total').val()) / parseFloat(currencies[$('#cc-currency1').val()]) * parseFloat(currencies[$('#cc-currency2').val()]);
             $('#amount').val(amount.toFixed(2)); 
