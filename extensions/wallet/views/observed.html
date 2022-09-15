@@ -221,9 +221,20 @@
                                     dataLabels: { enabled: false },
                                     stroke: {
                                         curve: 'smooth',
-                                        width: 2
+                                        width: 2,
+                                        colors:[settings.design.color_base]
                                     },
-                                    grid: { row: { colors: ['transparent'] } },
+                                    fill: {
+                                      type: "gradient",
+                                      gradient: {
+                                        shadeIntensity: 1,
+                                        opacityFrom: 0,
+                                        opacityTo: 0.4,
+                                        stops: [0, 100]
+                                      }
+                                    },                            
+
+                                    grid: { row: { colors: ['transparent'] }, padding:{ top:2,bottom:2 } },
                                     tooltip: { enabled: false }
                                 };
                                 stock_graphs[entity.id] = new ApexCharts(document.querySelector('#stock-graph-'+entity.id), options);

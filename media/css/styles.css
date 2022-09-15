@@ -3958,6 +3958,13 @@ input:checked + .switch:before {
     font-size: var(--size-regular);
     color: var(--color-text);    
 }
+.items-container .item .stock-graph-line {
+    min-height: 60px;
+    margin: 15px 0 0;
+}
+.view-minimal .items-container .stock-graph-line {
+    display:none;
+}
 .view-minimal .items-container .item  .logo-container { height:120px;}
 .view-minimal .items-container .item  .logo { max-height:120px; max-width:120px; }
 .view-minimal .items-container .item .icon-btn{
