@@ -8,8 +8,8 @@ var symbol = mvc.controller;
 
 function reload_stock_price(){
     
-    stock.daily_change            = stock.price - stock.previous_price;
-    stock.daily_change_percentage = parseFloat(((stock.price - stock.previous_price) / stock.previous_price) * 100).toFixed(2);
+    stock.daily_change            = parseFloat(stock.price - stock.open);
+    stock.daily_change_percentage = parseFloat(((stock.price - stock.open) / stock.open) * 100).toFixed(2);
     
     $('.results-info .current-price').text(format_price(stock.price));
     $('.results-info .previous-price').text(format_price(stock.previous_price));
@@ -18,17 +18,21 @@ function reload_stock_price(){
     $('.results-info .price-preview:not(.tooltip-hover) .date').text(stock.last_updated_at);
     
     $('.results-info .current-volume').text(format_price(stock.volume));
-    $('.results-info .daily-change').text(format_price(stock.daily_change,2));
+    $('.results-info .daily-change').text(format_price(stock.daily_change,4));
+    if (stock.daily_change>0){ $('.results-info .daily-change').attr('data-color','profit'); }
+    if (stock.daily_change<0){ $('.results-info .daily-change').attr('data-color','loss'); }
     $('.results-info .daily-change-percentage').text(stock.daily_change_percentage);
-   
-   
+    
+    if (stock.daily_change_percentage>0){ $('.results-info .daily-change-percentage').attr('data-color','profit'); }
+    if (stock.daily_change_percentage<0){ $('.results-info .daily-change-percentage').attr('data-color','loss'); }
+    
     if (stock.historical && !stock.open){
         var last_element = stock.historical.length-1;
         stock.open_price = stock.historical[last_element][2];
     }
-    $('.results-info .daily-max').text(format_price(stock.daily_max),2);
-    $('.results-info .daily-min').text(format_price(stock.daily_min),2);
-    $('.results-info .open-price').text(format_price(stock.open_price));
+    $('.results-info .daily-max').text(format_price(stock.high),2);
+    $('.results-info .daily-min').text(format_price(stock.low),2);
+    $('.results-info .open-price').text(format_price(stock.open));
     return;
 }
 
@@ -58,7 +62,15 @@ function generate_graph(){
                 pointFormat: '{point.y}'
             }
         });       
-        stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line }} });         
+        
+        if (settings.graph_type === 'line'){
+            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] } }}});
+        }else if (settings.graph_type === 'ohlc') {
+            stock_chart.update({ plotOptions: { series: { lineWidth:1, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
+        }else if (settings.graph_type === 'area') {
+            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
+        }
+        
         stock_graph_adaptive_height();
         stock_chart.reflow();                                    
         stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);              
@@ -436,6 +448,9 @@ $(document).ready(function(){
 
             $('.stock-view .results-info h2').text(stock.name);               
             $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+            if (stock.market === 'forex'){
+                $('.stock-view .results-info .logo-container').append('<img src="https://data.stocktok.online/logos/forex/nextGen/usd.webp?cache=632392078b3fa" class="secondary-logo" alt="logo-ron" loading="lazy" height="auto" width="auto" />');
+            }
 
             if (stock.cover){
                 $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
@@ -473,6 +488,28 @@ $(document).ready(function(){
                 $('#stock_chart_range').val(val);
             });
 
+            if (stock.market === 'forex'){
+                button({ 
+                    class: 'icon-btn icon-calculator' }, 
+                    function(){
+                        $('body').toggleClass('with-popup');                            
+                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
+                        $.ajax({
+                            url:"/extensions/entities/views/popups/calculator.html",
+                            cache:false,
+                            success: function(data){
+                                                                
+                                $("#popup").html(data);
+                                $('#cc-currency1').append('<option value="'+stock.symbol+'" selected="SELECTED">'+stock.symbol+'</option>');
+                            },
+                            error: function(e){ if (config.debug) console.log(e); }
+                        });
+                    }
+                );                        
+            }    
+            
             button({ 
                 class: 'icon-btn icon-search2' }, 
                 function(){ location.href='/entities'; });  
@@ -595,8 +632,7 @@ $(document).ready(function(){
                         error: function(e){ if (config.debug) console.log(e); }
                     });
                 });
-            };                     
-
+            };  
             switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
                 editable(); 
                 stock_graph_adaptive_height(); 
@@ -604,7 +640,7 @@ $(document).ready(function(){
                     setTimeout(function() {
                         stock_chart.reflow();
                     }, 400);
-                }});              
+                }});             
 
             
             stock_graph_adaptive_height();
@@ -723,19 +759,6 @@ $(document).ready(function(){
                                 $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
                                 reload_stock_price();
                             }
-                        },
-                        color: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0, '#00e691'],
-                                [0.5, '#0091e6'],
-                                [1, '#e63900']
-                            ]
                         }
                     }
                 }                  
@@ -914,17 +937,25 @@ $(document).ready(function(){
             // GET Notes
             get_notes();
             
-            $('.page').addClass('view-'+settings.related_layout);                   
-            if (stock.sector !== '' && stock.sector !== null){
-                get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-sector"] ',10,'shuffle',true);                                                
+            
+            // RELATED
+            $('.page').addClass('view-'+settings.related_layout);                           
+            if (stock.market === 'forex' || stock.market === 'fantoken' || stock.market === 'indices'){
+                get_search_items([{ code:'market', value:stock.market, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
+                $('[data-view="related-2').hide();
             }else{
-                $('[data-view="related-sector').hide();
+                if (stock.sector !== '' && stock.sector !== null){
+                    get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
+                }else{
+                    $('[data-view="related-1').hide();
+                }
+                if (stock.industry !== '' && stock.industry !== null){
+                    get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-2"] ',10,'volume_desc',true);                                                
+                }else{
+                    $('[data-view="related-2').hide();
+                }                
             }
-            if (stock.industry !== '' && stock.industry !== null){
-                get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-industry"] ',10,'volume_desc',true);                                                
-            }else{
-                $('[data-view="related-industry').hide();
-            }
+
 
             if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
             $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
@@ -1008,6 +1039,12 @@ $(document).on('input','#stock_chart_range',function(){
 $(document).off('click', '.description-popup');
 $(document).on('click','.description-popup',function(){
     $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body hide-scroll"><div class="logo-container">'+$('.results-info-title .logo-container').html()+'</div><div class="title">'+$('.results-info-title h2').html()+'</div><div class="description">'+$(this).attr('data-value').replace(';','<br /><br />')+'</div></div></div>');
+});
+
+$(document).off('click', '.toggleTool');
+$(document).on('click','.toggleTool',function(){
+    $('.quick-tools > *:not(.actions)').toggle();
+    $('.quick-tools').toggleClass('active');
 });
 
 

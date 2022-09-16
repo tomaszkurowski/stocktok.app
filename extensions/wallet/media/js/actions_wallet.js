@@ -229,7 +229,7 @@
                                 case '6-months': data = item.trend.monthly.length ? item.trend.monthly.reverse() : null; break;
                             }
 
-                            let options = {
+                            var options = {
                                 series: [{ data: data }],
                                 colors: [settings.design.color_base],
                                 chart: {
@@ -242,9 +242,20 @@
                                 dataLabels: { enabled: false },
                                 stroke: {
                                     curve: 'smooth',
-                                    width: 2
+                                    width: 2,
+                                    colors:[settings.design.color_base]
                                 },
-                                grid: { row: { colors: ['transparent'] } },
+                                fill: {
+                                  type: "gradient",
+                                  gradient: {
+                                    shadeIntensity: 1,
+                                    opacityFrom: 0,
+                                    opacityTo: 0.4,
+                                    stops: [0, 100]
+                                  }
+                                },                            
+
+                                grid: { row: { colors: ['transparent'] }, padding:{ top:2,bottom:2 } },
                                 tooltip: { enabled: false }
                             };
                             new ApexCharts(document.querySelector('#trend-'+item.wallet_entities_id), options).render();

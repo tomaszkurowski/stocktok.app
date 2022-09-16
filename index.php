@@ -77,7 +77,8 @@ include('config.php'); ?>
     <?php endif; ?>
     
 </head>  
-<body class="hide-scroll">
+<body class="hide-scroll"> 
+    <div id="transparent-bg"></div>
     <div id="css"></div>   
     <div id="app">
         <div class="app-body">
@@ -91,7 +92,6 @@ include('config.php'); ?>
         <span></span>
     </div>
     <script type="text/javascript">                
-
         config = {
             version:    '<?= $config['version_js'] ?>',
             api_url:    '/api.php',
