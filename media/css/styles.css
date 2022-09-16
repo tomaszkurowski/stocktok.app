@@ -31,7 +31,6 @@ body {
 
 }
 .app-body {
-    background-color:var(--color-bg);
     height:100vh;
     width:100%;
     position:relative;
@@ -5241,4 +5240,37 @@ body.editable .my-notes .note .actions {
     display: inline-flex;
     align-items: center;
     width: 100%;   
+}
+[data-color="profit"] {
+    color:var(--color-base);
+}
+[data-color="loss"] {
+    color:#f54257
+}
+
+#transparent-bg {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100% !important; 
+    height: 100% !important;
+    filter: blur(2px);
+}
+#transparent-bg video {
+    width: 100% !important; 
+    height: 100% !important;
+    filter: blur(2px);
+}
+.page {
+    z-index:1;
+}
+.transparent-bg h2.title{
+    color:#ffffff;
+}
+.transparent-bg .box, .transparent-bg .tab-header, .transparent-bg .tab-content, .transparent-bg .mystock {
+    background-color: rgba(255,255,255,0.9);
+}
+.transparent-bg .wallets {
+    background-color:transparent;
 }

@@ -8,8 +8,8 @@ var symbol = mvc.controller;
 
 function reload_stock_price(){
     
-    stock.daily_change            = stock.price - stock.previous_price;
-    stock.daily_change_percentage = parseFloat(((stock.price - stock.previous_price) / stock.previous_price) * 100).toFixed(2);
+    stock.daily_change            = parseFloat(stock.price - stock.open);
+    stock.daily_change_percentage = parseFloat(((stock.price - stock.open) / stock.open) * 100).toFixed(2);
     
     $('.results-info .current-price').text(format_price(stock.price));
     $('.results-info .previous-price').text(format_price(stock.previous_price));
@@ -18,17 +18,21 @@ function reload_stock_price(){
     $('.results-info .price-preview:not(.tooltip-hover) .date').text(stock.last_updated_at);
     
     $('.results-info .current-volume').text(format_price(stock.volume));
-    $('.results-info .daily-change').text(format_price(stock.daily_change,2));
+    $('.results-info .daily-change').text(format_price(stock.daily_change,4));
+    if (stock.daily_change>0){ $('.results-info .daily-change').attr('data-color','profit'); }
+    if (stock.daily_change<0){ $('.results-info .daily-change').attr('data-color','loss'); }
     $('.results-info .daily-change-percentage').text(stock.daily_change_percentage);
-   
-   
+    
+    if (stock.daily_change_percentage>0){ $('.results-info .daily-change-percentage').attr('data-color','profit'); }
+    if (stock.daily_change_percentage<0){ $('.results-info .daily-change-percentage').attr('data-color','loss'); }
+    
     if (stock.historical && !stock.open){
         var last_element = stock.historical.length-1;
         stock.open_price = stock.historical[last_element][2];
     }
-    $('.results-info .daily-max').text(format_price(stock.daily_max),2);
-    $('.results-info .daily-min').text(format_price(stock.daily_min),2);
-    $('.results-info .open-price').text(format_price(stock.open_price));
+    $('.results-info .daily-max').text(format_price(stock.high),2);
+    $('.results-info .daily-min').text(format_price(stock.low),2);
+    $('.results-info .open-price').text(format_price(stock.open));
     return;
 }
 
@@ -628,7 +632,15 @@ $(document).ready(function(){
                         error: function(e){ if (config.debug) console.log(e); }
                     });
                 });
-            };                                
+            };  
+            switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
+                editable(); 
+                stock_graph_adaptive_height(); 
+                if (stock_chart){ 
+                    setTimeout(function() {
+                        stock_chart.reflow();
+                    }, 400);
+                }});             
 
             
             stock_graph_adaptive_height();
@@ -925,17 +937,25 @@ $(document).ready(function(){
             // GET Notes
             get_notes();
             
-            $('.page').addClass('view-'+settings.related_layout);                   
-            if (stock.sector !== '' && stock.sector !== null){
-                get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-sector"] ',10,'shuffle',true);                                                
+            
+            // RELATED
+            $('.page').addClass('view-'+settings.related_layout);                           
+            if (stock.market === 'forex' || stock.market === 'fantoken' || stock.market === 'indices'){
+                get_search_items([{ code:'market', value:stock.market, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
+                $('[data-view="related-2').hide();
             }else{
-                $('[data-view="related-sector').hide();
+                if (stock.sector !== '' && stock.sector !== null){
+                    get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
+                }else{
+                    $('[data-view="related-1').hide();
+                }
+                if (stock.industry !== '' && stock.industry !== null){
+                    get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-2"] ',10,'volume_desc',true);                                                
+                }else{
+                    $('[data-view="related-2').hide();
+                }                
             }
-            if (stock.industry !== '' && stock.industry !== null){
-                get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-industry"] ',10,'volume_desc',true);                                                
-            }else{
-                $('[data-view="related-industry').hide();
-            }
+
 
             if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
             $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
