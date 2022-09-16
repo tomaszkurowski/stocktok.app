@@ -27,7 +27,8 @@
                         <div class="stock-graph-line"></div>
                     </div>
 
-                    <div class="name"></div>            
+                    <div class="name"></div> 
+                    <div class="trend-results"></div>
 
                 </div>             
             </div>    
@@ -178,6 +179,11 @@
                             $(entity_template).find('.symbol').html(entity.symbol);
                             $(entity_template).find('.logo-container').html('<div class="logo-container">' + (entity.logo ? '<img src="'+entity.logo+'" class="logo" alt="logo-'+entity.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+entity.symbol+'</div>') + '</div>');
                             $(entity_template).find('.name').html(entity.name);
+                            if (entity.open){
+                                $(entity_template).find('.trend-results').html('<b>Daily</b>: '+format_price(entity.price-entity.open,2)+ ' | <span><b>'+((entity.price-entity.open)/entity.open*100).toFixed(2)+'%</b></span>');
+                                if (entity.price-entity.open>0){ $(entity_template).find(".trend-results span").attr('data-color','profit'); }
+                                if (entity.price-entity.open<0){ $(entity_template).find(".trend-results span").attr('data-color','loss'); }
+                            }                            
 
                             if (price_change>0) $(entity_template).find('.current').attr('data-results','with profit');
                             else $(entity_template).find('.current').attr('data-results','with lost');

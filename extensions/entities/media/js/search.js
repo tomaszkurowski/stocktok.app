@@ -64,9 +64,14 @@ function get_search_items(filters=null,target='',size=30,sort = null,related=fal
                     $(view).append(('<div class="stock-graph-line" id="stock-graph-'+item.id+'"></div>'));             
 
 
+                    
                     $(view).append('<div class="price">'+item.price+'</div>');
                     $(view).append('<div class="currency">'+item.market_currency+'</div>');
-
+                    if (item.open){
+                        $(view).append('<div class="trend-results"><b>Daily</b>: '+format_price(item.price-item.open,2)+ ' | <span><b>'+((item.price-item.open)/item.open*100).toFixed(2)+'%</b></span></div>');
+                        if (item.price-item.open>0){ $(view).find(".trend-results span").attr('data-color','profit'); }
+                        if (item.price-item.open<0){ $(view).find(".trend-results span").attr('data-color','loss'); }
+                    }
                     $(el).append($(view));
                     
 

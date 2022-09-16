@@ -109,6 +109,7 @@ img {
 .hide-scroll::-webkit-scrollbar {
     display:none;
 }
+a { color:inherit; }
 
 /* -------------------------------------------------------------------------- */
 
@@ -1138,7 +1139,7 @@ body.scrolling-up .mystock-container{
 .view-grid [data-transaction-type="sold"] .mystock .logo.no-img { margin:17px 0 0; } /* Could be done more elegant, its for equal heights of boxes when logo/no-logo */
 
 .view-grid .mystock .stock-graph-container { margin:15px 0px 0px; display:flex; flex-direction:column; min-height:70px; }
-.view-grid .mystock .stock-graph-container .label { margin-bottom:5px; width:100%; text-align:center; }
+.view-grid .mystock .stock-graph-container .label { margin-bottom: 15px; width: 100%; text-align: center; margin-top: 10px; }
 .view-grid .mystock .current { width:100%; text-align:right; }
 .view-grid .mystock .results { order:1; width:100%; text-align:center; margin:15px 0 0; }
 .view-grid .mystock .results .additionals { justify-content:center; }
@@ -1213,7 +1214,9 @@ body.scrolling-up .mystock-container{
 .view-box .mystock .name { display:none; }
 .view-box .mystock .actions { display:none; }
 .view-box .mystock .symbol { display:none;}
+.view-box .mystock .trend-results { display:none; }
 .view-box .mystock .updated-at { text-align:right; }
+
 
 .mystock .symbol {
     padding:2.5px 10px;
@@ -1266,6 +1269,16 @@ body.scrolling-up .mystock-container{
     color: var(--color-text);
     
 }
+
+.mystock .item .trend-results {
+    margin:15px 0 -5px;
+    justify-content:center;
+    line-height:18px; 
+    padding:0;
+}
+.mystock .item .trend-results span{
+    margin-left:5px;
+}
 .view-grid .mystock .current .info,
 .view-box .mystock .current .info {
     padding-left:45px;
@@ -1284,7 +1297,7 @@ body.scrolling-up .mystock-container{
 .mystock .additionals .currency     { margin-left:3px; }
 
 .mystock .stock-graph { width:100%; height:40px; }
-.mystock .name { display:flex; align-items:center; font-size:var(--size-regular); margin:10px 5px; height:35px; font-family:'gotham-bold' }
+.mystock .name { display:flex; align-items:center; font-size:var(--size-small); margin:10px 5px; height:35px; line-height:18px; color:var(--color-label) }
 
 
 .mystock .visibility {
@@ -3988,6 +4001,15 @@ input:checked + .switch:before {
 .items-container .item .logo.no-img {
     border-radius:0;
 }
+.items-container .item .trend-results {
+    margin:15px 0 -5px;
+    justify-content:center;
+    line-height:18px; 
+    padding:0;
+}
+.items-container .item .trend-results span{
+    margin-left:5px;
+}
 .items-container .item .price{
     margin-top:15px; 
     font-family: 'gotham-bold';
@@ -4874,8 +4896,8 @@ h2.title {
 }
 .contributor-edit {
     position: absolute;
-    right: 10px;
-    bottom:13px;
+    left: 10px;
+    top:13px;
     font-size: 25px;
     color: var(--color-bg);
 }
