@@ -354,7 +354,7 @@ function change_graph_range(val=1){
     stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);                                    
 }
 function get_notes(){
-    if (me.username){
+    if (me){
         $.ajax({
             url: config.api_url,
             data: { 
@@ -514,7 +514,7 @@ $(document).ready(function(){
                 class: 'icon-btn icon-search2' }, 
                 function(){ location.href='/entities'; });  
 
-            if (me.username){
+            if (me){
                 button({ 
                     class: 'icon-btn icon-shopping_cart' }, 
                     function(){ 

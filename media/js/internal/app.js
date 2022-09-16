@@ -71,7 +71,7 @@
                     me = response.me;
                     
                     // Navigation update
-                    if (response.me.hasOwnProperty('username')){
+                    if (response.me){
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout/?version="+config.version+"'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
@@ -83,7 +83,7 @@
                     }
 
                     // ACL 
-                    if (response.me.hasOwnProperty('username') || 
+                    if (response.me || 
                         mvc.model === 'entities' || 
                         mvc.model === 'players' || 
                         mvc.model === 'cms'
