@@ -4,6 +4,7 @@
         
         mvc.path = '{symbol}';               
         load_highcharts(function(){
+            load_apexcharts(function(){
             $.ajax({
                 url:"/extensions/entities/views/"+mvc.path+".html",
                 cache:false,
@@ -15,6 +16,7 @@
                 },
                 error:   function(e){ if (config.debug) console.log(e);    }        
             });              
+            });
         });
         
     }else{

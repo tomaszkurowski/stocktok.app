@@ -34,7 +34,7 @@
         changer({ 
             title: 'Sort by', 
             key: 'find_sort', 
-            values: { 'alphabetically': 'Alphabetically', 'volume_desc':'Highest volume', 'volume_asc':'Lowest volume' },
+            values: { 'alphabetically': 'Alphabetically', 'volume_desc':'Highest volume', 'volume_asc':'Lowest volume', 'daily_desc':'Highest daily profit', 'daily_asc':'Highest daily lost' },
             click: function(el){ 
                 updateSettings('find_sort',$(el).find('select').val());
                 $('.items-container').html('');

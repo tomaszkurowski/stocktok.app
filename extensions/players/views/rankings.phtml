@@ -73,12 +73,9 @@
                         let btn_view = '<div class="icon-btn icon-person1" onclick="load_page(\'/players/view/'+player.username+'\',true)"></div>';
                         let actions = $('<div class="actions"></div>').append(btn_results).append(btn_view);
                         
-                        let box = $('<div class="box"></div>')
-                            .append(el)
-                            .append('<div class="icon-bookmark_outline" data-action="observe"></div>')
-                            .append(actions)
-                            .attr('data-username',player.username);
-                        
+                        let box = $('<div class="box"></div>').append(el);                    
+                            if (me) $(box).append('<div class="icon-bookmark_outline" data-action="observe"></div>');                            
+                            $(box).append(actions).attr('data-username',player.username);                        
                         $('[data-view="all"] .results').append(box);                        
                         
                     });
