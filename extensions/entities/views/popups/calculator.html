@@ -39,7 +39,7 @@
     }
     $(document).ready(function(){
         $.each(currencies,function(value){ $('#cc-currency1').append('<option value="'+value+'">'+value+'</option>'); });
-        $.each(currencies,function(value){ $('#cc-currency2').append('<option value="'+value+'"'+('usd' === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });
+        $.each(currencies,function(value){ $('#cc-currency2').append('<option value="'+value+'"'+(settings.display_currency === value ? 'selected="SELECTED"' : '')+'>'+value+'</option>'); });
         
         calculate();
     });
