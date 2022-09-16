@@ -1,9 +1,9 @@
-const cacheName = 'stocktok-1014';
+const cacheName = 'stocktok-1015';
 const staticAssets = [];
 
 self.addEventListener('install', async event => {
   
-    var cacheAllowlist = ['stocktok-1014'];
+    var cacheAllowlist = ['stocktok-1015'];
 
     event.waitUntil(
         caches.keys().then(function(cacheNames) {
