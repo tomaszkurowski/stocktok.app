@@ -161,11 +161,13 @@
                         });
 
                         $('.overview .actions').append($(btn_results));
-
-                        if (player.username !== me.username){
-                            $('.overview .actions').prepend('<div class="icon-btn icon-'+(player.observed ? 'bookmark1' : 'bookmark_outline')+'" data-action="'+(player.observed ? 'stop-observe' : 'observe')+'"></div>');
-                        }else{
-                            $('.overview .actions').append('<div class="icon-btn icon-settings" onclick="load_page(\'/settings\',true)"></div>');
+                        
+                        if (me){
+                            if (player.username !== me.username){
+                                $('.overview .actions').prepend('<div class="icon-btn icon-'+(player.observed ? 'bookmark1' : 'bookmark_outline')+'" data-action="'+(player.observed ? 'stop-observe' : 'observe')+'"></div>');
+                            }else{
+                                $('.overview .actions').append('<div class="icon-btn icon-settings" onclick="load_page(\'/settings\',true)"></div>');
+                            }
                         }
                         if (player.country) $('.overview').prepend('<img src="/media/img/flags/'+player.country+'.svg" class="country" alt="country-'+player.country+'" loading="lazy" />');
                         
