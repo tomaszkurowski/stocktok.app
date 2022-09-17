@@ -1,7 +1,7 @@
 <div class="popup active popup-calculator">
     <div class="popup-body padding-side-regular">
         <div class="header">                    
-            <h2>Currency Converter</h2>
+            <h2>Calculate</h2>
         </div>
         
         <div class="form">
@@ -44,13 +44,22 @@
         calculate();
     });
     
+    $(document).off('change','#cc-currency1,#cc-currency2');
     $(document).on('change','#cc-currency1,#cc-currency2',function(){
         calculate();
     });
+    $(document).off('keyup','#amount');
     $(document).on('keyup','#amount',function(){
         calculate();
     });
+    $(document).off('keyup','#total');
     $(document).on('keyup','#total',function(){
         calculate(true);
     });
+    
+    $(document).off('click','.popup-calculator input');
+    $(document).on('click','.popup-calculator .input',function(){
+        $(this).val('');
+    });
+    
 </script>

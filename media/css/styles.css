@@ -523,9 +523,15 @@ body:not(.with-popup) .heading > *{ margin:0; padding:0 8px; }
 
 .popup .header {
     position:relative;
-    padding-bottom:10px;
-    margin-bottom:20px;
-    border-bottom:1px solid var(--color-bg);
+    margin-bottom:30px;
+
+}
+.popup .header h2 {
+    font-size: var(--size-big);
+    text-align:center;
+}
+.popup.add-new-stock .header h2 {
+    text-align:left;
 }
 .popup .header .label {
     white-space: pre-wrap; /* strange that needed */
@@ -1459,7 +1465,7 @@ input.error {
     height:40px;  
     background-color:var(--color-bg2);
     border:1px solid var(--color-bg);
-    border-radius: 25px;
+    border-radius: var(--border-radius1);
     padding: 15px 15px;
     font-family: 'gotham-bold';
     font-size: var(--size-regular);
@@ -1514,7 +1520,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .select {
     display:inline-block;
     background:var(--color-bg);
-    border-radius: 25px;
+    border-radius: var(--border-radius1);
     position:relative;
     padding-right:25px;
     margin:5px 0;
@@ -1697,7 +1703,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .add-new-stock .summary {
     padding:15px;
-    border-top:1px solid var(--color-bg);
+    border-top:1px dotted var(--color-bg);
     display:flex;
     flex-direction:column;
     align-items:flex-end;
@@ -1784,7 +1790,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     flex-direction:initial;
     margin:0 30px 15px;
     padding-top:15px;
-    border-top:1px solid var(--color-bg);
+    border-top:1px dotted var(--color-bg);
     border-radius:0;
     align-items:stretch;
     justify-content:space-between;
@@ -1812,7 +1818,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items:flex-end;
     flex-direction:column;
     padding-bottom:15px;
-    border-bottom:1px solid var(--color-bg);
 }
 
 .add-new-stock .advanced-header {
@@ -2807,6 +2812,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .stock-view .results-info h2 {
     flex-grow:1;
     line-height:24px;
+    font-size:var(--size-big);
 }
 
 .stock-view .results-info .icon { margin-right:-5px; margin-left:0; transition:all 0.3s ease-in; }
@@ -4903,9 +4909,6 @@ h2.title {
 }
 
 .popup .btns-step {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 1px solid var(--color-bg);
     display:flex;
     flex-wrap:wrap;
     justify-content:space-between;
@@ -5012,10 +5015,10 @@ h2.title {
     line-height:24px;
     padding:15px 5px;
     font-family:'gotham-regular';
-    text-align:left;
+    text-align:center;
 }
 .related-container h2 {
-    padding:25px 5px 0;
+    padding:25px 10px 0;
 }
 .entities h2:first-child {
     padding-top:12.5px
@@ -5137,7 +5140,9 @@ body.editable .my-notes .note .actions {
 .select-options .option.no-icon {
     padding:10px 15px;
 }
-
+.more-info .box {
+    text-align:center;
+}
 .more-info .title {
     text-align:center;
 }
@@ -5230,33 +5235,35 @@ body.editable .my-notes .note .actions {
 }
 .popup-calculator input {
     text-align:right;
-    padding:10px 5px;
+    padding:15px 10px;
     border-radius:var(--border-radius2);
     border:1px solid var(--color-bg);
     flex-grow:1;
     width:100%;
-    font-family:'gotham-bold';
-    background-color:var(--color-bg);
+    background-color:var(--color-bg2);
     text-align:center;
 }
 .popup-calculator select {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg2);
     text-align: center;
     text-transform: capitalize;
     margin-left:10px;
-    padding:10px 5px;
+    padding:15px 10px;
     border-radius:var(--border-radius2);
     border:1px solid var(--color-bg);
+    font-family:'gotham-bold';
 }
 .popup-calculator .sep {
-    font-size: 25px;
+    font-size: var(--size-big);
     margin:0 10px;
+    font-family:'gotham-bold';
 }
 .popup-calculator .form {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin-bottom:15px;
 }
 .popup-calculator .column {
     display: inline-flex;
@@ -5296,3 +5303,4 @@ body.editable .my-notes .note .actions {
 .transparent-bg .wallets {
     background-color:transparent;
 }
+.secondary-logo { display:none !important; }
