@@ -37,6 +37,9 @@
    .range-selector {
        max-width:360px;
    }
+   .quick-tools {
+        width: calc(100% - 30px);
+   }
    
    .with-popup .footer-container { left:auto; }
   
@@ -146,7 +149,24 @@
    .stock-view .results-info:not(.collapsed).with-cover .widget-collapse {
        top:40px;
    }    
+    .quick-tools {
+        width: calc(100% - 15px);
+        margin-left:15px;
+   }
 
+   .page.more-info > .box {
+       width: calc(50% - 30px);
+       float:left;
+   }
+   .page.more-info .boxes {
+       float:left;
+       width:calc(50% - 30px);
+       max-width:calc(50% - 30px);
+       margin-left:15px;
+   }
+   .page.more-info .box.right {
+       float:right;
+   }
         
     
     .with-popup .footer {
