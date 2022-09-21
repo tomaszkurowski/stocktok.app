@@ -102,6 +102,7 @@ img {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+
 .hide-scroll {
     -ms-overflow-style: none; 
     scrollbar-width: none;
