@@ -3921,7 +3921,7 @@ main,
   -webkit-transition: .4s;
   transition: .4s;
   border-radius:50%;
-  opacity:0.5;
+  opacity:1;
 }
 
 input:checked + .switch:before {
@@ -5192,13 +5192,18 @@ body.editable .my-notes .note .actions {
     align-items: center;
     border-left: 1px solid var(--color-bg);
     padding-left: 5px;
-    padding-right:5px;
+    padding-right: 5px;
+    flex-grow: 1;
+    justify-content: flex-end;
 }
 .quick-tools .toggleTool {
     transition:all 0.3s ease-in;
 }
 .quick-tools.active .toggleTool {
     transform:rotate(180deg);
+}
+.quick-tools .icon-settings {
+    font-size:27px;
 }
 .graph-editor {
     flex-grow: 1;
@@ -5243,21 +5248,24 @@ body.editable .my-notes .note .actions {
     width:100%;
     background-color:var(--color-bg2);
     text-align:center;
+    font-size:36px;
 }
 .popup-calculator select {
-    background-color: var(--color-bg2);
+    background-color: var(--color-base);
     text-align: center;
     text-transform: capitalize;
-    margin-left:10px;
-    padding:15px 10px;
-    border-radius:var(--border-radius2);
-    border:1px solid var(--color-bg);
-    font-family:'gotham-bold';
+    margin-left: 10px;
+    padding: 10px 10px;
+    border-radius: var(--border-radius2);
+    border:1px solid var(--color-base);
+    font-family: 'gotham-bold';
+    margin-top: 10px;
+    color: var(--color-base-invert);
 }
 .popup-calculator .sep {
-    font-size: var(--size-big);
-    margin:0 10px;
-    font-family:'gotham-bold';
+    font-size: 33px;
+    margin: -40px 10px 0 10px;
+    color: var(--color-bg);
 }
 .popup-calculator .form {
     display: flex;
@@ -5269,7 +5277,8 @@ body.editable .my-notes .note .actions {
 .popup-calculator .column {
     display: inline-flex;
     align-items: center;
-    width: 100%;   
+    width: 100%; 
+    flex-direction:column;
 }
 [data-color="profit"] {
     color:var(--color-base);
@@ -5305,3 +5314,38 @@ body.editable .my-notes .note .actions {
     background-color:transparent;
 }
 .secondary-logo { display:none !important; }
+
+.popup.popup-advanced-charting.active {
+    max-height:350px;
+}
+.popup-advanced-charting .changer-v2 { 
+    background-color:var(--color-bg2); 
+    margin-bottom:15px; 
+    padding:15px 15px 0;
+    margin-left:0;
+    white-space:break-spaces;
+    justify-content:space-between;
+}
+.popup-advanced-charting .changer-v2 label {
+    color:var(--color-label);
+    width:70%;
+    font-size:var(--size-regular);
+}
+.popup-advanced-charting .changer-v2 label b{
+    font-size:var(--size-regular);
+    color:var(--color-text);
+    display:inline-block;
+    margin-bottom:5px;
+}
+.popup-advanced-charting .changer-v2 select {
+    color:var(--color-base);
+    border:1px solid var(--color-base);
+    background-color:var(--color-bg2);
+    padding:15px;
+    font-size:var(--size-regular);
+    width:30%;
+    text-align:center;
+}
+.popup-advanced-charting .switch-slider {
+    width:40px !important;
+}

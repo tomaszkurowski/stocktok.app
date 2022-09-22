@@ -110,71 +110,19 @@
                     <div class="range-selector">                   
                         <div class="labels">
                             <span data-id="1">Today</span>
-                            <span data-id="2">1W</span>
-                            <span data-id="3">3M</span>
-                            <span data-id="4">6M</span>
-                            <span data-id="5">1Y</span>
+                            <span data-id="2">1w</span>
+                            <span data-id="3">3m</span>
+                            <span data-id="4">6m</span>
+                            <span data-id="5">1y</span>
                             <span data-id="6">All</span>
                         </div>
                         <div class="slidecontainer">
                             <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
                         </div>
-                    </div>
-                    <div class="graph-editor" style="display:none;">                            
-                    <div class="inline hide-scroll">                                              
-                        <div class="changer-v2">
-                            <label for="graph_type">Type:</label>
-                            <select id="graph_type" onChange="updateSettings('graph_type',$(this).val()); generate_graph();"> <!-- stockactions.js -->
-                                <option value="line">Line</option>
-                                <option value="ohlc">OHLC</option>
-                                <option value="area">Area</option>
-                            </select>
-                        </div>  
-                        <div class="changer-v2 graph-tools">
-                            <label for="graph_tools">Tools:</label>
-                            <select id="graph_tools" onChange="updateSettings('graph_tools',$(this).val()); change_graph_tools()"> <!-- stockactions.js -->
-                                <option value="true">Show</option>
-                                <option value="false">Hide</option>
-                            </select>
-                        </div>                          
-                        <div class="changer-v2">
-                            <label for="graph_touch">On touch:</label>
-                            <select id="graph_touch" onChange="updateSettings('graph_touch',$(this).val()); change_graph_touch()"> <!-- At the bottom -->
-                                <option value="tooltip">Show Tooltip</option>
-                                <option value="ruler">Show Ruler</option>
-                                <option value="void">Do nothing</option>
-                            </select>
-                        </div>
-                        <div class="changer-v2">
-                            <label for="graph_line">Stroke:</label>
-                            <select id="graph_line" onChange="updateSettings('graph_line',$(this).val()); generate_graph();"> <!-- stockactions.js -->
-                                <option value="1">Thin</option>
-                                <option value="2">Regular</option>
-                                <option value="3">Bold</option>
-                            </select>
-                        </div>                                        
-                        <div class="changer-v2">
-                            <label for="graph_grid">Grid:</label>
-                            <select id="graph_grid" onChange="updateSettings('graph_grid',$(this).val()); change_graph_grid()"> <!-- At the bottom -->
-                                <option value="x">Only X axis</option>
-                                <option value="y">Only Y axis</option>
-                                <option value="xy">XY axis</option>
-                                <option value="-">No grid</option>
-                            </select>
-                        </div>
-                        <div class="changer-v2">
-                            <label>Labels:</label>
-                            <label class="switch-slider">
-                                <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
-                                <span class="switch"></span>
-                            </label>
-                        </div>                        
-                    </div>                   
-
-                </div>
-                    
+                    </div>                    
                     <div class="actions">
-                        <div class="icon-btn icon-navigate_next toggleTool"></div>
+                        <div class="icon-btn icon-settings" data-action="advanced-charting"></div>
+                        <div class="icon-btn icon-fullscreen" data-action="advanced-charting-fullscreen"></div>
                     </div>                    
                 </div>
 
