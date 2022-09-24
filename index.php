@@ -101,7 +101,9 @@ include('config.php'); ?>
             precision_rate:  11,
             precision_total: 4,
             minify: <?= $config['minify'] ?>,
-            title_prefix: '<?= $config['title_prefix'] ?>'
+            title_prefix: '<?= $config['title_prefix'] ?>',
+            locale: Intl.DateTimeFormat().resolvedOptions().locale,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
         };                         
         settings = {                                    
             calculation_of_profit_with_purchased_rate:1,

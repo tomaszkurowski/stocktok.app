@@ -77,7 +77,7 @@
                     $.each(wallet.items, function(i, item){ 
 
                         wallet.symbols.push(item.symbol.toUpperCase());           
-                        item.last_updated_at = iosDatesFix(item.last_updated_at);
+                        //item.last_updated_at = iosDatesFix(item.last_updated_at);
 
                         // GROUPS 
                         item.group_id = item.wallet_entities_id;
@@ -297,7 +297,7 @@
                             $(el).find('.tags').append('<div class="tag leverage">x1</div>');
 
                             $(el).append('<div class="totals"></div>');
-                            $(el).find('.totals').append('<div class="date">'+move.date+'</div>');
+                            $(el).find('.totals').append('<div class="date">'+format_datetime(move.date)+'</div>');
                             $(el).find('.totals').append('<div class="total">'+(move.action === 'buy' ? '' : '+') + format_price(total *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
 
                             if (move.action === 'sell'){
@@ -474,7 +474,7 @@
             if (item.margin<0)      $(element).find('.results').attr('data-results','with lost');
             if (item.margin === 0)  $(element).find('.results').attr('data-results','neutral');
             
-            $(element).find('.updated-at').text(item.last_updated_at);
+            $(element).find('.updated-at').text(format_datetime(item.last_updated_at,'D/M, LT'));
 
         });
  

@@ -15,7 +15,7 @@ function reload_stock_price(){
     $('.results-info .previous-price').text(format_price(stock.previous_price));
     
     $('.results-info .price-preview:not(.tooltip-hover) .price').text(format_price(stock.price));
-    $('.results-info .price-preview:not(.tooltip-hover) .date').text(stock.last_updated_at);
+    $('.results-info .price-preview:not(.tooltip-hover) .date').text(format_datetime(stock.last_updated_at));
     
     $('.results-info .current-volume').text(format_price(stock.volume));
     $('.results-info .daily-change').text(format_price(stock.daily_change,4));
@@ -461,7 +461,7 @@ function get_notes(){
                 
                 $.each(response.notes, function(i,note){                        
                     let el = $('<div class="note"></div>');  
-                    $(el).append('<div class="date label">'+note.created_at+'</div>');
+                    $(el).append('<div class="date label">'+format_datetime(note.created_at)+'</div>');
                     $(el).append('<div class="body">'+note.body+'</div>');
                     $(el).prepend('<div class="actions"></div>');
                     $(el).find('.actions').append('<div class="icon-btn icon-settings" data-action="note-edit"></div>');
@@ -559,8 +559,9 @@ $(document).ready(function(){
 
             $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
             $('.stock-view .results-info .price-preview .currency').text(stock.currency);
-            $('.stock-view .results-info .price-preview .date').text(format_date(Date.parse(stock.last_updated_at)));
+            $('.stock-view .results-info .price-preview .date').text(format_datetime(Date.parse(stock.last_updated_at)));
 
+            //console.log(config.timezone);
 
             $('.page.stock-view .symbol').text(stock.symbol);
 
@@ -730,9 +731,9 @@ $(document).ready(function(){
             
             stock_graph_adaptive_height();
             stock_chart = Highcharts.stockChart('stock-price', {
-                global: {
-                    useUTC: false
-                  }, 
+                time: {
+                    timezone: config.timezone
+                },
                 scrollbar: { enabled: false },
                 navigator: { enabled: false },
                 xAxis: {
@@ -760,7 +761,7 @@ $(document).ready(function(){
                         $('.stock-view .results-info').addClass('with-tooltip');
                         $('.stock-view .results-info .price-preview').addClass('tooltip-hover');
                         $('.stock-view .results-info .price-preview .price').text(format_price(this.y,2));
-                        $('.stock-view .results-info .price-preview .date').text(format_date(this.x));                    
+                        $('.stock-view .results-info .price-preview .date').text(format_datetime(this.x));                    
                         return '';
                     },
                     split: false,

@@ -3068,6 +3068,10 @@ stock-price-container .apexcharts-menu-icon svg {
 
 .stock-price-container select { display:none; }
 
+.stock-price-container .highcharts-tooltip {
+    display:none;
+}
+
 /* RANGE SLIDER */
 input[type=range] {
     background-color: transparent;
