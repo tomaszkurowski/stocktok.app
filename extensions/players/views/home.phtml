@@ -184,7 +184,7 @@
                         $(el).find('.tags').append('<div class="tag leverage">x1</div>');
                         
                         $(el).append('<div class="totals"></div>');
-                        $(el).find('.totals').append('<div class="date">'+move.date+'</div>');
+                        $(el).find('.totals').append('<div class="date">'+format_datetime(move.date)+'</div>');
                         if (move.action === 'sell'){
                             $(el).find('.totals').append('<div class="profit'+(move.margin < 0 ? ' with-lost' : '')+'">'+(move.margin >= 0 ? '+' : '') + format_price(move.margin *currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>');
                         }
