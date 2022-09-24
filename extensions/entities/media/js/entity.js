@@ -63,12 +63,97 @@ function generate_graph(){
             }
         });       
         
-        if (settings.graph_type === 'line'){
-            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] } }}});
-        }else if (settings.graph_type === 'ohlc') {
-            stock_chart.update({ plotOptions: { series: { lineWidth:1, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
-        }else if (settings.graph_type === 'area') {
-            stock_chart.update({ plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}});
+        switch(settings.graph_type){
+            case 'line':
+                stock_chart.update({ 
+                    plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] } }},
+                    rangeSelector: { 
+                        selected: settings.stock_chart_range,
+                        verticalAlign: 'bottom',
+                        floating:true,
+                        y:30,
+                        buttons: [
+                        {
+                            type: 'day', count: 1, text: '1d',
+                            dataGrouping: { units: [['hour', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
+                        },
+                        {
+                            type: 'week', count: 1, text: '1w',
+                            dataGrouping: { units: [['hour', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
+                        },
+                        {
+                            type: 'month', count: 3, text: '3m',
+                            dataGrouping: { units: [['day', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
+                        }, {
+                            type: 'month', count: 6, text: '6m',
+                            dataGrouping: { units: [['day', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
+                        },   
+                        {
+                            type: 'year', count: 1, text: '1y',
+                            dataGrouping: { units: [['day', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
+                        }, {
+                            type: 'all', text: 'All',
+                            dataGrouping: { units: [['month', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
+                        }]
+                    }                    
+                });                    
+            break;
+            case 'ohlc':
+            case 'candlestick':
+                stock_chart.update({ 
+                    plotOptions: { series: { lineWidth:1 }, color: {}, ohlc: { color: '#e63900', upColor:'#00e691' },candlestick: { color: '#e63900', upColor:'#00e691' } },
+                    rangeSelector: { 
+                        selected: settings.stock_chart_range,
+                        verticalAlign: 'bottom',
+                        floating:true,
+                        y:30,
+                        buttons: [
+                        {
+                            type: 'day', count: 1, text: '1d',
+                            dataGrouping: { units: [['hour', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
+                        },
+                        {
+                            type: 'week', count: 1, text: '1w',
+                            dataGrouping: { units: [['hour', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
+                        },
+                        {
+                            type: 'month', count: 1, text: '1m',
+                            dataGrouping: { units: [['day', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
+                        }, {
+                            type: 'month', count: 2, text: '2m',
+                            dataGrouping: { units: [['day', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
+                        },   
+                        {
+                            type: 'year', count: 3, text: '1y',
+                            dataGrouping: { units: [['month', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
+                        }, {
+                            type: 'All', text: 'All',
+                            dataGrouping: { units: [['year', [1]]] },
+                            events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
+                        }]
+                    }
+                });
+                $('.range-selector [data-id="3"]').text('1m');
+                $('.range-selector [data-id="4"]').text('2m');
+                $('.range-selector [data-id="5"]').text('1y');
+                $('.range-selector [data-id="6"]').text('All');            
+            break;
+            case 'area':
+                stock_chart.update({ 
+                    plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}
+                });            
+            break;
         }
         
         stock_graph_adaptive_height();
@@ -464,10 +549,10 @@ $(document).ready(function(){
             if (stock.industry){ $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>').show();
             }else{ $('.stock-view .results-info-table .value.industry, .stock-view .results-info-table .label-industry').hide(); }
             
-            if (stock.daily_min){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.daily_min));
+            if (stock.low){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.low));
             }else{ $('.stock-view .results-info-table .value.daily-min, .stock-view .results-info-table .label-daily-min').hide(); }
             
-            if (stock.daily_max){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.daily_max));
+            if (stock.high){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.high));
             }else{ $('.stock-view .results-info-table .value.daily-max, .stock-view .results-info-table .label-daily-max').hide(); }            
             
             if (!stock.volume){ $('.stock-view .results-info-table .value.current-volume, .stock-view .results-info-table .label-current-volume').hide(); }
@@ -647,42 +732,7 @@ $(document).ready(function(){
             stock_chart = Highcharts.stockChart('stock-price', {
                 global: {
                     useUTC: false
-                  },
-                rangeSelector: { 
-                    selected: settings.stock_chart_range,
-                    verticalAlign: 'bottom',
-                    floating:true,
-                    y:30,
-                    buttons: [
-                    {
-                        type: 'day', count: 1, text: '1d',
-                        dataGrouping: { units: [['hour', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
-                    },
-                    {
-                        type: 'week', count: 1, text: '1w',
-                        dataGrouping: { units: [['hour', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
-                    },
-                    {
-                        type: 'month', count: 3, text: '3m',
-                        dataGrouping: { units: [['day', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
-                    }, {
-                        type: 'month', count: 6, text: '6m',
-                        dataGrouping: { units: [['day', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
-                    },   
-                    {
-                        type: 'year', count: 1, text: '1y',
-                        dataGrouping: { units: [['day', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
-                    }, {
-                        type: 'all', text: 'All',
-                        dataGrouping: { units: [['month', [1]]] },
-                        events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
-                    }]
-                }, 
+                  }, 
                 scrollbar: { enabled: false },
                 navigator: { enabled: false },
                 xAxis: {
@@ -723,6 +773,12 @@ $(document).ready(function(){
                     spacing:[10,15,5,5],
                     spacingBottom:40,
                     type: 'line'
+                },
+                rangeSelector: { 
+                    selected: settings.stock_chart_range,
+                    verticalAlign: 'bottom',
+                    floating:true,
+                    y:30
                 },
                 stockTools:{
                     gui:{
@@ -982,7 +1038,7 @@ $(document).on('click','[data-label="view_stock_edit"]',function(){
 $(document).off('click', '[data-action="add-note"]');
 $(document).on('click','[data-action="add-note"]',function(){  
     
-    if (!me.username){
+    if (!me){
         $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">New note</div><div class="description">Feature only for logged users</div></div></div>');                            
         return;
     }    
@@ -998,6 +1054,51 @@ $(document).on('click','[data-action="add-note"]',function(){
         error: function(e){ if (config.debug) console.log(e); }
     });
 });
+$(document).off('click', '[data-action="advanced-charting"]');
+$(document).on('click','[data-action="advanced-charting"]',function(){  
+    
+    if (!me){
+        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Charting</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
+        return;
+    }    
+
+    $('body').toggleClass('with-popup');                            
+    if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+
+    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+    $.ajax({
+        url:"/extensions/entities/views/popups/advanced-charting.html",
+        cache:false,
+        success: function(data){ $("#popup").html(data); },
+        error: function(e){ if (config.debug) console.log(e); }
+    });
+});
+$(document).off('click', '[data-action="advanced-charting-fullscreen"]');
+$(document).on('click','[data-action="advanced-charting-fullscreen"]',function(){ 
+    $(this).attr('data-action','advanced-charting-close-fullscreen').removeClass('icon-fullscreen').addClass('icon-fullscreen_exit');
+    $('body').addClass('fullscreen');
+    let elem = document.body;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { /* Safari */
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { /* IE11 */
+        elem.msRequestFullscreen();
+    }
+});
+$(document).off('click', '[data-action="advanced-charting-close-fullscreen"]');
+$(document).on('click','[data-action="advanced-charting-close-fullscreen"]',function(){ 
+    $(this).attr('data-action','advanced-charting-fullscreen').removeClass('icon-fullscreen_exit').addClass('icon-fullscreen');
+    $('body').removeClass('fullscreen');
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { /* Safari */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE11 */
+        document.msExitFullscreen();
+    }
+});
+
 
 $(document).off('click', '.widget-collapse');
 $(document).on('click','.widget-collapse',function(){           

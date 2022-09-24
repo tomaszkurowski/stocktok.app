@@ -40,6 +40,10 @@
    .quick-tools {
         width: calc(100% - 30px);
    }
+   .graph-editor {
+       display:flex !important;
+       width:calc(100% - 515px);
+   }
    
    .with-popup .footer-container { left:auto; }
   
