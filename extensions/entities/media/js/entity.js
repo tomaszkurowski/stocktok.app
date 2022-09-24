@@ -461,7 +461,7 @@ function get_notes(){
                 
                 $.each(response.notes, function(i,note){                        
                     let el = $('<div class="note"></div>');  
-                    $(el).append('<div class="date label">'+note.created_at+'</div>');
+                    $(el).append('<div class="date label">'+format_datetime(note.created_at)+'</div>');
                     $(el).append('<div class="body">'+note.body+'</div>');
                     $(el).prepend('<div class="actions"></div>');
                     $(el).find('.actions').append('<div class="icon-btn icon-settings" data-action="note-edit"></div>');
