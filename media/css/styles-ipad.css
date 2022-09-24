@@ -46,6 +46,9 @@
    }
    
    .with-popup .footer-container { left:auto; }
+   .quick-tools .actions {
+        flex-grow: 1;
+   }
   
    
 }
