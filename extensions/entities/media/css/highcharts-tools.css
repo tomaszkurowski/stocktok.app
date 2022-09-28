@@ -180,7 +180,7 @@
   height: 40px;
   cursor: pointer;
   position: relative;
-  background-color: #f7f7f7;
+  background-color: var(--color-bg2);
 }
 
 .highcharts-bindings-wrapper .highcharts-stocktools-toolbar li.highcharts-disabled-btn {

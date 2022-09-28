@@ -4,7 +4,8 @@ var entity = {};
 var stock;
 var stock_chart;
 var market = mvc.view;
-var symbol = mvc.controller;   
+var symbol = mvc.controller; 
+var sketchpad;
 
 function reload_stock_price(){
     
@@ -40,121 +41,210 @@ function generate_graph(){
     
     if (stock.intraday && stock.historical){
         
-        if (settings.graph_type === 'ohlc'){
-            stock.all_prices = stock.historical                        
-        }else{
-            if (stock.intraday !== 1){
-                stock.historical[stock.historical.length-1][4]=stock.intraday[0][4]
-                stock.all_prices = stock.historical.concat(stock.intraday);
-            }else{
-                stock.all_prices = stock.historical;
-            }
-        }                              
-        if (config.debug) console.log('All prices');
-        if (config.debug) console.log(stock.all_prices);        
-        stock_chart.series[0].remove();
-        stock_chart.addSeries({
-            data: stock.all_prices,
-            type: settings.graph_type,
-            name: 'Prices',
-            tooltip: {
-                valueDecimals: 2,
-                pointFormat: '{point.y}'
-            }
-        });       
+        if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick'){
+            var buttons= [
+            { type: 'week', count: 3, text: '3w', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',0); }}},
+            { type: 'month', count: 1, text: '1m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',1); }}}, 
+            { type: 'month', count: 2, text: '2m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',2); }}}, 
+            { type: 'month', count: 3, text: '3m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',3); }}},    
+            { type: 'year', count: 1, text: '1y', dataGrouping: { units: [['month', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',4); }}}, 
+            { type: 'All', text: 'All', dataGrouping: { units: [['year', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',5); }}}];
+            $('.range-selector [data-id="1"]').text('3w');
+            $('.range-selector [data-id="2"]').text('1m');
+            $('.range-selector [data-id="3"]').text('2m');
+            $('.range-selector [data-id="4"]').text('3m');
+            $('.range-selector [data-id="5"]').text('1y');
+            $('.range-selector [data-id="6"]').text('All');         
+        }
+        else{        
+            var buttons = [
+            { type: 'day', count: 1, text: '1d', dataGrouping: { units: [['hour', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',0); }}},
+            { type: 'week', count: 1, text: '1w', dataGrouping: { units: [['hour', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',1); }}},
+            { type: 'month', count: 3, text: '3m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',3); }}}, 
+            { type: 'month', count: 6, text: '6m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',4); }}},   
+            { type: 'year', count: 1, text: '1y', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',6); }}}, 
+            { type: 'all', text: 'All', dataGrouping: { units: [['month', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',7); }}}];        
+            $('.range-selector [data-id="1"]').text('Today');
+            $('.range-selector [data-id="2"]').text('1w');
+            $('.range-selector [data-id="3"]').text('3m');
+            $('.range-selector [data-id="4"]').text('6m');
+            $('.range-selector [data-id="5"]').text('1y');
+            $('.range-selector [data-id="6"]').text('All');    
+        }
+        switch (settings.graph_crosshairs){
+            case 'snap':
+                var crosshair = { snap: true };
+                break;
+            case 'floating':
+                var crosshair = { snap: false };
+                break;
+            case 'hidden':
+                var crosshair = false;
+                break;        
+        } 
+        // Static top-left
+        // Dynamic Split
+        // Dynamic Popup
+        
+        
+        switch (settings.graph_tooltip_mode){
+            case 'corner-box':
+                var tooltip = {
+                    enabled:true,
+                    positioner: function () {
+                        return { x: this.plotLeft, y:this.plotTop }                                                       
+                    },
+                    distance:15,
+                    split: true,
+                    followTouchMove: false,
+                    followPointer:false,
+                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
+                }; 
+                $('.stock-price-container').removeClass('no-tooltip');            
+            break;
+            case 'floating':
+                var tooltip = {
+                    enabled:true,
+                    distance:50,
+                    split: false,
+                    followTouchMove: true,
+                    followPointer:true,
+                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
+                }; 
+                $('.stock-price-container').removeClass('no-tooltip');
+            break;
+            case 'floating-split':
+                var tooltip = {
+                    enabled:true,
+                    distance:30,
+                    positioner: undefined,
+                    split: true,
+                    followTouchMove: false,
+                    followPointer:false,
+                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
+                }; 
+                $('.stock-price-container').removeClass('no-tooltip');
+            break;   
+            case 'hidden':
+                var tooltip = {
+                    enabled:false
+                }; 
+                $('.stock-price-container').removeClass('no-tooltip');
+            break; 
+        }
+        
+        var lineWidth = settings.graph_line;
+        //if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick') lineWidth = 1;
         
         switch(settings.graph_type){
             case 'line':
-                stock_chart.update({ 
-                    plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] } }},
-                    rangeSelector: { 
-                        selected: settings.stock_chart_range,
-                        verticalAlign: 'bottom',
-                        floating:true,
-                        y:30,
-                        buttons: [
-                        {
-                            type: 'day', count: 1, text: '1d',
-                            dataGrouping: { units: [['hour', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
-                        },
-                        {
-                            type: 'week', count: 1, text: '1w',
-                            dataGrouping: { units: [['hour', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
-                        },
-                        {
-                            type: 'month', count: 3, text: '3m',
-                            dataGrouping: { units: [['day', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
-                        }, {
-                            type: 'month', count: 6, text: '6m',
-                            dataGrouping: { units: [['day', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
-                        },   
-                        {
-                            type: 'year', count: 1, text: '1y',
-                            dataGrouping: { units: [['day', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
-                        }, {
-                            type: 'all', text: 'All',
-                            dataGrouping: { units: [['month', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
-                        }]
-                    }                    
-                });                    
-            break;
-            case 'ohlc':
-            case 'candlestick':
-                stock_chart.update({ 
-                    plotOptions: { series: { lineWidth:1 }, color: {}, ohlc: { color: '#e63900', upColor:'#00e691' },candlestick: { color: '#e63900', upColor:'#00e691' } },
-                    rangeSelector: { 
-                        selected: settings.stock_chart_range,
-                        verticalAlign: 'bottom',
-                        floating:true,
-                        y:30,
-                        buttons: [
-                        {
-                            type: 'day', count: 1, text: '1d',
-                            dataGrouping: { units: [['hour', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',0); }}                            
-                        },
-                        {
-                            type: 'week', count: 1, text: '1w',
-                            dataGrouping: { units: [['hour', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',1); }}
-                        },
-                        {
-                            type: 'month', count: 1, text: '1m',
-                            dataGrouping: { units: [['day', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',3); }}
-                        }, {
-                            type: 'month', count: 2, text: '2m',
-                            dataGrouping: { units: [['day', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',4); }}
-                        },   
-                        {
-                            type: 'year', count: 3, text: '1y',
-                            dataGrouping: { units: [['month', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',6); }}
-                        }, {
-                            type: 'All', text: 'All',
-                            dataGrouping: { units: [['year', [1]]] },
-                            events: { click: function() { localStorage.setItem('stock-graph-range',7); }}
-                        }]
-                    }
-                });
-                $('.range-selector [data-id="3"]').text('1m');
-                $('.range-selector [data-id="4"]').text('2m');
-                $('.range-selector [data-id="5"]').text('1y');
-                $('.range-selector [data-id="6"]').text('All');            
-            break;
-            case 'area':
-                stock_chart.update({ 
-                    plotOptions: { series: { lineWidth:settings.graph_line, color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } }}
-                });            
-            break;
+               var color = { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] };
+               break;
+           case 'ohlc':
+           case 'candlestick':
+               var color = '#e63900'; 
+               break;
+           default:
+               var color = settings.design.color_base;                
         }
+
+        if (stock_chart.get('volume')) stock_chart.get('volume').remove();
+        if (stock_chart.get('prices')) stock_chart.get('prices').remove();
+        while (stock_chart.series.length) {
+          stock_chart.series[0].remove();
+        }
+        
+        if (settings.graph_navigator===true || settings.graph_scrollbar === true){
+            var chart = { spacing:[10,15,40,15]};
+        }else{
+            var chart = { spacing:[10,15,-10,15]};
+        }
+        
+        stock_chart.addAxis({
+                id: 'main',
+                title:  { enabled: settings.graph_labels },
+                labels: { enabled: settings.graph_labels },
+                tickLength: (settings.graph_labels === true ? 5 : 0),
+                height: '0%',
+                crosshair:false
+            });
+        
+        if (settings.graph_showprices){
+            
+            if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick' || settings.graph_showvolume === true){ // Limitations on intraday
+                stock.all_prices = stock.historical.prices;
+            }else{
+                if (stock.intraday.prices !== 1){
+                    stock.historical.prices[stock.historical.prices.length-1][4]=stock.intraday.prices[0][4]
+                    stock.all_prices = stock.historical.prices.concat(stock.intraday.prices);
+                }else{
+                    stock.all_prices = stock.historical.prices;
+                }
+            }             
+            if (config.debug) console.log('All prices');
+            if (config.debug) console.log(stock.all_prices);  
+              
+            console.log('crosshair',crosshair);
+            stock_chart.addAxis({
+                id: 'prices',
+                title:  { enabled: settings.graph_labels },
+                labels: { enabled: settings.graph_labels },
+                tickLength: (settings.graph_labels === true ? 5 : 0),
+                height: (settings.graph_showvolume===true ? (settings.graph_showprices_ratio>0 ? settings.graph_showprices_ratio+'%' : '50%') : '100%'),
+                resize: { enabled: (settings.graph_showvolume===true ? true : false), lineWidth:10, lineColor:settings.design.color_bg, lineDashStyle:'solid' },
+                crosshair:crosshair
+                
+            });            
+            stock_chart.addSeries({
+                data: stock.all_prices,
+                type: settings.graph_type,
+                name: 'Price',
+                yAxis: 'prices',
+                color:color
+            });
+            $('.range-selector').css('opacity','1');
+        }else{
+           $('.range-selector').css('opacity','0');
+        }
+            
+        if (settings.graph_showvolume === true){
+
+            stock.all_volumes = stock.historical.volumes;        
+            if (config.debug) console.log('All volumes',stock.all_volumes);
+            
+            stock_chart.addAxis({
+                id: 'volume',
+                title: { text: 'Volume' },
+                top: (settings.graph_showprices===true ? (settings.graph_showprices_ratio>0 ? settings.graph_showprices_ratio+'%' : '50%') : '0'),
+                height: (settings.graph_showprices===true ? (settings.graph_showprices_ratio>0 ? (100-settings.graph_showprices_ratio)+'%' : '50%') : '100%'),
+                offset: 0,
+                lineWidth: 0,
+                crosshair:false,
+                snap:false
+            });                             
+            stock_chart.addSeries({
+                data: stock.all_volumes,
+                type: settings.graph_volumetype,
+                name: 'Volume',
+                yAxis: 'volume',
+                color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } 
+            });
+        }        
+        stock_chart.update({ 
+            plotOptions: { series: {  lineWidth:lineWidth }, candlestick: { upColor:'#00e691' },ohlc: { upColor:'#00e691' }},
+            rangeSelector: { 
+                selected: settings.stock_chart_range,
+                verticalAlign: 'bottom',
+                floating:true,
+                y:30,
+                buttons: buttons
+            },
+            xAxis: { crosshair: crosshair, labels: { enabled: settings.graph_labels } },
+            tooltip:tooltip,
+            navigator: { enabled: settings.graph_navigator===true ? true : false, series: { color: settings.design.color_base, lineWidth:lineWidth }, maskFill:'transparent' },
+            scrollbar: { enabled: settings.graph_scrollbar===true ? true : false },
+            chart:chart
+        });          
         
         stock_graph_adaptive_height();
         stock_chart.reflow();                                    
@@ -163,7 +253,7 @@ function generate_graph(){
 }
 function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
     var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
-    if (window.innerWidth>996) $(tabInfo).addClass('active');
+    //if (window.innerWidth>996) $(tabInfo).addClass('active');
     tabInfo.find('h2').text(tabName);
     tabInfo.find('.tab-content').attr('id','entity-'+tabCode);
     tabInfo.find('.tab-header').prepend('<div class="icon '+tabIcon+'"></div>');
@@ -367,29 +457,6 @@ $(document).ready(function(){
     });
 });
 function change_graph_touch(){
-    switch (settings.graph_touch){
-        case 'tooltip':
-            stock_chart.update({ 
-                xAxis: { crosshair: { snap: true } },
-                yAxis: { crosshair: { snap: true } },
-                tooltip: { enabled: true },
-            });
-            break;
-        case 'ruler':
-            stock_chart.update({ 
-                xAxis: { crosshair: { snap:false } },
-                yAxis: { crosshair: { snap:false } },
-                tooltip: { enabled: false },
-            });
-            break;
-        case 'void':
-            stock_chart.update({ 
-                xAxis: { crosshair: false },
-                yAxis: { crosshair: false },
-                tooltip: { enabled: false },
-            });
-            break;
-    }
     stock_chart.reflow();
 }
 function change_graph_grid(){
@@ -406,8 +473,8 @@ function change_graph_tools(){
     stock_chart.update({
         stockTools: {
             gui: {
-                visible: settings.graph_tools === 'true' && !ios && !mobile ? true : false,
-                placed: settings.graph_tools === 'true' && !ios && !mobile ? true : false
+                visible: settings.graph_tools === true ? true : false,
+                placed: settings.graph_tools === true ? true : false
             }
         }
     });
@@ -511,6 +578,11 @@ function get_notes(){
 $(document).ready(function(){
     
     if (mobile || ios) $('.graph-tools').hide();
+    if ($(document).width()>996){
+        $('.stock-page-views').prepend($('<div class="floating-column hide-scroll"></div>'));
+        $('[data-view="overview"]').appendTo('.floating-column');
+        $('[data-view="info"]').appendTo('.floating-column');
+    }
     
     get_currencies(function(){
     $.ajax({
@@ -670,13 +742,10 @@ $(document).ready(function(){
             $('.find-in .twitter').bind('click',function(){
                 window.open('https://twitter.com/search?src=typed_query&q='+stock.name,'_blank');
             });                    
-            if (stock.website){
-                button({ 
-                    class: 'icon-btn icon-web_asset' }, 
-                    function(){
-                        window.open(stock.website,'_blank');
-                    }
-                );                        
+            if (stock.website){                
+                $('.find-in .website').show().bind('click',function(){
+                    window.open(stock.website,'_blank');
+                });                                   
             }                    
             button({ 
                 class: 'icon-btn icon-share' }, 
@@ -719,6 +788,7 @@ $(document).ready(function(){
                     });
                 });
             };  
+            /*
             switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
                 editable(); 
                 stock_graph_adaptive_height(); 
@@ -727,83 +797,38 @@ $(document).ready(function(){
                         stock_chart.reflow();
                     }, 400);
                 }});             
-
+            */
             
             stock_graph_adaptive_height();
             stock_chart = Highcharts.stockChart('stock-price', {
                 time: {
                     timezone: config.timezone
-                },
-                scrollbar: { enabled: false },
-                navigator: { enabled: false },
-                xAxis: {
+                },                
+                xAxis: [{
                     title:  { enabled: settings.graph_labels },
                     labels: { enabled: settings.graph_labels },
                     tickLength: 5,
                     tickPixelInterval: 75,
-                    crosshair: true,
-                    snap:false,
                     opposite: true
-                },
-                yAxis: {
+                },{
                     title:  { enabled: settings.graph_labels },
                     labels: { enabled: settings.graph_labels },
-                    tickLength: (settings.graph_labels === true ? 5 : 0),
-                    crosshair: true,
-                    snap:false
-                },
-                tooltip: {
-                    positioner: function () {
-                        if ($('body').hasClass('stock-price-pro-mode')) return { x: 50, y: 0 }
-                        else return { x: 10, y: 0 };                                                        
-                    },
-                    pointFormatter:function(){
-                        $('.stock-view .results-info').addClass('with-tooltip');
-                        $('.stock-view .results-info .price-preview').addClass('tooltip-hover');
-                        $('.stock-view .results-info .price-preview .price').text(format_price(this.y,2));
-                        $('.stock-view .results-info .price-preview .date').text(format_datetime(this.x));                    
-                        return '';
-                    },
-                    split: false,
-                    followTouchMove: true,
-                    followPointer:false
-                },
-                //colors:[settings.design.color_base],
-                series: [{ name: 'Main', data:[] }],
-                chart:{
-                    spacing:[10,15,5,5],
-                    spacingBottom:40,
-                    type: 'line'
-                },
+                    tickLength: 5,
+                    tickPixelInterval: 75,
+                }],
+                //colors:[settings.design.color_base]
                 rangeSelector: { 
                     selected: settings.stock_chart_range,
                     verticalAlign: 'bottom',
                     floating:true,
                     y:30
                 },
-                stockTools:{
-                    gui:{
-                        visible: settings.graph_tools === 'true' && !ios & !mobile ? true : false,
-                        placed: settings.graph_tools === 'true' && !ios && !mobile ? true : false,
-                        buttons:[ 
-                            'simpleShapes', 
-                            'lines', 
-                            'crookedLines', 
-                            'measure', 
-                            'advanced', 
-                        //    'toggleAnnotations', 
-                        //    'separator', 
-                            'verticalLabels', 
-                            'flags',                             
-                        //    'typeChange' 
-                            'fullScreen',                                 
-                        //    'zoomChange', // Not working    
-                        //    'indicators',  // on hold       
-                        //    'currentPriceIndicator', 
-                        //    'saveChart' // Next phase
-                        ]
+            stockTools:{
+                gui:{
+                        visible: false,
+                        placed: false
                     }
-                },
+                },                
                 plotOptions: {
                     series: {
                         lineWidth: 1,
@@ -853,12 +878,11 @@ $(document).ready(function(){
                         if (entity.info.General.Officers) main_info_tab('Officers','officers','icon-person1',entity.info.General.Officers);
                         // WEBSITE
                         if ( entity.info.General && entity.info.General.WebURL && !stock.website){  
-                            button({ 
-                                class: 'icon-btn icon-sphere' }, 
-                                function(){
-                                    window.open(entity.info.General.WebURL,'_blank');
-                                }
-                            );                                                                                                
+                            
+                            $('.find-in .website').show().bind('click',function(){
+                                window.open(entity.info.General.WebURL,'_blank');
+                            });                              
+                                                                                              
                         }else{}
                         // FINANCIAL GRAPHS
                         var widgets = {};
@@ -1055,51 +1079,142 @@ $(document).on('click','[data-action="add-note"]',function(){
         error: function(e){ if (config.debug) console.log(e); }
     });
 });
-$(document).off('click', '[data-action="advanced-charting"]');
-$(document).on('click','[data-action="advanced-charting"]',function(){  
+$(document).off('click', '[data-action="advanced-charting-config"]');
+$(document).on('click','[data-action="advanced-charting-config"]',function(){  
     
     if (!me){
         $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Charting</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
         return;
-    }    
+    } 
+    if ($('.popup-advanced-charting-config').length){
+        $('#popup').html(''); $('.popup-btn').remove(); 
+        $('body').removeClass('with-popup'); 
+        $('body').removeClass('no-blur'); 
+        $('.quick-tools .actions > div').removeClass('active');
+        return;
+    }
 
-    $('body').toggleClass('with-popup');                            
-    if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+    $('#sketchpad').removeClass('active');
+    $('.quick-tools .actions > div').removeClass('active');
+    $(this).addClass('active');
 
-    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
+    $('body').addClass('with-popup no-blur');                            
+
+    $('.popup-btn.icon-clear').remove();
+    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
     $.ajax({
-        url:"/extensions/entities/views/popups/advanced-charting.html",
+        url:"/extensions/entities/views/popups/advanced-charting/config.html",
         cache:false,
         success: function(data){ $("#popup").html(data); },
         error: function(e){ if (config.debug) console.log(e); }
     });
 });
-$(document).off('click', '[data-action="advanced-charting-fullscreen"]');
-$(document).on('click','[data-action="advanced-charting-fullscreen"]',function(){ 
-    $(this).attr('data-action','advanced-charting-close-fullscreen').removeClass('icon-fullscreen').addClass('icon-fullscreen_exit');
-    $('body').addClass('fullscreen');
-    let elem = document.body;
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      } else if (elem.webkitRequestFullscreen) { /* Safari */
-        elem.webkitRequestFullscreen();
-      } else if (elem.msRequestFullscreen) { /* IE11 */
-        elem.msRequestFullscreen();
+$(document).off('click', '[data-action="advanced-charting-drawing"]');
+$(document).on('click','[data-action="advanced-charting-drawing"]',function(){ 
+    
+    if (!me){
+        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Drawing</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
+        return;
     }
-});
-$(document).off('click', '[data-action="advanced-charting-close-fullscreen"]');
-$(document).on('click','[data-action="advanced-charting-close-fullscreen"]',function(){ 
-    $(this).attr('data-action','advanced-charting-fullscreen').removeClass('icon-fullscreen_exit').addClass('icon-fullscreen');
-    $('body').removeClass('fullscreen');
-    if (document.exitFullscreen) {
-        document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) { /* Safari */
-        document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) { /* IE11 */
-        document.msExitFullscreen();
-    }
-});
+    if ($('.popup-advanced-charting-drawing').length){
+        $('#popup').html(''); $('.popup-btn').remove(); 
+        $('body').removeClass('with-popup'); 
+        $('body').removeClass('no-blur'); 
+        $('.quick-tools .actions > div').removeClass('active');
+        return;
+    }    
+    
+    $('#sketchpad').removeClass('active');
+    $('.quick-tools .actions > div').removeClass('active');
+    $(this).addClass('active');
+    stock_chart.update({
+            stockTools: {
+                gui: {
+                    visible: false,
+                    placed:  true,
+                    buttons:[ 
+                        'simpleShapes', 
+                        'lines', 
+                        'crookedLines', 
+                        'measure', 
+                        'advanced', 
+                        'toggleAnnotations', 
+                        //'separator', 
+                        'verticalLabels', 
+                        'flags',                             
+                        'typeChange', 
+                        'fullScreen',                                 
+                        'zoomChange', // Not working    
+                        'indicators',  // on hold       
+                        'currentPriceIndicator', 
+                        'saveChart' // Next phase
+                    ]
+                }
+            }
+        });
+        generate_graph();
 
+    $('body').addClass('with-popup no-blur');                            
+    $('.popup-btn').remove();
+    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+    button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ generate_graph(); if (sketchpad) sketchpad.clear(); });  
+    $.ajax({
+        url:"/extensions/entities/views/popups/advanced-charting/drawing.html",
+        cache:false,
+        success: function(data){ $("#popup").html(data); },
+        error: function(e){ if (config.debug) console.log(e); }
+    });  
+});
+$(document).off('click', '[data-action="advanced-charting-sketchpad"]');
+$(document).on('click','[data-action="advanced-charting-sketchpad"]',function(){  
+    
+    if (!me){
+        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Drawing</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
+        return;
+    }
+    if ($('.popup-advanced-charting-sketchpad').length){
+        $('#popup').html(''); $('.popup-btn').remove(); 
+        $('body').removeClass('with-popup'); 
+        $('body').removeClass('no-blur'); 
+        $('.quick-tools .actions > div').removeClass('active');
+        return;
+    }
+    
+    $('body').addClass('with-popup no-blur');                            
+    $('.popup-btn').remove();
+    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+    button({ class: 'icon-btn popup-btn icon-redo' }, function(){ if (sketchpad) sketchpad.redo(); });
+    button({ class: 'icon-btn popup-btn icon-undo' }, function(){ if (sketchpad) sketchpad.undo(); });
+    button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ if (sketchpad) sketchpad.clear(); });  
+   
+      
+    
+    $.ajax({
+        url:"/extensions/entities/views/popups/advanced-charting/sketchpad.html",
+        cache:false,
+        success: function(data){ $("#popup").html(data); },
+        error: function(e){ if (config.debug) console.log(e); }
+    });
+    
+    $('.quick-tools .actions > div').removeClass('active');
+    $(this).addClass('active');
+    
+    $('#sketchpad').addClass('active');
+    if (!sketchpad){
+        $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
+            sketchpad = new Sketchpad({
+                element:    '#sketchpad',
+                width:      $('.graph-container .chart').width(),
+                height:     $('.graph-container .chart').height(),
+                color:      settings.design.color_text,
+                penSize:    3
+            });            
+        });
+    }else{
+            sketchpad.color = settings.design.color_text;        
+    }
+
+});
 
 $(document).off('click', '.widget-collapse');
 $(document).on('click','.widget-collapse',function(){           
@@ -1140,7 +1255,7 @@ $(document).on('input','#stock_chart_range',function(){
 
 $(document).off('click', '.description-popup');
 $(document).on('click','.description-popup',function(){
-    $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body hide-scroll"><div class="logo-container">'+$('.results-info-title .logo-container').html()+'</div><div class="title">'+$('.results-info-title h2').html()+'</div><div class="description">'+$(this).attr('data-value').replace(';','<br /><br />')+'</div></div></div>');
+    $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body hide-scroll"><div   class="logo-container">'+$('.results-info-title .logo-container').html()+'</div><div class="title">'+$('.results-info-title h2').html()+'</div><div class="description">'+$(this).attr('data-value').replace(';','<br /><br />')+'</div></div></div>');
 });
 
 $(document).off('click', '.toggleTool');
@@ -1150,3 +1265,17 @@ $(document).on('click','.toggleTool',function(){
 });
 
 
+$(document).off('touchstart', '.highcharts-annotation');
+$(document).on('touchstart','.highcharts-annotation',function(){
+    $(this).click();
+});
+
+$(document).off('mousemove', '.highcharts-axis-resizer');
+$(document).on('mousemove','.highcharts-axis-resizer',function(){
+    
+    if (stock_chart.get('prices') && stock_chart.get('volume')){
+        var ratio = parseInt(stock_chart.get('prices').height/(parseInt(stock_chart.get('prices').height)+parseInt(stock_chart.get('volume').height))*100);
+        updateSettings('graph_showprices_ratio',ratio);
+    }
+
+});

@@ -37,18 +37,23 @@
    .range-selector {
        max-width:360px;
    }
-   .quick-tools {
-        width: calc(100% - 30px);
-   }
    .graph-editor {
        display:flex !important;
        width:calc(100% - 515px);
    }
    
    .with-popup .footer-container { left:auto; }
-   .quick-tools .actions {
+   .quick-tools .price-preview {
         flex-grow: 1;
    }
+   .quick-tools .range-selector {
+       width:400px;
+       flex-basis:400px;
+   }
+   .quick-tools .actions .title { display:block;}
+   .quick-tools .actions > div { padding:0 5px 0 0px; margin-left:10px; border: 1px solid var(--color-bg); }
+   .quick-tools .icon-btn { margin-left:5px; }
+   
   
    
 }
@@ -157,8 +162,7 @@
        top:40px;
    }    
     .quick-tools {
-        width: calc(100% - 15px);
-        margin-left:15px;
+        width:100%;
    }
 
    .page.more-info > .box {
@@ -177,7 +181,7 @@
         
     
     .with-popup .footer {
-        min-width:400px;
+        min-width: calc(33vw - 20px);
     }
 
     .page-view[data-view="overview"] { float:right; width:33.3333%; }
@@ -185,23 +189,29 @@
     .page-view[data-view="info"] { float:right; width:33.3333%; margin-top:-15px; }
     .page-view[data-view="financial"] { float:left; width:66.6666%; margin-top:5px; }
     .page-view[data-view="related-sector"] { clear:both; }
+    .related-container { float:left; width:66.6666%; }
     
     .stock-page-views { padding-bottom:90px; }
-    #stock-price { height:calc(100vh - 90px); min-height:calc(100vh - 90px); }
+    #stock-price { height:calc(100vh - 87px); min-height:calc(100vh - 87px); }
+    
+    .graph-container { margin:0 -5px 0 10px; }
     .widgets {
-        margin:10px 5px 0;
+        margin: 10px -5px 0 10px;
+        justify-content:space-between;
     }
     .widgets .widget {
-        width:calc(50% - 20px);
-        flex-basis:calc(50% - 20px);
-        margin:0 10px 10px;
+        width:calc(50% - 5px);
+        flex-basis:calc(50% - 5px);
+        margin:0 0px 10px;
 
     }
     .heading-container { }
     .chart.stock-price-container {
-        margin-left: 15px;
-        margin-right:0px;
         border-radius: var(--border-radius1);
+    }
+    
+    .popup.popup-advanced-charting.active {
+        max-height: calc(100vh - 86px);
     }
     
     .wallets {
@@ -230,14 +240,33 @@
     .widget.wallet-structure { height:calc(50vh - 90px); }
     .widget.dynamic-wallet-trend { height:calc(100vh - 100px); }
     
+    .floating-column {
+        position: fixed;
+        width: calc(33.3333% + 5px);
+        height: 100vh;
+        overflow-y: scroll;
+        top: 0;
+        right: -5px;
+        z-index: 999;
+        padding-bottom: 100px;
+    }
+    .floating-column > div { 
+        width:100% !important; 
+        float:none !important; 
+    }    
+    
 }
 @media only screen and (min-width: 1445px) {
 
+    .with-popup .footer {
+        min-width: calc(25vw - 25px);
+    }
     
     .page-view[data-view="overview"] { float:right; width:25%; }
     .page-view[data-view="dashboard"] { float:left; width:75%; margin-top:15px; height:calc(100vh - 30px); }
     .page-view[data-view="info"] { float:right; width:25%; margin-top:-15px; }
     .page-view[data-view="financial"] { float:left; width:75%; margin-top:5px; }
+    .related-container { float:left; width:75%; }
 
     .items-container .item {
         width:calc(12.5% - 10px);
@@ -258,6 +287,21 @@
     
     .view-list .wallet-items .mystock-container, .view-list-small .wallet-items .mystock-container, .view-list-small-results .wallet-items .mystock-container {
         width: calc(50% - 10px);
-    }     
+    }
+    
+    .floating-column {
+        position: fixed;
+        width: calc(25% + 5px);
+        height: 100vh;
+        overflow-y: scroll;
+        top: 0;
+        right: -5px;
+        z-index: 999;
+        padding-bottom: 100px;
+    }
+    .floating-column > div { 
+        width:100% !important; 
+        float:none !important; 
+    }    
     
 }

@@ -346,6 +346,7 @@
                 $.getScript('/media/js/external/highcharts-annotations'+(config.minify===1 ? '.min' : '')+'.js');
                 $.getScript('/media/js/external/highcharts-fullscreen'+(config.minify===1 ? '.min' : '')+'.js');
                 $.getScript('/media/js/external/highcharts-tools'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts-dragpanes'+(config.minify===1 ? '.min' : '')+'.js');
                 if (callback) callback();
             });
         }

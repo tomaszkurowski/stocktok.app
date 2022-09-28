@@ -20,6 +20,9 @@
     };  
     function toggleHeading(){
         
+        return;
+        // in tests
+        
         if ($('.heading > *').length>0){
             $('.heading').addClass('with-buttons');
         }else{
@@ -212,7 +215,7 @@
     
     $(document).off('click', '.tab-header');
     $(document).on('click', '.tab-header', function(){    
-        $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
+        $(this).parent('.tab-container').toggleClass('active').children('.tab-content').slideToggle(300,'swing');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
         
         if (!settings.mute){

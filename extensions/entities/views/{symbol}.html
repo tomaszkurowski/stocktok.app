@@ -1,4 +1,7 @@
-    <link rel="stylesheet" type="text/css" href="/extensions/entities/media/css/highcharts-tools.css">
+    <link rel="stylesheet" type="text/css" href="/extensions/entities/media/css/highcharts-tools.css?v=1.0.1">
+    <link rel="stylesheet" type="text/css" href="/extensions/entities/media/css/highcharts-popups.css?v=1.0.32">
+    
+    
         <div class="page page-views stock-page-views active">        
             <div class="page-view stock-view active" data-view="overview">
                 <div class="widget box results-info collapsed">
@@ -102,32 +105,43 @@
                     </div>
                 </div>            
             </div>
-            <div class="page-view" data-view="dashboard">                        
-                <div class="chart stock-price-container">  
-                    <div id="stock-price" class="stock-price active"></div>                                
-                </div>
-                <div class="quick-tools">
-                    <div class="range-selector">                   
-                        <div class="labels">
-                            <span data-id="1">Today</span>
-                            <span data-id="2">1w</span>
-                            <span data-id="3">3m</span>
-                            <span data-id="4">6m</span>
-                            <span data-id="5">1y</span>
-                            <span data-id="6">All</span>
+            <div class="page-view" data-view="dashboard">
+                <div class="graph-container">
+                    <canvas id="sketchpad"></canvas>
+                    <div class="chart stock-price-container">  
+                        <div id="stock-price" class="stock-price active"></div>                                
+                    </div>
+                    <div class="quick-tools">
+                        <div class="range-selector">                   
+                            <div class="labels">
+                                <span data-id="1"></span>
+                                <span data-id="2"></span>
+                                <span data-id="3"></span>
+                                <span data-id="4"></span>
+                                <span data-id="5"></span>
+                                <span data-id="6"></span>
+                            </div>
+                            <div class="slidecontainer">
+                                <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
+                            </div>
+                        </div>   
+                        <div class="price-preview tooltip-hover">
+                            <div class="price"></div>
+                            <div class="date"></div>
                         </div>
-                        <div class="slidecontainer">
-                            <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
-                        </div>
-                    </div>                    
-                    <div class="actions">
-                        <div class="icon-btn icon-settings" data-action="advanced-charting"></div>
-                        <div class="icon-btn icon-fullscreen" data-action="advanced-charting-fullscreen"></div>
-                    </div>                    
-                </div>
-
-                        
-
+                        <div class="actions">
+                            <div data-action="advanced-charting-config">                                
+                                <div class="icon-btn icon-equalizer2"></div>    
+                            </div>
+                            <div data-action="advanced-charting-drawing">                                  
+                                <div class="icon-btn icon-ruler"></div>  
+                            </div>
+                            <div data-action="advanced-charting-sketchpad">                                 
+                                <div class="icon-btn icon-brush"></div>  
+                            </div>                            
+                        </div>                    
+                    </div>
+                </div>                        
             </div>                                              
             <div class="page-view" data-view="info">
                 <div class="box find-in">
@@ -135,12 +149,22 @@
                     <div class="icon-google google"></div>
                     <div class="icon-twitter twitter"></div>
                     <div class="icon-youtube-play youtube"></div>
-                    
+                    <div class="icon-btn icon-sphere"></div>                    
                 </div>
+                <div class="tab-container performance">
+                    <div class="tab-header">
+                        <h2>Performance</h2>
+                        <div class="counter neutral" data-color="profit">0,00 pln</div>                        
+                        <div class="expand icon-expand_more"></div>
+                    </div>
+                    <div class="tab-content">
+                        <div style="padding:15px">Under construction</div>
+                    </div>
+                </div>                
                 <div class="tab-container my-notes">
                     <div class="tab-header">
-                        <div class="counter neutral">0</div>
-                        <h2>My Notes</h2>                        
+                        <h2>My Notes</h2>   
+                        <div class="counter neutral">0</div>                        
                         <div class="expand icon-expand_more"></div>
                     </div>
                     <div class="tab-content">
@@ -149,8 +173,17 @@
                             <div class="icon-btn icon-add1" data-action="add-note"></div>
                         </div>
                     </div>
+                </div>
+                <div class="tab-container facts">
+                    <div class="tab-header">
+                        <h2>Facts</h2>                        
+                        <div class="expand icon-expand_more"></div>
+                    </div>
+                    <div class="tab-content">
+                        <div class="entity-main-info-container"></div>
+                    </div>
                 </div>                
-                <div class="entity-main-info-container"></div>
+                
             </div> 
             <div class="page-view" data-view="financial">
                 <div class="widgets" id="financial-graphs">
