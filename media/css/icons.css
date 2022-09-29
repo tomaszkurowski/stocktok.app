@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?1ig1wb');
-  src:  url('../fonts/icomoon.eot?1ig1wb#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?1ig1wb') format('truetype'),
-    url('../fonts/icomoon.woff?1ig1wb') format('woff'),
-    url('../fonts/icomoon.svg?1ig1wb#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?qkwa8w');
+  src:  url('../fonts/icomoon.eot?qkwa8w#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?qkwa8w') format('truetype'),
+    url('../fonts/icomoon.woff?qkwa8w') format('woff'),
+    url('../fonts/icomoon.svg?qkwa8w#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -63,6 +63,12 @@
 }
 .icon-tag:before {
   content: "\e9bc";
+}
+.icon-compass:before {
+  content: "\e9c9";
+}
+.icon-filter:before {
+  content: "\e9c8";
 }
 .icon-facebook:before {
   content: "\e99f";
@@ -671,6 +677,9 @@
 .icon-healthcare:before {
   content: "\e9da";
 }
+.icon-address:before {
+  content: "\e9ca";
+}
 .icon-calculator:before {
   content: "\e9a1";
 }
@@ -679,6 +688,9 @@
 }
 .icon-youtube-play:before {
   content: "\e995";
+}
+.icon-account_tree:before {
+  content: "\e9c6";
 }
 .icon-undo:before {
   content: "\e9c5";
@@ -697,6 +709,15 @@
 }
 .icon-support_agent:before {
   content: "\e98b";
+}
+.icon-site-map:before {
+  content: "\e9c7";
+}
+.icon-tree:before {
+  content: "\e9c7";
+}
+.icon-map:before {
+  content: "\e9c7";
 }
 .icon-brush:before {
   content: "\e9c3";

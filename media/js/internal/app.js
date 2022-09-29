@@ -103,17 +103,17 @@
         }else{ $.getScript('/extensions/me/me.js?version='+config.version); }     
     }
     
-    function load_page(url,push_url = false){
-        
+    function load_page(url,push_url = false,options = { closePopup:true }){
         if (push_url){ window.history.pushState({}, '', url) }
         settings.editable = false;
-        
-        $('.footer .heading').html('');
-        $('.page-views-slider').remove();
-        $('#popup').html('');
-        $('body').removeClass('with-popup').removeClass('no-blur').removeClass('editable').removeClass('not-swipeable');
-        $('.toggleHeading').remove();
-        $('.footer-bottom').removeClass('short');
+                
+        if (options.closePopup){
+            $('.footer .heading').html('');            
+            $('#popup').html('');
+            $('body').removeClass('with-popup').removeClass('no-blur').removeClass('editable').removeClass('not-swipeable');
+            $('.toggleHeading').remove();
+            $('.footer-bottom').removeClass('short');
+        }
         
         $('#app').removeClass('nav-active');
         

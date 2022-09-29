@@ -49,7 +49,9 @@
    .quick-tools .range-selector {
        width:400px;
        flex-basis:400px;
+       display:block !important;
    }
+   .quick-tools .actions { display:inline-flex !important; }
    .quick-tools .actions .title { display:block;}
    .quick-tools .actions > div { padding:0 5px 0 0px; margin-left:10px; border: 1px solid var(--color-bg); }
    .quick-tools .icon-btn { margin-left:5px; }
@@ -182,17 +184,20 @@
     
     .with-popup .footer {
         min-width: calc(33vw - 20px);
+        max-width: calc(33vw - 20px);
     }
 
     .page-view[data-view="overview"] { float:right; width:33.3333%; }
-    .page-view[data-view="dashboard"] { float:left; width:66.6666%; margin-top:15px; height:calc(100vh - 30px); }
+    .page-view[data-view="dashboard"] { float:left; width:66.6666%; margin-top:15px; height:calc(100vh - 25px); }
     .page-view[data-view="info"] { float:right; width:33.3333%; margin-top:-15px; }
     .page-view[data-view="financial"] { float:left; width:66.6666%; margin-top:5px; }
     .page-view[data-view="related-sector"] { clear:both; }
-    .related-container { float:left; width:66.6666%; }
+    .related-container { float:left; width: calc(66.6666% + 5px); }
+    .related .items-container { width:100%; flex-wrap:wrap; padding:0; margin-left:5px; }
+    .related .items-container .item { width:calc(20% - 10px); }
     
     .stock-page-views { padding-bottom:90px; }
-    #stock-price { height:calc(100vh - 87px); min-height:calc(100vh - 87px); }
+    #stock-price { height: calc(100vh - 88px); min-height: calc(100vh - 97px); }
     
     .graph-container { margin:0 -5px 0 10px; }
     .widgets {
@@ -260,13 +265,14 @@
 
     .with-popup .footer {
         min-width: calc(25vw - 25px);
+        max-width: calc(25vw - 25px);
     }
     
     .page-view[data-view="overview"] { float:right; width:25%; }
-    .page-view[data-view="dashboard"] { float:left; width:75%; margin-top:15px; height:calc(100vh - 30px); }
+    .page-view[data-view="dashboard"] { float:left; width:75%; margin-top:15px; height:calc(100vh - 25px); }
     .page-view[data-view="info"] { float:right; width:25%; margin-top:-15px; }
     .page-view[data-view="financial"] { float:left; width:75%; margin-top:5px; }
-    .related-container { float:left; width:75%; }
+    .related-container { float:left; width:calc(75% + 5px); }
 
     .items-container .item {
         width:calc(12.5% - 10px);

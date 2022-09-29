@@ -90,9 +90,9 @@
     function button(options,callback){
 
         if (!options.target) options.target = '.heading';        
-        $(options.target+' .'+options.class.replace(' ','.')).remove();
+        $(options.target+' .'+options.class.replace(/ +/g, '.')).remove();
         
-        let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
+        let button = $('<div class="'+(options.class ? options.class : '')+'"></div>')
             .bind('click',function(){ 
                 
                 if (!settings.mute){
@@ -101,7 +101,12 @@
                 }
                 
                 if (callback) callback(button); 
-        }); 
+        });
+        if (options.attributes){
+            $.each(options.attributes,function(key,attribute){
+                $(button).attr(attribute.key,attribute.value);
+            });
+        }        
         $(options.target).prepend(button);
         //$('.heading').scrollLeft(2000);
         

@@ -370,11 +370,11 @@ function widget_financial_graph(id,widget){
               },
             colors: [settings.design.color_base],
             chart: {
-                height: 300,
                 type: (widget.chartType) ? widget.chartType : 'line',                       
                 toolbar: { show: false },
                 fontFamily: 'gotham-regular',
-                foreColor: settings.design.color_label
+                foreColor: settings.design.color_label,
+                height:$('.widget.shareholders .graph').height()
             },
             dataLabels: {
                 enabled:false
@@ -608,6 +608,15 @@ $(document).ready(function(){
             if (stock.market === 'forex'){
                 $('.stock-view .results-info .logo-container').append('<img src="https://data.stocktok.online/logos/forex/nextGen/usd.webp?cache=632392078b3fa" class="secondary-logo" alt="logo-ron" loading="lazy" height="auto" width="auto" />');
             }
+            
+            $('.quick-tools .additionals').html('');
+            $('.quick-tools .additionals')
+            .append(stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>')
+            .bind('click',function(){
+                $('.quick-tools .range-selector').toggleClass('active');
+                $('.quick-tools .actions').toggleClass('active');
+            });            
+
 
             if (stock.cover){
                 $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
@@ -670,7 +679,20 @@ $(document).ready(function(){
             
             button({ 
                 class: 'icon-btn icon-search2' }, 
-                function(){ location.href='/entities'; });  
+                function(){                        
+                        $.ajax({
+                            url:"/extensions/entities/views/popups/search.html",
+                            cache:false,
+                            success: function(data){
+                                $('#popup').html(data);
+                                $('body').addClass('with-popup no-blur');                            
+                                $('.popup-btn').remove();
+                                $('.quick-tools .actions > div').removeClass('active');
+                                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                             
+                            },
+                            error: function(e){ if (config.debug) console.log(e); }
+                        });                                
+                });  
 
             if (me){
                 button({ 
@@ -746,14 +768,15 @@ $(document).ready(function(){
                 $('.find-in .website').show().bind('click',function(){
                     window.open(stock.website,'_blank');
                 });                                   
-            }                    
+            } 
+            /*
             button({ 
                 class: 'icon-btn icon-share' }, 
                 function(){                             
                     navigator.clipboard.writeText(window.location.href);
                     $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-share"></div><div class="title">Link Copied</div><div class="description">'+window.location.href+'</div></div></div>');                            
                 });                     
-
+            */
             if (settings.contributor === 'yes'){
 
                 button({ 
@@ -884,26 +907,7 @@ $(document).ready(function(){
                             });                              
                                                                                               
                         }else{}
-                        // FINANCIAL GRAPHS
-                        var widgets = {};
-                        if (localStorage.getItem('widgets')){
-                            widgets = JSON.parse(localStorage.getItem('widgets'));              
-
-                        }else{ // Defaults
-
-                            widgets['financial_graph'] = {                                
-                                1: {
-                                    range: 'yearly',
-                                    scope: 'totalRevenue',
-                                    chartType: 'line'
-                                }                            
-                            };
-                        }  
-                        localStorage.setItem('widgets',JSON.stringify(widgets));
-
-                        $.each(widgets.financial_graph, function(id,widget){
-                            widget_financial_graph(id, widget);                            
-                        });
+                        
                         // FINANCIALS GRAPHS - Shareholders
                         if (entity.info.hasOwnProperty('Holders') && entity.info.Holders!==null){
                             var categories  = [];
@@ -962,6 +966,26 @@ $(document).ready(function(){
                         }else{
                             $('.widget.shareholders').hide();
                         }
+                        // FINANCIAL GRAPHS
+                        var widgets = {};
+                        if (localStorage.getItem('widgets')){
+                            widgets = JSON.parse(localStorage.getItem('widgets'));              
+
+                        }else{ // Defaults
+
+                            widgets['financial_graph'] = {                                
+                                1: {
+                                    range: 'yearly',
+                                    scope: 'totalRevenue',
+                                    chartType: 'line'
+                                }                            
+                            };
+                        }  
+                        localStorage.setItem('widgets',JSON.stringify(widgets));
+
+                        $.each(widgets.financial_graph, function(id,widget){
+                            widget_financial_graph(id, widget);                            
+                        });
                     });
                 },
                 error: function(response){
@@ -1200,7 +1224,6 @@ $(document).on('click','[data-action="advanced-charting-sketchpad"]',function(){
     $(this).addClass('active');
     
     $('#sketchpad').addClass('active');
-    if (!sketchpad){
         $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
             sketchpad = new Sketchpad({
                 element:    '#sketchpad',
@@ -1210,11 +1233,37 @@ $(document).on('click','[data-action="advanced-charting-sketchpad"]',function(){
                 penSize:    3
             });            
         });
+    
+
+});
+$(document).off('click', '[data-action="advanced-charting-fullscreen"]');
+$(document).on('click','[data-action="advanced-charting-fullscreen"]',function(){  
+
+    $('body').toggleClass('advanced-charting-fullscreen');
+    stock_chart.reflow();
+    
+    if ($('body').hasClass('advanced-charting-fullscreen')){
+        
+        let elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
     }else{
-            sketchpad.color = settings.design.color_text;        
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }        
     }
 
 });
+
 
 $(document).off('click', '.widget-collapse');
 $(document).on('click','.widget-collapse',function(){           

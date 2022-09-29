@@ -1,4 +1,4 @@
-<div class="popup active popup-advanced-charting popup-advanced-charting-sketchpad">
+<div class="popup active popup-advanced-charting-sketchpad">
     <div class="popup-body padding-side-regular">        
         <div class="step active" data-step="main">
             <div class="header">                    
@@ -42,22 +42,28 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        if (screen.width>766){
-            //$('body').addClass('no-blur');
-            $('.popup-advanced-charting .tab-content').show();
-        }
+        //$('body').addClass('no-blur');
+        $('.popup-advanced-charting-sketchpad .tab-content').show();        
     });
     
     $(document).off('click','.brushes > *');
     $(document).on('click','.brushes > *',function(){
         $('.brushes > *').removeClass('active');
         $(this).addClass('active');
+        if (screen.width<996){
+            $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup');
+            $('.quick-tools .actions > div').removeClass('active');
+        }
     });
     
     $(document).off('click','.colors > *');
     $(document).on('click','.colors > *',function(){
         $('.colors > *').removeClass('active');
         $(this).addClass('active');
+        if (screen.width<996){
+            $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup');
+            $('.quick-tools .actions > div').removeClass('active');
+        }
     });
     
     $(document).off('change','.color5 input');
