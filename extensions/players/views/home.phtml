@@ -125,7 +125,7 @@
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){
-                                location.href = '/players/view/'+player.username;
+                                load_page('/players/view/'+player.username,true);
                              });
                              
                         let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';
@@ -238,7 +238,7 @@
                              .append('<div class="title">'+player.username+'</div>')
                              .append('<div class="total">'+format_price(player.margin*currencies[settings.display_currency],2)+' '+settings.display_currency+'</div>')
                              .bind('click',function(){
-                                location.href = '/wallet/'+player.username;
+                                load_page('/wallet/'+player.username,true);
                              });
                              
                         let btn_results = '<div class="icon-btn icon-account_balance_wallet" onclick="load_page(\'/wallet/'+player.username+'\',true)"></div>';

@@ -313,7 +313,7 @@
     $(document).on('click','.mystock-container .view-action',function(e){
         var symbol = $(this).closest('.mystock-container').attr('data-symbol');
         var market = $(this).closest('.mystock-container').attr('data-market');               
-        window.location.href = '/entities/'+market+'/'+symbol+'?t='+ (new Date().getTime());;
+        load_page('/entities/'+market+'/'+symbol,true);
     });
 
     $(document).off('click', '.items-container [data-action="view"]');
@@ -329,7 +329,7 @@
             
             window.history.pushState({}, '', updateQueryParams(params,true)+'#'+symbol);            
         }        
-        window.location.href = '/entities/'+market+'/'+symbol+'?t='+ (new Date().getTime());
+        load_page('/entities/'+market+'/'+symbol,true);
     });
 
     $(document).off('click', '.mystock-container .edit .icon-create');

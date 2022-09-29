@@ -254,15 +254,7 @@
                                     type: 'area',
                                     zoom: { enabled: false },                        
                                     toolbar: { show: false },
-                                    sparkline: { enabled: true },
-                                    dropShadow: {
-                                        enabled: true,
-                                        top: 0,
-                                        left: 0,
-                                        blur: 2,
-                                        opacity: 0.2,
-                                        color:settings.design.color_text
-                                    }
+                                    sparkline: { enabled: true }
                                 },
                                 dataLabels: { enabled: false },
                                 stroke: {
