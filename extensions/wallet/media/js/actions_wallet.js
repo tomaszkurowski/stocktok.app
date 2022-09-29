@@ -34,22 +34,25 @@
                 localStorage.setItem('wallet',JSON.stringify(wallet));
                 if (config.debug) console.log('\n','Wallet: \n',wallet,'\n\n');
 
-                $('.wallet .owner').html(wallet.username);
-                $('.wallet .privacy').html((wallet.public===1) ? 'Player' : 'Silent');                    
-                $('.wallet .display-currency').text(settings.display_currency);
+                $('.wallets .overview .username').html(wallet.username);
+                if (wallet.avatar) $('.wallets .overview .avatar-container').html('<img src="'+wallet.avatar+'" class="avatar" />');
+                
+                
+                //$('.wallet .privacy').html((wallet.public===1) ? 'Player' : 'Silent');                    
+                //$('.wallet .display-currency').text(settings.display_currency);
                 $(".wallet-items.active").html(''); 
                 $(".wallet-items.sold").html('');
                 
                 //UI
                 
-
+                /*
                 button({ 
                      class: 'icon-btn icon-person' }, 
                      function(){ 
                          load_page('/players/view/'+(me.username !== wallet.username ? mvc.view : me.username),true);                   
                      }
                  );  
-                
+                */
                 
                 if (me.username === wallet.username){
                     button({ 
@@ -57,11 +60,25 @@
                         function(){ 
                             buy_sell_popup(); // => actions_item.js                      
                         }
-                    ); 
-                    button({ 
-                        class: 'icon-btn icon-search2' }, 
-                        function(){ location.href='/entities'; });             
+                    );             
                 }
+                button({ 
+                class: 'icon-btn icon-search2' }, 
+                function(){                        
+                        $.ajax({
+                            url:"/extensions/entities/views/popups/search.html",
+                            cache:false,
+                            success: function(data){
+                                $('#popup').html(data);
+                                $('body').addClass('with-popup no-blur');                            
+                                $('.popup-btn').remove();
+                                $('.quick-tools .actions > div').removeClass('active');
+                                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                             
+                            },
+                            error: function(e){ if (config.debug) console.log(e); }
+                        });                                
+                });                  
+                /*
                 if (wallet.items.length>0){
                     switcher({ 
                         key: 'editable',  
@@ -70,7 +87,7 @@
                         function(){ editable();  // => ui.js                                              
                     });
                 }
-                      
+                */    
                 
                 wallet.symbols = [];
                 load_apexcharts(function(){
@@ -238,6 +255,14 @@
                                     zoom: { enabled: false },                        
                                     toolbar: { show: false },
                                     sparkline: { enabled: true },
+                                    dropShadow: {
+                                        enabled: true,
+                                        top: 0,
+                                        left: 0,
+                                        blur: 2,
+                                        opacity: 0.2,
+                                        color:settings.design.color_text
+                                    }
                                 },
                                 dataLabels: { enabled: false },
                                 stroke: {
@@ -250,8 +275,9 @@
                                   gradient: {
                                     shadeIntensity: 1,
                                     opacityFrom: 0,
-                                    opacityTo: 0.4,
-                                    stops: [0, 100]
+                                    opacityTo: 0,
+                                    stops: [0, 100],
+                                    gradientToColors: [ '#1a1a1a' ]
                                   }
                                 },                            
 
@@ -323,7 +349,8 @@
                             }
                             */
                             $('.wallet-items.moves').append(el);                                    
-                        });                    
+                        }); 
+                        $('.wallet.moves .counter').addClass('active').text(wallet.moves.length);
                     }else{                    
                         $('.wallet-items.moves').html('<div class="no-transactions"><div class="icon icon-shopping_cart"></div><div class="title">No moves</div></div>');                
                     } 
@@ -497,10 +524,29 @@
             });
         }
 
-        $('.wallet.active .results .total ').text(format_price(wallet.current_total * currencies[settings.display_currency],2));
-        $('.wallet.active .results .margin').text(format_price(wallet.current_margin * currencies[settings.display_currency],2));
-        $('.wallet.sold   .results .total ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2));
-        $('.wallet.sold   .results .margin').text(wallet.sold_margin_percentage+'%');      
+        $('.wallet[data-type="active"] .total ').text(format_price(wallet.current_total * currencies[settings.display_currency],2)+' '+settings.display_currency);
+        $('.wallet[data-type="active"] .margin').text(format_price(wallet.current_margin * currencies[settings.display_currency],2)+' '+settings.display_currency);
+        $('.wallet[data-type="sold"]   .margin ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2)+' '+settings.display_currency);
+        $('.wallet[data-type="sold"]   .margin-percentage').text(wallet.sold_margin_percentage+'%');      
+                                                               
+        var options = {
+            series: [wallet.sold_margin_percentage],
+            chart: {
+                height: 350,
+                type: 'radialBar',
+            },
+            plotOptions: {
+              radialBar: {
+                hollow: {
+                  size: '80%',
+                }
+              },
+            },
+            labels: ['Margin']
+        };
+        new ApexCharts(document.querySelector("#sold-margin-graph"), options).render();        
+
+
 
         var targets = document.querySelectorAll('.drag-container .icon-move');
         [].forEach.call(targets, function(target) {
