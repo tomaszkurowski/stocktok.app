@@ -3524,5 +3524,8 @@ body.editable .my-notes .note .actions {
 }
 
 .trend-container {
-    margin:10px !important
+    margin:10px !important;
+}
+.trend-container .graph {
+    height:calc(100vh - 90px);
 }
