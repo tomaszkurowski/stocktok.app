@@ -1,9 +1,27 @@
-<div class="info-page">  
+<div class="info-page hide">  
     <div class="icon icon-locked"></div>
     <h1>Please, login first</h1>
     <p>Features are related with your player profile.</p>    
     <a class="btn primary goto-login">Register/Login</a>   
 </div>
+
+
+<link rel="stylesheet" type="text/css" href="/extensions/cms/media/css/content.css?v=0.0.23" />
+<div class="content" style="opacity:0">
+    
+    <div class="breadcrumbs">Please Login First</div>
+    
+    <div class="row goto-login" data-columns="1" data-chapter="1" style="cursor:pointer">
+        <div class="column banner">
+            <h1>Login/Sign up</h1>
+            <p>To manage portfolio you need to be logged</p>
+            <img src="/media/img/cms/connection-light.png?v=0.1" />     
+        </div>
+    </div>
+    
+</div>
+
+
 <script type="text/javascript">
     $(document).on('click','.goto-login',function(){ 
         if (window.location.pathname !=='/me/login' && window.location.pathname !=='/me/logout'){
@@ -12,4 +30,11 @@
             load_page('/me/login',true);
         }
     });  
+    
+    $(document).on('mouseover','.goto-login',function(){
+        $('.goto-login img').attr('src','/media/img/cms/connected.png?v=0.1');        
+    });
+    $(document).on('mouseout','.goto-login',function(){
+        $('.goto-login img').attr('src','/media/img/cms/connection-light.png?v=0.1');         
+    });
 </script>

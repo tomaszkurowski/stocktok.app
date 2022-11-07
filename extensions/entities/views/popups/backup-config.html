@@ -1,0 +1,127 @@
+<div class="popup active popup-advanced-charting popup-advanced-charting-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Adjust to your needs</h2>
+        </div>        
+        <div class="form">
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Graph</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="graph_type"><b>Price Graph:</b><br />Line, OHLC, Candlestick, Area</label>
+                        <select id="graph_type" onChange="updateSettings('graph_type',$(this).val()); generate_graph();"> <!-- stockactions.js -->
+                            <option value="line">Line</option>
+                            <option value="candlestick">Candlestick</option>
+                            <option value="ohlc">OHLC</option>
+                            <option value="area">Area</option>
+                        </select>
+                    </div> 
+                    <div class="changer-v2">
+                        <label for="graph_volumetype"><b>Volume Graph:</b><br />Columns, Line or Area</label>
+                        <select id="graph_volumetype" onChange="updateSettings('graph_volumetype',$(this).val()); generate_graph();"> <!-- stockactions.js -->
+                            <option value="column">Columns</option>
+                            <option value="line">Line</option>
+                            <option value="area">Area</option>
+
+                        </select>
+                    </div>                    
+                    <div class="changer-v2">
+                        <label for="graph_crosshairs"><b>Crosshairs:</b><br />Supportive lines to easier find values</label>
+                        <select id="graph_crosshairs" onChange="updateSettings('graph_crosshairs',$(this).val()); generate_graph();"> <!-- At the bottom -->
+                            <option value="floating">Floating</option>
+                            <option value="snap">Snap</option>
+                            <option value="hidden">Hidden</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label for="graph_tooltip_mode"><b>Tooltip:</b><br />Position & behavior of tooltip box</label>
+                        <select id="graph_tooltip_mode" onChange="updateSettings('graph_tooltip_mode',$(this).val()); generate_graph();"> <!-- At the bottom -->
+                            <option value="corner-box">Corner-Box</option>
+                            <option value="floating">Floating</option>
+                            <option value="floating-split">Floating Split</option>
+                            <option value="hidden">Hidden</option>
+                        </select>
+                    </div>  
+                    <div class="changer-v2">
+                        <label><b>Show Prices:</b><br/>You can switch off prices to see only volume</label>
+                        <label class="switch-slider">
+                            <input id="graph_showprices" type="checkbox" onClick="updateSettings('graph_showprices',this.checked); generate_graph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                     
+                    <div class="changer-v2">
+                        <label><b>Show Volume:</b><br/>Show daily volumes & prices on the same graph</label>
+                        <label class="switch-slider">
+                            <input id="graph_showvolume" type="checkbox" onClick="updateSettings('graph_showvolume',this.checked); generate_graph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div> 
+                    <div class="changer-v2">
+                        <label><b>Show Navigator:</b><br/>Show navigator to select ranges on timeline</label>
+                        <label class="switch-slider">
+                            <input id="graph_navigator" type="checkbox" onClick="updateSettings('graph_navigator',this.checked); generate_graph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div> 
+                    <div class="changer-v2">
+                        <label><b>Show Scrollbar:</b><br/>Additional scrollbar to scroll timeline</label>
+                        <label class="switch-slider">
+                            <input id="graph_scrollbar" type="checkbox" onClick="updateSettings('graph_scrollbar',this.checked); generate_graph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>  
+                    <div class="changer-v2">
+                        <label for="graph_line"><b>Stroke:</b><br/>Applies only to line type graph</label>
+                        <select id="graph_line" onChange="updateSettings('graph_line',$(this).val()); generate_graph();"> <!-- stockactions.js -->
+                            <option value="1">Thin</option>
+                            <option value="2">Regular</option>
+                            <option value="3">Bold</option>
+                        </select>
+                    </div>                                        
+                    <div class="changer-v2">
+                        <label for="graph_grid"><b>Grid:</b><br/>Visibility of axises</label>
+                        <select id="graph_grid" onChange="updateSettings('graph_grid',$(this).val()); change_graph_grid()"> <!-- At the bottom -->
+                            <option value="x">Only X axis</option>
+                            <option value="y">Only Y axis</option>
+                            <option value="xy">XY axis</option>
+                            <option value="-">No grid</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label><b>Labels:</b><br/>Visibility of labels</label>
+                        <label class="switch-slider">
+                            <input id="graph_labels" type="checkbox" onClick="updateSettings('graph_labels',this.checked); change_graph_labels()"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                     
+                </div>
+            </div>              
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Look & Feel</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                        <select id="theme" onChange="reload_theme($(this).val());"> <!-- stockactions.js -->
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        reloadChangers(); // ui
+    });
+     
+</script>

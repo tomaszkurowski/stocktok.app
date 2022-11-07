@@ -132,7 +132,7 @@
         $('.view-sell .steps').attr('data-current-step',2); 
                         
         // Basic attributes
-        $('.view-sell .symbol').html(item.logo);
+        $('.view-sell .symbol').html(stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : stock.symbol);
         $('.view-sell .price').text(format_price(item.price)); 
         $('.view-sell .last-updated-at').text(item.last_updated_at);      
         $('.view-sell .display-currency').text(settings.display_currency);
@@ -177,64 +177,6 @@
         button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ sell_save(); });
         button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ sell_step1(); });
     
-    }
-
-    function sell_step1_html(transactions){
-        
-        $('[data-step="1"] .items').html('');
-        $.each(transactions,function(index,transaction){
-              
-            // Skip if symbol has been already appended
-            if ($('.view-sell:not(.slick-cloned) .items .item[data-symbol="'+transaction.symbol+'"][data-market="'+transaction.market+'"]').length){ return; } 
-        
-            var item = $('<div></div>').addClass('item');
-            $(item).attr('data-symbol',transaction.symbol);
-            $(item).attr('data-market',transaction.market);
-            $(item).append('<div class="logo-container">' + (transaction.logo ? '<img src="'+transaction.logo+'" class="logo" alt="logo-'+transaction.symbol+'" loading="lazy" />' : '<div class="logo no-img">'+transaction.symbol+'</div>') + '</div>');
-
-            $('[data-step="1"] .items').append($(item));
-        });
-        
-    }
-
-    // View Sell - Step 1
-    function sell_step1(){
-        
-        $('.popup-btn.step2-btn').remove();
-        
-        $('.tab.buy').removeClass('active');
-        $('.tab.sell').addClass('active');
-    
-        $('.view-sell .steps').attr('data-current-step',1);
-        $('.heading.active').find('.popup-btn').remove();
-        
-        // Transactions Ajax 
-        $.ajax({
-            url: config.api_url,
-            data: { endpoint: '/wallet/transactions', type:'active' },
-            type: 'get',
-            dataType: 'JSON',
-            cache:false,
-            success: function(response){            
-
-                transactions = response.transactions;
-                sell_step1_html(transactions);                                                                
-                
-                // Slick adaptiveHeight refresh
-                $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-
-                if (config.debug) console.log('Symbols for sell:');
-                if (config.debug) console.log(response);
-                
-            },
-            error: function(response){
-                if (config.debug) console.log(response);
-            }
-        });
-        
-        // Slick adaptiveHeight
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-
     }
     
     // Buy/Sell - Save

@@ -1,0 +1,286 @@
+<div class="popup active popup-search">
+    <div class="popup-body">
+        
+        <div class="step active step-query">
+            
+            <div class="items rows floating-padding"></div>
+            <div class="floating-box footer">
+                <div class="header">                    
+                    <h2>Search</h2>
+                </div>        
+                <div class="form">           
+                    <div class="field focus">
+                        <input type="text" class="input search" placeholder="Search by name, symbol or sector" />
+                    </div>
+                </div>          
+            </div>
+        </div>
+        
+        <div class="step step-wallet padding-side-regular">
+            <div class="header">                    
+                <h2>My Wallet</h2>
+            </div>        
+            <div class="items"></div>
+        </div>
+
+        <div class="step step-observed padding-side-regular">
+            <div class="header">                    
+                <h2>My Observed</h2>
+            </div>        
+            <div class="items"></div>
+        </div>
+
+        <div class="step step-find">
+            <div class="header">                    
+                <h2>Find</h2>
+            </div>                  
+        </div>
+
+        <div class="step step-filters">
+            <div class="header">                    
+                <h2>Filters</h2>
+            </div>        
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>By Market</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="filters">
+                        <div class="filter">                            
+                            <div class="title">Nasdaq</div>
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Nyse</div>
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Forex</div> 
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Commodities</div>   
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Indices</div> 
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">GPW</div>
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Newconnect</div> 
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Crypto</div> 
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">Fantoken</div>
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick=""/> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>
+                        <div class="filter">                            
+                            <div class="title">All</div>
+                            <label class="switch-slider">
+                                <input type="checkbox" onClick="" checked="CHECKED" /> 
+                                <span class="switch"></span>
+                            </label>                            
+                        </div>                        
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>By Sector</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+
+                </div>
+            </div>
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>By Performance</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+
+                </div>
+            </div>
+        </div>        
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){        
+        
+        //button({ class: 'popup-btn icon-btn icon-filter_alt1 toggle-step', attributes:[{ key: 'data-step', value: 'step-filters' }, { key: 'data-icon', value: 'icon-filter_alt1' }] }, function(){});
+        //button({ class: 'popup-btn icon-btn icon-address toggle-step', attributes:[{ key: 'data-step', value: 'step-find' }, { key: 'data-icon', value: 'icon-address' }] }, function(){});
+        button({ class: 'popup-btn icon-btn icon-account_balance_wallet toggle-step', attributes:[{ key: 'data-step', value: 'step-wallet' }, { key: 'data-icon', value: 'icon-account_balance_wallet' }] }, function(){});        
+        button({ class: 'popup-btn icon-btn icon-bookmark_outline toggle-step', attributes:[{ key: 'data-step', value: 'step-observed' }, { key: 'data-icon', value: 'icon-bookmark_outline' }] }, function(){});
+        
+        
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/wallet/tiny'
+            },
+            type: 'GET',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                console.log('wallet/tiny',response);
+                if (response.items.length === 0) $('.step-wallet .items').addClass('empty').text("You don't have any assets in your wallet yet."); 
+                
+                $.each(response.items, function(i,item){
+                    $('<div class="item"></div>')
+                    .append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : item.symbol)+'</div>')
+                    .bind('click',function(){
+                        load_page('/entities/'+item.market+'/'+item.symbol,true,{ closePopup:false });
+                    })
+                    .appendTo(".step-wallet .items");
+                });
+            },
+            error: function(err){ 
+                if (config.debug) console.log(err);
+            }
+        });
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/wallet/observed/tiny'
+            },
+            type: 'GET',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                console.log('wallet/observed/tiny',response);
+                if (response.items.length === 0) $('.step-observed .items').addClass('empty').text("You don't have any observed assets yet.");
+                
+                $.each(response.items, function(i,item){
+                    $('<div class="item"></div>')
+                    .append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : item.symbol)+'</div>')
+                    .bind('click',function(){
+                        load_page('/entities/'+item.market+'/'+item.symbol,true,{ closePopup:false });
+                    })
+                    .appendTo(".step-observed .items");
+                });
+            },
+            error: function(err){ 
+                if (config.debug) console.log(err);
+            }
+        });        
+    });
+    $(document).off('click','.toggle-step');
+    $(document).on('click','.toggle-step',function(){
+        $('.step').removeClass('active');
+        $('.'+$(this).attr('data-step')).addClass('active');
+        
+        
+        $('[data-step="step-query"]').each(function(){
+            $(this).removeClass('icon-keyboard_backspace1').addClass('toggle-step '+$(this).attr('data-icon')).attr('data-step',$(this).attr('data-step-back'));
+        }); 
+        $('[data-step="'+$(this).attr('data-step')+'"]').removeClass().addClass('popup-btn icon-btn icon-keyboard_backspace1').attr('data-step-back',$(this).attr('data-step')).attr('data-step','step-query');
+    });
+    
+    $(document).off('click','[data-step="step-query"]');
+    $(document).on('click','[data-step="step-query"]',function(){
+        $('.step').removeClass('active');
+        $('.step-query').addClass('active');
+        $('[data-step="step-query"]').removeClass('icon-keyboard_backspace1').addClass('toggle-step '+$(this).attr('data-icon')).attr('data-step',$(this).attr('data-step-back'));
+    }); 
+    
+    var searchTimer;
+    $(document).off('keyup', '.step-query .search');
+    $(document).on('keyup','.step-query .search',function(){
+        search = $(this).val();
+        if (searchTimer) {
+            clearTimeout(searchTimer);
+        }
+        searchTimer = setTimeout(function () {
+            $('.step-query .items').html('');
+            getSearchItems(null,'.step-query .items');
+        }, 500);
+    });
+    $(document).off('click', '.step-query .search');
+    $(document).on('click','.step-query .search',function(){
+        $(this).val('');
+        $('.step-query .items').html('');       
+    });    
+    
+    var search = '';
+    function getSearchItems(){   
+        if (search.length===0){ $('.step-query .header').slideDown(300); }
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/entities', 
+                search: search
+            },
+            type: 'GET',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                $('.step-query .items').html('');
+
+                if (response.entities.length>0){ $('.step-query .header').slideUp(300);
+                }
+
+                response.entities.forEach(function(item){
+
+                    $('<div class="item"></div>')
+                    .append('<div class="info"><div class="name">'+(item.name)+'</div><div class="market"><img src="/media/img/flags/'+item.country+'.svg" class="country" />'+(item.market_name)+'</div>')
+                    .append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : item.symbol)+'</div>')                        
+                    .bind('click',function(){                        
+                        load_page('/entities/'+item.market+'/'+item.symbol,true,{ closePopup:false });
+                        if ($(document).width()<996){
+                            $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup');
+                        }
+                    })
+                    .appendTo('.step-query .items');                        
+
+                });
+            },
+            error: function(response){
+                if (config.debug) console.log(response);
+            }
+        });
+    };
+
+    
+    
+</script>

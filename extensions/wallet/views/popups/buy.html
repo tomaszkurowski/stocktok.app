@@ -1,0 +1,98 @@
+    <div class="popup add-new-stock active">
+        <div class="popup-body">
+
+            <div class="view view-buy hide-scroll" data-id="buy">
+
+                <div class="header">                    
+                    <h2>Add to wallet</h2>
+
+                    <div class="funds hide">
+                        <div class="icon icon-account_balance_wallet"></div>
+                        <span class="funds-after">0,00</span>
+                        <span class="funds-currency"></span>
+                    </div>
+                </div>
+
+
+                <div class="form">                                                           
+
+                        <div class="field input focus symbol"></div>
+                        <div class="field input focus">
+                            <label for="qty" class="qty-label">X</label>
+                            <input type="number" id="qty" name="qty" data-role="none" value="" />
+                        </div>
+
+                        <div class="field input-checkbox price-origin"> 
+                            <input type="checkbox" id="price-origin" name="price-origin" data-role="none" checked="CHECKED" />
+                            <label for="price-origin"> 
+                                <span class="last-updated-at">12.10.2022, 6:17 PM:</span>
+                                <span class="price"></span>
+                                <span class="market-currency"></span><br />
+                                
+                            </label>
+                        </div>
+
+                        <div class="summary">
+                            <div class="row total-main"></div>
+                            <div class="row total-additional"></div>
+                        </div>
+                        
+                        <div class="tab-container">
+                            <div class="tab-header">
+                                <h2>Advanced</h2>
+                                <div class="expand icon-expand_more"></div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="changer-v2">
+                                    <label for="mode"><b>Mode</b><br/>Choose mode of your portfolio</label>
+                                    <select id="mode" onChange="">
+                                        <option value="Live">Live</option>
+                                        <option value="Silent">Silent</option>
+                                        <option value="Game">Game</option>                                        
+                                    </select>
+                                </div>
+                                <div class="changer-v2">
+                                    <label for="purchased_currency"><b>Purchased Currency</b><br/>Works like a leverage bond with asset</label>
+                                    <select class="currency" id="currency" onChange="buy_reload_totals()"></select>
+                                </div>
+                                <!--
+                                <div class="changer-v2">
+                                    <label for="strategy"><b>Shorting</b><br/>Short strategy is when you play that price will go down</label>
+                                    <label class="switch-slider">
+                                        <input id="strategy" type="checkbox"> 
+                                        <span class="switch"></span>
+                                    </label>
+                                </div> 
+                                <div class="changer-v2">
+                                    <label for="leverage"><b>Leverage</b><br/>Margin change multiplier</label>
+                                    <select id="leverage">
+                                        <option value="1" selected="SELECTED">x1</option>
+                                        <option value="2">x2</option>
+                                        <option value="4">x4</option>
+                                        <option value="8">x8</option>
+                                    </select>
+                                </div> 
+                                -->
+                            </div>
+                        </div>
+                                                
+
+                        <div class="price-origin-historical hide">                            
+                            <div class="field input focus">
+                                <label id="add-new-stock-label-date">Date of transaction</label>
+                                <input type="date" id="date" name="date" data-role="none" disabled />
+                            </div>                                                                       
+                            <div class="field input focus">
+                                <label for="price">Price</label>
+                                <input type="number" id="price" name="price" data-role="none" disabled />
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="symbol"        name="symbol" />
+                        <input type="hidden" id="market"        name="market" />
+                        <input type="hidden" id="currency_rate" name="currency_rate" />
+                                              
+                </div>                               
+            </div>
+        </div>
+    </div> 

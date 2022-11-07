@@ -20,6 +20,9 @@
     };  
     function toggleHeading(){
         
+        return;
+        // in tests
+        
         if ($('.heading > *').length>0){
             $('.heading').addClass('with-buttons');
         }else{
@@ -54,6 +57,34 @@
             $('.footer-bottom').prepend(button);
         }
     }
+    function toggleFullscreen(){
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement){
+            //in fullscreen, so exit it
+            if (document.exitFullscreen)            { document.exitFullscreen();} 
+            else if (document.msExitFullscreen)     { document.msExitFullscreen(); } 
+            else if (document.mozCancelFullScreen)  { document.mozCancelFullScreen(); } 
+            else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+            
+            $('#fullscreen').prop('checked',false);
+            
+        }else{
+            //not fullscreen, so enter it
+            if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen(); } 
+            else if (document.documentElement.webkitRequestFullscreen) { document.documentElement.webkitRequestFullscreen(); } 
+            else if (document.documentElement.mozRequestFullScreen) { document.documentElement.mozRequestFullScreen(); } 
+            else if (document.documentElement.msRequestFullscreen) { document.documentElement.msRequestFullscreen(); }
+            
+            $('#fullscreen').prop('checked',true);
+        }
+    }
+    function checkFullscreen(){
+        if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement){
+            $('#fullscreen').prop('checked',true);
+        }else{
+            $('#fullscreen').prop('checked',false);
+        }
+    }
+    
     
     function switcher(options, callback){
         
@@ -87,9 +118,9 @@
     function button(options,callback){
 
         if (!options.target) options.target = '.heading';        
-        $(options.target+' .'+options.class.replace(' ','.')).remove();
+        $(options.target+' .'+options.class.replace(/ +/g, '.')).remove();
         
-        let button = $('<div class="'+(options.class ? ' '+options.class : '')+'"></div>')
+        let button = $('<div class="'+(options.class ? options.class : '')+'"></div>')
             .bind('click',function(){ 
                 
                 if (!settings.mute){
@@ -98,7 +129,12 @@
                 }
                 
                 if (callback) callback(button); 
-        }); 
+        });
+        if (options.attributes){
+            $.each(options.attributes,function(key,attribute){
+                $(button).attr(attribute.key,attribute.value);
+            });
+        }        
         $(options.target).prepend(button);
         //$('.heading').scrollLeft(2000);
         
@@ -141,28 +177,29 @@
         if (options.load){ options.load(changer); }
         
     }
-    
-    
-    
-    function swipeable(){
-        
-        $('body').removeClass('not-swipeable');
-        if (settings.swipeable === 'true') $('.slick-initialized').slick("slickSetOption","swipe",true);
-        else{
-            if ($('.slick-initialized').length){
-                $('body').addClass('not-swipeable');
+    function reloadChangers(){
+        $('.changer-v2 select').each(function(){
+            var id = $(this).attr('id');
+            if (settings.hasOwnProperty($(this).attr('id'))){
+                $(this).val(settings[id]);
             }
-            $('.slick-initialized').slick("slickSetOption","swipe",false); 
-        }           
-    }
- 
-    function editable(){
-        if (settings.editable === 'true') $('body').addClass('editable');
-        else $('body').removeClass('editable'); 
-        
-        if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }     
-    }
-
+            //if (config.debug) console.log('value selected: '+id+' '+settings[id]);
+            //if (config.debug) console.log(settings);
+        });
+        $('.changer-v2 [type="checkbox"]').each(function(){
+            var id = $(this).attr('id');
+            if (settings.hasOwnProperty($(this).attr('id'))){
+                $(this).prop('checked',settings[id]);
+            }
+            //if (config.debug) console.log('value selected: '+id+' '+settings[id]);
+            //if (config.debug) console.log(settings);
+        });        
+    }   
+    function reload_theme(theme,callback){
+        settings.theme = theme;
+        updateSettings('theme',theme);
+        load_layout(callback ? callback() : null);
+    }    
     
     function smooth_scrolling(){
 
@@ -211,15 +248,14 @@
     });
     
     $(document).off('click', '.tab-header');
-    $(document).on('click', '.tab-header', function(){    
-        $(this).parent('.tab-container').find('.tab-content').slideToggle(300,'swing');
+    $(document).on('click', '.tab-header', function(){   
+        $(this).closest('.tab-container').toggleClass('active').children('.tab-content').slideToggle(300,'swing');
         if ($('.slick-initialized')){ $('.slick-initialized').slick('setPosition'); }
         
         if (!settings.mute){
             var audio = new Audio("/media/sounds/button-50.mp3");
             audio.play();
         }        
-        
     });
     
     
@@ -341,7 +377,7 @@
     $(window).scroll(function(){
         if ($(this).scrollTop()>(screen.height + 1000) && !$('.heading .scrollTop').length){
             button({ 
-                class: 'icon-btn icon-move-up scrollTop' }, 
+                class: 'icon-btn icon-vertical_align_top scrollTop' }, 
                 function(){                
                     $("html, body").animate({ scrollTop: 0 }, "slow",function(){
                         $('.heading .scrollTop').remove();
@@ -354,3 +390,21 @@
         }
     });
     
+    function openPopup(data){
+        $('#popup').html(data);
+        $('body').addClass('with-popup with-blur');                            
+        $('.popup-btn').remove();
+        $('.quick-tools .actions > div').removeClass('active');        
+    }
+    function closePopup(){
+        $('#popup').html(''); 
+        $('.popup-btn').remove(); 
+        $('body').removeClass('with-popup'); 
+        $('body').removeClass('with-blur'); 
+        $('.quick-tools .actions > div').removeClass('active');        
+    }
+    
+    $(document).off('mouseenter','input[type="search"]');
+    $(document).on('mouseenter','input[type="search"]',function(){
+        $(this).focus();
+    });

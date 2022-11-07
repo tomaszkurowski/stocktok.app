@@ -1,6 +1,31 @@
 
     function load_layout(callback = null){
         
+        switch (settings.theme){
+            case 'dark':
+                settings.design.color_bg = '#000000';
+                settings.design.color_bg2 = '#181c27';
+                settings.design.color_text = '#ffffff';
+                settings.design.color_label = '#f2f2f2';
+                settings.design.color_base = '#2962ff';
+                settings.design.color_base_invert = '#ffffff';
+                               
+            break;              
+            default:
+                settings.design.color_bg = '#f2f2f2';
+                settings.design.color_bg2 = '#ffffff';
+                settings.design.color_text = '#000000';
+                settings.design.color_label = '#1a1a1a';
+                settings.design.color_base = '#0004f5';
+                settings.design.color_base_invert = '#ffffff';                                                
+            break;
+        }
+        
+        settings.design.size_small   = '12px';
+        settings.design.size_regular = '14px';
+        settings.design.size_medium  = '16px';
+        settings.design.size_big     = '20px';
+        
         localStorage.setItem('settings',JSON.stringify(settings));
         if (config.debug) console.log('\n','Settings:',settings,'\n\n');
         
@@ -65,15 +90,12 @@
                 dataType: 'JSON',
                 cache:false,
                 success: function(response){
-                    if (config.debug) console.log('','Me:','');
-                    if (config.debug) console.log('',response);
                     
+                    if (config.debug) console.log('Me:',response);                    
                     me = response.me;
-                    
-                    // Navigation update
-                    if (response.me){
+                    if (me){
                         $('.nav .username').text(response.me.username);
-                        $('.nav .btn-menu.me').attr('onclick',"location.href='/me/logout/?version="+config.version+"'").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
+                        $('.nav .btn-menu.me').attr('onclick',"load_page('/me/logout/?version="+config.version+"',true)").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
@@ -83,9 +105,10 @@
                     }
 
                     // ACL 
-                    if (response.me || 
+                    
+                    if (me || 
                         mvc.model === 'entities' || 
-                        mvc.model === 'players' || 
+                        mvc.model === 'market' || 
                         mvc.model === 'cms'
                     ){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
@@ -103,17 +126,33 @@
         }else{ $.getScript('/extensions/me/me.js?version='+config.version); }     
     }
     
-    function load_page(url,push_url = false){
+    function load_page(url,push_url = false,options = { closePopup:true }){
+        
+        $.ajax({
+            url: config.api_url,
+            data: { endpoint: '/api/version' },
+            type: 'GET',
+            dataType: 'JSON',
+            cache:false,
+            success: function(response){
+                if (response.version !== config.swVersion){
+                    config.swVersion = response.version;
+                    init_SW();
+                }
+            },
+            error:function(err){ if (config.debug) console.log(err); }
+        });
         
         if (push_url){ window.history.pushState({}, '', url) }
         settings.editable = false;
-        
-        $('.footer .heading').html('');
-        $('.page-views-slider').remove();
-        $('#popup').html('');
-        $('body').removeClass('with-popup').removeClass('no-blur').removeClass('editable').removeClass('not-swipeable');
-        $('.toggleHeading').remove();
-        $('.footer-bottom').removeClass('short');
+                
+        if (options.closePopup){
+            $('.footer .heading').html('');            
+            $('#popup').html('');
+            $('body').removeClass('with-popup').removeClass('with-blur').removeClass('editable').removeClass('not-swipeable');
+            $('.toggleHeading').remove();
+            $('.footer-bottom').removeClass('short');
+        }
         
         $('#app').removeClass('nav-active');
         
@@ -248,3 +287,7 @@
         $('#loader').addClass('hide');
       }
     }
+    addEventListener("popstate", function (e) {
+        load_page(window.location.pathname);
+        e.preventDefault();
+    });    

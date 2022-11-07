@@ -1,0 +1,128 @@
+<div class="popup active popup-advanced-charting popup-screener-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Screener</h2>
+        </div>        
+        <div class="form">
+                        
+            <div class="tab-container views-container">
+                <div class="tab-header">
+                    <h2>Visibility</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2 hide" data-type="screener">
+                        <label for="view_screener"><b>View</b><br />Pre-defined or Custom</label>
+                        <select id="view_screener" onChange="updateSettings('view_screener',$(this).val()); reloadScreenerView(); getItems({ fullReload:true, success:function(){ reloadScreenerColumns(); } });"> <!-- stockactions.js -->
+                            <option value="performance">Performance</option>
+                            <option value="company">Company</option>
+                            <option value="all">All Columns</option>
+                        </select>
+                    </div>  
+                    
+                    <div class="sep hide" data-type="grid"></div>
+                    <div class="changer-v2 short hide" data-type="grid">
+                        <label for="wallet_show_logo"><b>Logo</b></label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_logo" type="checkbox" onClick="updateSettings('wallet_show_logo',this.checked); getItems({ fullReload:true, reload:true });"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                  
+                    <div data-src="visibleColumns"></div>
+                </div>
+            </div>
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Look & Feel</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                        <select id="theme" onChange="reload_theme($(this).val());"> <!-- stockactions.js -->
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label for="view_search"><b>View</b><br />Grid or Screener</label>
+                        <select id="view_search" onChange="updateSettings('view_search',$(this).val()); getItems({ fullReload:true }); reloadScreenerConfig()"> <!-- stockactions.js -->
+                            <option value="grid">Grid</option>
+                            <option value="screener">Table</option>
+                            <option value="boxes">Boxes</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label><b>Fullscreen:</b><br/>Switch to fullscreen to get maximum space to view</label>
+                        <label class="switch-slider">
+                            <input id="fullscreen" type="checkbox" onClick="toggleFullscreen()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="changer-v2 hide" data-type="grid">
+                        <label for="wallet_show_graph"><b>Graph</b><br/>Visibility of trends</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_graph" type="checkbox" onClick="updateSettings('wallet_show_graph',this.checked); $('.leaf .graph').toggleClass('hide')"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                     
+                    <div class="changer-v2 hide" data-type="grid">
+                        <label for="trend_search"><b>Trend Size</b><br />Days, Weeks or Months</label>
+                        <select id="trend_search" onChange="updateSettings('trend_search',$(this).val()); getItems({ fullReload:true, reload:true });"> <!-- stockactions.js -->
+                            <option value="5-days">5 days</option>
+                            <option value="5-weeks">5 weeks</option>
+                            <option value="6-months">6 months</option>
+                        </select>
+                    </div>                                       
+                </div>
+            </div>            
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        if (screen.width<996){
+            $('body').addClass('with-blur');
+            //$('.popup-advanced-charting .tab-content').show();
+        }
+        
+        checkFullscreen();
+        reloadScreenerConfig();
+        reloadScreenerColumns();
+        reloadChangers(); // UI
+        
+    });
+    
+    function reloadScreenerConfig(){
+        if (settings.view_search === 'grid' || settings.view_search === 'boxes'){
+            $('.popup-screener-config [data-type="grid"]').removeClass('hide');
+            $('.popup-screener-config [data-type="screener"]').addClass('hide');
+        }else{
+            $('.popup-screener-config [data-type="grid"]').addClass('hide');
+            $('.popup-screener-config [data-type="screener"]').removeClass('hide');
+        }
+    }
+ 
+    function reloadScreenerColumns(){
+        
+        $('[data-src="visibleColumns').html('');
+        $.each($('.dataTables_scrollHeadInner [data-view="screener"] thead th'), function(){
+            let index = $(this).attr('data-column-index');
+            let el = $('<div class="changer-v2 short"></div>')
+                    .append('<label for="wallet_show_'+index+'"><b>'+$(this).attr('data-code')+'</b></label')
+                    .append('<label class="switch-slider"><span class="switch"></span></label>');
+            $(el).find('.switch-slider')
+            .prepend($('<input id="wallet_show_'+index+'" type="checkbox" checked="CHECKED" />').bind('click',function(){
+                if (screener){
+                    screener.column(parseInt(index)).visible($(this).prop('checked') === true ? 1 : 0);
+                }
+            }));            
+            $('[data-src="visibleColumns').append(el);
+        });
+               
+    }            
+</script>

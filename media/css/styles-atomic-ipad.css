@@ -1,0 +1,62 @@
+@media only screen and (min-width: 766px){  
+    
+    .screen [data-view="grid"] .leaf { width: calc(25% - 10px); }
+    .screen [data-view="boxes"] .leaf { width: calc(33.3333% - 10px); }
+
+}
+
+@media only screen and (min-width: 996px) {
+    
+    .panel {
+        position: fixed;
+        right:0;
+        z-index: 9999;
+        width:30%;
+        overflow-y:scroll;
+        height:100vh;
+        padding-bottom:100px;
+        z-index:2;
+    }     
+    .screen { width:70%; }        
+    .screen [data-view="screener"] {}
+    .screen [data-view="grid"] {}    
+    
+    .screen [data-view="grid"] .leaf { width: calc(25% - 10px); } 
+    .screen [data-view="boxes"] .leaf { width: calc(20% - 10px); }
+    
+    .leafs.empty td { height:calc(100vh - 20px); }    
+    .screen.wide { width: 100%; }
+    
+    .screen.wide [data-view="grid"] .leaf { width: calc(16.6666% - 10px); }
+    .screen.wide .leafs.empty { height:calc(100vh - 10px); }        
+    
+    .find-in { margin-top:-10px; }
+    
+    .graph-container .graph { height:calc(100vh - 20px); }
+    
+    .quick-tools .additionals { display:flex; }
+    
+    .advanced-charting-fullscreen .stock-price-container { height:calc(100vh - 75px) !important;}
+    .advanced-charting-fullscreen .quick-tools .additionals { margin-right:300px; }
+    
+    .dataTables_filter{ display:block; }
+    .widgets { margin:0 15px; }
+    
+    .page.stock-page-views [data-view="financial"] { margin:0; }
+    .panel-content { margin-right:5px; }
+    
+}
+
+
+
+@media only screen and (min-width: 1445px){
+    .panel { width:25%; }
+    .screen.wide { width: 100%; padding:0; } 
+    .screen { width:75%; }
+    
+    .screen [data-view="grid"] .leaf { width: calc(20% - 10px); }
+    .screen.wide [data-view="grid"] .leaf { width: calc(12.5% - 10px); }
+    .screen [data-view="boxes"] .leaf { width: calc(16.6666% - 10px); }
+    .screen.wide [data-view="boxes"] .leaf { width: calc(12.5% - 10px); }
+      
+}

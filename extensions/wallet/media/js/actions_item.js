@@ -313,7 +313,7 @@
     $(document).on('click','.mystock-container .view-action',function(e){
         var symbol = $(this).closest('.mystock-container').attr('data-symbol');
         var market = $(this).closest('.mystock-container').attr('data-market');               
-        window.location.href = '/entities/'+market+'/'+symbol+'?t='+ (new Date().getTime());;
+        load_page('/entities/'+market+'/'+symbol,true);
     });
 
     $(document).off('click', '.items-container [data-action="view"]');
@@ -329,7 +329,7 @@
             
             window.history.pushState({}, '', updateQueryParams(params,true)+'#'+symbol);            
         }        
-        window.location.href = '/entities/'+market+'/'+symbol+'?t='+ (new Date().getTime());
+        load_page('/entities/'+market+'/'+symbol,true);
     });
 
     $(document).off('click', '.mystock-container .edit .icon-create');
@@ -409,34 +409,7 @@
         sell_reload_totals();                
     });
     
-    // Go to step 2 Buttons
-    $(document).off('click', '.view-buy [data-step="1"] #autosuggestions .stock');
-    $(document).on('click', '.view-buy [data-step="1"] #autosuggestions .stock', function(){
 
-        var item = {};
-        item.market_currency    = $(this).attr('data-market')==='gpw' ? 'pln' : 'usd';
-        item.price              = $(this).attr('data-price');
-        item.last_updated_at    = $(this).attr('data-last-updated-at');
-        item.symbol             = $(this).attr('data-symbol');
-        item.market             = $(this).attr('data-market');
-        item.logo               = $(this).find('.logo-container').html();
-
-        buy_step2(item);
-
-    });
-    
-    $(document).off('click', '.view-sell [data-step="1"] .item');
-    $(document).on('click', '.view-sell [data-step="1"] .item', function(){
-
-        var item = {};
-        item.symbol = $(this).attr('data-symbol');
-        item.market = $(this).attr('data-market');
-        item.logo   = $(this).find('.logo-container').html();
-
-        sell_step2(item);
-
-    });
-    
     // Funds
     $(document).off('click', '.funds-delete');
     $(document).on('click','.funds-delete',function(){

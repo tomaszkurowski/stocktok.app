@@ -33,6 +33,10 @@
             var amount = parseFloat($('#total').val()) / parseFloat(currencies[$('#cc-currency1').val()]) * parseFloat(currencies[$('#cc-currency2').val()]);
             $('#amount').val(amount.toFixed(2)); 
         }else{
+            if ($('#cc-currency1').val() === $('#cc-currency2').val()){
+                $('#total').val($('#amount').val()); 
+                return;
+            }
             var total = parseFloat($('#amount').val()) * parseFloat(currencies[$('#cc-currency1').val()]) * parseFloat(currencies[$('#cc-currency2').val()]);
             $('#total').val(total.toFixed(2)); 
         }

@@ -1,0 +1,43 @@
+<link rel="stylesheet" type="text/css" href="/extensions/cms/media/css/content.css?v=0.0.28" />
+
+<div class="content" style="opacity:0">
+    
+    <div class="breadcrumbs">Choose your playing mode</div>
+        
+    <div class="row selectable" data-columns="3" data-chapter="1" style="padding-top:120px">
+        <div class="column" data-type="mode">
+            <div class="icon icon-account_balance_wallet"></div>
+            <h2>Live Portfolio</h2>
+            <p>You can add/sell entities in real-time. Its perfect if you want to try to play on markets like with real money.</p>           
+        </div>
+        
+        <div class="column" data-type="mode">
+            <div class="icon icon-business_center"></div>
+            <h2>Virtual Portfolio</h2>
+            <p>You add/sell entities with their historical dates/prices. If you buy with broker, this portfolio can be for you to measure performance.</p>       
+        </div>
+        
+        
+        <div class="column" data-type="mode">
+            <div class="icon icon-gamepad"></div>
+            <h2>Virtual Game</h2>
+            <p>Like every player in this mode you get VIRTUAL 25k $. Get the best margin from it and compete in rankings with other. Perfect for beginner players</p>          
+        </div>
+        
+        
+    </div>
+    
+</div>
+
+<script type="text/javascript">
+    
+    $(document).off('click','[data-type="mode"]');
+    $(document).on('click','[data-type="mode"]',function(){
+        $('[data-type="mode"]').removeClass('active');
+        $(this).addClass('active');
+        button({ class: "icon-btn popup-btn icon-check1" }, function(){
+            
+        });
+    });
+
+</script>

@@ -1,0 +1,156 @@
+<div class="popup active popup-advanced-charting popup-advanced-charting-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Wallet Configuration</h2>
+        </div>        
+        <div class="form">
+            <div class="tab-container views-container">
+                <div class="tab-header">
+                    <h2>Visibility</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2 hide" data-type="screener">
+                        <label for="view_screener"><b>View</b><br />Pre-defined or Custom</label>
+                        <select id="view_screener" onChange="updateSettings('view_screener',$(this).val()); reloadScreenerView(); getItems({ fullReload:true, success:function(){ reloadScreenerColumns(); } });"> <!-- stockactions.js -->
+                            <option value="performance">Performance</option>
+                            <option value="company">Company</option>
+                            <option value="all">All Columns</option>
+                        </select>
+                    </div>  
+                    
+                    <div class="sep hide" data-type="grid"></div>
+                    <div class="changer-v2 short hide" data-type="grid">
+                        <label for="wallet_show_logo"><b>Logo</b></label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_logo" type="checkbox" onClick="updateSettings('wallet_show_logo',this.checked); getItems({ fullReload:true, reload:true });"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                    
+                    <div class="changer-v2" data-type="grid">
+                        <label for="wallet_show_switcher"><b>Switcher:</b><br/>Visibility of switcher</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_switcher" type="checkbox" onClick="updateSettings('wallet_show_switcher',this.checked); $('.leaf .switch-slider').toggleClass('hide')"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div> 
+                    <div class="changer-v2" data-type="grid">
+                        <label for="wallet_show_price"><b>Price</b><br/>Visibility of price</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_price" type="checkbox" onClick="updateSettings('wallet_show_price',this.checked); $('.leaf .price').toggleClass('hide'); $('.leaf .logo').toggleClass('center'); "> 
+                            <span class="switch"></span>
+                        </label>
+                    </div> 
+                    <div class="changer-v2" data-type="grid">
+                        <label for="wallet_show_results"><b>Results</b><br/>Visibility of results</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_results" type="checkbox" onClick="updateSettings('wallet_show_results',this.checked);  $('.leaf .total').toggleClass('hide'); $('.leaf .margin').toggleClass('hide')"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    <div data-src="visibleColumns"></div>
+                </div>
+            </div>
+            
+
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Look & Feel</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                        <select id="theme" onChange="reload_theme($(this).val());">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label for="view_wallet"><b>View</b><br />Grid or Screener</label>
+                        <select id="view_wallet" onChange="updateSettings('view_wallet',$(this).val()); walletReload()"> 
+                            <option value="grid">Grid</option>
+                            <option value="screener">Screener</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label><b>Fullscreen:</b><br/>Switch to fullscreen to get maximum space to view</label>
+                        <label class="switch-slider">
+                            <input id="fullscreen" type="checkbox" onClick="toggleFullscreen()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div> 
+                    <div class="changer-v2 hide" data-type="grid">
+                        <label for="wallet_show_graph"><b>Graph</b><br/>Visibility of trends</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_graph" type="checkbox" onClick="updateSettings('wallet_show_graph',this.checked); $('.leaf .graph').toggleClass('hide')"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                     
+                    <div class="changer-v2">
+                        <label for="trend_wallet"><b>Trend Size</b><br />Days, Weeks or Months</label>
+                        <select id="trend_wallet" onChange="updateSettings('trend_wallet',$(this).val()); walletReload()">
+                            <option value="5-days">5 days</option>
+                            <option value="5-weeks">5 weeks</option>
+                            <option value="6-months">6 months</option>
+                        </select>
+                    </div>                                       
+                </div>
+            </div>          
+            
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.popup-advanced-charting .changer-v2 select').each(function(){
+            var id = $(this).attr('id');
+            if (settings.hasOwnProperty($(this).attr('id'))){
+                $(this).val(settings[id]);
+            }
+            if (config.debug) console.log('value selected: '+id+' '+settings[id]);
+            if (config.debug) console.log(settings);
+        });
+        $('.popup-advanced-charting .changer-v2 [type="checkbox"]').each(function(){
+            var id = $(this).attr('id');
+            if (settings.hasOwnProperty($(this).attr('id'))){
+                $(this).prop('checked',settings[id]);
+            }
+            if (config.debug) console.log('value selected: '+id+' '+settings[id]);
+            if (config.debug) console.log(settings);
+        });
+        
+        if (screen.width>996){
+            $('body').addClass('with-blur');
+            //$('.popup-advanced-charting .tab-content').show();
+        }
+    });
+    function reload_theme(theme){
+        switch (theme){
+            case 'dark':
+                settings.design.color_bg = '#000000';
+                settings.design.color_bg2 = '#1a1a1a';
+                settings.design.color_text = '#ffffff';
+                settings.design.color_label = '#f2f2f2';
+                settings.design.color_base = '#f5b30c';
+                settings.design.color_base_invert = '#000000';
+            break;              
+            case 'light':
+                settings.design.color_bg = '#f2f2f2';
+                settings.design.color_bg2 = '#ffffff';
+                settings.design.color_text = '#000000';
+                settings.design.color_label = '#1a1a1a';
+                settings.design.color_base = '#0004f5';
+                settings.design.color_base_invert = '#ffffff';                                                
+            break;
+        }
+        settings.theme = theme;
+        updateSettings('theme',theme);
+        load_layout();
+        generate_graph();
+    }
+    
+    
+</script>
