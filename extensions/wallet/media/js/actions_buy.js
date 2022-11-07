@@ -58,67 +58,31 @@
 
     // View Buy - Step 2
     function buy_step2(item){
-         
-        $('.popup-btn.step2-btn').remove();
-        
-        $('.tab.buy').addClass('active');
-        $('.tab.sell').removeClass('active');
-        
-        // @TODO, For small Refactor
-        $('.popup.add-new-stock').removeClass('step1-simple'); // Class name to change, sth like "no-header no-footer"
-        $('.popup.add-new-stock #autosuggestions').removeClass('active').addClass('hide'); // active/hide :) decision
-        
-        // Change step
-        $('.view-buy .steps').attr('data-current-step',2); 
-        
+               
         // Basic attributes 
-        $('.view-buy .symbol').html(item.logo);
-        $('.view-buy .price').text(format_price(item.price)); 
+        $('.view-buy .symbol').html(stock.logo ? '<img src="'+stock.logo+'" class="logo" />' : stock.symbol);
+        $('.view-buy .price').text(format_price(stock.price)); 
         //$('.view-buy .last-updated-at').text(item.last_updated_at);      
         $('.view-buy .display-currency').text(settings.display_currency);
-        $('.view-buy div:not(.summary) .market-currency').text(item.market_currency);
+        $('.view-buy div:not(.summary) .market-currency').text(stock.market_currency);
         
         // Form attributes
-        $('.view-buy #price').val(parseFloat(item.price).toFixed(2));
-        $('.view-buy #symbol').val(item.symbol);
-        $('.view-buy #market').val(item.market);
+        $('.view-buy #price').val(parseFloat(stock.price).toFixed(2));
+        $('.view-buy #symbol').val(stock.symbol);
+        $('.view-buy #market').val(stock.market);
         
         // Purchased currency
         $('.view-buy #currency').html('');
         $.each(currencies, function(i, rate){            
             $('.view-buy #currency').append('<option value="'+i+'"'+(i === settings.display_currency ? ' selected="SELECTED"':'')+'>'+i+'</option>');
         });
-
-                    
-        // Slick adaptiveHeight
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
                         
         button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ buy_save(); });
-        button({ class: "popup-btn step2-btn icon-btn icon-keyboard_backspace1" }, function(){ buy_step1(); });
         
         buy_reload_totals();
         
     }
     
-    
-    
-    function buy_step1(){  
-        
-        $('.popup-btn.step2-btn').remove();      
-        
-        $('.tab.buy').addClass('active');
-        $('.tab.sell').removeClass('active');
-        
-        $('.view-buy .steps').attr('data-current-step',1);        
-        $('.view-buy #symbol').val('');
-        
-        if (me.public === 0){
-            $('.popup .header .label').removeClass('hide');
-        }
-        
-        // Slick adaptiveHeight
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-    } 
     
     function buy_reload_totals(){
 
@@ -140,7 +104,7 @@
                                   
         $(popup).find('.total-main').text(purchased_total_display+' '+settings.display_currency);
         if (settings.display_currency !== market_currency){
-           $(popup).find('.total-additional').html((price * qty).toFixed(2) + ' ' + market_currency + '<br />' + 'x '+market_rate+' '+market_currency).show(); 
+           $(popup).find('.total-additional').html((price * qty).toFixed(2) + ' ' + market_currency + '<br />' + (Math.round(market_rate) !== 1 ? 'x '+market_rate+' '+market_currency : '')).show(); 
         }else{
            $(popup).find('.total-additional').hide(); 
         }
@@ -152,25 +116,22 @@
             if (funds_after <0){ $('.funds-after').addClass('error'); }else{ $('.funds-after').removeClass('error'); }
         } 
                 
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight()); 
+       
  
     }
     
     // Price origin 
-    $(document).off('change', '.popup.add-new-stock :not(slick-cloned) #price-origin');
-    $(document).on('change', '.popup.add-new-stock :not(slick-cloned) #price-origin', function(e){        
-
+    $(document).off('change', '.popup.add-new-stock #price-origin');
+    $(document).on('change', '.popup.add-new-stock #price-origin', function(e){        
         e.preventDefault();
-        $(this).parents('.form').find('.price-origin-historical').toggleClass('hide');
+
+        if ($(this).prop('checked') === true){ $(this).parents('.form').find('.price-origin-historical').addClass('hide');
+        }else{ $(this).parents('.form').find('.price-origin-historical').removeClass('hide'); }
 
         if (me.public === 0){ 
-            //$(this).parents('.form').find('.price-origin-historical input').prop('disabled',false);
+            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',false);
             $(this).parents('.form').find('.price-origin-historical .info').hide();
         }else{                
-            //$(this).parents('.form').find('.price-origin-historical input').prop('disabled',true); 
+            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',true); 
         }
-
-        // Slick adaptiveHeight
-        $('.popup.add-new-stock .slick-list').height($('.popup.add-new-stock .slick-current').outerHeight());
-
-    });    
+    });   

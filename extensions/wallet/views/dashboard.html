@@ -1,0 +1,145 @@
+<div class="site">
+    <div class="panel hide-scroll">
+        
+        <div class="tab-group">
+            <div class="tab-container overview active">
+                <div class="tab-header">          
+                    <h2 data-src="wallet.username"></h2>                   
+                    <div class="avatar-container" data-src="wallet.avatar"></div>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                </div>
+            </div> 
+            
+            <div class="tab-container wallet selected with-switch" data-id="0" data-action="slickGoTo" data-type="active">
+                <label class="switch-slider"><input type="checkbox" checked="CHECKED" /><span class="switch"></span></label>
+                <div class="tab-header">                    
+                    <h2>Active</h2>
+                    <div class="counter neutral margin" data-color="neutral" data-src="margin">0,00 pln</div>                    
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content tab-info">
+                    <div class="graph donut" data-src="graph-active"></div>                    
+                    <div class="row"><div class="field"><span class="field-value">Total</span></div><div class="value" data-src="total">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Margin %</span></div><div class="value" data-src="marginp">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Margin</span></div><div class="value" data-src="margin">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Highest Margin</span></div><div class="value" data-src="highest-margin">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Highest Margin %</span></div><div class="value" data-src="highest-marginp">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Lowest Margin</span></div><div class="value" data-src="lowest-margin">-</div></div>                     
+                    <div class="row"><div class="field"><span class="field-value">Lowest Margin %</span></div><div class="value" data-src="lowest-marginp">-</div></div>                                          
+                    <div class="padding-side-regular">
+                        <div class="actions">
+                            <div class="btn primary" onclick="load_page('/wallet/trend',true)">See Wallet Trend</div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="tab-container wallet with-switch" data-id="1" data-action="slickGoTo" data-type="sold">
+                <label class="switch-slider"><input type="checkbox" checked="CHECKED" /><span class="switch"></span></label>
+                <div class="tab-header">                    
+                    <h2>Sold</h2>
+                    <div class="counter neutral margin" data-color="neutral" data-src="margin">0,00 pln</div>                      
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content tab-info">                    
+                    <div class="graph donut" data-src="graph-sold"></div>                   
+                    <div class="row"><div class="field"><span class="field-value">Margin %</span></div><div class="value" data-src="marginp">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Margin</span></div><div class="value" data-src="margin">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Purchased</span></div><div class="value" data-src="purchased">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Highest Margin</span></div><div class="value" data-src="highest-margin">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Highest Margin %</span></div><div class="value" data-src="highest-marginp">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Lowest Margin</span></div><div class="value" data-src="lowest-margin">-</div></div>                     
+                    <div class="row"><div class="field"><span class="field-value">Lowest Margin %</span></div><div class="value" data-src="lowest-marginp">-</div></div>                     
+                </div>
+            </div> 
+            <div class="tab-container wallet selected" data-id="0" data-action="slickGoTo" data-type="active">
+                <div class="tab-header">
+                    <h2>Profile</h2>                       
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content tab-info">
+                    <div class="row"><div class="field"><span class="field-value">Username</span></div><div class="value" data-src="wallet.username">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Country</span></div><div class="value" data-src="wallet.country">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Wallet Mode</span></div><div class="value" data-src="wallet.mode">Live</div></div>
+                    <!--<div class="row"><div class="field"><span class="field-value">Bio</span></div><div class="value" data-src="wallet.bio">-</div></div>-->
+                    <div class="row"><div class="field"><span class="field-value">Twitter</span></div><div class="value" data-src="wallet.twitter">-</div></div>
+                </div>
+            </div>            
+            <div class="tab-container moves wallet" data-id="2" data-action="slickGoTo">
+                <div class="tab-header">
+                    <h2>Moves</h2>   
+                    <div class="counter neutral">0</div>                        
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <table class="moves" data-src="all-moves" data-view="timeline"></table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="trend">
+        
+    </div>
+    
+    <div class="screen">
+        <table class="leafs" data-src="all"><thead></thead><tbody></tbody></table>
+    </div>
+    
+</div>   
+<script type="text/javascript"> 
+    
+    $('.leafs').attr('data-view',settings.wallet_view2);
+   
+   
+    $.getScript('/extensions/wallet/media/js/wallet'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version,function(){
+        $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
+        $.getScript('/extensions/wallet/media/js/actions_buy'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
+        $.getScript('/extensions/wallet/media/js/actions_sell'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);  
+        
+        get_currencies(function(){
+            walletReload();
+            //smooth_scrolling();
+        });          
+    });
+
+    
+    $(document).ready(function(){
+       
+        button({ 
+        class: 'icon-btn icon-search2' }, 
+        function(){                        
+            $.ajax({
+                url:"/extensions/entities/views/popups/search.html",
+                cache:false,
+                success: function(data){ openPopup(data); button({ class: 'icon-btn popup-btn icon-clear' }, function(){ closePopup(); }); },
+                error: function(e){ if (config.debug) console.log(e); }
+            });                                
+        }); 
+        button({ 
+        class: 'icon-btn icon-settings' }, 
+        function(){                        
+            $.ajax({
+                url:"/extensions/wallet/views/popups/config.html",
+                cache:false,
+                success: function(data){ openPopup(data); button({ class: 'icon-btn popup-btn icon-clear' }, function(){ closePopup(); }); },
+                error: function(e){ if (config.debug) console.log(e); }
+            });                                
+        });              
+        
+    });
+    
+    $(document).off('click','.overview');
+    $(document).on('click','.overview',function(){       
+       $('.panel').toggleClass('short'); 
+       $('.screen').toggleClass('wide');
+    });    
+    
+    $(document).off('click','.leafs.empty');
+    $(document).on('click','.leafs.empty',function(){       
+       $('.footer .icon-search2').click();        
+    }); 
+    
+    
+</script>

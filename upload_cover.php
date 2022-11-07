@@ -26,8 +26,13 @@ if($fileError == UPLOAD_ERR_OK){
     $username   = filter_input(INPUT_POST, 'me'); // TODO..     
     $username   = strtolower($username);        
     
+    
+    
     $path       = '../data/covers/'.$market.'/'.$symbol.'.'.$fileExt;
     $dest       = '../data/covers/'.$market.'/nextGen/'.$symbol.'.webp';
+    
+    if (!file_exists('../data/covers/'.$market)) { mkdir('../data/covers/'.$market, 0777, true); }
+    if (!file_exists('../data/covers/'.$market.'/nextGen')) { mkdir('../data/covers/'.$market.'/nextGen', 0777, true); }
 
     file_put_contents($path, $fileContent); 
 

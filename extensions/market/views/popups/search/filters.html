@@ -1,0 +1,259 @@
+<div class="popup active popup-advanced-charting popup-screener-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Filters</h2>
+        </div>        
+        <div class="form">
+              
+
+            <!-- Finder -->
+            <div class="tab-container countries">
+                <div class="tab-header">          
+                    <h2>Country</h2>                   
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="finder" data-code="country">
+                        <div class="find" data-value="us">
+                            <img src="/media/img/flags/us.svg" class="flag-small" />
+                            <p class="title">United States</p>
+                        </div>      
+                        <div class="find" data-value="ca">
+                            <img src="/media/img/flags/ca.svg" class="flag-small" />
+                            <p class="title">Canada</p>
+                        </div> 
+                        <div class="find" data-value="de">
+                            <img src="/media/img/flags/de.svg" class="flag-small" />
+                            <p class="title">Germany</p>
+                        </div>
+                        <div class="find" data-value="pl">
+                            <img src="/media/img/flags/pl.svg" class="flag-small" />
+                            <p class="title">Poland</p>
+                        </div> 
+                        <div class="find" data-value="nl">
+                            <img src="/media/img/flags/nl.svg" class="flag-small" />
+                            <p class="title">Netherlands</p>
+                        </div>    
+                        <div class="find" data-value="fr">
+                            <img src="/media/img/flags/us.svg" class="flag-small" />
+                            <p class="title">France</p>
+                        </div> 
+                        <div class="find" data-value="ch">
+                            <img src="/media/img/flags/ch.svg" class="flag-small" />
+                            <p class="title">Swiss</p>
+                        </div>  
+                        <div class="find" data-value="es">
+                            <img src="/media/img/flags/es.svg" class="flag-small" />
+                            <p class="title">Spain</p>
+                        </div>                         
+                        <div class="find" data-value="pt">
+                            <img src="/media/img/flags/pt.svg" class="flag-small" />
+                            <p class="title">Portugal</p>
+                        </div>                         
+                        <div class="find" data-value="br">
+                            <img src="/media/img/flags/br.svg" class="flag-small" />
+                            <p class="title">Brasil</p>
+                        </div>  
+                        <div class="find" data-value="mx">
+                            <img src="/media/img/flags/mx.svg" class="flag-small" />
+                            <p class="title">Mexico</p>
+                        </div> 
+                        <div class="find" data-value="hk">
+                           <img src="/media/img/flags/hk.svg" class="flag-small" />
+                            <p class="title">Hong-Kong</p>
+                        </div>                                                
+                    </div>                     
+                </div>
+            </div> 
+            <div class="tab-container markets">
+                <div class="tab-header">          
+                    <h2>Market</h2>                   
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="finder" data-code="market">
+                        <div class="find active" data-value="nasdaq"><div class="icon-btn icon-nasdaq"></div><p>Nasdaq</p></div>
+                        <div class="find" data-value="nyse"><div class="icon-btn icon-nyse"></div><p>Nyse</p></div>
+                        <div class="find" data-value="newconnect"><div class="icon-btn icon-newconnect"></div><p>New-Connect</p></div>
+                        <div class="find" data-value="gpw"><div class="icon-btn icon-newconnect"></div><p>GPW</p></div>
+                        <div class="find" data-value="forex"><div class="icon-btn icon-currencies"></div><p>Forex</p></div>
+                        <div class="find" data-value="madrid"><div class="icon-btn icon-bolsa-madrid"></div><p>Madrid</p></div>
+                        <div class="find" data-value="crypto"><div class="icon-btn icon-crypto"></div><p>Crypto</p></div>
+                        <div class="find" data-value="fantoken"><div class="icon-btn icon-trophy"></div><p>Fan-Tokens</p></div>
+                        <div class="find" data-value="commodities"><div class="icon-btn icon-commodities"></div><p>Commodities</p></div>
+                        <div class="find" data-value="indices"><div class="icon-btn icon-indices"></div><p>Indices</p></div>
+                        
+                        <div class="find" data-value="frankfurt"><p>Frankfurt</p></div>
+                        <div class="find" data-value="amsterdam"><p>Amsterdam</p></div>                        
+                        <div class="find" data-value="toronto"><p>Toronto</p></div>
+                        <div class="find" data-value="neo"><p>Neo</p></div>
+                        <div class="find" data-value="swiss"><p>Swiss</p></div>
+                        <div class="find" data-value="xetra"><p>Xetra</p></div>
+                        <div class="find" data-value="berlin"><p>Berlin</p></div>
+                        <div class="find" data-value="paris"><p>Paris</p></div>
+                        <div class="find" data-value="lisbon"><p>Lisbon</p></div>
+                        <div class="find" data-value="hongkong"><p>Hongkong</p></div>
+                        <div class="find" data-value="saopaolo"><p>Sao Paolo</p></div>
+                        <div class="find" data-value="mexican"><p>Mexican</p></div>                        
+                    </div>                    
+                </div>
+            </div>                                                 
+            
+            <!-- Builder -->
+            <div class="tab-container build">
+                <div class="tab-header">
+                    <h2>Build</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="filters" data-src="filters"></div>
+                    <div class="actions"></div>                    
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+        if (screen.width>996){
+            $('body').addClass('no-blur');
+            $('.screen').removeClass('wide');            
+        }
+        
+        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ closePopup(); $('.screen').addClass('wide'); });
+        
+        reloadScreenerFilters();
+        reloadScreenerFiltersOptions();
+        
+        // New Filter
+        $('.filters+.actions').html('<div class="icon-btn icon-add1"></div>');
+        $('.filters+.actions').bind('click',function(){
+            let el = $('<div class="filter"><div class="code"></div></div>');
+            $(el).find('.code').append($('<select></select>').bind('change',function(){
+                
+                if ($(this).val() === 'remove'){
+                    removeFilter({ code: $(this).parents('.filter').attr('data-code') },true);
+                    getItems({ fullReload:true, reload:true, success:function(){ reloadScreenerFilters(); reloadScreenerFiltersOptions(); }}); 
+                    return;
+                }                 
+                updateFilter({ code: $(this).val()},true);
+                $(el).attr('data-code',$(this).val());
+                $(el).find('select').html('<option SELECTED>'+$(this).val()+'</option><option value="remove">Remove Filter</option>');
+                getItems({ fullReload:true, reload:true, success:function(){ reloadScreenerFiltersOptions(); }});                
+            }));            
+            
+            $(el).find('.code select').html('<option selected disabled hidden>-- Choose Filter --</option>');
+            $.each($('.dataTables_scrollBody [data-view="screener"] thead th'),function(){
+                let value = $(this).text().replace(/\ /g, '_');
+                if ($.inArray(value,['symbol','Symbol','symbol_short','name','website','logo',"Logo","market","country","","code","Code"])>-1) return;
+                $(el).find('.code select').append('<option value="'+value+'">'+$(this).text()+'</option>');                
+            });
+            $(el).appendTo('[data-src="filters"]');            
+
+        });
+    });
+    
+    function reloadScreenerFilters(){
+        getFilters();
+        $('[data-src="filters"]').html('');
+        $.each(filters,function(index,filter){
+            if (filter.code === 'sort' || filter.code === 'country' || filter.code === 'market') return;
+            
+            let el = $('<div class="filter" data-code="'+filter.code+'" data-value="'+filter.value+'"><div class="code"></div></div>');
+            $(el).find('.code').append('<select><option value="'+filter.code+'" SELECTED>'+filter.code+'</option></select>');
+            $(el).find('.code select')
+            .append('<option value="remove">Remove Filter</option>')
+            .bind('change',function(){
+                if ($(this).val() === 'remove'){
+                    removeFilter({ code: filter.code },true);
+                    getItems({ fullReload:true, reload:true, success:function(){ reloadScreenerFilters(); reloadScreenerFiltersOptions(); }}); 
+                }
+            });
+            $(el).appendTo('[data-src="filters"]');
+        });
+    }
+    
+    function reloadScreenerFiltersOptions(){
+        if (filtersOptions){ 
+            $.each(filtersOptions,function(filterCode,options){
+                                                
+                if (filtersTypes[filterCode]){
+                    switch(filtersTypes[filterCode].Type){
+                    case 'varchar(255)':
+                        if (!$('.popup .filters [data-code="'+filterCode+'"] .values').length) $('.popup .filters [data-code="'+filterCode+'"]').append('<div class="values"></div>');
+                        $('.popup .filters [data-code="'+filterCode+'"] .values').html($('<select></select>').bind('change',function(){
+                            $('.popup .filters [data-code="'+filterCode+'"]').attr('data-value',$(this).val());
+                            updateFilter({ code: filterCode, value: $(this).val().replace(/\ /g, '_') },true);
+                            getItems({ reload:true, success:function(){ reloadScreenerFiltersOptions(); }}); 
+                        }));
+                        $('.popup .filters [data-code="'+filterCode+'"] .values select').html('<option value="">-- Choose Option --</option></select>');
+                        $.each(options,function(index,option){
+                            if (typeof(filterCode) === 'undefined' || typeof(option.value) === 'undefined') return;
+                            $('.popup .filters [data-code="'+filterCode+'"] .values select').append('<option value="'+option.value+'"'+($('.popup .filters [data-code="'+filterCode+'"]').attr('data-value') === option.value ? ' SELECTED' : '')+'>'+option.value+'</option>');                            
+                        });                                
+                        break;
+                    case 'bigint(20)':
+                    case 'float':
+                    case 'double':
+                    case 'int':
+                        if (!$('.popup .filters [data-code="'+filterCode+'"] .values').length) $('.popup .filters [data-code="'+filterCode+'"]').append('<div class="values"></div><div class="selectors'+(filtersOptions[filterCode].start || filtersOptions[filterCode].end ? ' hide' : '')+'"></div>');
+                        $('.popup .filters [data-code="'+filterCode+'"] .values').html('');
+                        $('.popup .filters [data-code="'+filterCode+'"] .selectors').html('<div id="range-'+filterCode+'"></div>');
+                        
+                        var slider = document.getElementById('range-'+filterCode);
+                        
+                        noUiSlider.create(slider, {
+                            start: [(filtersOptions[filterCode].start ? filtersOptions[filterCode].start : filtersOptions[filterCode].min), filtersOptions[filterCode].end && filtersOptions[filterCode].end<filtersOptions[filterCode].max ? filtersOptions[filterCode].end : filtersOptions[filterCode].max],
+                            connect: true,
+                            //tooltips: true,
+                            range: {
+                                'min': 0,
+                                'max': filtersOptions[filterCode].max ? filtersOptions[filterCode].max : 0
+                            },
+                            pips: {
+                                mode: 'range',
+                                density: 5,                                
+                                values: 2
+                            }
+                        }).on('update',function(values, handle){
+                            $('.popup .filters [data-code="'+filterCode+'"] .values').html(format_price(values[0])+'<span>-</span>'+format_price(values[1]));
+                        });
+                        slider.noUiSlider.on('end', function (values, handle) {
+                            updateFilter({ code: filterCode, type: 'between', value:values[0]+'|'+values[1] },true);
+                            getItems({ reload:true, success:function(){ reloadScreenerFiltersOptions(); }}); 
+                        });
+                        
+                        break;
+                    }
+                }
+
+            
+            });
+        }
+    }      
+    
+    $(document).off('click','.filter .values');
+    $(document).on('click','.filter .values',function(){
+        $(this).parents('.filter').find('.selectors').toggleClass('hide');
+    });
+    
+    $(document).off('click','.finder .find');
+    $(document).on('click','.finder .find',function(){
+        $('.finder .find').removeClass('active');
+        $(this).addClass('active');
+         
+        updateFilter({ 
+            value: $(this).attr('data-value'), 
+            code:  $(this).parents('.finder').attr('data-code'), 
+            type:  'is'            
+        },true,true); 
+        getItems({ fullReload:true, reload:true });
+    });
+    
+       
+
+</script>

@@ -197,9 +197,9 @@
         const lower = str.toLowerCase();
         return str.charAt(0).toUpperCase() + lower.slice(1);
     }
-    function format_datetime(datetime,format){        
-        if (!format) format = 'L, LT';
-        return moment.utc(datetime).local().format(format);
+    function format_datetime(datetime,options = {}){        
+        if (!options.format) options.format = 'L, LT';
+        return moment.utc(datetime).local().format(options.format);
     }
     function format_date(timestamp){
         var date = new Date(timestamp);
@@ -222,8 +222,7 @@
                     currencies[i] = parseFloat(item);
                 });
                 
-                if (config.debug) console.log('\n','Currency Rates:',currencies,'\n\n'); 
-                if (config.debug) console.log(response.items);
+                if (config.debug) console.log('Currency Rates',currencies); 
                 if (callback) callback();
                 
             },
@@ -316,37 +315,122 @@
       
     }
     
-    function getFiltersParams(){
-        let params  = getQueryParams();
-        let filters = [];       
+    var filters = [];
+    function updateFilter(filter,push_url = false,with_reset = false){
+                
         
-        // Filters
-        Object.keys(params).forEach(function(index,value){            
-            if (params[index][0] !== 'all'){
-                filters.push({
-                    code: index,
-                    value: params[index][0],
-                    type: 'LIKE'
-                });
-            }
+        if (with_reset){
+            let params  = getQueryParams(); 
+            filters = [];            
+            $.each(params,function(i,p){              
+                let filter = i.split("-");
+                if (filter[0] === 'sort'){
+                    filters.push({
+                        code:  filter[0],
+                        type:  filter[1],                
+                        value: filter[2]                
+                    });
+                }
+            });
+        }else{
+            filters = getFilters();
+        }       
+
+        if (filters.length === 0){
+            filters.push({
+            code: filter.code,
+            value: filter.value ? filter.value : null,
+            type: filter.type ? filter.type : 'is'
+            });
+            if (push_url){ window.history.pushState({}, '', getFiltersUrl(filters,false)) }
+            return;
+        }
+        
+        var newFilter = true;
+        $.each(filters,function(index,old_filter){           
+            if (filter.code === old_filter.code){
+                old_filter.value = filter.value;
+                old_filter.type = filter.type ? filter.type : old_filter.type;
+                newFilter = false;
+            }       
+        });        
+        if (newFilter){ 
+            filters.push({
+            code: filter.code,
+            value: filter.value ? filter.value : null,
+            type: filter.type ? filter.type : 'is'
+            });        
+        }        
+        
+        if (push_url){ window.history.pushState({}, '', getFiltersUrl(filters,false)); }
+    }
+    function removeFilter(filter,push_url = false){
+        $.each(filters,function(index,old_filter){           
+            if (filter.code === old_filter.code){
+                delete filters[index];
+            }       
+        }); 
+        if (push_url){ window.history.pushState({}, '', getFiltersUrl(filters,false)); }
+    }
+    function getFiltersUrl(filters,full_url = false){
+                
+        console.log('before url',filters);
+        var url_ending='';
+        if (filters.length>0){ 
+            url_ending = '?';
+            $.each(filters,function(index,filter){
+                if (!filter) return;
+                if (url_ending !== '?'){ url_ending += '&'; }
+                url_ending += '' + filter.code + (filter.type ? '-'+ filter.type : '') + (filter.value ? '-'+ filter.value : '');            
+            });
+        }
+
+        if (full_url){
+            return window.location.pathname+url_ending;
+        }else{
+            return url_ending;
+        }        
+    } 
+    
+    function getFilters(){
+        let params  = getQueryParams(); 
+        filters = [];
+        
+        $.each(params,function(i,p){              
+            let filter = i.split("-");
+            filters.push({
+                code:  filter[0],
+                type:  filter[1],                
+                value: filter[2]                
+            });
         });
         
         return filters;
-    }  
+    }
+    function getFilter(code){
+        let params  = getQueryParams(); 
+        var filterJSON  = {};
+        $.each(params,function(i,p){              
+            let filter = i.split("-");
+            if (filter[0] === code){ filterJSON = { code: filter[0], type: filter[1], value: filter[2] }; }
+        });        
+        return filterJSON;
+    } 
+    
     var highcharts;
     function load_highcharts(callback){   
         if (highcharts){
             if (callback) callback();            
         }else{
             highcharts = true;
-            $.getScript('/media/js/external/highcharts'+(config.minify===1 ? '.min' : '')+'.js',function(){
-                $.getScript('/media/js/external/highcharts-accessibility'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-data'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-indicators'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-annotations'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-fullscreen'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-tools'+(config.minify===1 ? '.min' : '')+'.js');
-                $.getScript('/media/js/external/highcharts-dragpanes'+(config.minify===1 ? '.min' : '')+'.js');
+            $.getScript('/media/js/external/highcharts/highcharts'+(config.minify===1 ? '.min' : '')+'.js',function(){
+                $.getScript('/media/js/external/highcharts/highcharts-accessibility'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-data'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-indicators'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-annotations'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-fullscreen'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-tools'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/highcharts/highcharts-dragpanes'+(config.minify===1 ? '.min' : '')+'.js');
                 if (callback) callback();
             });
         }
@@ -362,4 +446,18 @@
                 if (callback) callback();
             }); 
         }
+    }
+    
+    var datatables = false;
+    function load_datatables(callback){
+        if (datatables === true){
+            if (callback) callback();            
+        }else{
+            datatables = true;
+            $.getScript('/media/js/external/dataTables/dataTables'+(config.minify===1 ? '.min' : '')+'.js',function(){
+                $.getScript('/media/js/external/dataTables/dataTables-responsive'+(config.minify===1 ? '.min' : '')+'.js');
+                $.getScript('/media/js/external/dataTables/dataTables-colReorder'+(config.minify===1 ? '.min' : '')+'.js');
+                if (callback) callback();
+            }); 
+        } 
     }

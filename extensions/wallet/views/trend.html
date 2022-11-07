@@ -1,0 +1,185 @@
+<div class="screen wide">
+    <div class="screen-inner">
+        <div class="graph-container trend-container">  
+            <canvas id="sketchpad"></canvas>                
+            <div class="tradingview-widget-container">
+                <div id="tradingViewGraph" class="graph"></div>                        
+            </div>                                
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var sketchpad;
+    var trendSettings = {
+        displayCurrency: settings.display_currency,
+        type:       'margin',
+        excluding:  []        
+    };
+
+    function getTrendData(resolution, periodParams){
+        
+        console.log(trendSettings);
+        var data = [];
+        $.ajax({ 
+            url: config.api_url, 
+            data: { 
+                endpoint: '/wallet/trend', 
+                from: periodParams.from,
+                to: periodParams.to,
+                countBack: periodParams.countBack,
+                type: trendSettings.type,
+                displayCurrency: trendSettings.displayCurrency,
+                excluding: trendSettings.excluding.join(',')
+            }, 
+            type: 'GET', 
+            dataType: 'JSON', 
+            cache: false,
+            async:false,
+            success: function(response){
+                data = response.data;
+                if (config.debug) console.log('Period',periodParams);
+                if (config.debug) console.log('Response',response);
+            },
+            error: function(e){
+                console.log('error');
+                if (config.debug) console.log(e);
+            }
+        });
+        return data;
+
+    }
+    function generateGraph(){
+
+        var tries = 5;
+
+            var dataFeed = {
+                configuration: {
+                    exchanges: [
+                        { value: '', name: 'All Exchanges' }
+                    ],
+                    supported_resolutions: ['1D','1W','1M','6M','1Y'],
+                    supports_group_request: false,
+                    supports_marks: true,
+                    supports_search: false,
+                    supports_time: true,
+                    supports_timescale_marks: true,
+                    symbols_types: [{ name: 'All Types', value:'' },{ name: 'Stock', value:'stock'},{ name: 'Index', value: 'index' }]
+                },
+                onReady:function(callback){
+                    if (config.debug) console.log('TradingView Configuration',this.configuration);
+                    setTimeout(() => callback(this.configuration));            
+                }, 
+                resolveSymbol: function(symbolName, onSymbolResolvedCallback, onResolveErrorCallback){                        
+                    var symbol = {
+                        name: 'My Wallet',
+                        description: '',
+                        type: 'stock',
+                        session: '24x7',
+                        //visible_plots_set: 'c',                    
+                        timezone: 'America/New_York',
+                        ticker: 'wallet',
+                        minmov: 1,
+                        pricescale: 100000000,
+                        has_intraday: false,
+                        intraday_multipliers: ['1', '60'],
+                        supported_resolution:  ["120","240","D","6M"]
+                    };
+                    if (config.debug) console.log('resolveSymbol',symbol);
+                    setTimeout(function() { onSymbolResolvedCallback(symbol); }, 0);
+                },
+                getBars: function(symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) { 
+
+                    let bars = getTrendData(resolution, periodParams);                
+                    if (tries-- === 0){ return; }
+
+                    if (bars.length>0) onHistoryCallback(bars, {noData: false });
+                    else onHistoryCallback([], {noData: true });
+
+                },
+                subscribeBars: function(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) { console.log('👉 subscribeBars:', subscriberUID); },
+                unsubscribeBars: function(subscriberUID) { console.log('👉 unsubscribeBars:', subscriberUID); }            
+            };  
+            let disabled_features = ["use_localstorage_for_settings"];
+            if (settings.tview_hide_side_toolbar)   disabled_features.push('left_toolbar');
+            if (settings.tview_hide_top_toolbar)    disabled_features.push('header_widget');
+            if (settings.tview_hidevolume)          disabled_features.push('create_volume_indicator_by_default');
+            if (settings.tview_hide_bottom_toolbar) disabled_features.push('control_bar');
+            if (settings.tview_hide_bottom_toolbar) disabled_features.push('timeframes_toolbar');
+            if (settings.tview_hide_legend)         disabled_features.push('legend_widget');
+
+            var widget = new TradingView.widget({
+                // debug: true, // uncomment this line to see Library errors and warnings in the console
+                fullscreen: true,
+                symbol:     'Wallet',            
+                "interval": "D",
+                "timezone": "Etc/UTC",
+                "theme":    settings.theme,
+                overrides: { "mainSeriesProperties.style": parseInt(settings.tview_style) }, 
+
+                "locale":   "en",
+                container: "tradingViewGraph",
+                datafeed: dataFeed,
+                library_path: "/media/js/external/TradingView/charting_library/",
+                disabled_features: disabled_features,
+                //enabled_features: ["study_templates"],
+                //charts_storage_url: 'https://saveload.tradingview.com',
+                //charts_storage_api_version: "1.1",
+                client_id: 'tradingview.com',
+                user_id: 'public_user_id'
+            });        
+
+    }
+
+
+    
+
+    generateGraph();
+    button({ class: 'icon-btn icon-settings' }, function(){
+
+        $('body').addClass('with-popup with-blur no-blur');
+        $('.screen').removeClass('wide');
+        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ 
+            $('#popup').html(''); 
+            $('.popup-btn').remove(); 
+            $('body').removeClass('with-popup'); 
+            $('body').removeClass('with-blur no-blur'); 
+            $('.screen').addClass('wide');
+        });                            
+        $.ajax({ url:"/extensions/wallet/views/popups/configTrend.html", cache:false, success: function(data){ $("#popup").html(data); }, error: function(e){ if (config.debug) console.log(e); }});
+    });
+    button({ class: 'icon-btn icon-brush' }, function(){                        
+    $.ajax({ url:"/extensions/entities/views/popups/advanced-charting/sketchpad.html", cache:false, success: function(data){
+                $('#popup').html(data);
+                $('body').addClass('with-popup no-blur');                            
+                $('.popup-btn').remove();
+                $('#sketchpad').addClass('active');
+
+                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ 
+                    $('#popup').html(''); 
+                    $('.popup-btn').remove(); 
+                    $('body').removeClass('with-popup with-blur no-blur'); 
+                    $('#sketchpad').removeClass('active');
+                });                             
+                button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ 
+                    if (sketchpad) 
+                        sketchpad.clear(); });                         
+
+                //if (!sketchpad){
+                    $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
+                        sketchpad = new Sketchpad({
+                            element:    '#sketchpad',
+                            width:      $('.graph-container .graph').width(),
+                            height:     $('.graph-container .graph').height(),
+                            color:      settings.design.color_text,
+                            penSize:    3
+                        });            
+                    });         
+                //}
+            },
+            error: function(e){ if (config.debug) console.log(e); }
+        });                                
+    });
+
+</script>

@@ -1,4 +1,4 @@
-@import "icons.css?v=1.23"; 
+@import "icons.css?v=1.25"; 
 @import "slick.css"; /* 1.8.1 */
 @import "chart.css"; /* 2.9.4 */
 
@@ -103,11 +103,11 @@ img {
 }
 
 
-.hide-scroll {
+.hide-scroll{
     -ms-overflow-style: none; 
     scrollbar-width: none;
 }
-.hide-scroll::-webkit-scrollbar {
+.hide-scroll::-webkit-scrollbar{
     display:none;
 }
 a { color:inherit; }
@@ -170,6 +170,7 @@ h2 {
     font-family:'gotham-bold';
     font-weight:100;
 }
+
 h3 {
     font-size:var(--size-regular);
     font-family:'gotham-bold';
@@ -866,7 +867,8 @@ main {
 }
 .wallets .overview .username {
     font-size:var(--size-big);
-    margin:10px;
+    font-family:'gotham-bold';
+    margin:10px 5px;
     text-align:left;
     flex-grow:1;
 }
@@ -2308,6 +2310,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .tab-container { 
     width:100%;  
+    overflow:hidden;
+    border-radius:var(--border-radius2);
 }
 .entity-main-info-container .tab-header h2 {
     font-family:'gotham-regular';
@@ -2319,7 +2323,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     align-items:center;
     padding:10px 15px 10px;
     border-bottom:1px solid var(--color-bg);
-    border-radius:5px;
     background-color:var(--color-bg2);
     white-space:nowrap;
 }
@@ -2327,6 +2330,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     font-size:24px;
     color:var(--color-base);
     transition:transform 0.2s ease-in;
+    margin-left:15px;
 }
 .tab-header h2 {
     flex-grow:1;
@@ -2337,6 +2341,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: var(--color-base);
     display:none;
 }
+.tab-header .switch-slider {
+    margin-right:15px; 
+}
+
 .tab-content {
     display:none;
     flex-direction:column;
@@ -2344,6 +2352,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .tab-container.active > .tab-header > .expand { transform:rotate(180deg); }
+.tab-container.active > .tab-header {
+    -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
+    box-shadow: 3px 4px 13px -11px rgb(66 68 90);
+    z-index:2;
+    position:relative;
+}
 .tab-content .row {
     display:flex;
     justify-content:space-between;
@@ -2353,7 +2368,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position:relative;
 }
 .tab-content .row .field {
-    width:70%;
     display:flex;
     flex-direction:column;
 }
@@ -2381,9 +2395,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width:90px;
     font-size:var(--size-medium);
 }
+.tab-content .graph { padding:15px 0 10px; }
+.tab-content .no-graph {
+    width: 100%;
+    text-align: center;
+    font-size: 125px;
+    color: var(--color-bg);
+}
 
 .tab-content .row .value { font-family:'gotham-bold'; text-transform:capitalize; text-align:right; }
 .tab-content .row .value.uppercase { text-transform:uppercase; }
+
+.tab-content [data-view="table"] { width:100%; }
+.tab-content [data-view="table"] td {
+    padding:15px;
+    border-bottom:1px solid var(--color-bg);
+}
+.tab-content [data-view="table"] h4 {
+    font-family:'gotham-bold';
+    font-size:var(--size-regular);
+    text-transform:capitalize;
+    margin:0;
+    padding:0;
+}
 
 .tab-info .row .field { flex-grow:1; }
 .tab-info .row { padding:10px 30px; }
@@ -2414,7 +2448,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .with-tooltip.expanded .tooltip-info { display:block; }
 .with-tooltip.expanded .row          { border-bottom:none; }
 
-
+.tab-info .tab-content { padding-top:15px; }
 .tab-info .flag { max-height:20px; }
 .row.Description .value { font-family:'gotham-regular'; line-height:24px; }
 
@@ -3173,8 +3207,6 @@ how to remove the virtical space around the range input in IE*/
     /*Edge starts the margin from the thumb, not the track as other browsers do*/
   }
 }
-
-
 input[type="color"] { border-radius:5px; overflow:hidden; border-color:var(--color-bg); height:40px; width:40px; }
 
 
@@ -3882,8 +3914,8 @@ main,
     -webkit-transition: .2s;
     transition: opacity .2s;
   
-    margin: 10px 10px;
-    width: calc(100% - 20px);
+    margin: 10px 25px;
+    width: calc(100% - 50px);
 }
 
 .slider-range::-webkit-slider-thumb {
@@ -3931,7 +3963,6 @@ main,
   display: inline-block;
   width: 40px;
   height: 22px;
-  margin-right:0 !important;
 }
 
 /* Hide default HTML checkbox */
@@ -3939,6 +3970,10 @@ main,
   opacity: 0;
   width: 0;
   height: 0;
+  position:fixed;
+  z-index:-1;
+  left:-9999px;
+  top:-9999px;
 }
 
 /* The slider */
@@ -4169,7 +4204,14 @@ input:checked + .switch:before {
     color: var(--color-text) !important;
     font-weight: 400 !important;
     font-size: var(--size-regular) !important;
-    font-family: 'gotham-regular';
+    font-family: 'gotham-regular' !important;
+}
+.graph.donut .apexcharts-datalabel-value {
+    font-family:'gotham-bold' !important;
+    font-size:30px !important;
+}
+.graph.donut .apexcharts-datalabels .apexcharts-text { 
+    display:none; 
 }
 
 .tooltip-preview {
@@ -5062,7 +5104,15 @@ h2.title {
     width:100%;
     overflow:hidden;
 }
-.entities h2, .related-container h2 {
+.entities h2 {
+    width: 100%;
+    margin-left: 5px;
+    color: var(--color-text);
+    font-size: var(--size-big);
+    line-height: 24px;
+    overflow: hidden;
+}
+.related-container h2 {
     width: 100%;
     margin-left: 5px;
     color: var(--color-text);
@@ -5078,9 +5128,6 @@ h2.title {
     -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1);
     box-shadow: 3px 4px 13px -11px rgb(66 68 90);
     margin: 0 0 10px 10px;   
-}
-.related-container h2 {
-    padding:25px 10px;
 }
 .entities h2:first-child {
     padding-top:12.5px
@@ -5173,12 +5220,12 @@ body.editable .my-notes .note .actions {
     width: calc(100% - 30px);
 }
 .counter {
-    background-color: var(--color-bg);
+    background-color: var(--color-bg2);
     padding: 5px 10px;
     border-radius: 5px;
     font-size: var(--size_small);
-    margin-right: 15px;
     font-family: 'gotham-bold';
+    border: 1px solid var(--color-bg);
 }
 .counter.active {
     background-color:var(--color-base);
@@ -5270,7 +5317,7 @@ body.editable .my-notes .note .actions {
     padding:0 5px;
     justify-content: flex-end;
     flex-grow:1;
-    margin:10px 0px;
+    margin:10px 5px;
 }
 .quick-tools .actions.active {
     display:inline-flex;
@@ -5418,10 +5465,10 @@ body.editable .my-notes .note .actions {
     flex-direction:column;
 }
 [data-color="profit"] {
-    color:var(--color-base);
+    color:green;
 }
 [data-color="loss"] {
-    color:#f54257
+    color:red;
 }
 
 #transparent-bg {
@@ -5615,6 +5662,11 @@ body.editable .my-notes .note .actions {
     padding: 0;
     transition:all 0.5s ease-in; 
 }
+.popup .items.empty {
+    width:100%;
+    justify-content:center;
+    margin-bottom:15px;
+}
 .popup .items .item {
     width: calc(25% - 10px);
     padding: 10px 5px;
@@ -5675,7 +5727,7 @@ body.editable .my-notes .note .actions {
     position: fixed;
     bottom: 72px;
     z-index: 9999;
-    width: 100%;
+    width: calc(100% - 25px);
     background-color: var(--color-bg2);
     border-top: 1px solid var(--color-bg);
     -webkit-box-shadow: 0px -7px 24px -24px rgb(66 68 90);

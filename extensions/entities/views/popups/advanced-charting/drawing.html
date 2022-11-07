@@ -224,11 +224,10 @@
 </div>
 
 <script type="text/javascript">
-    $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version);
     
     $(document).ready(function(){
         if (screen.width>766){
-            $('body').addClass('no-blur');
+            $('body').addClass('with-blur');
             //$('.popup-advanced-charting .tab-content').show();
         }
     });

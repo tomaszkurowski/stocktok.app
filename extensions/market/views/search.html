@@ -1,0 +1,102 @@
+
+<div class="screen wide">
+    <table class="leafs" data-src="search"><thead></thead><tbody></tbody></table>
+</div>  
+
+<script type="text/javascript">  
+    
+    reloadScreenerView();
+    $.getScript('/extensions/market/media/js/search.js?version='+config.version,function(){          
+        getItems();
+    }); 
+
+    if (typeof actionTimer === 'undefined'){
+        var actionTimer,
+        actionInterval = 500;
+    }
+
+    $(window).scroll(function () {
+        if (settings.view_search === 'grid' || settings.view_search === 'boxes'){
+            if ($(document).height()-$(this).height()-10 < $(this).scrollTop() && $(this).scrollTop()>300) {
+                if (actionTimer) {
+                    clearTimeout(actionTimer);
+                }
+                actionTimer = setTimeout(function () {
+                    getItems();
+                }, actionInterval);
+            }
+        }
+    });  
+    
+    // Infinity Scroll (wheel,click,touch)
+    window.addEventListener("wheel", event => { 
+        if (settings.view_search === 'screener' && $('[data-view="screener"] tbody tr:last-child').length && $('[data-view="screener"] tbody tr:last-child').offset().top<860){ getItems(); }});
+    $(document).on('touchend','.dataTables_scrollBody',function(){        
+        if (settings.view_search === 'screener' && $('[data-view="screener"] tbody tr:last-child').length && $('[data-view="screener"] tbody tr:last-child').offset().top<860){ getItems(); }});
+    $(document).on('click','.dataTables_scrollBody',function(){
+        if (settings.view_search === 'screener' && $('[data-view="screener"] tbody tr:last-child').length && $('[data-view="screener"] tbody tr:last-child').offset().top<860){ getItems(); }});
+    
+    button({ 
+    class: 'icon-btn icon-search2' }, 
+    function(){            
+        if ($('footer #popup .search').length){ 
+            $('footer #popup').html(''); 
+            $('.popup-btn').remove();
+            $('body').removeClass('with-popup');
+        }else{ 
+            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup with-blur'); });
+            $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
+            $('body').addClass('with-popup with-blur');
+
+            if (mvc.controller) $('.popup .search').val(mvc.controller);
+        }            
+    });
+    button({ 
+    class: 'icon-btn icon-settings' }, 
+    function(){                        
+        $.ajax({
+            url:"/extensions/market/views/popups/search/config.html",
+            cache:false,
+            success: function(data){ openPopup(data); button({ class: 'icon-btn popup-btn icon-clear' }, function(){ closePopup(); }); },
+            error: function(e){ if (config.debug) console.log(e); }
+        });                                
+    });    
+    button({ 
+    class: 'icon-btn icon-filter' }, 
+    function(){                        
+        $.ajax({
+            url:"/extensions/market/views/popups/search/filters.html",
+            cache:false,
+            success: function(data){ 
+                openPopup(data); 
+                if (screen.width>996) $('.countries .tab-header').click();
+            },
+            error: function(e){ if (config.debug) console.log(e); }
+        });                                
+    });    
+    
+    $(document).off('keyup', '.search');
+    $(document).on('keyup','.search',function(){
+        search = $(this).val();
+        if (search.length<3) return;
+        if (actionTimer) {
+            clearTimeout(actionTimer);
+        }
+        actionTimer = setTimeout(function () {
+            getItems({ fullReload:true, reload:true, search: search });
+        }, actionInterval);
+    });
+    
+    function reloadScreenerView(){
+        switch(settings.view_screener){
+            case 'performance':
+                settings.screener.visibleColumns = ['symbol','country','market','name','price','open','high','hi_250d','low','lo_250d','volume','avgvol_200d','avgvol_50d','beta'];
+                break;    
+            case 'company':
+                settings.screener.visibleColumns = ['symbol','country','market','name','price','volume','sector','industry','market_capitalization','EBITDA','revenue_TTM','profit_margin','employees','research'];
+                break;            
+            default:
+                settings.screener.visibleColumns = ['symbol','country','market','name','type','currency','sector','industry','website','price','open','high','low','volume','last_updated_at','last_trading_day','market_capitalization','beta','adjusted_close','ema_50d','ema_250d','hi_250d','lo_250d','avgvol_50d','avgvol_200d','EBITDA','revenue_TTM','profit_margin','employees'];            
+        }          
+    }
+</script>

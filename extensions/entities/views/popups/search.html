@@ -8,7 +8,7 @@
                 <div class="header">                    
                     <h2>Search</h2>
                 </div>        
-                <div class="form padding-side-regular">           
+                <div class="form">           
                     <div class="field focus">
                         <input type="text" class="input search" placeholder="Search by name, symbol or sector" />
                     </div>
@@ -148,7 +148,7 @@
     
     $(document).ready(function(){        
         
-        button({ class: 'popup-btn icon-btn icon-filter_alt1 toggle-step', attributes:[{ key: 'data-step', value: 'step-filters' }, { key: 'data-icon', value: 'icon-filter_alt1' }] }, function(){});
+        //button({ class: 'popup-btn icon-btn icon-filter_alt1 toggle-step', attributes:[{ key: 'data-step', value: 'step-filters' }, { key: 'data-icon', value: 'icon-filter_alt1' }] }, function(){});
         //button({ class: 'popup-btn icon-btn icon-address toggle-step', attributes:[{ key: 'data-step', value: 'step-find' }, { key: 'data-icon', value: 'icon-address' }] }, function(){});
         button({ class: 'popup-btn icon-btn icon-account_balance_wallet toggle-step', attributes:[{ key: 'data-step', value: 'step-wallet' }, { key: 'data-icon', value: 'icon-account_balance_wallet' }] }, function(){});        
         button({ class: 'popup-btn icon-btn icon-bookmark_outline toggle-step', attributes:[{ key: 'data-step', value: 'step-observed' }, { key: 'data-icon', value: 'icon-bookmark_outline' }] }, function(){});
@@ -164,7 +164,7 @@
             cache: false,
             success: function(response){
                 console.log('wallet/tiny',response);
-                if (!response.items) $('.items').text("You don't have any assets in your wallet yet.");
+                if (response.items.length === 0) $('.step-wallet .items').addClass('empty').text("You don't have any assets in your wallet yet."); 
                 
                 $.each(response.items, function(i,item){
                     $('<div class="item"></div>')
@@ -189,7 +189,7 @@
             cache: false,
             success: function(response){
                 console.log('wallet/observed/tiny',response);
-                if (!response.items) $('.items').text("You don't have any observed assets yet.");
+                if (response.items.length === 0) $('.step-observed .items').addClass('empty').text("You don't have any observed assets yet.");
                 
                 $.each(response.items, function(i,item){
                     $('<div class="item"></div>')
@@ -263,11 +263,13 @@
                 response.entities.forEach(function(item){
 
                     $('<div class="item"></div>')
-                    .append('<div class="info"><div class="name">'+(item.name)+'</div><div class="type">'+(item.type)+'</div><div class="market">'+(item.market)+(item.sector ? '</div><div class="sector">'+(item.sector)+'</div>' : '')+'</div>')
+                    .append('<div class="info"><div class="name">'+(item.name)+'</div><div class="market"><img src="/media/img/flags/'+item.country+'.svg" class="country" />'+(item.market_name)+'</div>')
                     .append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : item.symbol)+'</div>')                        
                     .bind('click',function(){                        
                         load_page('/entities/'+item.market+'/'+item.symbol,true,{ closePopup:false });
-                        //$('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup');
+                        if ($(document).width()<996){
+                            $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup');
+                        }
                     })
                     .appendTo('.step-query .items');                        
 

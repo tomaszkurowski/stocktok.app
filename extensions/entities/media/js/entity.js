@@ -1,263 +1,205 @@
-var current_stock  = '';
-var current_market = '';
-var entity = {};
+var live = {};
 var stock;
+var entity;
 var stock_chart;
-var market = mvc.view;
-var symbol = mvc.controller; 
 var sketchpad;
+var loadedSummary = false;
+var twidget;
 
-function reload_stock_price(){
+function liveReload(options={}){
     
-    stock.daily_change            = parseFloat(stock.price - stock.open);
-    stock.daily_change_percentage = parseFloat(((stock.price - stock.open) / stock.open) * 100).toFixed(2);
-    
-    $('.results-info .current-price').text(format_price(stock.price));
-    $('.results-info .previous-price').text(format_price(stock.previous_price));
-    
-    $('.results-info .price-preview:not(.tooltip-hover) .price').text(format_price(stock.price));
-    $('.results-info .price-preview:not(.tooltip-hover) .date').text(format_datetime(stock.last_updated_at));
-    
-    $('.results-info .current-volume').text(format_price(stock.volume));
-    $('.results-info .daily-change').text(format_price(stock.daily_change,4));
-    if (stock.daily_change>0){ $('.results-info .daily-change').attr('data-color','profit'); }
-    if (stock.daily_change<0){ $('.results-info .daily-change').attr('data-color','loss'); }
-    $('.results-info .daily-change-percentage').text(stock.daily_change_percentage);
-    
-    if (stock.daily_change_percentage>0){ $('.results-info .daily-change-percentage').attr('data-color','profit'); }
-    if (stock.daily_change_percentage<0){ $('.results-info .daily-change-percentage').attr('data-color','loss'); }
-    
-    if (stock.historical && !stock.open){
-        var last_element = stock.historical.length-1;
-        stock.open_price = stock.historical[last_element][2];
-    }
-    $('.results-info .daily-max').text(format_price(stock.high),2);
-    $('.results-info .daily-min').text(format_price(stock.low),2);
-    $('.results-info .open-price').text(format_price(stock.open));
-    return;
+    $.each(live, function(item){ 
+        
+        stock.price = item.price ? item.price : stock.price;
+        stock.last_updated_at = item.last_updated_at ? item.last_updated_at : stock.last_updated_at;        
+        stock.open  = item.open   ? item.open   : stock.open;
+        stock.high  = item.high   ? item.high   : stock.high;
+        stock.low   = item.low    ? item.low    : stock.low;
+        stock.volume= item.volume ? item.volume : stock.volume;
+                                 
+        $('[data-src="price"]').text(stock.price+' '+stock.market_currency);                        
+        $('[data-src="last_updated_at"]').text(format_datetime(stock.last_updated_at,{ format:'D/M, LT' }));
+        $('[data-src="open"]').text(stock.open);
+        $('[data-src="high"]').text(stock.high);        
+        $('[data-src="low"]').text(stock.low);
+        $('[data-src="volume"]').text(stock.volume);
+        
+        stock.daily  = parseFloat(stock.price - stock.open).toFixed(2);
+        stock.dailyp = stock.open>0 ? parseFloat(((stock.price - stock.open) / stock.open) * 100).toFixed(2) : '-';         
+        $('[data-src="daily"]').text(stock.daily);
+        $('[data-src="dailyp"]').text(stock.dailyp);    
+    });
 }
 
-function generate_graph(){
+function resultsReload(){
     
-    if (stock.intraday && stock.historical){
-        
-        if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick'){
-            var buttons= [
-            { type: 'week', count: 3, text: '3w', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',0); }}},
-            { type: 'month', count: 1, text: '1m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',1); }}}, 
-            { type: 'month', count: 2, text: '2m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',2); }}}, 
-            { type: 'month', count: 3, text: '3m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',3); }}},    
-            { type: 'year', count: 1, text: '1y', dataGrouping: { units: [['month', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',4); }}}, 
-            { type: 'All', text: 'All', dataGrouping: { units: [['year', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',5); }}}];
-            $('.range-selector [data-id="1"]').text('3w');
-            $('.range-selector [data-id="2"]').text('1m');
-            $('.range-selector [data-id="3"]').text('2m');
-            $('.range-selector [data-id="4"]').text('3m');
-            $('.range-selector [data-id="5"]').text('1y');
-            $('.range-selector [data-id="6"]').text('All');         
-        }
-        else{        
-            var buttons = [
-            { type: 'day', count: 1, text: '1d', dataGrouping: { units: [['hour', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',0); }}},
-            { type: 'week', count: 1, text: '1w', dataGrouping: { units: [['hour', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',1); }}},
-            { type: 'month', count: 3, text: '3m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',3); }}}, 
-            { type: 'month', count: 6, text: '6m', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',4); }}},   
-            { type: 'year', count: 1, text: '1y', dataGrouping: { units: [['day', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',6); }}}, 
-            { type: 'all', text: 'All', dataGrouping: { units: [['month', [1]]] }, events: { click: function() { localStorage.setItem('stock-graph-range',7); }}}];        
-            $('.range-selector [data-id="1"]').text('Today');
-            $('.range-selector [data-id="2"]').text('1w');
-            $('.range-selector [data-id="3"]').text('3m');
-            $('.range-selector [data-id="4"]').text('6m');
-            $('.range-selector [data-id="5"]').text('1y');
-            $('.range-selector [data-id="6"]').text('All');    
-        }
-        switch (settings.graph_crosshairs){
-            case 'snap':
-                var crosshair = { snap: true };
-                break;
-            case 'floating':
-                var crosshair = { snap: false };
-                break;
-            case 'hidden':
-                var crosshair = false;
-                break;        
-        } 
-        // Static top-left
-        // Dynamic Split
-        // Dynamic Popup
-        
-        
-        switch (settings.graph_tooltip_mode){
-            case 'corner-box':
-                var tooltip = {
-                    enabled:true,
-                    positioner: function () {
-                        return { x: this.plotLeft, y:this.plotTop }                                                       
-                    },
-                    distance:15,
-                    split: true,
-                    followTouchMove: false,
-                    followPointer:false,
-                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
-                }; 
-                $('.stock-price-container').removeClass('no-tooltip');            
-            break;
-            case 'floating':
-                var tooltip = {
-                    enabled:true,
-                    distance:50,
-                    split: false,
-                    followTouchMove: true,
-                    followPointer:true,
-                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
-                }; 
-                $('.stock-price-container').removeClass('no-tooltip');
-            break;
-            case 'floating-split':
-                var tooltip = {
-                    enabled:true,
-                    distance:30,
-                    positioner: undefined,
-                    split: true,
-                    followTouchMove: false,
-                    followPointer:false,
-                    style: { fontFamily: 'gotham-regular', fontSize: '12px', lineHeight: '22px' }
-                }; 
-                $('.stock-price-container').removeClass('no-tooltip');
-            break;   
-            case 'hidden':
-                var tooltip = {
-                    enabled:false
-                }; 
-                $('.stock-price-container').removeClass('no-tooltip');
-            break; 
-        }
-        
-        var lineWidth = settings.graph_line;
-        //if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick') lineWidth = 1;
-        
-        switch(settings.graph_type){
-            case 'line':
-               var color = { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, '#00e691'], [0.5, '#0091e6'], [1, '#e63900'] ] };
-               break;
-           case 'ohlc':
-           case 'candlestick':
-               var color = '#e63900'; 
-               break;
-           default:
-               var color = settings.design.color_base;                
-        }
-
-        if (stock_chart.get('volume')) stock_chart.get('volume').remove();
-        if (stock_chart.get('prices')) stock_chart.get('prices').remove();
-        while (stock_chart.series.length) {
-          stock_chart.series[0].remove();
-        }
-        
-        if (settings.graph_navigator===true || settings.graph_scrollbar === true){
-            var chart = { spacing:[10,15,40,15]};
-        }else{
-            var chart = { spacing:[10,15,-10,15]};
-        }
-        
-        stock_chart.addAxis({
-                id: 'main',
-                title:  { enabled: settings.graph_labels },
-                labels: { enabled: settings.graph_labels },
-                tickLength: (settings.graph_labels === true ? 5 : 0),
-                height: '0%',
-                crosshair:false
-            });
-        
-        if (settings.graph_showprices){
-            
-            if (settings.graph_type === 'ohlc' || settings.graph_type === 'candlestick' || settings.graph_showvolume === true){ // Limitations on intraday
-                stock.all_prices = stock.historical.prices;
-            }else{
-                if (stock.intraday.prices !== 1){
-                    stock.historical.prices[stock.historical.prices.length-1][4]=stock.intraday.prices[0][4]
-                    stock.all_prices = stock.historical.prices.concat(stock.intraday.prices);
-                }else{
-                    stock.all_prices = stock.historical.prices;
-                }
-            }             
-            if (config.debug) console.log('All prices');
-            if (config.debug) console.log(stock.all_prices);  
+    stock.current_total = 0;
+    stock.current_margin = 0;
+    stock.sold_total = 0;
+    stock.sold_margin = 0;
+    stock.sold_purchased = 0;
+    stock.current_purchased = 0;
+    
+    $.each(stock.transactions, function(id,item){             
               
-            console.log('crosshair',crosshair);
-            stock_chart.addAxis({
-                id: 'prices',
-                title:  { enabled: settings.graph_labels },
-                labels: { enabled: settings.graph_labels },
-                tickLength: (settings.graph_labels === true ? 5 : 0),
-                height: (settings.graph_showvolume===true ? (settings.graph_showprices_ratio>0 ? settings.graph_showprices_ratio+'%' : '50%') : '100%'),
-                resize: { enabled: (settings.graph_showvolume===true ? true : false), lineWidth:10, lineColor:settings.design.color_bg, lineDashStyle:'solid' },
-                crosshair:crosshair
-                
-            });            
-            stock_chart.addSeries({
-                data: stock.all_prices,
-                type: settings.graph_type,
-                name: 'Price',
-                yAxis: 'prices',
-                color:color
-            });
-            $('.range-selector').css('opacity','1');
-        }else{
-           $('.range-selector').css('opacity','0');
-        }
-            
-        if (settings.graph_showvolume === true){
+        item.rate       = (1 / currencies[stock.market_currency]).toFixed(config.precision_rate);                                
+        item.sold_rate  = round((currencies[item.purchased_currency] ? currencies[item.purchased_currency] : 1) / currencies[stock.market_currency], config.precision_rate);
+        item.total      = (stock.price * item.purchased_qty * item.rate).toFixed(config.precision_total);
 
-            stock.all_volumes = stock.historical.volumes;        
-            if (config.debug) console.log('All volumes',stock.all_volumes);
+        if (item.type === 'active'){                
+            $('.wallet[data-type="active"]').removeClass('hide');
+            item.margin     = item.purchased_currency !== stock.market_currency ? (round((item.total*item.sold_rate - item.purchased_total * item.purchased_rate)/item.sold_rate,2)) : (item.total - item.purchased_total);
+            item.marginp    = item.margin === 0 ? 0 : (item.purchased_total !== 0 ? (item.margin / (item.purchased_total) * 100).toFixed(2) : 0);                            
+            item.total = (stock.price * item.purchased_qty * item.rate).toFixed(config.precision_total);
             
-            stock_chart.addAxis({
-                id: 'volume',
-                title: { text: 'Volume' },
-                top: (settings.graph_showprices===true ? (settings.graph_showprices_ratio>0 ? settings.graph_showprices_ratio+'%' : '50%') : '0'),
-                height: (settings.graph_showprices===true ? (settings.graph_showprices_ratio>0 ? (100-settings.graph_showprices_ratio)+'%' : '50%') : '100%'),
-                offset: 0,
-                lineWidth: 0,
-                crosshair:false,
-                snap:false
-            });                             
-            stock_chart.addSeries({
-                data: stock.all_volumes,
-                type: settings.graph_volumetype,
-                name: 'Volume',
-                yAxis: 'volume',
-                color: { linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 }, stops: [ [0, settings.design.color_base], [0.5, settings.design.color_base], [1, settings.design.color_base] ] } 
-            });
-        }        
-        stock_chart.update({ 
-            plotOptions: { series: {  lineWidth:lineWidth }, candlestick: { upColor:'#00e691' },ohlc: { upColor:'#00e691' }},
-            rangeSelector: { 
-                selected: settings.stock_chart_range,
-                verticalAlign: 'bottom',
-                floating:true,
-                y:30,
-                buttons: buttons
-            },
-            xAxis: { crosshair: crosshair, labels: { enabled: settings.graph_labels } },
-            tooltip:tooltip,
-            navigator: { enabled: settings.graph_navigator===true ? true : false, series: { color: settings.design.color_base, lineWidth:lineWidth }, maskFill:'transparent' },
-            scrollbar: { enabled: settings.graph_scrollbar===true ? true : false },
-            chart:chart
-        });          
-        
-        stock_graph_adaptive_height();
-        stock_chart.reflow();                                    
-        stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);              
-    }                     
+            stock.current_total  += parseFloat(item.total);            
+            stock.current_margin += parseFloat(item.margin);
+            stock.current_purchased +=parseFloat(item.purchased_total);            
+        }
+        if (item.type === 'sold'){
+            $('.wallet[data-type="sold"]').removeClass('hide');
+            item.marginp = item.margin_percentage;
+            item.total = item.sold_total;
+                        
+            stock.sold_purchased += parseFloat(item.purchased_total);
+            stock.sold_total     += parseFloat(item.total);            
+            stock.sold_margin    += parseFloat(item.margin);            
+        }   
+    }); 
+
+    stock.sold_marginp = (stock.sold_margin / (stock.sold_purchased ? stock.sold_purchased : 1) * 100).toFixed(2);
+    stock.current_marginp = (stock.current_margin / (stock.current_purchased ? stock.current_purchased : 1) * 100).toFixed(2);
+   
+
+    $('[data-type="active"] [data-src="total"]').text(format_price(stock.current_total * currencies[settings.display_currency],2)+' '+settings.display_currency);
+    $('[data-type="active"] [data-src="margin"]').text(format_price(stock.current_margin * currencies[settings.display_currency],2)+' '+settings.display_currency).attr('data-color',stock.current_margin === 0 ? '' : (stock.current_margin>0 ? 'green' : 'red'));
+    $('[data-type="active"] [data-src="marginp"]').text(stock.current_marginp+'%');
+    //$('[data-type="active"] [data-src="purchased"]').text(format_price(stock.current_purchased * currencies[settings.display_currency],2)+' '+settings.display_currency);
+    $('[data-type="sold"]   [data-src="total"]').text(format_price(stock.sold_total * currencies[settings.display_currency],2)+' '+settings.display_currency);
+    $('[data-type="sold"]   [data-src="margin"] ').text(format_price(stock.sold_margin * currencies[settings.display_currency],2)+' '+settings.display_currency).attr('data-color',stock.sold_margin === 0 ? '' : (stock.sold_margin>0 ? 'green' : 'red'));
+    $('[data-type="sold"]   [data-src="marginp"]').text(stock.sold_marginp+'%');
+    //$('[data-type="sold"]   [data-src="purchased"]').text(format_price(stock.sold_purchased * currencies[settings.display_currency],2)+' '+settings.display_currency);
+    $('[data-src="display_currency"]').text(settings.display_currency);
+    
 }
-function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
-    var tabInfo = $('.template-info-tab.hide').clone().removeClass('hide');
-    //if (window.innerWidth>996) $(tabInfo).addClass('active');
-    tabInfo.find('h2').text(tabName);
-    tabInfo.find('.tab-content').attr('id','entity-'+tabCode);
-    tabInfo.find('.tab-header').prepend('<div class="icon '+tabIcon+'"></div>');
-    $('.entity-main-info-container').append(tabInfo);    
+function movesReload(){
+    
+    $.ajax({
+        url: config.api_url,
+        data:{ 
+            endpoint: '/wallet/moves',
+            symbol: stock.symbol,
+            market: stock.market
+        },
+        type:       'GET',
+        dataType:   'JSON',
+        cache:      false, 
+        success: function(response){
+            if (config.debug) console.log('performance',response);
+            $('[data-src="active-moves"]').html('').append('<tbody></tbody>');
+            $('[data-src="sold-moves"]').html('').append('<tbody></tbody>');
+            
+            stock.transactions = response.items;
+            $.each(response.items, function(i, move){
+                let el = $('<tr [data-id="'+move.wallet_entities_id+'"]></tr>');                    
+                if (move.type === 'active'){
+                    
+                    el  = $('<tr [data-id="'+move.wallet_entities_id+'"]></tr>');
+                    col = $('<td></td>');
+                    
+                    $(col).append('<span class="point"></span>');
+                    $(col).append('Active <a>'+move.symbol+'</a>');
+                    $(col).append('<div class="details">'+move.purchased_qty+'x <b>'+move.purchased_price+' '+move.market_currency+'</b></div>');                    
+                    $(col).append('<div class="date">at: '+format_datetime(move.purchased_date, { format: 'L, [\r\n]LT' })+'</div>');
+                    
+                    //$(el).append('<td>'+move.purchased_qty+'x <b>'+move.purchased_price+' '+move.market_currency+'</b>'+(move.purchased_rate !== null && move.purchased_rate !== 1 ? '<br /><a>('+move.purchased_rate+' '+move.purchased_currency+')</a>' : '')+'</td>');
+                    $(col).append('<div class="action">Sell</div>').bind('click',function(){                    
+                        $('body').toggleClass('with-popup');                            
+                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
+                        $.ajax({ url:"/extensions/wallet/views/popups/sell.html", cache:false,
+                            success: function(data){
+                                $('#popup').html(data);
+                                $.getScript('/extensions/wallet/media/js/actions_sell.js?version='+config.version,function(){
+                                    sell_step2(stock);
+                                });                        
+                            },
+                            error: function(e){ if (config.debug) console.log(e); }
+                        });                       
+                    });
+                    
+                    $(col).appendTo(el);
+                    $(el).appendTo('[data-src="active-moves"] tbody');
+                }else{  
+                    
+                    el  = $('<tr [data-id="'+move.wallet_entities_id+'"]></tr>');
+                    col = $('<td></td>');
+                    $(col).append('<span class="point" data-color="'+(move.margin>0 ? 'green' : 'red')+'"></span>');
+                    $(col).append('Sold <a>'+move.symbol+'</a>');
+                    $(col).append('<div class="details">'+move.purchased_qty+'x <b>'+move.sold_price+' '+move.market_currency+'</b></div>');                    
+                    $(col).append('<div class="date">at: '+format_datetime(move.sold_date, { format: 'L, [\r\n]LT' })+'</div>');
+                    $(col).append('<div class="results" data-color="'+(move.margin>0 ? 'green' : 'red')+'">'+(move.margin>0 ? '+ ' : '')+format_price(move.margin * currencies[settings.display_currency],2)+'');
+                    
+                    $(col).appendTo(el);
+                    $(el).appendTo('[data-src="sold-moves"] tbody');
+                    
+                    el  = $('<tr [data-id="'+move.wallet_entities_id+'"]></tr>');
+                    col = $('<td></td>');
+                    $(col).append('<span class="point" data-color="gray"></span>');
+                    $(col).append('Bought <a>'+move.symbol+'</a>');
+                    $(col).append('<div class="details">'+move.purchased_qty+'x <b>'+move.purchased_price+' '+move.market_currency+'</b></div>');                    
+                    $(col).append('<div class="date">at: '+format_datetime(move.purchased_date, { format: 'L, [\r\n]LT' })+'</div>');
+                    
+                    $(col).appendTo(el);
+                    $(el).appendTo('[data-src="sold-moves"] tbody');                    
+                    
+                }
+            });                       
+                        
+        },
+        error: function(err){ if (config.debug) console.log(err); }
+    });   
+}
+
+$(document).off('click','.wallet');
+$(document).on('click','.wallet',function(){
+    
+    if (!$(this).hasClass('active') || loadedSummary) return;    
+    movesReload();
+    
+    if (stock.sold_marginp){
+        new ApexCharts(document.querySelector('[data-src="graph-sold"]'),{
+            series: [stock.sold_marginp],
+            chart: {type: 'radialBar'},
+            plotOptions: {radialBar: {hollow: {size: '85%'}}},
+            stroke:{ colors: [settings.design.color_bg2], width:1 },
+            labels: ['Margin'],
+            colors:[stock.sold_marginp>0 ? '#00CF0D' : '#FF2D00']
+            }).render();        
+    }
+    if (stock.current_marginp){
+        new ApexCharts(document.querySelector('[data-src="graph-active"]'),{
+            series: [stock.current_marginp],
+            chart: {type: 'radialBar'},
+            plotOptions: {radialBar: {hollow: {size: '85%'}}},
+            labels: ['Margin'],
+            colors:[stock.current_marginp>0 ? '#00CF0D' : '#FF2D00']
+            }).render();  
+    }
+    loadedSummary = true;
+});
+
+
+function createTab(options={}){
+    
+    if (!options.target || !options.title || !options.data) return;
+    
+    let tab = $('<div class="tab-container"></div>')
+      .append('<div class="tab-header"><h2>'+options.title+'</h2><div class="expand icon-expand_more"></div></div>')
+      .append('<div class="tab-content tab-info"></div>');
+
+    /* @TODO
     var tooltips = [];
     tooltips['MarketCapitalization'] = "Refers to the <b>total value of all a company's shares</b> of stock. It is calculated by multiplying the price of a stock by its total number of outstanding shares.<br /><br />For example, a company with 20 million shares selling at $50 a share would have a market cap of $1 billion.";
     tooltips['EBITDA'] = "EBITDA stands for <b>E</b>arnings <b>B</b>efore Interest, <b>T</b>axes, <b>D</b>epreciation, and <b>A</b>mortization and is a metric used to evaluate a company’s operating performance. It can be seen as a proxy for cash flow from the entire company’s operations.";
@@ -272,527 +214,514 @@ function main_info_tab(tabName,tabCode,tabIcon,tabInfoContent){
     tooltips['RevenueTTM'] = "TTM revenue refers to a company's revenue over the trailing twelve months (TTM) of operations. This financial measure is sometimes overlooked by buyers who are focused more on a company's profitability and ability to generate EBITDA.<br /><br />However, it can be useful to determine if a company has seen top line growth and where the revenue growth is coming from. The trailing twelve months should be reviewed particularly if there has been a catalyst during the period such as an acquisition or introduction of a new product.";
     tooltips['BookValue']="The book value of a company is the net difference between that company's total assets and total liabilities, where book value reflects the total value of a company's assets that shareholders of that company would receive if the company were to be liquidated.";    
     tooltips['EarningsShare']="Earnings per share (EPS) is calculated as a company's profit divided by the outstanding shares of its common stock. The resulting number serves as an indicator of a company's profitability. It is common for a company to report EPS that is adjusted for extraordinary items and potential share dilution.<br /><br />The higher a company's EPS, the more profitable it is considered to be.";  
-    $.each(tabInfoContent, function(label,value){          
-        var tabInfoRow=$('.template-info-tab-row.hide').clone().removeClass('hide');
-        // Mappings
-        switch(label){
-            case 'Sector':   value = value = '<a href="/entities/find-by?sector='+value+'">'+value+'</a>'; break;
-            case 'Industry': value = value = '<a href="/entities/find-by?industry='+value+'">'+value+'</a>'; break;
-            case 'MarketCapitalization': if (value===null) break; value = format_price(value); break;
-            case 'MarketCapitalizationMln': return;
-            case 'EBITDA': if (value===null) break; value=format_price(value); break;
-            case 'RevenueTTM': if (value===null) break; value=format_price(value); break;
-            case 'GrossProfitTTM': if (value===null) break; value=format_price(value); break;
-            case 'BookValue': if (value===null) break; value=format_price(value); break;                        
-            case 'profitMargin': if (value===null) break; value=value+ '%'; break;            
-            case 'OperatingMarginTTM': if (value===null) break; value=value+ '%'; break;
-            case 'ReturnOnAssetsTTM': if (value===null) break; value=value+ '%'; break;
-            case 'ReturnOnEquityTTM': if (value===null) break; value=value+ '%'; break;                                   
-            case 'WebURL': if (value===null) break; value = '<a href="'+value+'">'+value+'</a>'; break;
-            case 'UpdatedAt': return;   
-            case 'LogoURL': return;
-            case 'Phone': if (value===null) break; value= '<a href="tel:'+value+'">'+value+'</a>'; break;
-            case 'Description': if (value === null) break; value = '<div class="description-popup" data-value="'+value+'">'+(value.length>255 ? value.slice(0,255)+'... <span class="icon icon-navigate_next"></span>' : value)+'</div>'; break;
-            case 'Address': if (value===null) break; value='<a href="https://www.google.com/maps?q='+value+'">'+value+'</a>'; break;
-        } 
-        if (label === 'CountryISO' && value !== 'NA'){
-            label='Country';
-            value='<img src="/media/img/flags/'+value+'.png" class="flag" alt="flag-'+value+'" loading="lazy" />';
+    */
+    
+    $.each(options.data, function(label,value){           
+        if (value === null || value === '' || value === 'NA' || value === 'Unknown' || value === '0' || value === 0) return;        
+        
+        if ($.inArray(label,['MarketCapitalizationMln','UpdatedAt','LogoURL','AddressData','Listings','Officers','isDelisted']) !== -1) return;
+        
+        if ($.inArray(label,['MarketCapitalization','EBITDA','RevenueTTM','GrossProfitTTM','BookValue']) !== -1)   value = format_price(value);        
+        if ($.inArray(label,['profitMargin','OperatingMarginTTM','ReturnOnAssetsTTM','ReturnOnEquityTTM']) !== -1) value = value + '%';        
+        if (label === 'sector'     ){ value = '<a href="/market/screener?sector.is.'+value+'">'+value+'</a>'; }
+        if (label === 'industry'   ){ value = '<a href="/market/screener?industry.is.'+value+'">'+value+'</a>'; }
+        if (label === 'WebURL'     ){ value = '<a href="'+value+'" target="_blank">'+value+'</a>'; }
+        
+        if (label === 'TechnicalDoc'){ value = '<a href="'+value+'" target="_blank">Show</a>'; }
+        if (label === 'Explorer'    ){ value = '<a href="'+value+'" target="_blank">Show</a>'; }
+        
+        if (label === 'Phone'      ){ value = '<a href="tel:'+value+'">'+value+'</a>'; }
+        if (label === 'Address'    ){ value = '<a href="https://www.google.com/maps?q='+value+'" target="_blank">'+value+'</a>'; }
+        if (label === 'Description'){ value = '<div class="description-popup" data-value="'+value+'">'+(value.length>255 ? value.slice(0,255)+'... <span class="icon icon-navigate_next"></span>' : value)+'</div>'; }
+        if (label === 'CountryISO' ){ value = '<img src="/media/img/flags/'+value.toLowerCase()+'.svg" class="flag" alt="flag-'+value+'" loading="lazy" />'; }
+        
+        let row = '<div class="row" data-label="'+label+'"><div class="field">'+label+'</div><div class="value">'+value+'</div></div>';        
+        
+        if (options.officers === true){
+            row = $('<div class="row link"><div class="value">'+value.Name+'<br /><span>'+value.Title+'</span></div><div class="icon-btn icon-navigate_next1"></div></div>').bind('click',function(){
+                window.open('https://www.google.com/search?q='+value.Name,'_blank');
+            });            
         }
         
-        if (tabCode === 'officers'){
-            tabInfoRow.addClass('only-value');
-            tabInfoRow.find('.value').html(value.Name+'<br /><span>'+value.Title+'</span>');
-            tabInfoRow.find('.value').prepend('<div class="icon-btn icon-navigate_next1"></div>').bind('click',function(){
-                window.open('https://www.google.com/search?q='+value.Name,'_blank');
-            });;
-            $('#entity-'+tabCode).append(tabInfoRow); 
-
-        }else{
-            tabInfoRow.addClass(label);
-            tabInfoRow.find('.field-value').html(label);
-            tabInfoRow.find('.value').html(value);
-            if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
-
-            if (label==='Description') tabInfoRow.addClass('only-value'); 
-            if (value && typeof value !== 'object' && value !== 'Unknown' && value !== 'NA' && value !== '<img src="/media/img/flags/NA.png" class="flag" alt="flag-'+value+'" loading="lazy" />') $('#entity-'+tabCode).append(tabInfoRow);
-        }                         
+        $(tab).find('.tab-content').append($(row));       
+        //if (tooltips[label]) tabInfoRow.addClass('with-tooltip').find('.tooltip-info').html(tooltips[label]);
     });
+    $(options.target).append($(tab));
 }
-function widget_financial_graph(id,widget){
-    if ($('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"]').length === 0){      
-        var template = $('.template-widget > .widget').clone();
-        $(template).attr('data-id',id);
-        $(template).attr('data-type','financial_graph');
-                                        
-        $.each(widget, function(key,value){
-            $(template).find('.edit [data-id="'+key+'"]').val(value);
-        });          
-        $('.page-view:not(.slick-cloned) .widgets').append($(template));   
-    }  
-    if (!widget.hasOwnProperty('scope') && !widget.hasOwnProperty('range')) return;
-    if (widget.scope===null || widget.range===null) return;
-    var title = (widget.scope).replace(/([A-Z])/g, ' $1').trim()+ ' ('+widget.range+')';
-    $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"]').find('.title h2').text(title);
-    if (config.debug) console.log('Widget');
-    if (config.debug) console.log(entity);
-    var categories  = [];
-    var data        = [];
-    if (entity.info.Financials && entity.info.Financials.hasOwnProperty('Income_Statement')){   
-        $('.widget[data-id="'+id+'"]').css('minHeight','300px');      
-        $.each(entity.info.Financials.Income_Statement[widget.range], function(label,value){ 
-            categories.push(label.substring(0,4)); 
-            data.push(value[widget.scope]);
-        });                                                
-        categories.reverse();
-        data.reverse();
-        var options = {
-            series: [{ data: data, name: widget.scope+" [Usd]"}],
-            xaxis: {
-                axisBorder:{ color: settings.design.color_bg },
-                categories: categories,
-                tickAmount: 4,
-                labels:{
-                    offsetY: 10
-                }
+function newsReload(){
+    $.ajax({
+        url: config.api_url,
+        data: { 
+            endpoint: '/news',
+            symbol: (stock.market!=='gpw') ? stock.symbol : stock.symbol_short,
+            market: stock.market_eod
+        },
+        type: 'get',
+        dataType: 'JSON',
+        cache: false,
+        success: function(response){
+            if (config.debug) console.log('news',response);
+            if (response.length === 0) return;
+            $('.news-headlines').removeClass('hide');
+            
+            $('[data-src="news-headlines"]').html('');
+            $.each(response,function(i,news){
+                let source = news.link.replace('https://','').split('/')[0];
+                $('<div class="news"></div>')
+                .append('<div class="news-title">'+news.title+'</div>')
+                .append('<p><a>'+format_datetime(news.date,{ format: 'D/M, LT' })+'</a></p>')
+                .bind('click',function(){
+                    window.open(news.link,'_blank');
+                })
+                .appendTo('[data-src="news-headlines"]');
+            });   
+        },
+        error: function(response){ if (config.debug) console.log(response); }
+    });    
+}
+
+function infoReload(){
+    // GET Entity info
+    $.ajax({
+        url: config.api_url,
+        data: { 
+            endpoint: '/entity/info',
+            symbol: (stock.market!=='gpw') ? stock.symbol : stock.symbol_short,
+            market: stock.market
+        },
+        type: 'get',
+        dataType: 'JSON',
+        cache: false,
+        success: function(response){
+            if (response.success === false){ return; }
+
+            $.getScript('/extensions/entities/media/js/widgets'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
+                load_apexcharts(function(){
+                    stock.facts = response;                        
+                    if (config.debug) console.log('Facts:',stock.facts);
+
+                    $('[data-src="facts"]').html('');
+                    if (stock.facts.General)            createTab({ target: '[data-src="facts"]', title: 'General',         data: stock.facts.General });
+                    if (stock.facts.Statistics)         createTab({ target: '[data-src="facts"]', title: 'Statistics',      data: stock.facts.Statistics });
+                    if (stock.facts.Highlights)         createTab({ target: '[data-src="facts"]', title: 'Highlights',      data: stock.facts.Highlights });
+                    if (stock.facts.Technicals)         createTab({ target: '[data-src="facts"]', title: 'Technicals',      data: stock.facts.Technicals });
+                    if (stock.facts.Valuation)          createTab({ target: '[data-src="facts"]', title: 'Valuation',       data: stock.facts.Valuation });
+                    //if (stock.facts.ESGScores)          createTab({ target: '[data-src="facts"]', title: 'ESG Scores',      data: stock.facts.ESGScores });
+                    //if (stock.facts.AnalystRatings)     createTab({ target: '[data-src="facts"]', title: 'Analyst Ratings', data: stock.facts.AnalystRatings });
+                    if (stock.facts.General.Officers)   createTab({ target: '[data-src="facts"]', title: 'Officers',        data: stock.facts.General.Officers, officers:true });
+                        
+                    if ( stock.facts.General && stock.facts.General.WebURL && !stock.website){                              
+                        $('.find-in .website').show().bind('click',function(){ window.open(stock.facts.General.WebURL,'_blank'); });                                                                                                                            
+                    }                        
+                    
+                    // FINANCIALS GRAPHS
+                    if (stock.facts.hasOwnProperty('Holders') && stock.facts.Holders!==null){ 
+                        widgetShareholders();                                                        
+                    }                                                
+                    var widgets = {};
+                    widgets['financial_graph'] = { 1: { range: 'yearly', scope: 'totalRevenue', chartType: 'line' }};
+                      
+                    localStorage.setItem('widgets',JSON.stringify(widgets));
+                    $.each(widgets.financial_graph, function(id,widget){
+                        widgetFinancial(id, widget);                            
+                    });                        
+                });
+            });
+
+        },
+        error: function(response){ if (config.debug) console.log(response); }
+    });    
+}
+
+function getHistoricalData(symbolInfo, resolution, periodParams){
+    
+    console.log(periodParams);
+    var data = [];
+    $.ajax({ 
+        url: config.api_url, 
+        data: { 
+            endpoint: '/entity/historical', 
+            symbol: stock.symbol, 
+            market: stock.market,
+            from: periodParams.from,
+            to: periodParams.to,
+            countBack: periodParams.countBack
+        }, 
+        type: 'GET', 
+        dataType: 'JSON', 
+        cache: false,
+        async:false,
+        success: function(response){
+            data = response;
+        },
+        error: function(e){
+            console.log('error');
+            if (config.debug) console.log(e);
+        }
+    });
+    return data;
+
+}
+
+function generateGraph(){
+    
+    var tries = 5;
+    let tv_symbol = stock.market_tv+":"+stock.symbol;
+    if (stock.market === 'gpw' || stock.market === 'newconnect') tv_symbol = stock.market_tv+':'+stock.symbol_short;
+    if (stock.market === 'forex')                                tv_symbol = stock.market_tv+':USD'+stock.symbol;
+    if (stock.market === 'crypto')                               tv_symbol = stock.market_tv+':'+stock.symbol.replace('-','');
+    if (stock.market === 'fantoken')                             tv_symbol = stock.market_tv+':'+stock.symbol+'USD';     
+    
+    // TradingView - Graph
+    if (stock.chartSource === 'library'){
+        
+        var dataFeed = {
+            configuration: {
+                exchanges: [
+                    { value: '', name: 'All Exchanges' }
+                ],
+                supported_resolutions: ['1D','1W','1M','6M','1Y'],
+                supports_group_request: false,
+                supports_marks: true,
+                supports_search: false,
+                supports_time: true,
+                supports_timescale_marks: true,
+                symbols_types: [{ name: 'All Types', value:'' },{ name: 'Stock', value:'stock'},{ name: 'Index', value: 'index' }]
             },
-            yaxis: {
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                labels: { 
-                    show: false,
-                    formatter: function (value) {
-                        return format_price(value) + " $";
-                    },
-                    offsetX: -10,
-                    offsetY: 10
-                }
-              },
-            colors: [settings.design.color_base],
-            chart: {
-                type: (widget.chartType) ? widget.chartType : 'line',                       
-                toolbar: { show: false },
-                fontFamily: 'gotham-regular',
-                foreColor: settings.design.color_label,
-                height:$('.widget.shareholders .graph').height()
+            onReady:function(callback){
+                if (config.debug) console.log('TradingView Configuration',this.configuration);
+                setTimeout(() => callback(this.configuration));            
+            }, 
+            resolveSymbol: function(symbolName, onSymbolResolvedCallback, onResolveErrorCallback){                        
+                var symbol = {
+                    name: stock.name ? stock.name : '-',
+                    description: '',
+                    type: 'stock',
+                    session: '24x7',
+                    //visible_plots_set: 'c',                    
+                    timezone: 'America/New_York',
+                    ticker: stock.symbol,
+                    minmov: 1,
+                    pricescale: 100000000,
+                    has_intraday: false,
+                    intraday_multipliers: ['1', '60'],
+                    supported_resolution:  ["120","240","D","6M"]
+                };
+                if (config.debug) console.log('resolveSymbol',symbol);
+                setTimeout(function() { onSymbolResolvedCallback(symbol); }, 0);
             },
-            dataLabels: {
-                enabled:false
+            getBars: function(symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback) { 
+
+                let bars = getHistoricalData(symbolInfo, resolution, periodParams);
+                if (config.debug) console.log('bars',bars);
+                
+                if (tries-- === 0){ return; }
+
+                if (bars.length>0) onHistoryCallback(bars, {noData: false });
+                else onHistoryCallback([], {noData: true });
+                
+                /*
+                if (bars.length>0) { onHistoryCallback(bars, {noData: false});
+                }else{             onHistoryCallback([], {noData: true}); }            */
+                
             },
-            stroke: {
-                curve: 'smooth',
-                width: 2
-            },
-            grid: {
-                borderColor: settings.design.color_bg,
-                strokeDashArray: 2,
-                padding:{
-                    top:0,
-                    right:0,
-                    bottom:-10,
-                    left:-12
-                }
-            },
-            tooltip: {
-                custom: function ({series, seriesIndex, dataPointIndex, w}) {   
-                    if (config.debug) console.log('w');
-                    if (config.debug) console.log(w);
-                    $('[data-type="financial_graph"][data-id="'+id+'"] .x').html(w.globals.categoryLabels[dataPointIndex]);
-                    $('[data-type="financial_graph"][data-id="'+id+'"] .y').text(format_price(series[seriesIndex][dataPointIndex],2));                                            
-                    return;
-                }
-            },
-        };
-        $('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph').html('');
-        new ApexCharts(document.querySelector('.page-view:not(.slick-cloned) [data-type="financial_graph"][data-id="'+id+'"] .graph'), options).render();
-        //graph.render();
+            subscribeBars: function(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) { console.log('👉 subscribeBars:', subscriberUID); },
+            unsubscribeBars: function(subscriberUID) { console.log('👉 unsubscribeBars:', subscriberUID); }
+        };  
+        let disabled_features = ["use_localstorage_for_settings"];
+        if (settings.tview_hide_side_toolbar)   disabled_features.push('left_toolbar');
+        if (settings.tview_hide_top_toolbar)    disabled_features.push('header_widget');
+        if (settings.tview_hidevolume)          disabled_features.push('create_volume_indicator_by_default');
+        if (settings.tview_hide_bottom_toolbar) disabled_features.push('control_bar');
+        if (settings.tview_hide_bottom_toolbar) disabled_features.push('timeframes_toolbar');
+        if (settings.tview_hide_legend)         disabled_features.push('legend_widget');
+        
+        var widget = new TradingView.widget({
+            // debug: true, // uncomment this line to see Library errors and warnings in the console
+            fullscreen: true,
+            symbol:     stock.symbol,            
+            "interval": "D",
+            "timezone": "Etc/UTC",
+            "theme":    settings.theme,
+            overrides: { "mainSeriesProperties.style": parseInt(settings.tview_style) }, 
+            
+            "locale":   "en",
+            container: "tradingViewGraph",
+            datafeed: dataFeed,
+            library_path: "/media/js/external/TradingView/charting_library/",
+            disabled_features: disabled_features,
+            //enabled_features: ["study_templates"],
+            //charts_storage_url: 'https://saveload.tradingview.com',
+            //charts_storage_api_version: "1.1",
+            client_id: 'tradingview.com',
+            user_id: 'public_user_id'
+        });        
+        
+    // TradingView - Widget
+    }else if (stock.chartSource === 'widget'){        
+        twidget = new TradingViewOnline.widget({
+            "autosize":             true,
+            "symbol":               tv_symbol,
+            "interval":             "D",
+            "timezone":             "Etc/UTC",
+            "theme":                settings.theme,
+            "style":                settings.tview_style,
+            "locale":               "en",
+            "toolbar_bg":           "#f1f3f6",
+            "enable_publishing":    false,
+            "hide_top_toolbar":     settings.tview_hide_top_toolbar,
+            "withdateranges":       settings.tview_hide_bottom_toolbar ? false : true,
+            "hide_side_toolbar":    settings.tview_hide_side_toolbar,
+            "hide_legend":          settings.tview_hide_legend,
+            "hidevolume":           settings.tview_hidevolume,
+            "details":              settings.tview_details,
+            "save_image":           true,
+            "container_id":         "tradingViewGraph"
+        });        
     }else{
-        $('.widget[data-id="'+id+'"]').hide();
+        $('.graph-container .graph').html('<div class="no-data"><div class="icon icon-trending_up"></div><h2>No data</h2><p>Sorry we don\'t hava historical data for this symbol yet. But we keep working on it.</p></div>');
+    } 
+    
+    let technicalAnalysisOptions = {
+        "interval": "1m",
+        "width": "100%",
+        "isTransparent": true,
+        "height": "100%",
+        "symbol": tv_symbol, 
+        "showIntervalTabs": true, 
+        "locale": "en", 
+        "colorTheme": settings.theme
+    };
+    let technicalAnalysisUrl = encodeURIComponent(JSON.stringify(technicalAnalysisOptions));
+    $('.tv-analysis').html('<iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/technical-analysis/?locale=en#'+technicalAnalysisUrl+'" style="box-sizing: border-box; height: 100%; width: 100%;"></iframe>');
+    
+    if (stock.market === 'crypto' || stock.market === 'nasdaq' || stock.market === 'nyse'){       
+        let feedsOptions = {
+            "symbol": tv_symbol,
+            "colorTheme": settings.theme,
+            "isTransparent": true,
+            "displayMode": "regular",
+            "width": "100%",
+            "height": "100%",
+            "locale": "en" 
+        };
+        let feedsUrl = encodeURIComponent(JSON.stringify(feedsOptions)); 
+        $('.tv-snaps').html('<iframe id="tv_snaps" scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/timeline/?locale=en&symbol='+tv_symbol+'#'+feedsUrl+'" style="box-sizing: border-box; height: 100%; width: 100%;"></iframe>');
+        $('.tv-snaps iframe').bind('load',function(){
+            $('.snaps').removeClass('hide');
+        });        
     }
-}
    
+    /* To be reviewed
+    if (settings.tview_hide_bottom_toolbar2){
+        $('.quick-tools').addClass('hide');
+    }
+
+    var slider = document.getElementById('range-selector');
+    var format = {
+        to:function(value){
+            return valuesForSlider[Math.round(value)];
+        },
+        from: function(value){
+            return valuesForSlider.indexOf(value);
+        }
+    };            
+    if(slider && slider.noUiSlider){ slider.noUiSlider.destroy(); }
+
+    var valuesForSlider = ['1d','1w','1m','3m','6m','1y','5y','All'];
+    noUiSlider.create(slider, {
+        start: [valuesForSlider[settings.stock_chart_range]],
+        connect: true,
+        range: { 'min': 0, 'max': valuesForSlider.length-1 },
+        step:1,
+        tooltips:false,
+        format: format,
+        pips: { mode: 'steps', format: format }
+    }).on('slide',function(values, handle){
+        //change_graph_range(valuesForSlider.indexOf(values[0]),true);
+    });
+    */       
+}
+
+  
 function stock_graph_adaptive_height(){
+    
     if ($(window).width()>996){
         return;
     };                     
-    if ($('.results-info').hasClass('editable')){ return; }
-    if (!$('.results-info').hasClass('collapsed')){ return; }
-    var optimal_graph_height = 10;
-    optimal_graph_height += $('.footer-container').outerHeight();
-    optimal_graph_height += $('.range-selector').outerHeight();
-    if (!$('body').hasClass('stock-price-pro-mode')){
-        optimal_graph_height += $('.results-info').outerHeight(); 
-        optimal_graph_height += 25; 
-    }
-    optimal_graph_height += 20;               
-    optimal_graph_height += ($('.editable .edit-view-actions').outerHeight() ? $('.editable .edit-view-actions').outerHeight()+15 : 0);         
-    $('.chart.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
+    var optimal_graph_height = 230;    
+    if (!$('.results-info').hasClass('collapsed')){ optimal_graph_height = 155; }   
+    if ($('body').hasClass('advanced-charting-fullscreen')) optimal_graph_height = 135;
+    $('.stock-price-container').height('calc(100vh - '+optimal_graph_height+'px)');        
 }
-
-
-$(document).ready(function(){
-    var widgets = JSON.parse(localStorage.getItem('widgets'));
-    if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('collapsed') && widgets.results_info.collapsed === 'false'){
-        $('.widget.results-info').removeClass('collapsed').find('.content').show();
-    }else{
-        $('.widget.results-info').addClass('collapsed');
-    }        
-});
-$(document).ready(function(){
-    var widgets = JSON.parse(localStorage.getItem('widgets'));
-    if (widgets.hasOwnProperty('results_info') && widgets.results_info.hasOwnProperty('hidden_fields')){
-        $.each(widgets.results_info.hidden_fields,function(key,id){
-            $('.results-info').find('.'+id).toggleClass('hide');
-            $('.results-info').find('.label-'+id).toggleClass('hide');
-            $('.results-info .edit input#v-'+id).prop('checked',false);
-        });
-    }
-    $(':not(.slick-cloned) .changer-v2 select').each(function(){
-        var id = $(this).attr('id');
-        if (settings.hasOwnProperty($(this).attr('id'))){
-            $(this).val(settings[id]);
-        }
-        if (config.debug) console.log('value selected: '+id+' '+settings[id]);
-        if (config.debug) console.log(settings);
-    });
-});
-function change_graph_touch(){
-    stock_chart.reflow();
-}
-function change_graph_grid(){
-    // Grid lines are controlled in CSS
-    $('#stock-price').attr('grid',settings.graph_grid);
-}
-change_graph_grid();
-function change_graph_fullscreen(){
-    $('body').toggleClass('stock-price-pro-mode');
-    stock_graph_adaptive_height();
-    stock_chart.reflow();
-}
-function change_graph_tools(){
-    stock_chart.update({
-        stockTools: {
-            gui: {
-                visible: settings.graph_tools === true ? true : false,
-                placed: settings.graph_tools === true ? true : false
-            }
-        }
-    });
-    stock_chart.reflow();
-}
-function change_graph_labels(){
-    stock_chart.update({ 
-        xAxis: {
-            title:  { enabled: settings.graph_labels },
-            labels: { enabled: settings.graph_labels },
-            tickLength: 3
-        },
-        yAxis: {
-            title:  { enabled: settings.graph_labels },
-            labels: { enabled: settings.graph_labels },
-            tickLength: settings.graph_labels === true ? 3 : 0
-        }
-    });    
-    stock_chart.reflow();
-}
-
-function change_graph_range(val=1){
-    $('.range-selector .labels span').removeClass('selected');
-    $('.range-selector .labels span[data-id='+val+']').addClass('selected');
-
-    settings.stock_chart_range = val;
-    localStorage.setItem('settings',JSON.stringify(settings));
-
-    stock_chart.rangeSelector.clickButton((settings.stock_chart_range-1),true);                                    
-}
-function get_notes(){
-    if (me){
-        $.ajax({
-            url: config.api_url,
-            data: { 
-                endpoint: '/me/notes',
-                symbol: stock.symbol,
-                market: stock.market
-            },
-            type: 'GET',
-            dataType: 'JSON',
-            cache: false,
-            success: function(response){
-                $('.my-notes .tab-content .notes').html('');
-                
-                if (!response.notes.length){
-                    return;
-                }
-                
-                $('.my-notes .counter').text(response.notes.length).addClass('active');
-                
-                $.each(response.notes, function(i,note){                        
-                    let el = $('<div class="note"></div>');  
-                    $(el).append('<div class="date label">'+format_datetime(note.created_at)+'</div>');
-                    $(el).append('<div class="body">'+note.body+'</div>');
-                    $(el).prepend('<div class="actions"></div>');
-                    $(el).find('.actions').append('<div class="icon-btn icon-settings" data-action="note-edit"></div>');
-                    $(el).find('.actions').append('<div class="icon-btn icon-bin" data-action="note-delete"></div>');
-                    
-                    $(el).find('[data-action="note-delete"]').bind('click',function(){
-                        $.ajax({
-                            url: config.api_url,
-                            data: { 
-                                endpoint: '/me/notes',
-                                id:note.id
-                            },
-                            type: 'DELETE',
-                            dataType: 'JSON',
-                            cache: false,
-                            success: function(response){                  
-                                get_notes();
-                            }
-                        }); 
-                    });
-                    $(el).find('[data-action="note-edit"]').bind('click',function(){
-                        $('body').toggleClass('with-popup');                            
-                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
-
-                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
-                        $.ajax({
-                            url:"/extensions/entities/views/popups/notes.html",
-                            cache:false,
-                            success: function(data){ 
-                                $("#popup").html(data); 
-                                $('.popup-notes #new-note').val(note.body).attr('data-id',note.id);
-                            },
-                            error: function(e){ if (config.debug) console.log(e); }
-                        });                        
-                    });                    
-                    $('.my-notes .tab-content .notes').append(el);
-                });
-            },
-            error: function(response){
-                if (config.debug) console.log(response);
-            }
-        });
-    }
-}
-
               
 $(document).ready(function(){
-    
-    if (mobile || ios) $('.graph-tools').hide();
+
     if ($(document).width()>996){
-        $('.stock-page-views').prepend($('<div class="floating-column hide-scroll"></div>'));
-        $('[data-view="overview"]').appendTo('.floating-column');
-        $('[data-view="info"]').appendTo('.floating-column');
+        $('[data-view="overview"]').appendTo('.panel-content');
+        $('[data-view="info"]').appendTo('.panel-content');
+    }else{
+        $('[data-view="overview"]').appendTo('.overview-container');
+        $('[data-view="info"]').appendTo('.info-container');
     }
     
     get_currencies(function(){
     $.ajax({
         url: config.api_url,
-        data: { endpoint: '/entity', symbol: symbol, market:market },
+        data: { endpoint: '/entity', symbol: mvc.controller, market:mvc.view },
         type: 'GET',
         dataType: 'JSON',
         cache:false,
         success: function(response){
-            if (config.debug) console.log('entity');
-            if (config.debug) console.log(response);
+
             stock = response.entity;
+            if (config.debug) console.log('Entity',response);            
 
-            if (market==='gpw') stock.currency = 'pln';
-            else stock.currency = 'usd';
+            live[stock.symbol+'.'+stock.market] = { price: stock.price, last_updated_at: stock.last_updated_at };
+            liveReload();
 
-            $('.heading.stock-view .results-info-title h2').text(stock.symbol);
-            $('.heading.stock-view-menu h2').text(stock.symbol);
-            $('.heading.stock-view-dashboard-adjust-view h2').text(stock.symbol);
-
-            $('.stock-view .results-info h2').text(stock.name);               
-            $('.stock-view .results-info .logo-container').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
-            if (stock.market === 'forex'){
-                $('.stock-view .results-info .logo-container').append('<img src="https://data.stocktok.online/logos/forex/nextGen/usd.webp?cache=632392078b3fa" class="secondary-logo" alt="logo-ron" loading="lazy" height="auto" width="auto" />');
-            }
-            
+            // BASIC DATA
+            $('[data-src="symbol"]').text(stock.symbol);
+            $('[data-src="market"]').text(stock.market);
+            $('[data-src="name"]').text(stock.name);
+            $('[data-src="logo"]').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
+            $('[data-src="flag"]').html((stock.country ? '<img src="/media/img/flags/'+stock.country+'.svg" class="flag-small" alt="country-'+stock.country+'" loading="lazy" height="auto" width="auto" />' : ''));
+            $('[data-src="currency"]').text(stock.currency);            
+            if (stock.cover)    $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
+            if (stock.sector)   $('[data-src="sector"]').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>');
+            if (stock.industry) $('[data-src="industry"]').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>');            
+                          
+            // QUICK TOOLS
             $('.quick-tools .additionals').html('');
             $('.quick-tools .additionals')
             .append(stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>')
             .bind('click',function(){
                 $('.quick-tools .range-selector').toggleClass('active');
                 $('.quick-tools .actions').toggleClass('active');
-            });            
-
-
-            if (stock.cover){
-                $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
-            }
-
-            $('.stock-view .results-info-table .value.symbol').text(stock.symbol);
-            $('.stock-view .results-info-table .value.market').text(stock.market);
-
-            if (stock.sector){ $('.stock-view .results-info-table .value.sector').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>').show();  }else{ $('.stock-view .results-info-table .value.sector, .stock-view .results-info-table .label-sector').hide(); }
+            });                                   
+               
+            // FIND IN
+            $('.find-in .google').bind('click',function(){  window.open('https://www.google.com/search?q='+stock.name,'_blank'); });
+            $('.find-in .youtube').bind('click',function(){ window.open('https://www.youtube.com/results?search_query='+stock.name,'_blank'); });
+            $('.find-in .twitter').bind('click',function(){ window.open('https://twitter.com/search?src=typed_query&q='+stock.name,'_blank'); });                    
+            if (stock.website){ $('.find-in .website').show().bind('click',function(){ window.open(stock.website,'_blank'); }); }            
             
-            if (stock.industry){ $('.stock-view .results-info-table .value.industry').html('<a href="/entities/find-by?industry='+stock.industry+'">'+stock.industry+'</a>').show();
-            }else{ $('.stock-view .results-info-table .value.industry, .stock-view .results-info-table .label-industry').hide(); }
-            
-            if (stock.low){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.low));
-            }else{ $('.stock-view .results-info-table .value.daily-min, .stock-view .results-info-table .label-daily-min').hide(); }
-            
-            if (stock.high){ $('.stock-view .results-info-table .value.daily-min').text(format_price(stock.high));
-            }else{ $('.stock-view .results-info-table .value.daily-max, .stock-view .results-info-table .label-daily-max').hide(); }            
-            
-            if (!stock.volume){ $('.stock-view .results-info-table .value.current-volume, .stock-view .results-info-table .label-current-volume').hide(); }
-
-            $('.stock-view .results-info .price-preview .price').text(format_price(stock.price));
-            $('.stock-view .results-info .price-preview .currency').text(stock.currency);
-            $('.stock-view .results-info .price-preview .date').text(format_datetime(Date.parse(stock.last_updated_at)));
-
-            //console.log(config.timezone);
-
-            $('.page.stock-view .symbol').text(stock.symbol);
-
-            $('.range-selector .labels span').removeClass('selected');
-            $('.range-selector .labels span[data-id='+settings.stock_chart_range+']').addClass('selected');   
-            $('.range-selector input').val(settings.stock_chart_range);
-            $('.range-selector .labels span').bind('click',function(){
-                let val = parseInt($(this).attr('data-id'));
-                change_graph_range(val);
-                $('#stock_chart_range').val(val);
-            });
-
+            // BUTTONS
             if (stock.market === 'forex'){
-                button({ 
-                    class: 'icon-btn icon-calculator' }, 
-                    function(){
-                        $('body').toggleClass('with-popup');                            
-                        if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+                button({ class: 'icon-btn icon-calculator' }, function(){
+                    $('body').toggleClass('with-popup');                            
+                    if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
 
-                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
-                        $.ajax({
-                            url:"/extensions/entities/views/popups/calculator.html",
-                            cache:false,
-                            success: function(data){
-                                                                
-                                $("#popup").html(data);
-                                $('#cc-currency1').append('<option value="'+stock.symbol+'" selected="SELECTED">'+stock.symbol+'</option>');
-                            },
-                            error: function(e){ if (config.debug) console.log(e); }
-                        });
-                    }
-                );                        
-            }    
+                    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
+                    $.ajax({ url:"/extensions/entities/views/popups/calculator.html", cache:false,
+                        success: function(data){$('#popup').html(data); $('#cc-currency1').append('<option value="'+stock.symbol+'" selected="SELECTED">'+stock.symbol+'</option>'); },
+                        error: function(e){ if (config.debug) console.log(e); }
+                    });
+                });                        
+            }             
             
-            button({ 
-                class: 'icon-btn icon-search2' }, 
-                function(){                        
-                        $.ajax({
-                            url:"/extensions/entities/views/popups/search.html",
-                            cache:false,
-                            success: function(data){
-                                $('#popup').html(data);
-                                $('body').addClass('with-popup no-blur');                            
-                                $('.popup-btn').remove();
-                                $('.quick-tools .actions > div').removeClass('active');
-                                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                             
-                            },
-                            error: function(e){ if (config.debug) console.log(e); }
-                        });                                
+            button({ class: 'icon-btn icon-search2' }, function(){                        
+            $.ajax({ url:"/extensions/entities/views/popups/search.html", cache:false, success: function(data){
+                        $('#popup').html(data);
+                        $('body').addClass('with-popup with-blur');                            
+                        $('.popup-btn').remove();
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur').removeClass('no-blur'); });                             
+                    },
+                    error: function(e){ if (config.debug) console.log(e); }
+                });                                
+            });  
+            if (me){ 
+                button({ class: 'icon-btn icon-shopping_cart' }, function(){ 
+                    
+                    $('body').toggleClass('with-popup');                            
+                    if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
+
+                    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                                                    
+                    $.ajax({ url:"/extensions/wallet/views/popups/buy.html", cache:false,
+                        success: function(data){
+                            $('#popup').html(data);
+                            $.getScript('/extensions/wallet/media/js/actions_buy.js?version='+config.version,function(){
+                                buy_step2(stock);
+                            });                        
+                        },
+                        error: function(e){ if (config.debug) console.log(e); }
+                    });                       
+                
+                });                                
+                button({ class: 'icon-btn icon-observed', attributes: [{ key: 'data-action', value:'toggleObserved' },{ key: 'data-value', value: stock.observed }]}, function(el){                     
+                    $.ajax({
+                        url: config.api_url,
+                        data: { endpoint:'/wallet/observed', market:stock.market, symbol:stock.symbol },
+                        type: stock.observed ? 'DELETE' : 'POST',
+                        dataType: 'JSON',
+                        success: function(response){                                
+                            stock.observed = stock.observed ? false : true;
+                            $(el).attr('data-value',stock.observed);                                
+                        },
+                        error: function(err){ if (config.debug) console.log(err); }
+                    });                                                                                  
                 });  
-
-            if (me){
-                button({ 
-                    class: 'icon-btn icon-shopping_cart' }, 
-                    function(){ 
-                        var item = {};
-                            item.market_currency    = stock.currency;       
-                            item.symbol             = stock.symbol;
-                            item.market             = stock.market;
-                            item.price              = stock.price;
-                            //item.last_updated_at    = $(this).parents('.item').find('.updated-at').text();
-                            item.logo               = $('.results-info .logo-container').html();               
-
-                        buy_sell_popup({ action:'buy', item:item });                     
-                    }
-                );                            
-                button({ 
-                    class: 'icon-btn '+(!stock.observed ? 'add-to-observed' : 'remove-from-observed')+' icon-bookmark'+(!stock.observed ? '_outline' : '1' ) }, 
-                    function(el){ 
-                        if (!stock.observed){
-
-                            $.ajax({
-                                url: config.api_url,
-                                data: { endpoint:'/wallet/observed', 
-                                        market:stock.market,
-                                        symbol:stock.symbol
-                                    },
-                                type: 'POST',
-                                dataType: 'JSON',
-                                success: function(response){
-                                    $('.add-to-observed').addClass('icon-bookmark1').removeClass('icon-bookmark_outline');                                        
-                                    $('.add-to-observed').addClass('remove-from-observed').removeClass('add-to-observed');                                        
-                                    stock.observed = true;
-                                },
-                                error: function(response){                            
-                                    if (config.debug) console.log(response);
-                                }
-                            });                                                              
-                        }else{
-                            $.ajax({
-                                url: config.api_url,
-                                data: { 
-                                    endpoint:'/wallet/observed', 
-                                    symbol: stock.symbol,
-                                    market: stock.market
-                                },
-                                type: 'DELETE',
-                                dataType: 'JSON',
-
-                                success: function(response){
-                                    $('.remove-from-observed').addClass('icon-bookmark_outline').removeClass('icon-bookmark1');
-                                    $('.remove-from-observed').addClass('add-to-observed').removeClass('remove-from-observed');
-                                    stock.observed = false;
-                                },
-                                error: function(response){                            
-                                    if (config.debug) console.log(response);
-                                } 
-                            });                               
-                        }
-                    }
-                );  
-            }
-            $('.find-in .google').bind('click',function(){
-                window.open('https://www.google.com/search?q='+stock.name,'_blank');
+            }             
+            button({ class: 'icon-btn icon-settings' }, function(){
+                /*
+                if (!me){
+                    $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Charting</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
+                    return;
+                } */
+                if ($('.popup-advanced-charting-config').length){
+                    $('.popup-btn').remove(); 
+                    $('body').removeClass('with-popup').removeClass('with-blur'); 
+                    return;
+                }
+                $('body').addClass('with-popup with-blur');                            
+                button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+                    $.ajax({ url:"/extensions/entities/views/popups/config.html", cache:false, success: function(data){ $("#popup").html(data); }, error: function(e){ if (config.debug) console.log(e); }});
             });
-            $('.find-in .youtube').bind('click',function(){
-                window.open('https://www.youtube.com/results?search_query='+stock.name,'_blank');
-            });
-            $('.find-in .twitter').bind('click',function(){
-                window.open('https://twitter.com/search?src=typed_query&q='+stock.name,'_blank');
-            });                    
-            if (stock.website){                
-                $('.find-in .website').show().bind('click',function(){
-                    window.open(stock.website,'_blank');
-                });                                   
-            } 
-            /*
-            button({ 
-                class: 'icon-btn icon-share' }, 
-                function(){                             
-                    navigator.clipboard.writeText(window.location.href);
-                    $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-share"></div><div class="title">Link Copied</div><div class="description">'+window.location.href+'</div></div></div>');                            
-                });                     
-            */
+            button({ class: 'icon-btn icon-brush' }, function(){                        
+            $.ajax({ url:"/extensions/entities/views/popups/advanced-charting/sketchpad.html", cache:false, success: function(data){
+                        $('#popup').html(data);
+                        $('body').addClass('with-popup no-blur');                            
+                        $('.popup-btn').remove();
+                        $('#sketchpad').addClass('active');
+                        
+                        button({ class: 'icon-btn popup-btn icon-clear' }, function(){ 
+                            $('#popup').html(''); 
+                            $('.popup-btn').remove(); 
+                            $('body').removeClass('with-popup with-blur no-blur'); 
+                            $('#sketchpad').removeClass('active');
+                        });                             
+                        button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ 
+                            if (sketchpad) 
+                                sketchpad.clear(); });                         
+                        
+                        //if (!sketchpad){
+                            $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
+                                sketchpad = new Sketchpad({
+                                    element:    '#sketchpad',
+                                    width:      $('.graph-container .graph').width(),
+                                    height:     $('.graph-container .graph').height(),
+                                    color:      settings.design.color_text,
+                                    penSize:    3
+                                });            
+                            });         
+                        //}
+                    },
+                    error: function(e){ if (config.debug) console.log(e); }
+                });                                
+            });             
+            /* button({ class: 'icon-btn icon-share' }, function(){                             
+                navigator.clipboard.writeText(window.location.href);
+                $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-share"></div><div class="title">Link Copied</div><div class="description">'+window.location.href+'</div></div></div>');                            
+            }); */
             if (settings.contributor === 'yes'){
-
-                button({ 
-                    class: 'icon-btn icon-create' }, 
-
-                    function(){ 
-
+                button({ class: 'icon-btn icon-create' }, function(){ 
                     if ($('footer #popup .search').length){ 
                         $('footer #popup').html(''); 
                         $('.popup-btn').remove();
                         $('body').removeClass('with-popup');
                     }
-
                     $('body').toggleClass('with-popup');                            
                     if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }   
-
                     button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); toggleHeading(); });                            
                     $.ajax({
                         url:"/extensions/players/views/popups/contributor.html",
@@ -811,495 +740,33 @@ $(document).ready(function(){
                     });
                 });
             };  
-            /*
-            switcher({ key: 'editable',  class: 'icon-settings1', value: settings.editable  ? settings.editable :  'false'},function(){ 
-                editable(); 
-                stock_graph_adaptive_height(); 
-                if (stock_chart){ 
-                    setTimeout(function() {
-                        stock_chart.reflow();
-                    }, 400);
-                }});             
-            */
+            //$.getScript('https://s3.tradingview.com/tv.js',function(){
+                generateGraph();
+            //});
             
-            stock_graph_adaptive_height();
-            stock_chart = Highcharts.stockChart('stock-price', {
-                time: {
-                    timezone: config.timezone
-                },                
-                xAxis: [{
-                    title:  { enabled: settings.graph_labels },
-                    labels: { enabled: settings.graph_labels },
-                    tickLength: 5,
-                    tickPixelInterval: 75,
-                    opposite: true
-                },{
-                    title:  { enabled: settings.graph_labels },
-                    labels: { enabled: settings.graph_labels },
-                    tickLength: 5,
-                    tickPixelInterval: 75,
-                }],
-                //colors:[settings.design.color_base]
-                rangeSelector: { 
-                    selected: settings.stock_chart_range,
-                    verticalAlign: 'bottom',
-                    floating:true,
-                    y:30
-                },
-            stockTools:{
-                gui:{
-                        visible: false,
-                        placed: false
-                    }
-                },                
-                plotOptions: {
-                    series: {
-                        lineWidth: 1,
-                        states: {
-                            hover: { enabled: false }
-                        },
-                        events:{
-                            mouseOut: function(){
-                                $('.stock-view .results-info').removeClass('with-tooltip');
-                                $('.stock-view .results-info .price-preview').removeClass('tooltip-hover');
-                                reload_stock_price();
-                            }
-                        }
-                    }
-                }                  
-            });                 
-            // GET Entity info
-            $.ajax({
-                url: config.api_url,
-                data: { 
-                    endpoint: '/entity/info',
-                    symbol: (stock.market!=='gpw') ? stock.symbol : stock.symbol_short,
-                    market: stock.market
-                },
-                type: 'get',
-                dataType: 'JSON',
-                cache: false,
-                success: function(response){
-                    if (response.success === false){
-                        $('.page-view[data-view="financial"]').hide();
-                        $('.page-view[data-view="website"]').hide();
-                        return;
-                    } 
-
-                    load_apexcharts(function(){
-                        entity.info=response;
-                        if (config.debug) console.log('Entity Info:');
-                        if (config.debug) console.log(response);
-                        $('.entity-main-info-container').html('');
-                        // MAIN INFO
-                        if (entity.info.General){ main_info_tab('General','general','icon-info',entity.info.General); }
-                        if (entity.info.Highlights) main_info_tab('Highlights','highlights','icon-menu_book',entity.info.Highlights);
-                        if (entity.info.Technicals) main_info_tab('Technicals','technicals','icon-star-full',entity.info.Technicals);
-                        if (entity.info.Valuation) main_info_tab('Valuation','valuation','icon-finance',entity.info.Valuation);
-                        if (entity.info.ESGScores) main_info_tab('ESG Scores','esgscores','icon-ruler',entity.info.ESGScores);
-                        if (entity.info.AnalystRatings) main_info_tab('Analyst Ratings','analystratings','icon-trending_up1',entity.info.AnalystRatings);
-                        if (entity.info.General.Officers) main_info_tab('Officers','officers','icon-person1',entity.info.General.Officers);
-                        // WEBSITE
-                        if ( entity.info.General && entity.info.General.WebURL && !stock.website){  
-                            
-                            $('.find-in .website').show().bind('click',function(){
-                                window.open(entity.info.General.WebURL,'_blank');
-                            });                              
-                                                                                              
-                        }else{}
+            // ADDITIONALS
+            infoReload();
+            notesReload();
+            newsReload();
+            if (stock.transactions){ resultsReload(); }
                         
-                        // FINANCIALS GRAPHS - Shareholders
-                        if (entity.info.hasOwnProperty('Holders') && entity.info.Holders!==null){
-                            var categories  = [];
-                            var data        = [];
-                            $.each(entity.info.Holders.Institutions, function(label,value){ 
-                                categories.push(value.name); 
-                                data.push(value.totalShares);
-                            });                                                
-                            let options = {
-                                series: data, 
-                                labels: categories,
-                                chart: {                                
-                                    type: 'donut',                                                                
-                                    fill: {
-                                        type: 'gradient'
-                                    },
-                                    height:420
-                                },
-                                legend: {
-                                    position:'bottom',
-                                    fontSize: '14px',
-                                    fontFamily: 'gotham-regular',
-                                    itemMargin: {
-                                        horizontal: 10,
-                                        vertical: 5
-                                    }                                        
-                                },
-                                plotOptions: {
-                                    pie: {
-                                      donut:{
-                                          size:'95%',
-                                          labels: { 
-                                              show:true,
-                                              value:{
-                                                formatter: function(value, opts){
-                                                    return parseFloat(value).toFixed(2)+ '%';                                
-                                                }
-                                              },
-                                              total: {
-                                                show: true,
-                                                label: 'All',
-                                                color: '#7ebd0b',
-                                                formatter: function (chart) {
-                                                    return '100.00%';
-                                                }
-
-                                              }
-                                          }
-                                      }
-                                    }
-                                },
-                                stroke:{ colors: [settings.design.color_bg2], width:1 }
-                            };
-
-                            new ApexCharts(document.querySelector("#graph-shareholders"), options).render();
-                        }else{
-                            $('.widget.shareholders').hide();
-                        }
-                        // FINANCIAL GRAPHS
-                        var widgets = {};
-                        if (localStorage.getItem('widgets')){
-                            widgets = JSON.parse(localStorage.getItem('widgets'));              
-
-                        }else{ // Defaults
-
-                            widgets['financial_graph'] = {                                
-                                1: {
-                                    range: 'yearly',
-                                    scope: 'totalRevenue',
-                                    chartType: 'line'
-                                }                            
-                            };
-                        }  
-                        localStorage.setItem('widgets',JSON.stringify(widgets));
-
-                        $.each(widgets.financial_graph, function(id,widget){
-                            widget_financial_graph(id, widget);                            
-                        });
-                    });
-                },
-                error: function(response){
-                    if (config.debug) console.log(response);
-                }
-            });
-            // GET Historical
-            $.ajax({
-                url: config.api_url,
-                data: { 
-                    endpoint: '/entity/historical',
-                    symbol: stock.symbol,
-                    market: stock.market
-                },
-                type: 'GET',
-                dataType: 'JSON',
-                cache: false,
-                success: function(response){
-                    if (config.debug) console.log('Historical Prices:');
-                    if (config.debug) console.log(response);
-                    stock.historical = response;                         
-                    generate_graph();
-                    reload_stock_price();
-                },
-                error: function(response){
-                    if (config.debug) console.log(response);
-                }
-            });
-            // GET Intraday
-            $.ajax({
-                url: config.api_url,
-                data: { 
-                    endpoint: '/entity/intraday',
-                    symbol: stock.symbol,
-                    market: stock.market,
-                    ohlc: true
-                },
-                type: 'GET',
-                dataType: 'JSON',
-                cache: false,
-                success: function(response){  
-                    if (config.debug) console.log('Intraday prices:');
-                    if (config.debug) console.log(response);
-                    stock.intraday = response;     
-                    if (stock.intraday === null) stock.intraday = 1;
-
-                    generate_graph();                                                
-                },
-                error: function(response){
-                    if (config.debug) console.log(response);
-                }
-            });
-            
-            // GET Notes
-            get_notes();
-            
-            
-            // RELATED
-            $('.page').addClass('view-'+settings.related_layout);                           
+            // RELATED              
             if (stock.market === 'forex' || stock.market === 'fantoken' || stock.market === 'indices'){
-                get_search_items([{ code:'market', value:stock.market, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
-                $('[data-view="related-2').hide();
+                getItems({filters:[{ code:'market', value:stock.market, type: 'LIKE' }, { code:'id', value:stock.id, type :'not' }], target: '[data-src="related-1"]', size: 20, sort: 'shuffle', related:true, view:'grid', search:'' });                                                
             }else{
-                if (stock.sector !== '' && stock.sector !== null){
-                    get_search_items([{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-1"] ',10,'shuffle',true);                                                
-                }else{
-                    $('[data-view="related-1').hide();
-                }
                 if (stock.industry !== '' && stock.industry !== null){
-                    get_search_items([{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'!=' }],'[data-view="related-2"] ',10,'volume_desc',true);                                                
+                    getItems({filters:[{ code:'industry', value:stock.industry, type: 'LIKE' }, { code:'id', value:stock.id, type :'not' }], target: '[data-src="related-2"]', size: 20, sort: 'volume_desc', related:true, view:'grid', search:'' });                                                
                 }else{
-                    $('[data-view="related-2').hide();
+                    if (stock.sector !== '' && stock.sector !== null){
+                        getItems({filters:[{ code:'sector', value:stock.sector, type: 'LIKE' }, { code:'id', value:stock.id, type :'not' }], target: '[data-src="related-1"]', size: 20, sort: 'shuffle', related:true, view:'grid', search:'' });                                                
+                    }                    
                 }                
-            }
+            }            
 
-
-            if (settings.graph_fullscreen) change_graph_fullscreen(settings.graph_fullscreen);
-            $('#graph_fullscreen').prop('checked', settings.graph_fullscreen);
-            $('#graph_tools').prop('checked', settings.graph_tools === 'true' ? true : false);
-            $('#graph_labels').prop('checked', settings.graph_labels);
-
-            if (config.debug) console.log('Main info:');
-            if (config.debug) console.log(response.stock);
         },
-        error: function(response){
-            if (config.debug) console.log(response);
-        }
-    });
-    });
-});
-
-$(document).off('click', '[data-label="view_stock_edit"]');
-$(document).on('click','[data-label="view_stock_edit"]',function(){
-    stock_graph_adaptive_height();
-    setTimeout(function() {
-        stock_chart.reflow();
-    }, 20); 
-});
-$(document).off('click', '[data-action="add-note"]');
-$(document).on('click','[data-action="add-note"]',function(){  
-    
-    if (!me){
-        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">New note</div><div class="description">Feature only for logged users</div></div></div>');                            
-        return;
-    }    
-
-    $('body').toggleClass('with-popup');                            
-    if (!$('body').hasClass('with-popup')){ $('#popup').html(''); $('.popup-btn').remove(); }
-
-    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); });                            
-    $.ajax({
-        url:"/extensions/entities/views/popups/notes.html",
-        cache:false,
-        success: function(data){ $("#popup").html(data); },
         error: function(e){ if (config.debug) console.log(e); }
     });
-});
-$(document).off('click', '[data-action="advanced-charting-config"]');
-$(document).on('click','[data-action="advanced-charting-config"]',function(){  
-    
-    if (!me){
-        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Charting</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
-        return;
-    } 
-    if ($('.popup-advanced-charting-config').length){
-        $('#popup').html(''); $('.popup-btn').remove(); 
-        $('body').removeClass('with-popup'); 
-        $('body').removeClass('no-blur'); 
-        $('.quick-tools .actions > div').removeClass('active');
-        return;
-    }
-
-    $('#sketchpad').removeClass('active');
-    $('.quick-tools .actions > div').removeClass('active');
-    $(this).addClass('active');
-
-    $('body').addClass('with-popup no-blur');                            
-
-    $('.popup-btn.icon-clear').remove();
-    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
-    $.ajax({
-        url:"/extensions/entities/views/popups/advanced-charting/config.html",
-        cache:false,
-        success: function(data){ $("#popup").html(data); },
-        error: function(e){ if (config.debug) console.log(e); }
     });
-});
-$(document).off('click', '[data-action="advanced-charting-drawing"]');
-$(document).on('click','[data-action="advanced-charting-drawing"]',function(){ 
-    
-    if (!me){
-        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Drawing</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
-        return;
-    }
-    if ($('.popup-advanced-charting-drawing').length){
-        $('#popup').html(''); $('.popup-btn').remove(); 
-        $('body').removeClass('with-popup'); 
-        $('body').removeClass('no-blur'); 
-        $('.quick-tools .actions > div').removeClass('active');
-        return;
-    }    
-    
-    $('#sketchpad').removeClass('active');
-    $('.quick-tools .actions > div').removeClass('active');
-    $(this).addClass('active');
-    stock_chart.update({
-            stockTools: {
-                gui: {
-                    visible: false,
-                    placed:  true,
-                    buttons:[ 
-                        'simpleShapes', 
-                        'lines', 
-                        'crookedLines', 
-                        'measure', 
-                        'advanced', 
-                        'toggleAnnotations', 
-                        //'separator', 
-                        'verticalLabels', 
-                        'flags',                             
-                        'typeChange', 
-                        'fullScreen',                                 
-                        'zoomChange', // Not working    
-                        'indicators',  // on hold       
-                        'currentPriceIndicator', 
-                        'saveChart' // Next phase
-                    ]
-                }
-            }
-        });
-        generate_graph();
-
-    $('body').addClass('with-popup no-blur');                            
-    $('.popup-btn').remove();
-    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
-    button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ generate_graph(); if (sketchpad) sketchpad.clear(); });  
-    $.ajax({
-        url:"/extensions/entities/views/popups/advanced-charting/drawing.html",
-        cache:false,
-        success: function(data){ $("#popup").html(data); },
-        error: function(e){ if (config.debug) console.log(e); }
-    });  
-});
-$(document).off('click', '[data-action="advanced-charting-sketchpad"]');
-$(document).on('click','[data-action="advanced-charting-sketchpad"]',function(){  
-    
-    if (!me){
-        $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body"><div class="icon icon-key1"></div><div class="title">Advanced Drawing</div><div class="description">Sorry, feature only for logged users</div></div></div>');                            
-        return;
-    }
-    if ($('.popup-advanced-charting-sketchpad').length){
-        $('#popup').html(''); $('.popup-btn').remove(); 
-        $('body').removeClass('with-popup'); 
-        $('body').removeClass('no-blur'); 
-        $('.quick-tools .actions > div').removeClass('active');
-        return;
-    }
-    
-    $('body').addClass('with-popup no-blur');                            
-    $('.popup-btn').remove();
-    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('no-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
-    button({ class: 'icon-btn popup-btn icon-redo' }, function(){ if (sketchpad) sketchpad.redo(); });
-    button({ class: 'icon-btn popup-btn icon-undo' }, function(){ if (sketchpad) sketchpad.undo(); });
-    button({ class: 'icon-btn popup-btn icon-refresh' }, function(){ if (sketchpad) sketchpad.clear(); });  
-   
-      
-    
-    $.ajax({
-        url:"/extensions/entities/views/popups/advanced-charting/sketchpad.html",
-        cache:false,
-        success: function(data){ $("#popup").html(data); },
-        error: function(e){ if (config.debug) console.log(e); }
-    });
-    
-    $('.quick-tools .actions > div').removeClass('active');
-    $(this).addClass('active');
-    
-    $('#sketchpad').addClass('active');
-        $.getScript('/media/js/external/sketchpad'+(config.minify === 1 ? '.min' : '')+'.js?version='+config.version,function(){
-            sketchpad = new Sketchpad({
-                element:    '#sketchpad',
-                width:      $('.graph-container .chart').width(),
-                height:     $('.graph-container .chart').height(),
-                color:      settings.design.color_text,
-                penSize:    3
-            });            
-        });
-    
-
-});
-$(document).off('click', '[data-action="advanced-charting-fullscreen"]');
-$(document).on('click','[data-action="advanced-charting-fullscreen"]',function(){  
-
-    $('body').toggleClass('advanced-charting-fullscreen');
-    stock_chart.reflow();
-    
-    if ($('body').hasClass('advanced-charting-fullscreen')){
-        
-        let elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
-    }else{
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) { /* Safari */
-            document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { /* IE11 */
-            document.msExitFullscreen();
-        }        
-    }
-
-});
-
-
-$(document).off('click', '.widget-collapse');
-$(document).on('click','.widget-collapse',function(){           
-    $(this).parents('.widget').toggleClass('collapsed');
-    $(this).parents('.widget').find('.content').slideToggle('linear',function(){
-        stock_graph_adaptive_height();
-        setTimeout(function() {
-            stock_chart.reflow();
-        }, 20); 
-    });
-    var widgets = JSON.parse(localStorage.getItem('widgets'));
-    if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
-    widgets.results_info.collapsed = 'false';                
-    if ($(this).parents('.widget').hasClass('collapsed')){ widgets.results_info.collapsed = 'true'; }
-    localStorage.setItem('widgets',JSON.stringify(widgets));
-});
-$(document).off('click', '.results-info .edit .form.hidden-fields input');
-$(document).on('click','.results-info .edit .form.hidden-fields input',function(){
-    var id = $(this).attr('id').substring(2); 
-    $('.results-info').find('.'+id).toggleClass('hide');
-    $('.results-info').find('.label-'+id).toggleClass('hide');
-
-    // Remember visible fields
-    var widgets = JSON.parse(localStorage.getItem('widgets'));
-    if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
-
-    var hidden_fields = [];
-    $('.results-info .edit .form.hidden-fields input').each(function(key,element){
-        if (!$(element).is(':checked')){ hidden_fields.push($(element).attr('id').substring(2)); }
-    });
-    widgets.results_info.hidden_fields = hidden_fields;
-    localStorage.setItem('widgets',JSON.stringify(widgets));        
-});
-$(document).off('click', '#stock_chart_range');
-$(document).on('input','#stock_chart_range',function(){
-    change_graph_range($(this).val());
 });
 
 $(document).off('click', '.description-popup');
@@ -1307,24 +774,12 @@ $(document).on('click','.description-popup',function(){
     $('body').addClass('with-popup').prepend('<div class="popup-info"><div class="popup-info-body hide-scroll"><div   class="logo-container">'+$('.results-info-title .logo-container').html()+'</div><div class="title">'+$('.results-info-title h2').html()+'</div><div class="description">'+$(this).attr('data-value').replace(';','<br /><br />')+'</div></div></div>');
 });
 
-$(document).off('click', '.toggleTool');
-$(document).on('click','.toggleTool',function(){
-    $('.quick-tools > *:not(.actions)').toggle();
-    $('.quick-tools').toggleClass('active');
-});
-
-
-$(document).off('touchstart', '.highcharts-annotation');
-$(document).on('touchstart','.highcharts-annotation',function(){
-    $(this).click();
-});
-
-$(document).off('mousemove', '.highcharts-axis-resizer');
-$(document).on('mousemove','.highcharts-axis-resizer',function(){
-    
-    if (stock_chart.get('prices') && stock_chart.get('volume')){
-        var ratio = parseInt(stock_chart.get('prices').height/(parseInt(stock_chart.get('prices').height)+parseInt(stock_chart.get('volume').height))*100);
-        updateSettings('graph_showprices_ratio',ratio);
-    }
-
+$(window).on('resize', function () {
+    if ($(document).width()>996){
+        $('[data-view="overview"]').appendTo('.panel-content');
+        $('[data-view="info"]').appendTo('.panel-content');
+    }else{
+        $('[data-view="overview"]').appendTo('.overview-container');
+        $('[data-view="info"]').appendTo('.info-container');
+    }    
 });

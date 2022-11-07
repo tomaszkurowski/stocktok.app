@@ -53,8 +53,7 @@
    }
    .quick-tools .actions { display:inline-flex !important; }
    .quick-tools .actions .title { display:block;}
-   .quick-tools .actions > div { padding:0 5px 0 0px; margin-left:10px; border: 1px solid var(--color-bg); }
-   .quick-tools .icon-btn { margin-left:5px; }
+   .quick-tools .icon-btn { margin:0 5px; }
    
   
    
@@ -107,8 +106,6 @@
     .entity-main-info-container .tab-container { width:100%; margin:0; }
     
     nav {
-        height:100vh;
-        right:0;
     }
     nav .load-menu { margin-bottom:12.5px;}
     .app-body {
@@ -195,26 +192,27 @@
         
     
     .with-popup .footer {
-        min-width: calc(33vw - 20px);
-        max-width: calc(33vw - 20px);
+        min-width: calc(30vw - 15px);
+        max-width: calc(30vw - 15px);
     }
 
-    .page-view[data-view="overview"] { float:right; width:33.3333%; }
-    .page-view[data-view="dashboard"] { float:left; width:66.6666%; margin-top:15px; height:calc(100vh - 25px); }
-    .page-view[data-view="info"] { float:right; width:33.3333%; margin-top:-15px; }
-    .page-view[data-view="financial"] { float:left; width:66.6666%; margin-top:5px; }
+    .page-view[data-view="dashboard"] { float:left; width:calc(70% - 10px); margin-top:10px; height:calc(100vh - 20px); }
+    .page-view[data-view="financial"] { float:left; width:70%; margin-top:5px; }
+    
     .page-view[data-view="related-sector"] { clear:both; }
-    .related-container { float:left; width: calc(66.6666% + 5px); }
+    .related-container { float:left; width: calc(70% + 5px); }
     .related .items-container { width:100%; flex-wrap:wrap; padding:0; margin-left:5px; }
     .related .items-container .item { width:calc(20% - 10px); }
     
     .stock-page-views { padding-bottom:90px; }
-    #stock-price { height: calc(100vh - 88px); min-height: calc(100vh - 97px); }
+    #stock-price { height: calc(100vh - 85px); min-height: calc(100vh - 85px); }
     
     .graph-container { margin:0 -5px 0 10px; }
     .widgets {
-        margin: 10px -5px 0 10px;
-        justify-content:space-between;
+        justify-content: space-between;
+        margin-left: 10px;
+        width: calc(100% - 15px);
+        margin-top: 5px;
     }
     .widgets .widget {
         width:calc(50% - 5px);
@@ -228,7 +226,7 @@
     }
     
     .popup.popup-advanced-charting.active {
-        max-height: calc(100vh - 86px);
+        max-height: calc(100vh - 77px);
     }
         
     .wallet-views { width:75%; margin-left:5px; }
@@ -268,16 +266,17 @@
 @media only screen and (min-width: 1445px) {
 
     .with-popup .footer {
-        min-width: calc(25vw - 25px);
-        max-width: calc(25vw - 25px);
+        min-width: calc(25vw - 15px);
+        max-width: calc(25vw - 15px);
     }
     
-    .wallet-views { width:75% }    
+    .wallet-views { width:75% }  
+    .widgets {
+        width: calc(100% - 5px);
+    }
     
-    .page-view[data-view="overview"] { float:right; width:25%; }
-    .page-view[data-view="dashboard"] { float:left; width:75%; margin-top:15px; height:calc(100vh - 25px); }
-    .page-view[data-view="info"] { float:right; width:25%; margin-top:-15px; }
-    .page-view[data-view="financial"] { float:left; width:75%; margin-top:5px; }
+    .page-view[data-view="dashboard"] { float:left; width:calc(75% - 10px); margin-top:10px; height:calc(100vh - 20px); }
+    .page-view[data-view="financial"] { float:left; width:calc(75% - 10px); margin-top:5px; }
     .related-container { float:left; width:calc(75% + 5px); }
 
     .items-container .item {

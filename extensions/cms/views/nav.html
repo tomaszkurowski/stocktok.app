@@ -1,46 +1,32 @@
 <div class="nav hide-scroll">
     <div class="nav-body">
-        <div class="profile" onclick="load_page('/cms/dashboard/',true);">
+        <div class="profile">
             <div class="avatar-container"></div>
             <div class="info">
                 <span class="username">Not logged</span>
                 <span class="rank">Login to get started</span>
             </div>
-        </div>           
+        </div>
+        <div class="btn-menu" onclick="load_page('/cms/what-is-stocktok',true)">
+            <span class="icon icon-logo1"></span>
+            <span class="info">What is Stocktok?<br /><span class="label">Learn more about App</span></span>                    
+        </div>        
         <div class="btn-menu me" onclick="load_page('/me/login/?ref='+window.location.pathname,true);">
             <span class="icon icon-power_settings_new"></span>
             <span class="info">Login/Register<br /><span class="label">Here you can login or register</span></span>             
-        </div>       
+        </div>
         <div class="btn-menu" onclick="load_page('/settings',true)">
             <span class="icon icon-settings"></span>
             <span class="info">Settings<br /><span class="label">Adjust app to your needs</span></span>                    
-        </div>
-        <div class="btn-menu" onclick="$('.submenu.sub-players').slideToggle(100,'linear'); $(this).toggleClass('active');">
-            <span class="icon icon-gamepad"></span>
-            <span class="info">Players<br /><span class="label">All rankings & community</span></span>                                      
-        </div>
-        <div class="submenu sub-players">
-            <div class="submenu-btn" onclick="load_page('/players',true)">All players</div>
-            <div class="submenu-btn" onclick="load_page('/players/rankings',true)">Rankings</div>
-            <div class="submenu-btn" onclick="load_page('/players/view/'+me.username,true)">Me</div>
-        </div>
-        <div class="btn-menu" onclick="load_page('/wallet/analysis',true)">
-            <span class="icon icon-trending_up1"></span>
-            <span class="info">Analysis<br /><span class="label">Review your performance</span></span>                     
-        </div>
-        <div class="btn-menu" onclick="load_page('/entities',true)">
-            <span class="icon icon-search1"></span>
-            <span class="info">Find<br /><span class="label">Find assets</span></span>                      
-        </div>
-        <div class="btn-menu" onclick="$('.submenu.sub-observed').slideToggle(100,'linear'); $(this).toggleClass('active');">
-            <span class="icon icon-bookmark"></span>
-            <span class="info">Observed<br /><span class="label">All your saved entities</span></span>                 
-        </div>    
-        <div class="submenu sub-observed">
-            <div class="submenu-btn" onclick="load_page('/players/observed',true)">Players</div>
-            <div class="submenu-btn" onclick="load_page('/players/moves',true)">Moves</div>
-            <div class="submenu-btn" onclick="load_page('/wallet/observed',true)">Entities</div>
         </div>        
+        <div class="btn-menu" onclick="load_page('/market/search?market-is-nasdaq&sort-DESC-volume',true)">
+            <span class="icon icon-sphere"></span>
+            <span class="info">Find<br /><span class="label">Find assets, analyze performance</span></span>                                      
+        </div>   
+        <div class="btn-menu" onclick="load_page('/wallet/observed',true)">
+            <span class="icon icon-bookmark"></span>
+            <span class="info">Observe<br /><span class="label">All your saved entities</span></span>                 
+        </div>
         <div class="btn-menu" onclick="load_page('/wallet',true)">
             <span class="icon icon-account_balance_wallet"></span>
             <span class="info">Wallet<br /><span class="label">All your assets</span></span>                       

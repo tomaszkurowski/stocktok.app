@@ -1,7 +1,7 @@
 <?php 
 
 header("Access-Control-Allow-Origin: *");
-header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.google-analytics.com data.stocktok.online api.stocktok.online js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' www.googletagmanager.com *.google-analytics.com code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
+//header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.google-analytics.com data.stocktok.online api.stocktok.online js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' www.googletagmanager.com *.google-analytics.com code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
 header("Strict-Transport-Security: max-age=31536000");
@@ -42,8 +42,13 @@ include('config.php'); ?>
     <meta property="og:description"              content="Be a market player" />
     
     <link rel="manifest"      href="/manifest.json?v=1.1">
-    <link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
+    <!--<link rel="stylesheet"    href="/media/css/styles<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />-->
+    <link rel="stylesheet"    href="/media/css/styles-atomic<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
+    <link rel="stylesheet"    href="/media/css/styles-atomic-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
     <link rel="stylesheet"    href="/media/css/styles-ipad<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
+    
+    <!-- in Tests -->
+    <link rel="stylesheet"    href="/media/css/nouislider<?= $config['minify']==='true' ? '.min' : '' ?>.css?v=<?= $config['version_css'] ?>" />
     
     <link rel="icon"                             href="<?= $config['dir_icons'] ?>favicon.png" type="image/png" />
     <link rel="apple-touch-icon"                 href="<?= $config['dir_icons'] ?>icon-144x144.png" />
@@ -57,8 +62,22 @@ include('config.php'); ?>
     <link rel="apple-touch-startup-image"        href="<?= $config['dir_splash'] ?>apple_splash_640.png"  sizes="640x1136" />
     
     <script src="/media/js/external/jquery.min.js?version=3.5.1"></script>
-    <script src="/media/js/external/js-cookie.min.js?version=3.0.1"></script> <!-- in tests -->
-     
+    <script src="/media/js/external/dataTables/dataTables.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.responsive.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.colResize.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.colReorder.js?version=1.1.1"></script>    
+    <script src="/media/js/external/dataTables/dataTables.fixedColumns.min.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.buttons.min.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.buttons.html5.min.js?version=1.1.1"></script>
+    <script src="/media/js/external/dataTables/dataTables.buttons.colVis.min.js?version=1.1.1"></script>
+    <script src="/media/js/external/js-cookie.min.js?version=3.0.1"></script> 
+    <script src="/media/js/external/kmturley/TouchScroll.js"></script> 
+    <script src="/media/js/external/kmturley/dragDrop.js"></script> 
+    <script src="/media/js/external/kmturley/RequestAnimationFrame.js"></script>
+    <script src="/media/js/external/leongersen/nouislider.js"></script>
+    <script src="/media/js/external/TradingView/tv.js?v=0.0.2"></script>
+    <script type="text/javascript" src="/media/js/external/TradingView/charting_library/charting_library.standalone.js"></script>
+        
     <script src="/media/js/internal.js?version=<?= $config['version_js'] ?>"></script>
     <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=<?= $config['version_js'] ?>"></script>          
     <script src="/media/js/external.js?version=<?= $config['version_js'] ?>"></script>
@@ -91,78 +110,68 @@ include('config.php'); ?>
         <div class="icon icon-logo"></div>
         <span></span>
     </div>
-    <script type="text/javascript">                
+    <script type="text/javascript"> 
+        
         config = {
-            version:    '<?= $config['version_js'] ?>',
-            api_url:    '/api.php',
-            base_url:   '<?= $config['base_url'] ?>',            
-            debug:      <?= $config['debug'] ?>,
-            browser:    navigator.userAgent || navigator.vendor || window.opera,
-            precision_rate:  11,
-            precision_total: 4,
-            minify: <?= $config['minify'] ?>,
-            title_prefix: '<?= $config['title_prefix'] ?>',
-            locale: Intl.DateTimeFormat().resolvedOptions().locale,
-            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            version:        '<?= $config['version_js'] ?>', 
+            base_url:       '<?= $config['base_url'] ?>',            
+            title_prefix:   '<?= $config['title_prefix'] ?>',            
+            minify:         <?= $config['minify'] ?>,            
+            debug:          <?= $config['debug'] ?>,            
+            api_url:        '/api.php',
+            
+            browser:        navigator.userAgent || navigator.vendor || window.opera,
+            precision_rate: 11,
+            precision_total:4,
+
+            locale:         Intl.DateTimeFormat().resolvedOptions().locale,
+            timezone:       Intl.DateTimeFormat().resolvedOptions().timeZone
         };                         
         settings = { 
             theme:                  "light",
-            calculation_of_profit_with_purchased_rate:1,
-            display_currency:       "usd",
-            public:                 "yes",
-            dynamic_trend :         "total",
-            graph_type:             "line",
-            graph_volumetype:       "column",
-            graph_line:              2,
-            graph_touch:            'tooltip',
-            graph_crosshairs:       'snap',
-            graph_tooltip:          'overview',
-            graph_tooltip_mode:     'floating-split',
-            graph_navigator:        false,
-            graph_scrollbar:        false,
-            graph_grid:             'xy',
-            graph_fullscreen:       false,
-            graph_tools:            false,
-            graph_labels:           true,
-            graph_showvolume:       false,
-            graph_showprices:       true,
-            graph_showprices_ratio: 50,            
-            stock_chart_range:      6,
-            homepage:               '/cms/dashboard',            
-            wallet_switch_behavior:     'itself',
-            wallet_layout:              'grid',
-            wallet_trend_size:          '5-days',
-            wallet_observed_layout:     'box',
-            wallet_observed_trend_size: '5-days',
-            wallet_header:              'regular',            
-            players_layout:         'grid',
-            find_layout:            'minimal',
-            find_sort:              'volume_desc',
-            related_layout:         'minimal',
+            display_currency:       "usd",           
+                        
+            tview_style: 2, // Line
+            tview_hide_top_toolbar:     true,
+            tview_hide_bottom_toolbar:  false,
+            tview_hide_bottom_toolbar2: true,
+            tview_hide_side_toolbar:    true,
+            tview_hide_legend:          true,
+            tview_details:              false,
+            tview_hidevolume:           true,
+                                    
+            wallet_show_graph:      true,
+            wallet_show_switcher:   true,
+            wallet_show_results:    true,
+            wallet_show_price:      true,
+            wallet_show_logo:       true,
+            
             design:{
-                color_base:         '#002ce1',
-                color_base_invert:  '#ffffff',
-                color_base_label:   '#d6e4ff',
-                color_text:         '#242424',
-                color_label:        '#b2b2b2',
-                color_bg:           '#f1f2f4',
-                color_bg2:          '#ffffff',
                 size_small:         '12px',
-                size_regular:       '12px',
-                size_medium:        '15px',
-                size_big:           '17px',
+                size_regular:       '14px',
+                size_medium:        '16px',
+                size_big:           '20px',
                 hand_preference:    'right',
-                border_radius1:     '15px',
+                border_radius1:     '5px',
                 border_radius2:     '5px'
             },            
             mute:1,
             contributor: 'no',
-            rememberMe: true
+            rememberMe: true,
+            screener: {}
         };        
         settings = Object.assign({}, settings, JSON.parse(localStorage.getItem('settings')));
-        settings.design.border_radius1 = '5px';
-        settings.design.border_radius2 = '5px';
         
+        if ($.inArray(settings.view_search,     ['grid','screener','boxes']) === -1){       settings.view_search = 'boxes'; }
+        if ($.inArray(settings.view_wallet,     ['grid','screener']) === -1){               settings.view_wallet = 'grid'; }        
+        if ($.inArray(settings.view_observed,   ['grid','screener']) === -1){               settings.view_observed = 'grid'; }
+        if ($.inArray(settings.view_screener,   ['performance','company','all']) === -1){   settings.view_screener = 'all'; }        
+        if ($.inArray(settings.trend_wallet,    ['5-days','5-weeks','6-months']) === -1){   settings.trend_wallet = '5-days'; }
+        if ($.inArray(settings.trend_observed,  ['5-days','5-weeks','6-months']) === -1){   settings.trend_observed = '5-days'; }
+        if ($.inArray(settings.trend_search,    ['5-days','5-weeks','6-months']) === -1){   settings.trend_search = '5-days'; }                
+
+        settings.homepage = '/wallet';
+
         var me;
         
         var mvc     = { url: window.location.pathname !== '/' ? window.location.pathname : settings.homepage }; 
@@ -170,14 +179,9 @@ include('config.php'); ?>
         var fbb     = (config.browser.indexOf("FBAN") > -1) || (config.browser.indexOf("FBAV") > -1);
         var mobile  = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
                 
-        $(document).ready(function(){
-            
-            if (ios && localStorage.getItem('note_iossafari')===null) mvc.url = "/cms/note_iossafari"; 
-            if (fbb && localStorage.getItem('note_fb')===null)        mvc.url = "/cms/note_fb";
-            
+        $(document).ready(function(){                        
             init_SW();            
-            load_layout( () => load_page(mvc.url) );                        
-            
+            load_layout( () => load_page(mvc.url) );                                    
         });
                 
     </script>     

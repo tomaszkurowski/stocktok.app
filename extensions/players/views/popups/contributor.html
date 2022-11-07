@@ -3,38 +3,30 @@
         
         <div class="step1">
             <div class="header"><h2>Contributor Mode</h2></div>
-            <div class="btns-step">
+            <div class="boxes btns-step">
                 
-                <div class="btn-step" data-action="image" style="width:calc(50% - 5px)">
+                <div class="box btn-step" data-action="image">
                     <label for="image"></label>
                     <span class="icon icon-upload"></span>
-                    <div class="title">
-                        <h2>Add logo</h2>
-                    </div>
+                    <div class="title">Add logo</div>
                     <input type="file" id="image" class="image-upload" name="image" accept="image/*" style="display:none">
                 </div> 
 
-                <div class="btn-step" data-action="cover" style="width:calc(50% - 5px)">
+                <div class="box btn-step" data-action="cover">
                     <label for="cover"></label>
                     <span class="icon icon-crop_5_41"></span>
-                    <div class="title">
-                        <h2>Add cover</h2>
-                    </div>
+                    <div class="title">Add cover</div>
                     <input type="file" id="cover" class="image-upload" name="cover" accept="image/*" style="display:none">
                 </div> 
                 
-                <div class="btn-step" data-action="find-in-google" style="width:calc(50% - 5px)">
+                <div class="box btn-step" data-action="find-in-google">
                     <span class="icon icon-search2"></span>
-                    <div class="title">
-                        <h2>Find in google</h2>
-                    </div>
+                    <div class="title">Find in google</div>
                 </div>
                 
-                <div class="btn-step" data-action="info" style="width:calc(50% - 5px)">
+                <div class="box btn-step" data-action="info">
                     <span class="icon icon-menu_book"></span>
-                    <div class="title">
-                        <h2>Info</h2>
-                    </div>
+                    <div class="title">Info</div>
                 </div>
                 
             </div>
@@ -128,18 +120,9 @@
                                         $('.popup-avatars').remove();
                                         $('body').removeClass('with-popup');
                                         toggleHeading();
-                                        //location.reload();
-                                        
-                                        if ($('#stock-price').length){
-                                            $('.results-info .cover').remove();
-                                            $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" alt="New cover" loading="lazy" />'); 
-                                            stock_graph_adaptive_height(); 
-                                            if (stock_chart){ 
-                                                setTimeout(function() {
-                                                    stock_chart.reflow();
-                                                }, 400); // due to 300ms css transition
-                                            }                         
-                                        }
+                                        //location.reload();                                        
+                                        $('.results-info .cover').remove();
+                                        $('.results-info').addClass('with-cover').prepend('<img src="'+response.path+'" class="cover" alt="New cover" loading="lazy" />');                                         
                                     });
                                 }else{
                                     $('.popup-btn.icon-check1').remove();

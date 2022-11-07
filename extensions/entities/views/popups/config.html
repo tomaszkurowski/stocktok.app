@@ -1,0 +1,122 @@
+<div class="popup active popup-advanced-charting popup-advanced-charting-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Adjust to your needs</h2>
+        </div>        
+        <div class="form">
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Graph</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    
+                    <div class="changer-v2">
+                        <label for="tview_style"><b>Graph Style:</b><br />Area, Line, Candles, Heikin Ashi, Renko etc.</label>
+                        <select id="tview_style" onChange="updateSettings('tview_style',$(this).val()); generateGraph();">
+                            <option value="3">Area</option>
+                            <option value="2">Line</option>                            
+                            <option value="0">Bars</option>
+                            <option value="1">Candles</option>                            
+                            <option value="9">Hollow Candles</option>
+                            <option value="8">Heikin Ashi</option>                            
+                            <option value="7">Line Break</option>
+                            <option value="6">Point & Figure</option>
+                            <option value="5">Kagi</option>
+                            <option value="4">Renko</option>                                                        
+                        </select>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label><b>Hide top toolbar:</b><br/>With: Interval, Graph Type, Comparer & Indicators</label>
+                        <label class="switch-slider">
+                            <input id="tview_hide_top_toolbar" type="checkbox" onClick="updateSettings('tview_hide_top_toolbar',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    <div class="changer-v2">
+                        <label><b>Hide bottom toolbar:</b><br/>With: Interval, Graph Type, Comparer & Indicators</label>
+                        <label class="switch-slider">
+                            <input id="tview_hide_bottom_toolbar" type="checkbox" onClick="updateSettings('tview_hide_bottom_toolbar',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    <!--
+                    <div class="changer-v2">
+                        <label><b>Hide bottom toolbar II:</b><br/>With: Date range, fullscreen & logo</label>
+                        <label class="switch-slider">
+                            <input id="tview_hide_bottom_toolbar2" type="checkbox" onClick="updateSettings('tview_hide_bottom_toolbar2',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    -->                    
+                    <div class="changer-v2">
+                        <label><b>Hide left toolbar:</b><br/>With: Drawing & Editing tools</label>
+                        <label class="switch-slider">
+                            <input id="tview_hide_side_toolbar" type="checkbox" onClick="updateSettings('tview_hide_side_toolbar',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label><b>Hide legend:</b><br/>With: Name, Summary & Market Time</label>
+                        <label class="switch-slider">
+                            <input id="tview_hide_legend" type="checkbox" onClick="updateSettings('tview_hide_legend',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label><b>Hide Volume:</b></label>
+                        <label class="switch-slider">
+                            <input id="tview_hidevolume" type="checkbox" onClick="updateSettings('tview_hidevolume',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                    
+                    
+                    <div class="changer-v2 only-desktop only-widget hide">
+                        <label><b>Show details widget</b><br/>(ONLY Desktop/Ipad) Summary of most important informations on the right</label>
+                        <label class="switch-slider">
+                            <input id="tview_details" type="checkbox" onClick="updateSettings('tview_details',this.checked); generateGraph()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>              
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Look & Feel</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                        <select id="theme" onChange="reload_theme($(this).val(),function(){ if (mvc.model === 'entities') generateGraph(); });">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="changer-v2">
+                        <label><b>Fullscreen:</b><br/>Switch to fullscreen to get maximum space to view</label>
+                        <label class="switch-slider">
+                            <input id="fullscreen" type="checkbox" onClick="toggleFullscreen()"/> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        checkFullscreen();
+        reloadChangers(); // ui
+        
+        if (stock.chartSource === 'widget'){ $('.only-widget').removeClass('hide'); }
+    });
+     
+</script>

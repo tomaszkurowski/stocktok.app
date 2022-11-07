@@ -1,20 +1,15 @@
-    <link rel="stylesheet" type="text/css" href="/extensions/entities/media/css/highcharts-tools.css?v=1.0.1">
     <link rel="stylesheet" type="text/css" href="/extensions/entities/media/css/highcharts-popups.css?v=1.0.32">
-    
-    
-        <div class="page page-views stock-page-views active">        
+     
+    <div class="page page-views stock-page-views active"> 
+        <div class="panel hide-scroll"><div class="panel-content"></div></div>
+         
+        <div class="overview-container">
             <div class="page-view stock-view active" data-view="overview">
                 <div class="widget box results-info collapsed">
                     <div class="results-info-title">
-                        <div class="logo-container"></div>
-                        <h2></h2>
-                        <div class="price-preview">
-                            <div class="info">
-                                <span class="price"></span>
-                                <span class="currency"></span>
-                            </div>
-                            <div class="date"></div>
-                        </div>
+                        <div class="flag-container" data-src="flag"></div>
+                        <div class="logo-container" data-src="logo"></div>
+                        <h2 data-src="name"></h2>
                         <div class="actions-all">
                             <div class="actions">
                                <div class="icon-btn btn-edit icon-settings"></div> 
@@ -25,129 +20,37 @@
                     <div class="content">                    
                         <div class="results-info-table">                           
                             <div class="label label-current-symbol">Symbol</div>
-                            <div class="value symbol"></div>
+                            <div class="value symbol" data-src="symbol"></div>
                             <div class="label label-market">Market</div>
-                            <div class="value market"></div>                       
-                            <div class="label label-sector">Sector</div>
-                            <div class="value sector"></div>                                                
-                            <div class="label label-industry">Industry</div>
-                            <div class="value industry"></div>                          
+                            <div class="value market" data-src="market"></div> 
+                            <!--
                             <div class="label label-current-price">Price</div>
-                            <div class="value current-price"></div>                         
+                            <div class="value current-price" data-src="price"></div>                         
                             <div class="label label-current-volume">Volume</div>
-                            <div class="value current-volume">-</div>  
-                            <div class="label label-previous-price">Previous</div>
-                            <div class="value previous-price"></div>
-                            <div class="label label-open-price">Open</div>
-                            <div class="value open-price">-</div>                            
+                            <div class="value current-volume" data-src="volume">-</div>  
+                            -->
                             <div class="label label-daily-change">Daily</div>
-                            <div class="value daily-change">-</div>
+                            <div class="value daily-change" data-src="daily">-</div>
                             <div class="label label-daily-change-percentage">Daily %</div>
-                            <div class="value daily-change-percentage percentage">-</div>
-                            <div class="label label-daily-max">Day Max</div>
-                            <div class="value daily-max">-</div>
-                            <div class="label label-daily-min">Day Min</div>
-                            <div class="value daily-min">-</div>
-                        </div>
-                        <div class="edit">
-                            <h3>Choose fields you would like to see here:</h3>
-                            <div class="form hidden-fields">
-                                <div class="field">
-                                    <input type="checkbox" id="v-symbol" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-symbol">Symbol</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-market" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-market">Market</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-sector" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-sector">Sector</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-industry" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-industry">Industry</label>
-                                </div>                                
-                                <div class="field">
-                                    <input type="checkbox" id="v-current-price" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-current-price">Current Price</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-current-volume" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-current-volume">Current Volume</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-previous-price" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-previous-price">Previous Price</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-open-price" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-open-price">Open Price</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-daily-max" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-daily-max">Daily Max</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-daily-min" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-daily-min">Daily Min</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-daily-change" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-daily-change">Daily Change</label>
-                                </div>
-                                <div class="field">
-                                    <input type="checkbox" id="v-daily-change-percentage" data-role="none" checked="CHECKED" class="checkbox" />
-                                    <label for="v-daily-change-percentage">Daily Change %</label>
-                                </div>
-                            </div>
+                            <div class="value daily-change-percentage percentage" data-src="dailyp">-</div>
+                            <div class="label label-sector">Sector</div>
+                            <div class="value sector" data-src="sector"></div>                                                
+                            <div class="label label-industry">Industry</div>
+                            <div class="value industry" data-src="industry"></div>                         
                         </div>
                     </div>
                 </div>            
             </div>
-            <div class="page-view" data-view="dashboard">
-                <div class="graph-container">
-                    <canvas id="sketchpad"></canvas>
-                    <div class="chart stock-price-container">  
-                        <div id="stock-price" class="stock-price active"></div>                                
-                    </div>
-                    <div class="quick-tools">
-                        <div class="range-selector active">                   
-                            <div class="labels">
-                                <span data-id="1"></span>
-                                <span data-id="2"></span>
-                                <span data-id="3"></span>
-                                <span data-id="4"></span>
-                                <span data-id="5"></span>
-                                <span data-id="6"></span>
-                            </div>
-                            <div class="slidecontainer">
-                                <input type="range" min="1" max="6" step="1" value="3" class="slider-range" id="stock_chart_range">
-                            </div>
-                        </div>   
-                        <div class="price-preview tooltip-hover">
-                            <div class="price"></div>
-                            <div class="date"></div>
-                        </div>
-                        <div class="actions">
-                            <div data-action="advanced-charting-config">                                
-                                <div class="icon-btn icon-equalizer2"></div>    
-                            </div>
-                            <div data-action="advanced-charting-drawing">                                  
-                                <div class="icon-btn icon-ruler"></div>  
-                            </div>
-                            <div data-action="advanced-charting-sketchpad">                                 
-                                <div class="icon-btn icon-brush"></div>  
-                            </div> 
-                            <div data-action="advanced-charting-fullscreen">                                 
-                                <div class="icon-btn icon-fullscreen"></div>  
-                            </div>                            
-                        </div>
-                        <div class="additionals">
-                        </div>
-                    </div>
-                </div>                        
-            </div>                                              
+        </div>
+        <div class="page-view" data-view="dashboard">
+            <div class="graph-container">  
+                <canvas id="sketchpad"></canvas>                
+                <div class="tradingview-widget-container">
+                    <div id="tradingViewGraph" class="graph"></div>                        
+                </div>                                
+            </div>                        
+        </div> 
+        <div class="info-container">
             <div class="page-view" data-view="info">
                 <div class="box find-in">
                     <h2>Research</h2>
@@ -156,75 +59,137 @@
                     <div class="icon-youtube-play youtube"></div>
                     <div class="icon-btn icon-sphere"></div>                    
                 </div>
-                <div class="tab-container performance">
-                    <div class="tab-header">
-                        <h2>Performance</h2>
-                        <div class="counter neutral" data-color="profit">0,00 pln</div>                        
-                        <div class="expand icon-expand_more"></div>
-                    </div>
-                    <div class="tab-content">
-                        <div style="padding:15px">Under construction</div>
-                    </div>
-                </div>                
-                <div class="tab-container my-notes">
-                    <div class="tab-header">
-                        <h2>My Notes</h2>   
-                        <div class="counter neutral">0</div>                        
-                        <div class="expand icon-expand_more"></div>
-                    </div>
-                    <div class="tab-content">
-                        <div class="notes"></div>
-                        <div class="actions">
-                            <div class="icon-btn icon-add1" data-action="add-note"></div>
+                <div class="tab-group">
+
+                    <div class="wallet tab-container hide" data-type="active">
+                        <div class="tab-header">
+                            <h2>Active</h2>
+                            <div class="counter neutral" data-src="margin">0,00 pln</div>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content tab-info">
+                            <div class="graph radial" data-src="graph-active"></div> 
+                            <div class="row"><div class="field"><span class="field-value">Margin</span></div><div class="value" data-src="margin">-</div></div>                       
+                            <div class="row"><div class="field"><span class="field-value">Current Total</span></div><div class="value" data-src="total">-</div></div>                        
+                            <h3>Last moves:</h3>
+                            <div class="padding-side-regular padding-bottom-regular">                            
+                                <table class="moves" data-src="active-moves" data-view="timeline"></table>
+                            </div>                                                
+                            <!--
+                            <div class="row"><div class="field"><span class="field-value">Purchased Total</span></div><div class="value" data-src="purchased">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin</span></div><div class="value" data-src="highest-margin">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin %</span></div><div class="value" data-src="highest-marginp">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin Date</span></div><div class="value" data-src="highest-margin-date">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin</span></div><div class="value" data-src="lowest-margin">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin %</span></div><div class="value" data-src="lowest-marginp">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin Date</span></div><div class="value" data-src="lowest-margin-date">-</div></div>
+                            -->
+                        </div>
+                    </div>  
+                    <div class="wallet tab-container hide" data-type="sold">
+                        <div class="tab-header">
+                            <h2>Sold</h2>
+                            <div class="counter neutral" data-src="margin">0,00 pln</div>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content tab-info">      
+                            <div class="graph radial" data-src="graph-sold"></div>
+                            <div class="row"><div class="field"><span class="field-value">Margin</span></div><div class="value" data-src="margin">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Sold Total</span></div><div class="value" data-src="total">-</div></div>                        
+                            <h3>Last Moves:</h3>
+                            <div class="padding-side-regular padding-bottom-regular">                            
+                                <table class="moves" data-src="sold-moves" data-view="timeline"></table>
+                            </div>                                                 
+                            <!--
+                            <div class="row"><div class="field"><span class="field-value">Purchased Total</span></div><div class="value" data-src="purchased">-</div></div>                        
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin</span></div><div class="value" data-src="highest-margin">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin %</span></div><div class="value" data-src="highest-marginp">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Highest Margin Date</span></div><div class="value" data-src="highest-margin-date">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin</span></div><div class="value" data-src="lowest-margin">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin %</span></div><div class="value" data-src="lowest-marginp">-</div></div>
+                            <div class="row"><div class="field"><span class="field-value">Lowest Margin Date</span></div><div class="value" data-src="lowest-margin-date">-</div></div>
+                            -->
+                        </div>
+                    </div>    
+
+                    <div class="tab-container my-notes">
+                        <div class="tab-header">
+                            <h2>My Notes</h2>   
+                            <div class="counter neutral">0</div>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="notes"></div>
+                            <div class="actions">
+                                <div class="icon-btn icon-add1" data-action="add-note"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-container facts">
-                    <div class="tab-header">
-                        <h2>Facts</h2>                        
-                        <div class="expand icon-expand_more"></div>
-                    </div>
-                    <div class="tab-content">
-                        <div class="entity-main-info-container"></div>
-                    </div>
-                </div>                
-                
-            </div> 
-            <div class="page-view" data-view="financial">
-                <div class="widgets" id="financial-graphs">
 
-                   <div class="widget shareholders">
-                       <div class="header">
-                           <div class="title"><h2>Shareholders</h2></div>
-                           <div class="actions">
-                               <div class="icon-btn btn-edit icon-settings"></div>
-                               <div class="icon-btn btn-move icon-move"></div>
-                           </div>
-                       </div>
-                       <div class="content">                        
-                           <div class="graph" id="graph-shareholders"></div>                                         
-                           <div class="edit"></div>
+                    <div class="tab-container analysis">
+                        <div class="tab-header">
+                            <h2>Technical Analysis</h2>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tv-analysis"></div>                       
+                        </div>
+                    </div> 
+                    <div class="tab-container snaps hide">
+                        <div class="tab-header">
+                            <h2>Snaps</h2>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tv-snaps"></div>                       
+                        </div>
+                    </div>                
+
+                    <div class="tab-container facts">
+                        <div class="tab-header">
+                            <h2>Facts</h2>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content" data-src="facts"></div>
+                    </div> 
+
+                    <div class="tab-container news-headlines hide">
+                        <div class="tab-header">
+                            <h2>News Headlines</h2>                        
+                            <div class="expand icon-expand_more"></div>
+                        </div>
+                        <div class="tab-content" data-src="news-headlines"></div>
+                    </div>                
+
+                </div>
+            </div>
+        </div> 
+        <div class="page-view" data-view="financial">
+            <div class="widgets" id="financial-graphs">
+
+               <div class="widget shareholders hide">
+                   <div class="header">
+                       <div class="title"><h2>Shareholders</h2></div>
+                       <div class="actions">
+                           <div class="icon-btn btn-edit icon-settings"></div>
+                           <div class="icon-btn btn-move icon-move"></div>
                        </div>
                    </div>
-                </div>
-                <div class="add-widget" data-type="financial_graph">
-                    <div class="icon-btn icon-add"></div>                     
-                </div>
-            </div>             
-            <div class="page-view view-grid related-container" data-view="related-1">                
-                <h2>Similar</h2>
-                <div class="related hide-scroll">
-                    <div class="items-container"></div>
-                </div>
-            </div>           
-            <div class="page-view view-grid related-container" data-view="related-2">                
-                <h2>Competitors</h2>
-                <div class="related hide-scroll">
-                    <div class="items-container"></div>
-                </div>
+                   <div class="content">                        
+                       <div class="graph donut" id="graph-shareholders"></div>                                         
+                       <div class="edit"></div>
+                   </div>
+               </div>
+                
             </div>            
-        <br style="clear:both" />    
-        </div>
+        </div>             
+        <div class="related screen"> 
+            <h2 class="title"></h2>
+            <table class="leafs" data-src="related-1"><tbody></tbody></table>               
+            <table class="leafs" data-src="related-2"><tbody></tbody></table>
+        </div>            
+    <br style="clear:both" />    
+    </div>
     <div class="template-widget hide" data-type="financial_graph">
         <div class="widget" data-type="financial_graph">
             <div class="header">
@@ -240,7 +205,7 @@
                 </div>
             </div>
             <div class="content">
-                <div class="graph"></div>
+                <div class="graph classic"></div>
                 <div class="edit edit-box">
                     <h3>Choose graph parameters</h3>
                     <div class="field">
@@ -294,3 +259,4 @@
         </div>
         <div class="tooltip-info"></div>
     </div>   
+    

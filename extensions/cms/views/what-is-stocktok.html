@@ -1,0 +1,116 @@
+<link rel="stylesheet" type="text/css" href="/extensions/cms/media/css/content.css?v=0.0.24" />
+
+<div class="content" style="opacity:0">
+    
+    <div class="breadcrumbs">What is Stocktok?</div>
+    
+    <div class="row" data-columns="1" data-chapter="1">
+        <div class="column banner">
+            <h1>Simplicity</h1>
+            <p>One of the best <a>research</a> trading tools.<br />All markets live in your pocket.</p>
+            <div class="icon-btn icon-expand_more"></div>        
+        </div>
+    </div>
+    
+    <div class="row" data-columns="2" data-chapter="2">
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/sketchpad.jpg?v=1" /></div>
+            <h2>Financial Sketchpad</h2>
+            <p>Draw with pencil or finger on your charts and make notes to express ideas and create your financial notebook.  </p>           
+        </div>
+        
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/portfolio.jpg?v=1" /></div>
+            <h2>Quick Portfolio</h2>
+            <p>Live Prices, All world markets. Fresh data every second in your pocket. Quick & Easy. </p>          
+        </div>
+        
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/research_1.jpg?v=1" /></div>
+            <h2>Intuitive Research</h2>
+            <p>Learn everything about companinies with just few clicks. Find interesting assets for your portfolio.</p>       
+        </div>
+        
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/performance.jpg?v=1" /></div>
+            <h2>Performance BI</h2>
+            <p>Measure & Analyze markets and your portfolio performance to make one step forward ahead of others</p>       
+        </div>
+        
+    </div>
+    
+    <div class="row cross" data-columns="1" data-chapter="3">
+        <div class="column left">
+            <div class="img-container"><img src="/media/img/cms/warren-buffett.jpg?v=1" /></div>
+            <div class="inner">
+                <h2>W.Buffet once said..</h2>
+                <p>"The key to investing is not assessing how much an industry is going to affect society, or how much it will grow, but rather determining the competitive advantage of any given company and, above all, the durability of that advantage.”"</p>          
+            </div>
+        </div>
+        <div class="column right">
+            <div class="img-container"><img src="/media/img/cms/benjamin-franklin.jpg?v=1" /></div>
+            <div class="inner">
+                <h2>Knowledge is King</h2>
+                <p>If you are beginner in financial markets and you want to learn. If you play longterm with your broker and you need elegant, flexible portfolio to measure your wallet performance on a daily basis. Stocktok can be for you. Its for those who loves investing in value & clean-design UX. "An investment in knowledge pays the best interest" BF.</p>          
+            </div>
+        </div>                
+    </div>
+    
+    <div class="row" data-columns="3" data-chapter="4">
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/observe.png?v=1" /></div>
+            <h2>For Beginners</h2>
+            <p>Learning is key. Together with stocktok you can learn more about Financial World.</p>           
+        </div>
+        
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/invest.png?v=1" /></div>
+            <h2>For Real Investors</h2>
+            <p>In stocktok you can have elegant, intuitive portfolio to measure performance on a daily basis.</p>          
+        </div>
+        
+        <div class="column">
+            <div class="img-container"><img src="/media/img/cms/learn.png?v=1" /></div>
+            <h2>For Researchers</h2>
+            <p>There are few really cool tools for trading research which you will not find in trading apps.</p>       
+        </div>
+    </div>
+    
+    
+    <div class="row" data-columns="4" data-chapter="5">        
+        <div class="column" onclick="window.open('https://stocktok.website/','_blank');">
+            <div class="icon icon-logo1"></div>
+            <h2>Website</h2>
+            <p>More about stocktok and other tools</p>
+        </div>        
+        <div class="column" onclick="window.open('https://twitter.com/Stocktok5','_blank');">
+            <div class="icon icon-twitter"></div>
+            <h2>Twitter</h2>
+            <p>Informations about newest upgrades & features</p>
+        </div>    
+        <div class="column" onclick="window.open('https://www.instagram.com/stocktok.app/','_blank');">
+            <div class="icon icon-instagram"></div>
+            <h2>Instagram</h2>
+            <p>Here you can find some tips in app & tutorials.</p>
+        </div> 
+        <div class="column" onclick="window.open('https://pl.pinterest.com/stocktokapp','_blank');">
+            <div class="icon icon-pinterest"></div>
+            <h2>Pinterest</h2>
+            <p>UX/UI, Branding design (soon)</p>
+        </div>                  
+    </div>    
+</div>
+
+<script type="text/javascript">
+
+    $(window).scroll(function(){        
+        if (mvc.view==='what-is-stocktok'){
+            if ($(this).scrollTop()>$('[data-chapter="1"]').offset().top && $(this).scrollTop()<$('[data-chapter="2"]').offset().top) $('.content .breadcrumbs').text('What is Stocktok?');
+            if ($(this).scrollTop()>$('[data-chapter="2"]').offset().top && $(this).scrollTop()<$('[data-chapter="3"]').offset().top) $('.content .breadcrumbs').text('Key Features');
+            if ($(this).scrollTop()>$('[data-chapter="3"]').offset().top && $(this).scrollTop()<$('[data-chapter="4"]').offset().top) $('.content .breadcrumbs').text('For Who?');
+
+            if(Math.round($(window).scrollTop() + $(window).height()) > $(document).height()-1) $('.content .breadcrumbs').text('Find more on social');
+        }
+    });    
+
+</script>
