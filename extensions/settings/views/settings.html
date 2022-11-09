@@ -1,6 +1,6 @@
 <div class="page settings active at-bottom">
     
-    <div class="boxes">
+    <div class="boxes" style="display:none">
         
         <h2 class="title">Links</h2>
         
@@ -15,27 +15,9 @@
             <div class="label">Give us feedback or report what's annoying</div>
         </a>                
     </div>    
-    <div class="tabs">
+    <div class="row" data-columns="3" data-chapter="1" data-config="basic">
         
-        <h2 class="title">Configuration</h2>
-        
-        <div class="tab-container">
-            <div class="tab-header">
-                <h2>Game</h2>
-                <div class="expand icon-expand_more"></div>
-            </div>            
-            <div class="tab-content game"></div>            
-        </div>
-                
-        <div class="tab-container">
-            <div class="tab-header">
-                <h2>Look & Feel</h2>
-                <div class="expand icon-expand_more"></div>
-            </div>
-            <div class="tab-content design"></div>            
-        </div>  
-                
-    </div>
+    </div> 
 
     
 </div>
@@ -44,18 +26,9 @@
     function settings_row(options){
         
         let row = 
-        $('<div class="row" data-row="'+options.key+'">'+
-            '<div class="field">'+
-                '<span class="title">'+
-                    '<span class="label"></span>'+
-                    '<span class="value"></span>'+
-                '</span>'+
-                '<span class="info"></span>'+
-            '</div>'+
-            '<div class="selector"></div>'+
-        '</div>');
+        $('<div class="column" data-row="'+options.key+'"><div class="selector"><h2></h2><p></p></div>');
 
-        $(row).find('.label').html(options.key.replace(/_/g,' '));
+        $(row).find('p').html(options.key.replace(/_/g,' '));
         $(row).find('.info').html(options.info);                       
 
         let input;
