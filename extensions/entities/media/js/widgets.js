@@ -1,17 +1,9 @@
-$(document).off('click', '.widget-collapse');
-$(document).on('click','.widget-collapse',function(){           
-    $(this).parents('.widget').toggleClass('collapsed');
-    $(this).parents('.widget').find('.content').slideToggle('linear',function(){
+$(document).off('click', '[data-action="overviewCollapse"]');
+$(document).on('click','[data-action="overviewCollapse"]',function(){           
+    $(this).find('.widget').toggleClass('collapsed');
+    $(this).find('.widget').find('.content').slideToggle('linear',function(){
         stock_graph_adaptive_height();
-        setTimeout(function() {
-            //stock_chart.reflow();
-        }, 20); 
     });
-    var widgets = JSON.parse(localStorage.getItem('widgets'));
-    if (!widgets.hasOwnProperty('results_info')){ widgets.results_info = { id: 'results-info' };  }
-    widgets.results_info.collapsed = 'false';                
-    if ($(this).parents('.widget').hasClass('collapsed')){ widgets.results_info.collapsed = 'true'; }
-    localStorage.setItem('widgets',JSON.stringify(widgets));
 });
 $(document).off('click', '.results-info .edit .form.hidden-fields input');
 $(document).on('click','.results-info .edit .form.hidden-fields input',function(){

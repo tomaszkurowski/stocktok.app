@@ -4,7 +4,7 @@ header("Access-Control-Allow-Origin: *");
 //header("Content-Security-Policy: default-src 'self' www.googletagmanager.com *.google-analytics.com data.stocktok.online api.stocktok.online js-agent.newrelic.com bam.eu01.nr-data.net code.highcharts.com ; script-src 'self' 'unsafe-inline' www.googletagmanager.com *.google-analytics.com code.highcharts.com unpkg.com js-agent.newrelic.com bam.eu01.nr-data.net; style-src 'self' 'unsafe-inline' code.highcharts.com; img-src data.stocktok.online code.highcharts.com 'self' blob: data:");
 header("X-Frame-Options: SAMEORIGIN");
 header("X-Content-Type-Options: nosniff");
-header("Strict-Transport-Security: max-age=31536000");
+//header("Strict-Transport-Security: max-age=31536000");
 //header("Cache-Control: max-age=31536000");
 
 include('config.php'); ?>
@@ -28,7 +28,7 @@ include('config.php'); ?>
     <meta charset="UTF-8" />
     
     <meta http-equiv="X-UA-Compatible"           content="ie=edge" />
-    <meta name="viewport"                        content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"                        content="width=device-width, initial-scale=1.0 maximum-scale=1.0 minimum-scale=1.0 user-scalable=0" />
     <meta name="theme-color"                     content="<?= $config['theme_color'] ?>" />
     <meta name="description"                     content="Find stocks, currencies, crypto, fantokens, commodities, indices and more" /> 
     <meta name="mobile-web-app-capable"          content="yes" />

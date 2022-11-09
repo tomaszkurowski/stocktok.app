@@ -112,7 +112,7 @@
                                if (response.success){
                                     d = new Date();
                                     $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' loading='lazy' />");
+                                    $('.intro .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' loading='lazy' />");
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();
                                         $('.popup-avatars').remove();
@@ -188,11 +188,11 @@
                             
                             Webcam.snap( function(photo) {
                                 $('.popup-avatars').html('<div class="popup-loading"><div class="icon icon-refresh1"></div></div>');
-                                Webcam.upload( photo, 'upload.php?type=photo&width='+camera_width+'&height='+camera_height+'&x='+camera_x+'&y='+camera_y+'&me='+me.username, function(code, json) {
+                                Webcam.upload( photo, '/upload.php?type=photo&width='+camera_width+'&height='+camera_height+'&x='+camera_x+'&y='+camera_y+'&me='+me.username, function(code, json) {     
                                     let response = JSON.parse(json);
                                     d = new Date();
                                     $('nav .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
-                                    $('.settings .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
+                                    $('.intro .avatar-container').html("<img src='"+response.path+"?"+d.getTime()+"' class='avatar-image' alt='New avatar' loading='lazy' />");
 
                                     $('.popup-avatars').slideDown(300,'linear',function(){
                                         $('.popup-btn').remove();

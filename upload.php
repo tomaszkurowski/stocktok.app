@@ -15,8 +15,7 @@ function findSharp($orig, $final) // function from Ryan Rud (http://adryrun.com)
 $type      =  filter_input(INPUT_GET, 'type');
 if ($type && $type === 'photo'){
     
-    $fileName = $_FILES['file']['name'];
-    $fileExt  = pathinfo($fileName, PATHINFO_EXTENSION);
+    $fileExt  = 'jpg';
     
     $username   = filter_input(INPUT_GET, 'me'); // TODO..     
     $username   = strtolower($username);
@@ -46,18 +45,23 @@ if ($type && $type === 'photo'){
         default:
             echo json_encode(['success' => false, 'msg' => 'Not supported extension: '.$fileExt.'. Please upload one of those: JPG, JPEG, PNG, WEBP, BMP or GIF' ]);
             die();
-    }        
-    
-    $x      =  filter_input(INPUT_GET, 'x');
-    $y      =  filter_input(INPUT_GET, 'y');
-    
-    $width  =  filter_input(INPUT_GET, 'width');
-    $height =  filter_input(INPUT_GET, 'height'); 
-    $newwidth  =  filter_input(INPUT_POST, 'newwidth');
-    $newheight =  filter_input(INPUT_POST, 'newheight');    
+    }  
 
-    $resized  = imagecreatetruecolor($newwidth, $newheight);       
-    imagecopyresampled($resized, $source, 0, 0 , $x * $width/$newwidth, $y * $width/$newwidth, $newwidth, $newheight, $width, $height);
+    $x      =  0;
+    $y      =  0;
+
+    $width  =  filter_input(INPUT_GET, 'width');
+    $height =  filter_input(INPUT_GET, 'height');
+
+    $newwidth = 300;
+    $newheight = 300;    
+    
+    $resized  = imagecreatetruecolor(300, 300); 
+    if ($fileExt === 'png' || $fileExt === 'gif'){
+        imagealphablending($resized, false);
+        imagesavealpha($resized, true);
+    }      
+    imagecopyresampled($resized, $source, 0, 0 , $x * $width/$newwidth, $y * $width/$newwidth, $newwidth, $newheight, $width, $height);  
     
     // Sharpening try
     $sharpness	= findSharp($width, $newwidth);
@@ -74,9 +78,8 @@ if ($type && $type === 'photo'){
     imagewebp($resized, $dest);
     
     imagedestroy($resized);
-    
-    echo json_encode(['success' => true, 'photo' => 'yes', 'path' => str_replace('../data/','https://data.stocktok.online/',$dest) ]);
-    die();
+    echo json_encode(['success' => true, 'path' => str_replace('../data/','https://data.stocktok.online/',$dest) ]);
+
 }
 
 if($fileError == UPLOAD_ERR_OK){
