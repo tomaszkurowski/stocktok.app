@@ -398,6 +398,7 @@ body:not(.with-popup) .heading > *:first-child { margin-left:20px; }
     align-items:center; 
     justify-content:flex-end; 
     flex-wrap:nowrap; 
+    cursor:pointer;
 }
 .left-handed .nav .profile {
     justify-content:flex-start; 
@@ -459,6 +460,11 @@ border-radius: 50%;
 .left-handed .nav .btn-menu .icon {
     order:0;
 }
+.nav .btn-menu .icon-logo1 {
+    margin-right:5px;
+    margin-left:1px;
+}
+
 .nav .btn-menu .label { font-family: -apple-system,BlinkMacSystemFont,Trebuchet MS,Roboto,Ubuntu,sans-serif !important; color:var(--color-base-invert); }
 .nav .btn-menu .info  {
     text-align:right; 

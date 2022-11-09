@@ -46,9 +46,9 @@
                                 <div class="changer-v2">
                                     <label for="mode"><b>Mode</b><br/>Choose mode of your portfolio</label>
                                     <select id="mode" onChange="">
-                                        <option value="Live">Live</option>
-                                        <option value="Silent">Silent</option>
-                                        <option value="Game">Game</option>                                        
+                                        <option value="live">Live</option>
+                                        <option value="historical">Historical</option>
+                                        <option value="game">Game</option>                                        
                                     </select>
                                 </div>
                                 <div class="changer-v2">
@@ -102,11 +102,19 @@
     </div> 
 
 <script type="text/javascript">
-    $(document).ready(function(){
+    
+    function buyLayoutReload(){
         if (me.mode === "historical"){
             $('[data-mode="historical"]').removeClass("hide");
             $('[data-mode="historical"] input').prop('disabled',false);
-        } 
+        }else{
+            $('[data-mode="historical"]').addClass("hide");
+            $('[data-mode="historical"] input').prop('disabled',true);            
+        }
+    }
+    
+    $(document).ready(function(){
+         buyLayoutReload();
     });
     $(document).off('keyup','[data-mode="historical"] #price');
     $(document).on('keyup','[data-mode="historical"] #price',function(){
@@ -117,4 +125,27 @@
         let date = new Date($(this).val());
         $('.price-origin .last-updated-at').text(format_date(date.getTime()));
     });
+    
+    $('.view-buy #mode').val(me.mode);
+    $(document).off('change','.view-buy #mode');
+    $(document).on('change','.view-buy #mode',function(){
+        var mode = $(this).val();
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/me',
+                mode:mode
+            },
+            type: 'PUT',
+            dataType: 'JSON',
+            cache: false,
+            success:function(){
+                me.mode = mode;
+                $('.nav .rank').text("Mode: "+mode);
+                buyLayoutReload();
+                buy_reload_totals();
+            }
+        });
+    });
+    
 </script>

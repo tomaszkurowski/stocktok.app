@@ -99,9 +99,12 @@
                         $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
-                        }else{
-                            $('.nav .avatar-container').html('<div class="avatar avatar-user"></div>').css('color',(response.me.avatar_color ? response.me.avatar_color : 'var(--color-base-invert)'));
-                        } 
+                        }
+                    }else{
+                        $('.nav .username').text("Not logged");
+                        $('.nav .btn-menu.me').attr('onclick',"load_page('/me/login/?ref='+window.location.pathname,true)").find('.info').html('Login/Register<br /><span class="label">Here you can login or register</span>');
+                        $('.nav .rank').html("Login to get started");
+                        $('.nav .avatar-container').html("");                        
                     }
 
                     // ACL 

@@ -74,7 +74,7 @@
         // Purchased currency
         $('.view-buy #currency').html('');
         $.each(currencies, function(i, rate){            
-            $('.view-buy #currency').append('<option value="'+i+'"'+(i === settings.display_currency ? ' selected="SELECTED"':'')+'>'+i+'</option>');
+            $('.view-buy #currency').append('<option value="'+i+'"'+(i === settings.display_currency ? ' selected="SELECTED"':'')+' style="text-transform:capitalize">'+i+'</option>');
         });
                         
         button({ class: "popup-btn step2-btn icon-btn icon-check1" }, function(){ buy_save(); });
@@ -114,6 +114,8 @@
             $(popup).find('.funds .funds-after').text(funds_after_display);  
             $(popup).find('.funds .funds-currency').text(settings.display_currency);
             if (funds_after <0){ $('.funds-after').addClass('error'); }else{ $('.funds-after').removeClass('error'); }
+        }else{
+            $(popup).find('.funds').addClass('hide');
         } 
                 
        
