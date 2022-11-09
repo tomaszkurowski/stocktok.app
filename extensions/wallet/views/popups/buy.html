@@ -25,7 +25,7 @@
                         <div class="field input-checkbox price-origin"> 
                             <input type="checkbox" id="price-origin" name="price-origin" data-role="none" checked="CHECKED" />
                             <label for="price-origin"> 
-                                <span class="last-updated-at">12.10.2022, 6:17 PM:</span>
+                                <span class="last-updated-at">Current Price:</span>
                                 <span class="price"></span>
                                 <span class="market-currency"></span><br />
                                 
@@ -75,18 +75,22 @@
                                 -->
                             </div>
                         </div>
-                                                
-
-                        <div class="price-origin-historical hide">                            
-                            <div class="field input focus">
-                                <label id="add-new-stock-label-date">Date of transaction</label>
-                                <input type="date" id="date" name="date" data-role="none" disabled />
-                            </div>                                                                       
-                            <div class="field input focus">
-                                <label for="price">Price</label>
-                                <input type="number" id="price" name="price" data-role="none" disabled />
+                        <div class="tab-container hide" data-mode="historical">
+                            <div class="tab-header">
+                                <h2>Historical Transaction</h2>
+                                <div class="expand icon-expand_more"></div>
                             </div>
-                        </div>
+                            <div class="tab-content">
+                                <div class="changer-v2">
+                                    <label for="mode"><b>Date</b></label>
+                                    <input type="date" id="date" name="date" data-role="none" disabled />
+                                </div>
+                                <div class="changer-v2">
+                                    <label for="mode"><b>Price</b></label>
+                                    <input type="number" id="price" name="price" data-role="none" disabled />
+                                </div>                                
+                            </div>                        
+                        </div>                
 
                         <input type="hidden" id="symbol"        name="symbol" />
                         <input type="hidden" id="market"        name="market" />
@@ -96,3 +100,21 @@
             </div>
         </div>
     </div> 
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        if (me.mode === "historical"){
+            $('[data-mode="historical"]').removeClass("hide");
+            $('[data-mode="historical"] input').prop('disabled',false);
+        } 
+    });
+    $(document).off('keyup','[data-mode="historical"] #price');
+    $(document).on('keyup','[data-mode="historical"] #price',function(){
+        $('.price-origin .price').text($(this).val());
+    });
+    $(document).off('change','[data-mode="historical"] #date');
+    $(document).on('change','[data-mode="historical"] #date',function(){
+        let date = new Date($(this).val());
+        $('.price-origin .last-updated-at').text(format_date(date.getTime()));
+    });
+</script>

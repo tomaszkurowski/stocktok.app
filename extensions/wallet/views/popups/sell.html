@@ -19,21 +19,11 @@
                 <div class="field input-checkbox price-origin">                            
                     <input type="checkbox" id="price-origin" name="price-origin" data-role="none" checked="CHECKED" />
                     <label for="price-origin">
-                        <span class="last-updated-at">12.10.2022, 6:17 PM:</span>
+                        <span class="last-updated-at">Current price:</span>
                         <span class="price"></span>
                         <span class="market-currency"></span><br />                            
                     </label>
                 </div>                      
-                <div class="price-origin-historical hide"> 
-                    <div class="field input focus">
-                        <label for="sold_date">Date of transaction</label>
-                        <input type="date" id="sold_date" name="sold_date" data-role="none" />
-                    </div>                                                                       
-                    <div class="field input focus">
-                        <label for="sold_price">Price</label>
-                        <input type="number" id="sold_price" name="sold_price" data-role="none" />
-                    </div>
-                </div>
 
                 <input type="hidden" id="symbol"        name="symbol" />
                 <input type="hidden" id="market"        name="market" />
@@ -54,7 +44,24 @@
             <div class="summary">
                 <div class="row total-main"></div>
                 <div class="row total-additional"></div>
-             </div>
+            </div>
+            
+            <div class="tab-container hide" data-mode="historical">
+                <div class="tab-header">
+                    <h2>Historical Transaction</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content form">
+                    <div class="changer-v2">
+                        <label for="mode"><b>Date</b></label>
+                        <input type="date" id="sold_date" name="sold_date" data-role="none" disabled />
+                    </div>
+                    <div class="changer-v2">
+                        <label for="mode"><b>Price</b></label>
+                        <input type="number" id="sold_price" name="sold_price" data-role="none" disabled />
+                    </div>                                
+                </div>                        
+            </div>            
         </div>
 
     </div>
@@ -64,19 +71,20 @@
 
     var transactions   = [];        
 
-    // Price origin 
-    $(document).off('change', '.popup.add-new-stock #price-origin');
-    $(document).on('change', '.popup.add-new-stock #price-origin', function(e){        
-        e.preventDefault();
-
-        if ($(this).prop('checked') === true){ $(this).parents('.form').find('.price-origin-historical').addClass('hide');
-        }else{ $(this).parents('.form').find('.price-origin-historical').removeClass('hide'); }
-
-        if (me.public === 0){ 
-            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',false);
-            $(this).parents('.form').find('.price-origin-historical .info').hide();
-        }else{                
-            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',true); 
-        }
-    }); 
+    $(document).ready(function(){
+        if (me.mode === "historical"){
+            $('[data-mode="historical"]').removeClass("hide");
+            $('[data-mode="historical"] input').prop('disabled',false);
+        } 
+    });
+    $(document).off('keyup','[data-mode="historical"] #sold_price');
+    $(document).on('keyup','[data-mode="historical"] #sold_price',function(){
+        $('.price-origin .price').text($(this).val());
+    });
+    $(document).off('change','[data-mode="historical"] #sold_date');
+    $(document).on('change','[data-mode="historical"] #sold_date',function(){
+        let date = new Date($(this).val());
+        $('.price-origin .last-updated-at').text(format_date(date.getTime()));
+    });
+    
 </script>

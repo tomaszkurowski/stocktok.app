@@ -42,8 +42,8 @@
                                 
                 me.funds = response.funds;
                 
-                // Re-init wallet if needed
-                if (mvc.model==='wallet'){ init(); }
+                //Reinits if needed
+                if (mvc.model==='entities'){ movesReload(function(){ resultsReload(function(){ loadSummary(); });  }); }                
                 if (config.debug) console.log(response);               
             },
             error: function(response){
@@ -109,7 +109,7 @@
            $(popup).find('.total-additional').hide(); 
         }
                
-        if (me.public === 1){
+        if (me.mode === "game"){
             $(popup).find('.funds').removeClass('hide');
             $(popup).find('.funds .funds-after').text(funds_after_display);  
             $(popup).find('.funds .funds-currency').text(settings.display_currency);
@@ -119,19 +119,3 @@
        
  
     }
-    
-    // Price origin 
-    $(document).off('change', '.popup.add-new-stock #price-origin');
-    $(document).on('change', '.popup.add-new-stock #price-origin', function(e){        
-        e.preventDefault();
-
-        if ($(this).prop('checked') === true){ $(this).parents('.form').find('.price-origin-historical').addClass('hide');
-        }else{ $(this).parents('.form').find('.price-origin-historical').removeClass('hide'); }
-
-        if (me.public === 0){ 
-            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',false);
-            $(this).parents('.form').find('.price-origin-historical .info').hide();
-        }else{                
-            $(this).parents('.form').find('.price-origin-historical input').prop('disabled',true); 
-        }
-    });   

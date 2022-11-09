@@ -682,6 +682,11 @@ border-radius: 50%;
     box-shadow: inset -3px -4px 0px 0px var(--color-bg);
     min-width: 100px;
 }
+.changer-v2 input {
+    text-align:right;
+    
+}
+
 .popup .boxes { display:flex; flex-wrap:wrap; margin:15px 10px 0; }
 .popup .boxes .box { 
     display: inline-flex;
@@ -723,9 +728,9 @@ border-radius: 50%;
 .popup .form {
     margin-top:5px;
 }
-.popup .form input[type="search"], .popup .form input[type="text"], .popup .form input[type="number"] {
+.popup .form input[type="search"], .popup .form input[type="text"], .popup .form input[type="number"], .popup .form input[type="date"] {
     font-size:var(--size-regular);
-    border:1px solid var(--color-bg);
+    border:2px solid var(--color-base);
     padding:15px;
     border-radius:var(--border-radius2); 
     width:100%;
@@ -823,7 +828,7 @@ border-radius: 50%;
     box-shadow: 0px -7px 22px -24px rgb(66 68 90);
 }
 .popup .floating-padding {
-    padding-bottom:60px !important;
+    padding-bottom:80px !important;
 }
 .popup .sep {
     width:100%; height:0; max-height:0; border-top:1px solid var(--color-bg); margin:15px 0;
@@ -2051,7 +2056,6 @@ input:checked + .switch:before {
 .graph-editor .changer-v2 select {
     padding: 5px 10px 5px 0px;
 }
-
 #graph-shareholders .apexcharts-datalabels,
 #wallet-structure .apexcharts-datalabels{
     display:none;
