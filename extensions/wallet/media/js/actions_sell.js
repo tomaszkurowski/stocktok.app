@@ -5,7 +5,7 @@
                              
         var popup  = $('.view-sell:not(.slick-cloned)');
          
-        var total_qty_sell  = qty_sell = parseFloat($(popup).find('.form').find('#total-qty-sell').val());
+        var total_qty_sell  = qty_sell = parseFloat($(popup).find('#total-qty-sell').val());
         if (isNaN(total_qty_sell)){ total_qty_sell = 0; }
         
         var qty_owned = 0;
@@ -53,9 +53,9 @@
             total_qty_sell = qty_owned;
         }        
         
-        var market_currency = $(popup).find('.form #currency').val();
+        var market_currency = $(popup).find('#currency').val();
         var market_rate     = (1 / currencies[market_currency]).toFixed(config.precision_rate);
-        var sold_price      = $(popup).find('.form #sold_price').val();
+        var sold_price      = $(popup).find('#sold_price').val();
 
         var sold_total          = (sold_price * total_qty_sell * market_rate).toFixed(config.precision_total);
         var funds_after         = (parseFloat(me.funds) + parseFloat(sold_total)).toFixed(config.precision_total);
@@ -71,7 +71,7 @@
            $(popup).find('.total-additional').hide(); 
         }
                
-        if (me.public === 1){
+        if (me.mode === "game"){
             $(popup).find('.funds').removeClass('hide');
             $(popup).find('.funds .funds-after').text(funds_after_display);  
             $(popup).find('.funds .funds-currency').text(settings.display_currency);
@@ -105,10 +105,10 @@
             $('.view-sell:not(.slick-cloned) .price-origin .price').text(format_price(item.price));
             //$('.view-sell:not(.slick-cloned) .price-origin .last-updated-at').text(item.last_updated_at);
 
-            $('.view-sell:not(.slick-cloned) .form #sold_price').val(parseFloat(item.price));
-            $('.view-sell:not(.slick-cloned) .form #market').val(item.market);
-            $('.view-sell:not(.slick-cloned) .form #currency').val((item.market==='gpw' ? 'pln' : 'usd'));
-            $('.view-sell:not(.slick-cloned) .form #total-qty-sell').val(parseFloat($('.view-sell:not(.slick-cloned) .form #total-qty-sell').val())+ parseFloat(item.purchased_qty));
+            $('.view-sell:not(.slick-cloned) #sold_price').val(parseFloat(item.price));
+            $('.view-sell:not(.slick-cloned) #market').val(item.market);
+            $('.view-sell:not(.slick-cloned) #currency').val((item.market==='gpw' ? 'pln' : 'usd'));
+            $('.view-sell:not(.slick-cloned) #total-qty-sell').val(parseFloat($('.view-sell:not(.slick-cloned) .form #total-qty-sell').val())+ parseFloat(item.purchased_qty));
 
             
         });       
@@ -184,7 +184,7 @@
         var form = {};
         
         // Item
-        $('.view-sell:not(.slick-cloned) .form input').each(function(index,element){
+        $('.view-sell input').each(function(index,element){
             form[$(element).attr('id')] = $(element).val();
         });
         
@@ -199,7 +199,7 @@
             var transaction = {};
             transaction.id       = $(element).attr('data-id');
             transaction.keep_qty = $(element).attr('data-keep-qty');
-            transaction.sell_qty = $(element).attr('data-sell-qty');
+            transaction.sell_qty = $(element).attr('data-sell-qty');       
             
             form.transactions.push(transaction);
         });
@@ -222,8 +222,8 @@
                 
                 me.funds = response.funds;
                 
-                // Re-init wallet if needed
-                if (mvc.model==='wallet'){ init(); }
+                //Reinits if needed
+                if (mvc.model==='entities'){ movesReload(function(){ resultsReload(function(){ loadSummary(); });  }); }  
                 
                 if (config.debug) console.log('Sell - Response from API:');
                 if (config.debug) console.log(response);               

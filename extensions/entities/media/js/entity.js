@@ -31,7 +31,7 @@ function liveReload(options={}){
     });
 }
 
-function resultsReload(){
+function resultsReload(callback=null){
     
     stock.current_total = 0;
     stock.current_margin = 0;
@@ -39,6 +39,9 @@ function resultsReload(){
     stock.sold_margin = 0;
     stock.sold_purchased = 0;
     stock.current_purchased = 0;
+    
+    $('.wallet[data-type="active"]').addClass('hide');
+    $('.wallet[data-type="sold"]').addClass('hide');
     
     $.each(stock.transactions, function(id,item){             
               
@@ -81,8 +84,10 @@ function resultsReload(){
     //$('[data-type="sold"]   [data-src="purchased"]').text(format_price(stock.sold_purchased * currencies[settings.display_currency],2)+' '+settings.display_currency);
     $('[data-src="display_currency"]').text(settings.display_currency);
     
+    if (callback) callback();
+    
 }
-function movesReload(){
+function movesReload(callback = null){
     
     $.ajax({
         url: config.api_url,
@@ -155,20 +160,17 @@ function movesReload(){
                     $(el).appendTo('[data-src="sold-moves"] tbody');                    
                     
                 }
-            });                       
+            });  
+            if (callback) callback();
                         
         },
         error: function(err){ if (config.debug) console.log(err); }
     });   
 }
 
-$(document).off('click','.wallet');
-$(document).on('click','.wallet',function(){
-    
-    if (!$(this).hasClass('active') || loadedSummary) return;    
-    movesReload();
-    
+function loadSummary(){
     if (stock.sold_marginp){
+        $('[data-src="graph-sold"]').html('').show();
         new ApexCharts(document.querySelector('[data-src="graph-sold"]'),{
             series: [stock.sold_marginp],
             chart: {type: 'radialBar'},
@@ -177,8 +179,9 @@ $(document).on('click','.wallet',function(){
             labels: ['Margin'],
             colors:[stock.sold_marginp>0 ? '#00CF0D' : '#FF2D00']
             }).render();        
-    }
+    }else{ $('[data-src="graph-sold"]').hide(); }
     if (stock.current_marginp){
+        $('[data-src="graph-active"]').html('').show();
         new ApexCharts(document.querySelector('[data-src="graph-active"]'),{
             series: [stock.current_marginp],
             chart: {type: 'radialBar'},
@@ -186,7 +189,15 @@ $(document).on('click','.wallet',function(){
             labels: ['Margin'],
             colors:[stock.current_marginp>0 ? '#00CF0D' : '#FF2D00']
             }).render();  
-    }
+    }else{ $('[data-src="graph-active"]').hide(); }   
+}
+$(document).off('click','.wallet');
+$(document).on('click','.wallet',function(){
+    
+    if (!$(this).hasClass('active') || loadedSummary) return;    
+    movesReload();
+    loadSummary();
+
     loadedSummary = true;
 });
 
@@ -585,7 +596,7 @@ $(document).ready(function(){
             $('[data-src="market"]').text(stock.market);
             $('[data-src="name"]').text(stock.name);
             $('[data-src="logo"]').html((stock.logo ? '<img src="'+stock.logo+'" class="logo" alt="logo-'+stock.symbol+'" loading="lazy" height="auto" width="auto" />' : '<div class="logo no-img">'+stock.symbol+'</div>'));
-            $('[data-src="flag"]').html((stock.country ? '<img src="/media/img/flags/'+stock.country+'.svg" class="flag-small" alt="country-'+stock.country+'" loading="lazy" height="auto" width="auto" />' : ''));
+            //$('[data-src="flag"]').html((stock.country ? '<img src="/media/img/flags/'+stock.country+'.svg" class="flag-small" alt="country-'+stock.country+'" loading="lazy" height="auto" width="auto" />' : ''));
             $('[data-src="currency"]').text(stock.currency);            
             if (stock.cover)    $('.results-info').addClass('with-cover').prepend('<img src="'+stock.cover+'" class="cover" alt="cover-'+stock.symbol+'" loading="lazy" />');
             if (stock.sector)   $('[data-src="sector"]').html('<a href="/entities/find-by?sector='+stock.sector+'">'+stock.sector+'</a>');

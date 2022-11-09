@@ -2,37 +2,33 @@
 
 <div class="content intro" style="opacity:0">
     
-    <div class="breadcrumbs">Settings</div>
+    <div class="breadcrumbs">Introduction</div>
     
     <div class="row" data-columns="1" data-chapter="1">
         <div class="column banner">
-            <h1>Settings</h1>
-            <p>Adjust & personalize app to your needs</p>
+            <h1>Hello</h1>
+            <p>You have just created your account. Now, maybe let's personlize it a little. You can choose preferred mode, look & feel and give some quick info about yourself.</p>
             <div class="icon-btn icon-expand_more"></div>        
         </div>
     </div>    
     
-    <div class="row-title">Choose your playing mode</div>
+    <div class="row-title">Choose your Portfolio Mode</div>
     <div class="row selectable" data-columns="3" data-chapter="2">
-        <div class="column" data-type="mode">
+        <div class="column" data-type="mode" data-value="live">
             <div class="icon icon-account_balance_wallet"></div>
-            <h2>Live Portfolio</h2>
+            <h2>Live</h2>
             <p>You can add/sell entities in real-time. Its perfect if you want to try to test some strategies with portfolio. Perfect for both advanced players & beginners.</p>           
-        </div>
-        
-        <div class="column" data-type="mode">
+        </div>        
+        <div class="column" data-type="mode" data-value="historical">
             <div class="icon icon-business_center"></div>
-            <h2>Virtual Portfolio</h2>
+            <h2>Historical</h2>
             <p>You add/sell entities with their historical dates/prices. If you are real investor (and you have trading-broker), this portfolio can be like additional tool for you to measure performance.</p>       
         </div>
-        
-        
-        <div class="column" data-type="mode">
+        <div class="column" data-type="mode" data-value="game">
             <div class="icon icon-gamepad"></div>
             <h2>Virtual Game</h2>
             <p>Like every player in this mode you get VIRTUAL 25k $. Get the best margin from it and compete in rankings with other. Perfect for beginner players</p>          
-        </div>
-        
+        </div>        
     </div>
     
     <div class="row-title">Update Profile</div>
@@ -51,10 +47,21 @@
     
     $(document).off('click','[data-type="mode"]');
     $(document).on('click','[data-type="mode"]',function(){
+        var mode = $(this).attr("data-value");
         $('[data-type="mode"]').removeClass('active');
         $(this).addClass('active');
-        button({ class: "icon-btn popup-btn icon-check1" }, function(){
-            
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/me',
+                mode:mode
+            },
+            type: 'PUT',
+            dataType: 'JSON',
+            cache: false,
+            success:function(){
+                $('.nav .rank').text("Mode: "+mode.charAt(0));                            
+            }
         });
     });
 
@@ -267,6 +274,7 @@
         if (me.country) $('.country-container').html('<img src="/media/img/flags/'+me.country+'.svg" alt="country-'+me.country+'" loading="lazy" />');        
         if (me.public === 0){ $('[data-row="restart-game"]').hide(); }
         if (me.bio){ $('#bio').val(me.bio); }
+        if (me.mode){ $('[data-type="mode"][data-value="'+me.mode+'"]').addClass('active'); }         
     });        
 
     $(window).scroll(function(){        

@@ -42,7 +42,7 @@ $(document).on('click', '[data-action="step2"]', function(){
                             if (response.persistence) sessionStorage.setItem('persistence', response.persistence);
                             
                             if (response.newUser){ 
-                                location.href='/cms/intro';
+                                location.href='/settings/intro';
                                 return;
                             }
                             
