@@ -9,8 +9,6 @@ var loading = false;
 
 function getItems(options = {}){
 
-      
-    
     if (loading) return;
     loading = true;
     
@@ -109,7 +107,15 @@ function getItems(options = {}){
                             .append(item.logo ? '<td data-title="logo" class="logo'+(settings.wallet_show_price ? '' : ' center')+'"><img src="'+item.logo+'" /></td>' : '<td class="symbol'+(settings.wallet_show_price ? '' : ' center')+'" data-title="symbol">'+item.symbol+'</td>')
                             .append('<td data-title="name"  class="name">'+item.name+'</td>')
                             .append('<td data-title="price" class="price'+(settings.wallet_show_price === false ? ' hide' : '')+'"><label data-src="last_updated_at">'+format_datetime(item.last_updated_at)+'</label><span data-src="price">'+format_price(item.price)+'</span><a>'+item.market_currency+'</a></div></td>')
-                            .append('<td data-title="graph" class="graph'+(settings.wallet_show_graph === false ? ' hide' : '')+'" id="graph-'+item.id+'"></td>');
+                            .append('<td data-title="graph" class="graph'+(settings.wallet_show_graph === false ? ' hide' : '')+'" id="graph-'+item.id+'"></td>')
+                            .append('<td class="additionals"></td>');
+                    
+                            
+                            $.each(settings.view_boxes_additionals,function(code,value){
+                               if (value){
+                                   $(el).find('.additionals').append('<div><span>'+code.replace(/\_/g, ' ')+': </span><a>'+item[code]+'</a></div>');
+                               } 
+                            });
                         break;
                     }
                     $(el).find('[data-title="name"],[data-title="symbol"],[data-title="logo"],[data-title="graph"]')
@@ -193,6 +199,7 @@ function getItems(options = {}){
                             fixedColumns:   { left: 1 },
                             "initComplete":function(settings,json){
                                 new TouchScroll().init({ class: '.dataTables_scrollBody', draggable: true, wait: false });
+                                if (options.screenerCallback) options.screenerCallback();
                             }                          
                         };
                         screener = $('.leafs[data-src="search"]').DataTable(dataTablesOptions);
@@ -202,14 +209,7 @@ function getItems(options = {}){
                                 visibleColumns.push($(this).attr('data-code'));
                             });
                             settings.screener.visibleColumns = visibleColumns;
-                        });
-
-                        if (mvc.model === 'market'){
-                            button({ 
-                            class: 'icon-btn icon-content_copy' }, 
-                            function(){ screener.button( '.buttons-copy' ).trigger(); });                                
-                        }
-                        
+                        });                                                
                         
                     }
                     $('.dataTables_scrollHead th .active').remove();
@@ -238,6 +238,13 @@ function getItems(options = {}){
                     $('.dataTables_wrapper .bottom').html(bottom);
                                                                    
                 }
+                if (options.view === 'screener'){
+                    button({ 
+                    class: 'icon-btn icon-content_copy' }, 
+                    function(){ screener.button( '.buttons-copy' ).trigger(); });                                
+                }else{
+                    if ($('.heading .icon-content_copy')) $('.heading .icon-content_copy').remove();
+                }                
                 loading = false;
                 if (options.success) options.success();
                 

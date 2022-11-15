@@ -2,6 +2,10 @@
     
     .screen [data-view="grid"] .leaf { width: calc(25% - 10px); }
     .screen [data-view="boxes"] .leaf { width: calc(33.3333% - 10px); }
+    
+   .players .box { 
+       width:calc(33.3333% - 10px); 
+   }    
 
 }
 
@@ -45,6 +49,17 @@
     .page.stock-page-views [data-view="financial"] { margin:0; }
     .panel-content { margin-right:5px; }
     
+    .players .box {
+        width: calc(16.6666% - 10px);
+    } 
+    .popup .items .item .icon-btn {
+        margin-left:-45px;        
+        transition:all 0.3s ease-in;
+    }
+    .popup .items .item:hover .icon-btn {
+        margin-left:0;
+    }    
+    
 }
 
 
@@ -58,5 +73,8 @@
     .screen.wide [data-view="grid"] .leaf { width: calc(12.5% - 10px); }
     .screen [data-view="boxes"] .leaf { width: calc(16.6666% - 10px); }
     .screen.wide [data-view="boxes"] .leaf { width: calc(12.5% - 10px); }
-      
+    
+    .players .box {
+        width:calc(12.5% - 10px);
+    }    
 }

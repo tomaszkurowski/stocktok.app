@@ -11,6 +11,7 @@
                 <div class="tab-content">
                 </div>
             </div> 
+
             
             <div class="tab-container wallet selected with-switch" data-id="0" data-action="slickGoTo" data-type="active">
                 <label class="switch-slider"><input type="checkbox" checked="CHECKED" /><span class="switch"></span></label>
@@ -52,7 +53,7 @@
                     <div class="row"><div class="field"><span class="field-value">Lowest Margin</span></div><div class="value" data-src="lowest-margin">-</div></div>                     
                     <div class="row"><div class="field"><span class="field-value">Lowest Margin %</span></div><div class="value" data-src="lowest-marginp">-</div></div>                     
                 </div>
-            </div> 
+            </div>             
             <div class="tab-container wallet selected" data-id="0" data-action="slickGoTo" data-type="active">
                 <div class="tab-header">
                     <h2>Profile</h2>                       
@@ -61,7 +62,9 @@
                 <div class="tab-content tab-info">
                     <div class="row"><div class="field"><span class="field-value">Username</span></div><div class="value" data-src="wallet.username">-</div></div>
                     <div class="row"><div class="field"><span class="field-value">Country</span></div><div class="value" data-src="wallet.country">-</div></div>
-                    <div class="row"><div class="field"><span class="field-value">Wallet Mode</span></div><div class="value" data-src="wallet.mode">Live</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Portfolio Mode</span></div><div class="value" data-src="wallet.mode">-</div></div>
+                    <div class="row hide"><div class="field"><span class="field-value">Funds</span></div><div class="value" data-src="wallet.funds">-</div></div>
+                    <div class="row"><div class="field"><span class="field-value">Public</span></div><div class="value" data-src="wallet.public">-</div></div>
                     <!--<div class="row"><div class="field"><span class="field-value">Bio</span></div><div class="value" data-src="wallet.bio">-</div></div>-->
                     <div class="row"><div class="field"><span class="field-value">Twitter</span></div><div class="value" data-src="wallet.twitter">-</div></div>
                 </div>
@@ -96,7 +99,8 @@
     $.getScript('/extensions/wallet/media/js/wallet'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version,function(){
         $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
         $.getScript('/extensions/wallet/media/js/actions_buy'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
-        $.getScript('/extensions/wallet/media/js/actions_sell'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);  
+        $.getScript('/extensions/wallet/media/js/actions_sell'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
+        $.getScript('/extensions/wallet/media/js/sorting'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
         
         get_currencies(function(){
             walletReload();

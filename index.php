@@ -112,6 +112,7 @@ include('config.php'); ?>
     </div>
     <script type="text/javascript"> 
         
+        loader = {};
         config = {
             version:        '<?= $config['version_js'] ?>', 
             base_url:       '<?= $config['base_url'] ?>',            
@@ -145,6 +146,9 @@ include('config.php'); ?>
             wallet_show_results:    true,
             wallet_show_price:      true,
             wallet_show_logo:       true,
+            wallet_show_active:     true,
+            wallet_show_sold:       true,
+            wallet_show_grouped:    false,
             
             design:{
                 size_small:         '12px',
@@ -168,9 +172,11 @@ include('config.php'); ?>
         if ($.inArray(settings.view_screener,   ['performance','company','all']) === -1){   settings.view_screener = 'all'; }        
         if ($.inArray(settings.trend_wallet,    ['5-days','5-weeks','6-months']) === -1){   settings.trend_wallet = '5-days'; }
         if ($.inArray(settings.trend_observed,  ['5-days','5-weeks','6-months']) === -1){   settings.trend_observed = '5-days'; }
-        if ($.inArray(settings.trend_search,    ['5-days','5-weeks','6-months']) === -1){   settings.trend_search = '5-days'; }                
+        if ($.inArray(settings.trend_search,    ['5-days','5-weeks','6-months']) === -1){   settings.trend_search = '5-days'; }
+        if ($.inArray(settings.wallet_sort,     ['margin','marginp','total','custom']) === -1){   settings.wallet_sort = 'margin'; }
 
         settings.homepage = '/wallet';
+        if (!settings.view_boxes_additionals) settings.view_boxes_additionals = {};
 
         var me;
         

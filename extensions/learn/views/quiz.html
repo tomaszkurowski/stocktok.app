@@ -1,0 +1,124 @@
+<link rel="stylesheet" type="text/css" href="/extensions/learn/media/css/quizes.css?v=0.0.15" />
+
+<div class="breadcrumbs"></div>
+<div class="quizTip"><div class="icon-bulb"></div></div>
+
+<div class="quiz-content">
+    <div class="media"></div>
+    <div class="question" data-src="question"></div>
+    <div class="answers"  data-src="answers"></div>
+</div>
+
+<script type="text/javascript">
+    //if (!loader.quizesCSS){ }    
+    
+    var questions = [];
+    var answers   = [];
+    var it        = 0;
+    
+    $(document).ready(function(){
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/quiz',
+                code: mvc.controller
+            },
+            type: 'get',
+            dataType: 'JSON',
+            cache: false,
+            success: function(data){                
+                if (data.questions === 0) return;
+                
+                questions = data.questions;
+                if (config.debug) console.log('Questions',questions);                                                
+                loadQuestion();  
+                
+                button({ class: 'icon-btn icon-chevron-right' }, function(){
+                    if (it<(questions.length-1)) it++;
+                    loadQuestion();
+                });
+                button({ class: 'icon-btn icon-chevron-left1' }, function(){                        
+                    if (it>0) it--;
+                    loadQuestion();
+                });                                                                
+            },
+            error: function(response){ if (config.debug) console.log(response); }
+        });           
+    });
+    
+    function loadQuestion(){
+        if (!questions[it]){ console.log('No such Question'); }
+        
+        $('.breadcrumbs').html((it+1)+'/'+questions.length);
+        $('.quizTip').html($('<div class="icon-bulb"></div>').bind('click',function(){
+            window.open("https://www.google.com/search?q="+questions[it].question,"_blank");
+        }));
+        
+        $('[data-src="question"]').html(questions[it].question);                    
+        $('[data-src="answers"]').attr('data-it',it).html('');
+
+        $.each(questions[it].answers,function(i,answer){            
+            $('[data-src="answers"]').append('<div data-question-it="'+i+'"'+(answers[it] && parseInt(answers[it])===parseInt(i) ? ' class="active"' : '')+'>'+answer+'</div>');
+        });
+    }
+    function loadSummary(){
+        $('.breadcrumbs').html('Results');
+        $('.quizTip').html('');
+        
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/quiz/summary',
+                code: mvc.controller,
+                answers: answers
+            },
+            type: 'get',
+            dataType: 'JSON',
+            cache: false,
+            success: function(summary){                
+                if (!summary) return;                
+                if (config.debug) console.log('Summary',summary);               
+                
+                let max   = questions.length>0 ? questions.length : 1;
+                let score = Math.round(summary.points / max * 100);
+                
+                $('.media').html('<div class="icon-btn icon-'+(score>50 ? 'check' : 'star-full')+'"></div>');
+                $('.question').html('Score: <a>'+score+'%</a>');
+                
+                $('.answers').html('');
+                if (score>=80){
+                    $('.answers').html('<p><b>Congratulations</b>, You have great result, You passed Quiz,</p><table id="quizSummary"></table>');
+                }else if (score>50 && score < 80){
+                    $('.answers').html('<p><b>Congratulations</b>, You have more than 50%, You passed Quiz.</p><table id="quizSummary"></table>');
+                }else{
+                    $('.answers').html('<p>Sorry, you have less than 50% correct answers.<br />Check were you made mistake, maybe do some additional research regarding wrong answers to consolidate knowledge, and try again.<table id="quizSummary"></table>')
+                }
+                
+                if (summary.award){
+                    $('.answers p').append('<div class="award" style="margin-top:30px"><div class="btn primary">Virtual '+summary.award+' $ collected</div></div>');
+                }
+                
+                $.each(questions,function(it,question){
+                    $('<tr><td>'+questions[it].question+'</td><td>'+(parseInt(answers[it]) === parseInt(questions[it].correct) ? '<div class="icon-btn icon-check"></div>' : 'Correct Answer: <br /><a onclick="location.href="https://www.google.com/search?q='+questions[it].answers[questions[it].correct]+'" target="_blank"">'+questions[it].answers[questions[it].correct])+'</a></td></tr>')
+                    .appendTo('#quizSummary');                           
+                });
+            },
+            error: function(response){ if (config.debug) console.log(response); }
+        });
+    }
+    
+    $(document).off('click','.answers > div');
+    $(document).on('click','.answers > div',function(el){                
+        answers[$(this).parent('.answers').attr('data-it')] = $(this).attr('data-question-it');
+        if (it<(questions.length-1)){
+            it++;
+            loadQuestion();
+        } 
+        else{
+            loadSummary();
+        }         
+    });
+    
+    
+    
+</script>

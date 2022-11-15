@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?p1156s');
-  src:  url('../fonts/icomoon.eot?p1156s#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?p1156s') format('truetype'),
-    url('../fonts/icomoon.woff?p1156s') format('woff'),
-    url('../fonts/icomoon.svg?p1156s#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?h4u3qm');
+  src:  url('../fonts/icomoon.eot?h4u3qm#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?h4u3qm') format('truetype'),
+    url('../fonts/icomoon.woff?h4u3qm') format('woff'),
+    url('../fonts/icomoon.svg?h4u3qm#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,8 +25,32 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-bulb:before {
+  content: "\e955";
+}
+.icon-site-map:before {
+  content: "\e9c7";
+}
+.icon-tree:before {
+  content: "\e9c7";
+}
+.icon-map:before {
+  content: "\e9c7";
+}
+.icon-brush:before {
+  content: "\e9c3";
+}
+.icon-chevron-left1:before {
+  content: "\e932";
+}
+.icon-chevron-right:before {
+  content: "\e92b";
+}
 .icon-loader:before {
   content: "\e900";
+}
+.icon-hourglass_empty:before {
+  content: "\e951";
 }
 .icon-vertical_align_top:before {
   content: "\e928";
@@ -710,21 +734,36 @@
 .icon-calculator:before {
   content: "\e9a1";
 }
+.icon-battery-0:before {
+  content: "\e934";
+}
+.icon-chevron-left:before {
+  content: "\e931";
+}
+.icon-chevron-right1:before {
+  content: "\e930";
+}
 .icon-google:before {
   content: "\e92f";
 }
 .icon-youtube-play:before {
   content: "\e995";
 }
-.icon-site-map:before {
-  content: "\e9c7";
+.icon-lightbulb-o:before {
+  content: "\e954";
 }
-.icon-tree:before {
-  content: "\e9c7";
+.icon-battery-0:before {
+  content: "\e934";
 }
-.icon-map:before {
-  content: "\e9c7";
+.icon-chevron-left:before {
+  content: "\e931";
 }
-.icon-brush:before {
-  content: "\e9c3";
+.icon-chevron-right1:before {
+  content: "\e930";
+}
+.icon-google:before {
+  content: "\e92f";
+}
+.icon-youtube-play:before {
+  content: "\e995";
 }

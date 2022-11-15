@@ -96,10 +96,14 @@
                     if (me){
                         $('.nav .username').text(response.me.username);
                         $('.nav .btn-menu.me').attr('onclick',"load_page('/me/logout/?version="+config.version+"',true)").find('.info').html('Logout<br /><span class="label">Here you can logout</span>');
-                        $('.nav .rank').html(response.me.public ? 'Player mode' : 'Silent mode');
+                        $('.nav .rank').html((response.me.public ? 'Public' : 'Silent')+(response.me.mode ? ' / Portfolio: '+response.me.mode : ''));
                         if (me.avatar_type === 'image'){
                             $('.nav .avatar-container').html("<img src='"+me.avatar+"' class='avatar-image' alt='Avatar' />");
                         }
+                        if (me.mode && me.mode === 'game'){
+                            $('[data-mode="game"]').removeClass('hide');
+                        }
+                        
                     }else{
                         $('.nav .username').text("Not logged");
                         $('.nav .btn-menu.me').attr('onclick',"load_page('/me/login/?ref='+window.location.pathname,true)").find('.info').html('Login/Register<br /><span class="label">Here you can login or register</span>');

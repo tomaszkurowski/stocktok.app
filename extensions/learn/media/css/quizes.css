@@ -1,0 +1,151 @@
+.quizes { opacity:1 !important; transition:all 0.3s ease-in;}
+.quizes .quiz-container {
+    clear: both;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    float: none !important; 
+    display:flex;
+    flex-wrap:wrap;
+    padding:15px;
+}
+.quizes .quiz-container .quiz {
+    min-height:350px;
+    padding:0 !important;
+    background-color:var(--color-bg2);
+    text-align:center;
+    -webkit-box-shadow: 18px 16px 18px -28px rgb(66 68 90);
+    -moz-box-shadow: 18px 16px 18px -28px rgba(66, 68, 90, 1);
+    box-shadow: 18px 16px 18px -28px rgb(66 68 90); 
+    margin-bottom:30px;
+    border-radius:5px;
+    overflow:hidden;
+    width:100%;   
+    display:flex;
+    flex-flow:column;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+}  
+.quizes .quiz .img-container   { width:100%; overflow:hidden; border-radius: var(--border-radius1); -webkit-box-shadow: 3px 4px 13px -11px rgb(66 68 90); -moz-box-shadow: 3px 4px 13px -11px rgba(66, 68, 90, 1); box-shadow: 3px 4px 13px -11px rgb(66 68 90); max-height:320px; }    
+.quizes .quiz img              { width:100%; }
+
+.quizes .quiz h2               { font-size:32px;  margin:30px 15px 30px; line-height:36px; }
+.quizes .quiz p                { font-size:16px;  margin:0 15px 30px; line-height:30px;  }
+.quizes .quiz .actions         { margin-bottom:30px; }
+.quizes .quiz .actions > div   { margin:0 5px 10px; }
+
+@media only screen and (min-width: 996px) {  
+    .quizes .quiz { width:calc(33.3333% - 20px) !important; margin:0 10px; }    
+}
+
+
+
+.quiz-content {
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+.quiz-content .media .icon-btn{
+    margin-top:45px;
+    font-size:90px;
+}
+.question {
+    font-size: 22px;
+    line-height: 34px;
+    padding: 0 15px;        
+    text-align: center;
+    margin:30px 0 0;
+}
+.answers {
+    display: flex;
+    margin-top: 60px;
+    flex-wrap: wrap;        
+}
+.answers > div {
+    text-align: center;
+    background: var(--color-bg2);
+    padding: 15px 30px;
+    border-radius: var(--border-radius1);
+    width: calc(50% - 15px);
+    margin: 0 7.5px 15px;
+    cursor: pointer;
+    -webkit-box-shadow: 18px 16px 18px -22px rgb(66 68 90);
+    -moz-box-shadow: 18px 16px 18px -22px rgba(66, 68, 90, 1);
+    box-shadow: 18px 16px 18px -22px rgb(66 68 90);
+    font-size:var(--size-medium);
+}
+.answers > div:hover, .answers > div.active {
+    background-color:var(--color-base);
+    color:var(--color-base-invert);
+}
+.answers p {
+    text-align: center;
+    font-size: 15px;
+    line-height: 32px;
+    margin: -30px 30px 0;
+    width: calc(100% - 60px);
+}
+.breadcrumbs {
+    position: fixed;
+    top: 30px;
+    background-color: var(--color-base);
+    color: var(--color-base-invert);
+    padding: 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: 14px;
+    box-shadow: 18px 16px 18px -19px var(--color-text);
+    z-index: 99999;        
+}
+
+#quizSummary {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: var(--color-bg2);
+    border-radius: var(--border-radius2);
+    padding: 30px;
+    line-height: 24px;
+}
+#quizSummary tr td:first-child {
+    text-align:left;
+}
+#quizSummary td {
+    padding: 15px;
+    border-bottom: 1px solid var(--color-bg);  
+    text-align:right;
+}
+
+@media only screen and (min-width: 996px) {
+    .question {
+        font-size: 42px !important;
+        line-height: 60px !important;
+        padding: 0 30px !important;        
+    }
+}
+
+.quizTip {
+    position:fixed;
+    top:30px;
+    right:0;
+}
+.quizTip > div {
+    background-color: var(--color-base);
+    color: var(--color-base-invert);
+    padding: 10px 15px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    font-size: 27px;
+    box-shadow: 18px 16px 18px -19px var(--color-text);
+    z-index: 99999;
+    cursor:pointer;
+    transition:all 0.3s ease-in;
+}
+.quizTip > div:hover {
+    background-color: var(--color-base-invert);
+    color: var(--color-base);
+}

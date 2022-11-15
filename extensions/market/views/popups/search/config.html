@@ -1,34 +1,53 @@
 <div class="popup active popup-advanced-charting popup-screener-config">
     <div class="popup-body padding-side-regular">
         <div class="header">                    
-            <h2>Screener</h2>
+            <h2>Search Results</h2>
         </div>        
         <div class="form">
                         
-            <div class="tab-container views-container">
+            <div class="tab-container views-container" data-type="screener">
                 <div class="tab-header">
                     <h2>Visibility</h2>
                     <div class="expand icon-expand_more"></div>
                 </div>
                 <div class="tab-content">
-                    <div class="changer-v2 hide" data-type="screener">
+                    <div class="changer-v2 hide">
                         <label for="view_screener"><b>View</b><br />Pre-defined or Custom</label>
                         <select id="view_screener" onChange="updateSettings('view_screener',$(this).val()); reloadScreenerView(); getItems({ fullReload:true, success:function(){ reloadScreenerColumns(); } });"> <!-- stockactions.js -->
                             <option value="performance">Performance</option>
                             <option value="company">Company</option>
                             <option value="all">All Columns</option>
                         </select>
-                    </div>  
-                    
-                    <div class="sep hide" data-type="grid"></div>
-                    <div class="changer-v2 short hide" data-type="grid">
-                        <label for="wallet_show_logo"><b>Logo</b></label>
-                        <label class="switch-slider">
-                            <input id="wallet_show_logo" type="checkbox" onClick="updateSettings('wallet_show_logo',this.checked); getItems({ fullReload:true, reload:true });"> 
-                            <span class="switch"></span>
-                        </label>
                     </div>                  
                     <div data-src="visibleColumns"></div>
+                </div>
+            </div>
+            <div class="tab-container views-container" data-type="boxes">
+                <div class="tab-header">
+                    <h2>Additional Info</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2 short" data-additional="hi_250d">
+                        <label><b>Highest (250 days):</b></label>
+                        <label class="switch-slider"><input type="checkbox" onClick="updateAdditionals('hi_250d',$(this).prop('checked'))" /> <span class="switch"></span></label>
+                    </div>
+                    <div class="changer-v2 short" data-additional="lo_250d">
+                        <label><b>Lowest Price (250 days):</b></label>
+                        <label class="switch-slider"><input type="checkbox" onClick="updateAdditionals('lo_250d',$(this).prop('checked'))" /> <span class="switch"></span></label>
+                    </div>
+                    <div class="changer-v2 short" data-additional="ema_50d">
+                        <label><b>Avg. Price (50 days):</b></label>
+                        <label class="switch-slider"><input type="checkbox" onClick="updateAdditionals('ema_50d',$(this).prop('checked'))" /> <span class="switch"></span></label>
+                    </div>
+                    <div class="changer-v2 short" data-additional="sector">
+                        <label><b>Sector:</b></label>
+                        <label class="switch-slider"><input type="checkbox" onClick="updateAdditionals('sector',$(this).prop('checked'))" /> <span class="switch"></span></label>
+                    </div> 
+                    <div class="changer-v2 short" data-additional="volume">
+                        <label><b>Volume:</b></label>
+                        <label class="switch-slider"><input type="checkbox" onClick="updateAdditionals('volume',$(this).prop('checked'))" /> <span class="switch"></span></label>
+                    </div>
                 </div>
             </div>
             <div class="tab-container">
@@ -46,7 +65,7 @@
                     </div>
                     <div class="changer-v2">
                         <label for="view_search"><b>View</b><br />Grid or Screener</label>
-                        <select id="view_search" onChange="updateSettings('view_search',$(this).val()); getItems({ fullReload:true }); reloadScreenerConfig()"> <!-- stockactions.js -->
+                        <select id="view_search" onChange="updateSettings('view_search',$(this).val()); getItems({ fullReload:true, screenerCallback:function(){ reloadScreenerColumns(); } }); reloadScreenerConfig();"> <!-- stockactions.js -->
                             <option value="grid">Grid</option>
                             <option value="screener">Table</option>
                             <option value="boxes">Boxes</option>
@@ -95,6 +114,12 @@
         reloadScreenerColumns();
         reloadChangers(); // UI
         
+        $.each(settings.view_boxes_additionals,function(code,value){
+           if (value){
+               $('[data-additional="'+code+'"]').find('input').prop('checked',value);
+           } 
+        });        
+        
     });
     
     function reloadScreenerConfig(){
@@ -124,5 +149,10 @@
             $('[data-src="visibleColumns').append(el);
         });
                
-    }            
+    }
+    function updateAdditionals(key,value){
+        settings.view_boxes_additionals[key] = value;        
+        updateSettings('view_boxes_additionals',settings.view_boxes_additionals);
+        getItems({ fullReload:true, reload:true });        
+    }
 </script>
