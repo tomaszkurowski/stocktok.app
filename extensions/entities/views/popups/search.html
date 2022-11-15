@@ -146,12 +146,16 @@
 
 <script type="text/javascript">
     
+    $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
+    
     $(document).ready(function(){        
         
         //button({ class: 'popup-btn icon-btn icon-filter_alt1 toggle-step', attributes:[{ key: 'data-step', value: 'step-filters' }, { key: 'data-icon', value: 'icon-filter_alt1' }] }, function(){});
         //button({ class: 'popup-btn icon-btn icon-address toggle-step', attributes:[{ key: 'data-step', value: 'step-find' }, { key: 'data-icon', value: 'icon-address' }] }, function(){});
-        button({ class: 'popup-btn icon-btn icon-account_balance_wallet toggle-step', attributes:[{ key: 'data-step', value: 'step-wallet' }, { key: 'data-icon', value: 'icon-account_balance_wallet' }] }, function(){});        
-        button({ class: 'popup-btn icon-btn icon-bookmark_outline toggle-step', attributes:[{ key: 'data-step', value: 'step-observed' }, { key: 'data-icon', value: 'icon-bookmark_outline' }] }, function(){});
+        if ((mvc.model ==='wallet' && mvc.view === 'observed') ||
+            (mvc.model !=='wallet')) button({ class: 'popup-btn icon-btn icon-account_balance_wallet toggle-step', attributes:[{ key: 'data-step', value: 'step-wallet' }, { key: 'data-icon', value: 'icon-account_balance_wallet' }] }, function(){});        
+        if ((mvc.model ==='wallet' && mvc.view !== 'observed') ||
+            (mvc.model !=='wallet')) button({ class: 'popup-btn icon-btn icon-bookmark_outline toggle-step', attributes:[{ key: 'data-step', value: 'step-observed' }, { key: 'data-icon', value: 'icon-bookmark_outline' }] }, function(){});
         
         
         $.ajax({
@@ -249,7 +253,8 @@
             url: config.api_url,
             data: { 
                 endpoint: '/entities', 
-                search: search
+                search: search,
+                sort:"volume_desc"
             },
             type: 'GET',
             dataType: 'JSON',
@@ -262,8 +267,11 @@
 
                 response.entities.forEach(function(item){
 
-                    $('<div class="item"></div>')
-                    .append('<div class="info"><div class="name">'+(item.name)+'</div><div class="market"><img src="/media/img/flags/'+item.country+'.svg" class="country" />'+(item.market_name)+'</div>')
+                    let el = $('<div class="item"></div>');
+                    if (mvc.view === 'observed' || mvc.view === 'entities') $(el).append('<div class="icon-btn '+(item.observed ? 'icon-bookmark1' : 'icon-bookmark_outline')+'" data-action="'+(item.observed ? 'remove-from-observed' : 'add-to-observed')+'"></div>');
+                    
+                    $(el)
+                    .append('<div class="info"><div class="name">'+(item.name)+'</div><div class="market">'+(item.country ? '<img src="/media/img/flags/'+item.country+'.svg" class="country" />' : '')+(item.market_name)+'</div>')
                     .append('<div class="logo-container">'+(item.logo ? '<img src="'+item.logo+'" class="logo" />' : item.symbol)+'</div>')                        
                     .bind('click',function(){                        
                         load_page('/entities/'+item.market+'/'+item.symbol,true,{ closePopup:false });

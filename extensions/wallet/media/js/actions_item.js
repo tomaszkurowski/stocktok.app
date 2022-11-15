@@ -115,8 +115,8 @@
         var position=1;
         var items = new Array();
 
-        $(':not(.slick-cloned) .mystock-container').each(function(index,value){        
-            items.push({ "id" : $(this).attr('data-stock-id'), "position": position++ });
+        $('.leafs .leaf').each(function(index,value){        
+            items.push({ "id" : $(this).attr('data-id'), "position": position++ });
 
         }).promise().then(function(){
             $.ajax({
@@ -128,13 +128,35 @@
                 type: 'PUT',
                 dataType: 'JSON',
                 success: function(response){ 
-                    if (config.debug) console.log(response);
-                    generate_sort_placeholders();                           
+                    if (config.debug) console.log(response);                                              
                 },
                 error: function(e){ if (config.debug) console.log(e); }
             });
         });
     }
+    function observed_sort(){
+        var position=1;
+        var items = new Array();
+
+        $('.leafs .leaf').each(function(index,value){        
+            items.push({ "symbol" : $(this).attr('data-symbol'), "market" : $(this).attr('data-market'), "position": position++ });
+
+        }).promise().then(function(){
+            $.ajax({
+                url: config.api_url,
+                data: { 
+                    endpoint: '/observed/sort', 
+                    items: items  
+                },
+                type: 'PUT',
+                dataType: 'JSON',
+                success: function(response){ 
+                    if (config.debug) console.log(response);                                              
+                },
+                error: function(e){ if (config.debug) console.log(e); }
+            });
+        });
+    }    
 
 
     // MYSTOCK - DELETE 
@@ -263,7 +285,10 @@
                 $(element).addClass('secondary');
                 if ($(element).hasClass('icon-bookmark_outline')){
                     $(element).removeClass('icon-bookmark_outline').addClass('icon-bookmark1');
-                }                
+                }  
+                if (mvc.model === 'wallet' && mvc.view === 'observed'){
+                    observedReload();
+                }
 
             },
             error: function(response){                            
@@ -299,7 +324,9 @@
                     $(element).removeClass('icon-bookmark1').addClass('icon-bookmark_outline');
                 }
                 
-                if (mvc.model === 'wallet') get_my_observed();
+                if (mvc.model === 'wallet' && mvc.view === 'observed'){
+                    observedReload();
+                }
 
             },
             error: function(response){                            

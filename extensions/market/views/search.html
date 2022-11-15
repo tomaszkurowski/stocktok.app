@@ -45,9 +45,17 @@
             $('body').removeClass('with-popup');
         }else{ 
             button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('.popup-btn').remove(); $('footer #popup').html(''); $('body').removeClass('with-popup with-blur'); });
-            $('footer #popup').html('<div class="popup active form"><input type="text" class="search" placeholder="Find by symbol or name" /></div>'); 
+            $('footer #popup').html('<div class="popup popup-search active form"><input type="text" class="search" placeholder="Find by symbol or name" /><div class="filters"></div></div>');
+            getFilters();            
+            $.each(filters,function(index,filter){
+                if (filter.code === 'sort') return;
+                $('#popup .filters').append($('<div class="btn primary" data-code="'+filter.code+'">'+filter.code+': '+filter.value+' <span class="icon-clear"></span></div>').bind('click',function(){
+                    $('#popup .filters [data-code="'+filter.code+'"]').remove();
+                    removeFilter({ code: filter.code },true);
+                    getItems({ fullReload:true, reload:true, success:function(){ }}); 
+                }));
+            });
             $('body').addClass('with-popup with-blur');
-
             if (mvc.controller) $('.popup .search').val(mvc.controller);
         }            
     });

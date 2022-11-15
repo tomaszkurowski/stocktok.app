@@ -6,6 +6,30 @@
         <div class="form">
             <div class="tab-container views-container">
                 <div class="tab-header">
+                    <h2>Manage</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="wallet_show_grouped"><b>Show Grouped</b><br />When you have multiple transactions for the same asset it can be grouped to one.</label>
+                        <label class="switch-slider">
+                            <input id="wallet_show_grouped" type="checkbox" onClick="updateSettings('wallet_show_grouped',this.checked); $('.leaf').attr('data-grouped',this.checked); resultsReload();"> 
+                            <span class="switch"></span>
+                        </label>
+                    </div>
+                    <div class="changer-v2">
+                        <label for="wallet_sort"><b>Sort Portfolio</b><br />By Margin, Total or Drag 'n Drop (Hold for 1s to start dragging)</label>
+                        <select id="wallet_sort" onChange="updateSettings('wallet_sort',$(this).val()); sortReload()"> <!-- stockactions.js -->
+                            <option value="margin">&#8595; Margin</option>
+                            <option value="marginp">&#8595; Margin %</option>
+                            <option value="total">&#8595; Total</option>
+                            <option value="custom">Drag & Drop</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-container views-container">
+                <div class="tab-header">
                     <h2>Visibility</h2>
                     <div class="expand icon-expand_more"></div>
                 </div>

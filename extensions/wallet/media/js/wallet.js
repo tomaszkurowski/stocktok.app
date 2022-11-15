@@ -9,6 +9,23 @@ function liveReload(options={}){
         $('[data-code="'+code+'"] [data-src="price"]').text(item.price);
     });
 }
+function sortReload(){
+    
+    if (settings.wallet_sort === 'custom'){
+        $('.leaf').css('order',0);
+        init_sorting();
+        return;
+    }
+    wallet.sort.sort(dynamicSort(settings.wallet_sort));
+    if (config.debug) console.log('Sort Reload',wallet.sort);
+    
+    it=0;
+    $.each(wallet.sort,function(order,item){
+        $('[data-id="'+item.id+'"]').css('order',it++);
+    });
+    
+}
+
 function resultsReload(){
 
     let totals = {};
@@ -18,12 +35,24 @@ function resultsReload(){
     wallet.sold_margin = 0;
     wallet.sold_purchased = 0;
     wallet.current_purchased = 0;
+    wallet.groups = [];
+    wallet.groups['active'] = [];
+    wallet.groups['sold'] = [];
+    wallet.sort = []; 
+    wallet.highest_current_margin   =0;
+    wallet.highest_current_marginp  =0;
+    wallet.lowest_current_margin    =0;
+    wallet.lowest_current_marginp   =0;
+    wallet.highest_sold_margin      =0;
+    wallet.highest_sold_marginp     =0;
+    wallet.lowest_sold_margin       =0;
+    wallet.lowest_sold_marginp      =0;
     
     $.each(wallet.items, function(id, item){             
 
         // @Todo: item.price = live;
         
-        let element = $('[data-id="'+item.wallet_entities_id+'"]');           
+        let element = $('[data-id="'+item.wallet_entities_id+'"][data-visibility="visible"]');           
 
         item.rate       = (1 / currencies[item.market_currency]).toFixed(config.precision_rate);                                
         item.sold_rate  = round((currencies[item.purchased_currency] ? currencies[item.purchased_currency] : 1) / currencies[item.market_currency], config.precision_rate);
@@ -37,11 +66,12 @@ function resultsReload(){
                 wallet.current_total  += parseFloat(item.total);            
                 wallet.current_margin += parseFloat(item.margin);
                 wallet.current_purchased +=parseFloat(item.purchased_total);
+                if (parseFloat(item.margin)>wallet.highest_current_margin){  $('.wallet[data-type="active"] [data-src="highest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.highest_current_margin = parseFloat(item.margin); }
+                if (parseFloat(item.marginp)>wallet.highest_current_marginp){ $('.wallet[data-type="active"] [data-src="highest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.highest_current_marginp = parseFloat(item.marginp); }
+                if (parseFloat(item.margin)<wallet.lowest_current_margin){  $('.wallet[data-type="active"] [data-src="lowest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.lowest_current_margin = parseFloat(item.margin); }
+                if (parseFloat(item.marginp)<wallet.lowest_current_marginp){ $('.wallet[data-type="active"] [data-src="lowest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.lowest_current_marginp = parseFloat(item.marginp); }                
             }  
-            if (!wallet.highest_current_margin || item.margin>wallet.highest_current_margin){  $('.wallet[data-type="active"] [data-src="highest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.highest_current_margin = item.margin }
-            if (!wallet.highest_current_marginp || item.marginp>wallet.highest_current_marginp){ $('.wallet[data-type="active"] [data-src="highest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.highest_current_marginp = parseFloat(item.marginp) }
-            if (!wallet.lowest_current_margin || item.margin<wallet.lowest_current_margin){  $('.wallet[data-type="active"] [data-src="lowest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.lowest_current_margin = item.margin }
-            if (!wallet.lowest_current_marginp || item.marginp<wallet.lowest_current_marginp){ $('.wallet[data-type="active"] [data-src="lowest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.lowest_current_marginp = parseFloat(item.marginp) }
+
         }            
         if (item.type_of_transaction === 'sold'){
             item.marginp = item.margin_percentage;
@@ -50,18 +80,63 @@ function resultsReload(){
                 wallet.sold_purchased += parseFloat(item.purchased_total);
                 wallet.sold_total     += parseFloat(item.total);            
                 wallet.sold_margin    += parseFloat(item.margin);
+                if (parseFloat(item.margin)>wallet.highest_sold_margin){  $('.wallet[data-type="sold"] [data-src="highest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.highest_sold_margin = parseFloat(item.margin); }
+                if (parseFloat(item.marginp)>wallet.highest_sold_marginp){ $('.wallet[data-type="sold"] [data-src="highest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.highest_sold_marginp = parseFloat(item.marginp); }
+                if (parseFloat(item.margin)<wallet.lowest_sold_margin){  $('.wallet[data-type="sold"] [data-src="lowest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.lowest_sold_margin = parseFloat(item.margin); }
+                if (parseFloat(item.marginp)<wallet.lowest_sold_marginp){ $('.wallet[data-type="sold"] [data-src="lowest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.lowest_sold_marginp = parseFloat(item.marginp); }                            
             }
-            if (!wallet.highest_sold_margin || item.margin>wallet.highest_sold_margin){  $('.wallet[data-type="sold"] [data-src="highest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.highest_sold_margin = item.margin }
-            if (!wallet.highest_sold_marginp || item.marginp>wallet.highest_sold_marginp){ $('.wallet[data-type="sold"] [data-src="highest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.highest_sold_marginp = parseFloat(item.marginp) }
-            if (!wallet.lowest_sold_margin || item.margin<wallet.lowest_sold_margin){  $('.wallet[data-type="sold"] [data-src="lowest-margin"]').html(format_price(item.margin * currencies[settings.display_currency],2)+' | <span>'+item.symbol+'</span>'); wallet.lowest_sold_margin = item.margin }
-            if (!wallet.lowest_sold_marginp || item.marginp<wallet.lowest_sold_marginp){ $('.wallet[data-type="sold"] [data-src="lowest-marginp"]').html(item.marginp+' | <span>'+item.symbol+'</span>'); wallet.lowest_sold_marginp = parseFloat(item.marginp) }            
-        }                     
+        } 
+        wallet.sort.push({
+            id:item.wallet_entities_id,
+            symbol:item.symbol,
+            market:item.market,
+            margin: parseFloat(item.margin * currencies[settings.display_currency]),
+            marginp: parseFloat(item.marginp),
+            total: parseFloat(item.total * currencies[settings.display_currency])
+        });
+        
         $(element).find('[data-src="total"]').text(format_price(item.total * currencies[settings.display_currency],2));
         $(element).find('[data-src="display_currency"]').text(settings.display_currency);
         $(element).find('[data-src="margin"]').attr('data-color',item.margin === 0 ? '' : (item.margin>0 ? 'green' : 'red')).text(format_price(item.margin * currencies[settings.display_currency],2));
         $(element).find('[data-src="marginp"]').text(item.marginp+ ' %').attr('data-color',item.margin === 0 ? '' : (item.margin>0 ? 'green' : 'red'));
 
-    }); 
+        /* Grouping */
+        item.code = item.symbol+'.'+item.market;                        
+        if ($('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"][data-grouped="true"]').length>1){            
+            $('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"]').addClass('group-hide');            
+            $('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"]').first().removeClass('group-hide');            
+                        
+            if (!wallet.groups[item.type_of_transaction][item.code]) wallet.groups[item.type_of_transaction][item.code] = { total:0, purchased_total:0, margin:0, marginp:0 };
+            wallet.groups[item.type_of_transaction][item.code].total += parseFloat(item.total);
+            wallet.groups[item.type_of_transaction][item.code].purchased_total += parseFloat(item.purchased_total);
+            wallet.groups[item.type_of_transaction][item.code].margin += parseFloat(item.margin);
+            wallet.groups[item.type_of_transaction][item.code].marginp = parseFloat(wallet.groups[item.type_of_transaction][item.code].margin === 0 ? 0 : (wallet.groups[item.type_of_transaction][item.code].purchased_total !== 0 ? (wallet.groups[item.type_of_transaction][item.code].margin / (wallet.groups[item.type_of_transaction][item.code].purchased_total) * 100).toFixed(2) : 0));             
+            let element = $('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"]').first();
+            $(element).find('[data-src="total"]').text(format_price(wallet.groups[item.type_of_transaction][item.code].total * currencies[settings.display_currency],2));
+            $(element).find('[data-src="margin"]').attr('data-color',wallet.groups[item.type_of_transaction][item.code].margin === 0 ? '' : (wallet.groups[item.type_of_transaction][item.code].margin>0 ? 'green' : 'red')).text(format_price(wallet.groups[item.type_of_transaction][item.code].margin * currencies[settings.display_currency],2));
+            $(element).find('[data-src="marginp"]').text(wallet.groups[item.type_of_transaction][item.code].marginp+ ' %').attr('data-color',wallet.groups[item.type_of_transaction][item.code].marginp === 0 ? '' : (wallet.groups[item.type_of_transaction][item.code].marginp>0 ? 'green' : 'red'));            
+            if (!$(element).find('.unlink').length){
+                if (settings.view_wallet === 'screener'){
+                    $(element).find('.logo').prepend('<div class="icon-btn icon-chain unlink"></div>');
+                }else{
+                    $(element).prepend('<div class="icon-btn icon-chain unlink"></div>');
+                }
+                $(element).find('.link').remove();
+            } 
+        }
+        if ($('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"][data-grouped="false"]').length>1){
+    
+            $('[data-type="'+item.type_of_transaction+'"][data-code="'+item.code+'"]').removeClass('group-hide');
+            if (!$(element).find('.unlink').length){
+                if (settings.view_wallet === 'screener'){
+                    $(element).find('.logo').prepend('<div class="icon-btn icon-chain-broken link"></div>');
+                }else{
+                    $(element).prepend('<div class="icon-btn icon-chain-broken link"></div>');
+                }
+            }
+            $(element).find('.unlink').remove();
+        }
+    });      
 
     wallet.sold_marginp = (wallet.sold_margin / (wallet.sold_purchased ? wallet.sold_purchased : 1) * 100).toFixed(2);
     wallet.current_marginp = (wallet.current_margin / (wallet.current_purchased ? wallet.current_purchased : 1) * 100).toFixed(2);
@@ -72,7 +147,8 @@ function resultsReload(){
     $('.wallet[data-type="sold"]   [data-src="margin"] ').text(format_price(wallet.sold_margin * currencies[settings.display_currency],2)+' '+settings.display_currency).attr('data-color',wallet.sold_margin === 0 ? '' : (wallet.sold_margin>0 ? 'green' : 'red'));
     $('.wallet[data-type="sold"]   [data-src="marginp"]').text(wallet.sold_marginp+'%');
     $('.wallet[data-type="sold"]   [data-src="purchased"]').text(format_price(wallet.sold_purchased * currencies[settings.display_currency],2)+' '+settings.display_currency);
-
+    
+    sortReload();
 }
 
 function movesReload(){
@@ -169,9 +245,18 @@ function walletReload(){
             $('[data-src="wallet.avatar"]').html(wallet.avatar ? '<img src="'+wallet.avatar+'" class="avatar" />' : '<span class="no-avatar icon-person1"></span>');
             $('[data-src="wallet.country"]').html((wallet.country ? '<img src="/media/img/flags/'+wallet.country+'.svg" class="flag-small" />' : ''));
             $('[data-src="wallet.bio"]').text(wallet.bio);
+            $('[data-src="wallet.mode"]').text(wallet.mode);
+            $('[data-src="wallet.public"]').text(wallet.public ? 'Yes' : 'No');
+            if (wallet.mode === 'game'){
+                $('[data-src="wallet.funds"]').text(format_price(wallet.funds_total,2)+' '+settings.display_currency);
+                $('[data-src="wallet.funds"]').parents('.row').removeClass('hide');
+            }
 
-            if (wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-account_balance_wallet"></div><h3>Your portfolio is empty.</h3></td></tr>'); return; }
+            if (wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-hourglass_empty"></div><h3>Your portfolio is empty.</h3></td></tr>'); return; }
             $('.screen').html('<table class="leafs" data-view="'+settings.view_wallet+'" data-src="all"><thead></thead><tbody></tbody></table>');
+
+            $('.wallet[data-type="active"] .switch-slider input').prop('checked',settings.wallet_show_active);
+            $('.wallet[data-type="sold"] .switch-slider input').prop('checked',settings.wallet_show_sold);
 
             var apexcharts = {};
             load_apexcharts(function(){
@@ -197,13 +282,17 @@ function walletReload(){
                     
                     live[item.symbol+'.'+item.market] = { price: item.price, high: item.high, low: item.low, volume: item.volume, last_updated_at: item.last_updated_at };
 
-                    let el = $('<tr class="leaf"></tr>')
+                    let el = $('<tr class="leaf drag-item" draggable="true"></tr>')
                     .attr('data-id',item.wallet_entities_id)
                     .attr('data-code',item.symbol+'.'+item.market)
                     .attr('data-type',item.type_of_transaction)
                     .attr('data-visibility','visible')
                     .attr('data-purchased-total',item.purchased_total)
-                    .attr('data-purchased-currency',item.purchased_currency);
+                    .attr('data-purchased-currency',item.purchased_currency)
+                    .attr('data-grouped',settings.wallet_show_grouped);
+            
+                    if (item.type_of_transaction === 'active' && settings.wallet_show_active === false){ $(el).addClass('hide'); }
+                    if (item.type_of_transaction === 'sold' && settings.wallet_show_sold === false){ $(el).addClass('hide'); }
             
                     switch(settings.view_wallet){
                         case 'screener':
@@ -344,6 +433,9 @@ function walletReload(){
                                   
                         
                     //});
+                }                
+                if (settings.wallet_sort === 'custom'){ 
+                    init_sorting();
                 }
             });
         },
@@ -359,6 +451,9 @@ $(document).on('change','.visibility .switch-slider input',function(){
 $(document).off('change','.wallet .switch-slider input');
 $(document).on('change','.wallet .switch-slider input',function(e){
     $('[data-src="all"] [data-type="'+($(this).parents('.wallet').attr('data-type'))+'"]').toggleClass('hide');
+    
+    if ($('[data-src="all"] [data-type="active"]').hasClass('hide')){ updateSettings('wallet_show_active',false); }else{ updateSettings('wallet_show_active',true); };
+    if ($('[data-src="all"] [data-type="sold"]').hasClass('hide')){ updateSettings('wallet_show_sold',false); }else{ updateSettings('wallet_show_sold',true); };
 });
 
 
@@ -372,12 +467,12 @@ $(document).on('click','.wallet',function(){
     var symbols2 = [];     
     $.each(wallet.items, function(i, item){
         if (item.type_of_transaction === 'sold'){
-            series1.push(parseFloat(item.sold_total));
-            symbols1.push(item.symbol);
+            series1.push(parseFloat((item.sold_total/(wallet.sold_total ? wallet.sold_total : 1)*100)));
+            symbols1.push(item.name);
         }
         if (item.type_of_transaction === 'active'){
-            series2.push(parseFloat(item.total));
-            symbols2.push(item.symbol);
+            series2.push(parseFloat((item.total/(wallet.current_total ? wallet.current_total : 1)*100)));
+            symbols2.push(item.name);
         }
     });
     if (series1.length === 0){ $('[data-src="graph-sold"]').html('<div class="no-graph icon-donut_large"></div>'); }
@@ -389,17 +484,40 @@ $(document).on('click','.wallet',function(){
             labels: symbols1,
             chart: { type: 'donut', fill: { type: 'gradient' }},
             legend: { show: false },
-            plotOptions: { pie: { donut:{ size:'95%', labels: { show:true, value:{ formatter: function(value, opts){ return parseFloat(value).toFixed(2); }}, total: { show: true, label: 'Your Result', formatter: function (chart) { return wallet.sold_marginp+'%'; }} } }}},
+            plotOptions: { pie: { donut:{ size:'95%', labels: { show:true, value:{ formatter: function(value, opts){ return parseFloat(value).toFixed(2)+"%"; }}, total: { show: true, label: 'Your Result', formatter: function (chart) { return wallet.sold_marginp+'%'; }} } }}},
             stroke:{ colors: [settings.design.color_bg2], width:1 }
         }).render(); 
     new ApexCharts(document.querySelector('[data-src="graph-active"]'),{
             series: series2,
             labels: symbols2,
+            tooltip:{
+                y: {
+                    show: true,
+                    formatter: function(value){ return value.toFixed(2)+"%"; }
+                }
+            },
             chart: { type: 'donut', fill: { type: 'gradient' }},
             legend: { show: false },
-            plotOptions: { pie: { donut:{ size:'95%', labels: { show:true, value:{ formatter: function(value, opts){ return parseFloat(value).toFixed(2); }}, total: { show: true, label: 'Your Result', formatter: function (chart) { return wallet.current_marginp+'%'; }} } }}},
+            plotOptions: { pie: { donut:{ size:'95%', labels: { show:true, value:{ formatter: function(value, opts){ return parseFloat(value).toFixed(2)+"%"; }}, total: { show: true, label: 'Your Result', formatter: function (chart) { return wallet.current_marginp+'%'; }} } }}},
             stroke:{ colors: [settings.design.color_bg2], width:1 }
         }).render();        
     loadedSummary = true;
     
+});
+
+$(document).off('click','.leaf .unlink');
+$(document).on('click','.leaf .unlink',function(){
+    let code = $(this).parents('.leaf').attr('data-code');
+    let type = $(this).parents('.leaf').attr('data-type');
+    
+    $('[data-code="'+code+'"][data-type="'+type+'"]').attr('data-grouped',false);
+    resultsReload();
+});
+$(document).off('click','.leaf .link');
+$(document).on('click','.leaf .link',function(){
+    let code = $(this).parents('.leaf').attr('data-code');
+    let type = $(this).parents('.leaf').attr('data-type');
+    
+    $('[data-code="'+code+'"][data-type="'+type+'"]').attr('data-grouped',true);
+    resultsReload();
 });

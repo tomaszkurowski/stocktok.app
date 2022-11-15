@@ -23,7 +23,7 @@ function observedReload(){
             
             if (config.debug) console.log('wallet',wallet);
 
-            if (wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-crop_portrait1"></div><h3>You don\'t observe anything yet</h3></td></tr>'); return; }
+            if (!wallet.items || wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-bookmark"></div><h3>You don\'t observe anything yet</h3></td></tr>'); return; }
             $('.screen').html('<table class="leafs" data-view="grid" data-src="all"><tbody></tbody></table>');
 
             var apexcharts = {};
@@ -50,9 +50,11 @@ function observedReload(){
                     
                     live[item.symbol+'.'+item.market] = { price: item.price, high: item.high, low: item.low, volume: item.volume, last_updated_at: item.last_updated_at };
 
-                    let el = $('<tr class="leaf"></tr>')
+                    let el = $('<tr class="leaf drag-item"></tr>')
                     .attr('data-id',item.wallet_entities_id)
                     .attr('data-code',item.symbol+'.'+item.market)
+                    .attr('data-symbol',item.symbol)
+                    .attr('data-market',item.market)
                     .attr('data-type',item.type_of_transaction);
             
                     switch(settings.view_observed){
@@ -177,6 +179,8 @@ function observedReload(){
                         
                     //});
                 }
+                
+                init_sorting();
             });
         },
         error: function(err){ if (config.debug) console.log(err); }

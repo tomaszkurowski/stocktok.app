@@ -10,6 +10,7 @@
    
     $.getScript('/extensions/wallet/media/js/observed'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version,function(){
         $.getScript('/extensions/wallet/media/js/actions_item'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);  
+        $.getScript('/extensions/wallet/media/js/sorting'+(config.minify===1 ? '.min' : '')+'.js?version='+config.version);
         
         get_currencies(function(){
             observedReload();
