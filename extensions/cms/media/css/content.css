@@ -25,6 +25,9 @@
     border-radius:5px;
     overflow:hidden;
     width:100%;   
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;    
 }  
 
 .content .selectable .column, .content .selectable .column * {
@@ -46,8 +49,9 @@
 .content .column .icon            { font-size:64px;  margin-top:70px; color:var(--color-base); }
 .content .column h1               { font-size:42px; padding:0 30px;    line-height:42px;}
 .content .column h2               { font-size:32px;  padding:0 30px;    line-height:36px; margin-top:60px; }
-.content .column p                { font-size:16px;  padding:15px 30px; line-height:30px; margin-bottom:30px; }
-.content .column .actions         { margin-bottom:30px; }
+.content .column p                { font-size:16px;  padding:0px 30px; line-height:30px; margin-bottom:30px; }
+.content .column .actions         { width:100%; display:flex; align-items:center; justify-content:center; margin-bottom:30px; }
+.content .column .actions > .icon-btn { margin:0 7.5px; }
 
 
 .content .breadcrumbs {
