@@ -94,7 +94,7 @@
                     $('.answers').html('<p>Sorry, you have less than 50% correct answers.<br />Check were you made mistake, maybe do some additional research regarding wrong answers to consolidate knowledge, and try again.<table id="quizSummary"></table>')
                 }
                 
-                if (summary.award){
+                if (me && summary.award){
                     $('.answers p').append('<div class="award" style="margin-top:30px"><div class="btn primary">Virtual '+summary.award+' $ collected</div></div>');
                 }
                 

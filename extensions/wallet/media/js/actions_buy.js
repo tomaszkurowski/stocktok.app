@@ -29,7 +29,13 @@
                 if (response.success === false){
                     
                     if (response.err === 1){
-                        $('.popup-body').prepend('<div class="inner-popup"><div class="icon icon-energy"></div><div class="title">No sufficient funds</div><div class="description">On "Player" mode you can buy only from available funds which are equal for all players.You can also switch to "Silent" in settings and have unlimitted balance, but your transactions will be visible only for you and not ranked.</div><div class="actions"><div class="btn primary close">Ok</div></div></div>');
+                        $('.view-buy').hide();
+                        $('.popup-body .inner-popup').remove();
+                        
+                        $('.popup-body').prepend($('<div class="inner-popup"><div class="icon icon-energy"></div><div class="title">No sufficient funds</div><div class="description">In "Game" mode you can buy only from available funds. You can get first funds in Quizes.</div><div class="actions"><div class="btn primary">Ok</div></div></div>').bind('click',function(){
+                            $('.popup-body .inner-popup').remove();
+                            $('.view-buy').show();
+                        }));
                     }
                     return;
                 }

@@ -34,7 +34,7 @@
                             load_page('/learn/quiz/'+quiz.code,true);
                         }));                        
                     }else{
-                        $(el).find('.actions').append($('<div class="btn primary'+(quiz.collected ? ' active' : '')+'">Quiz'+(quiz.collected ? ' '+quiz.collect+'$ <span class="icon-check"></span>' : ' collect: Virtual '+quiz.collect+'$')+'</div>').bind('click',function(){
+                        $(el).find('.actions').append($('<div class="btn primary'+(quiz.collected ? ' active' : '')+'">Quiz'+(quiz.collected ? ' '+quiz.collect+'$ <span class="icon-check"></span>' : (me ? ' collect: Virtual '+quiz.collect+'$' : '') )+'</div>').bind('click',function(){
                             load_page('/learn/quiz/'+quiz.code,true);
                         }));                        
                     }

@@ -899,7 +899,6 @@ border-radius: 50%;
     overflow-y:scroll;
 }
 .inner-popup {
-    position: absolute;
     width: 100%;
     height: calc(100% - 30px);
     background-color: var(--color-bg2);

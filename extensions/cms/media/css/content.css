@@ -30,6 +30,7 @@
     justify-content: space-between;    
 }  
 
+
 .content .selectable .column, .content .selectable .column * {
     cursor:pointer;
     transition:all 0.2s ease-in;
@@ -84,7 +85,7 @@
     .content .column.left  .inner           { width:50%; text-align:right; }
     .content .column.right .inner           { width:50%; text-align:left; order:-1; } 
     
-    .content .cross .column { margin-bottom:0; }
+    .content .cross .column { margin-bottom:0; flex-direction:row; }   
     
 }
 @media only screen and (min-width: 320px){  .content .column h1 { font-size:64px; line-height:64px; }}
