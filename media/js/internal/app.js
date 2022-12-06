@@ -116,7 +116,8 @@
                     if (me || 
                         mvc.model === 'entities' || 
                         mvc.model === 'market' || 
-                        mvc.model === 'cms'
+                        mvc.model === 'cms' ||
+                        mvc.model === 'learn'
                     ){
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
