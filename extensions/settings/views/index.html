@@ -125,7 +125,7 @@
             
             case 'logout':
                 input = $('<div class="btn primary">Logout</div>').bind('click',function(){
-                    window.open("/me/logout","_blank");
+                    load_page('/me/logout',true);
                 });
                 break;
             case 'restart-game':
