@@ -123,6 +123,11 @@
                 //$(row).find('.value').text(me.public === 1 ? 'Yes' : 'No');
                 break;            
             
+            case 'logout':
+                input = $('<div class="btn primary">Logout</div>').bind('click',function(){
+                    window.open("/me/logout","_blank");
+                });
+                break;
             case 'restart-game':
             
                 input = $('<div class="btn primary">Restart</div>').bind('click',function(){
@@ -265,6 +270,7 @@
         //settings_row({ target: 'game', type:'bio', key: 'bio', info: 'Add 2-3 sentences about yourself' });      
         settings_row({ target: 'game', type:'restart-game', key: 'restart-game', info: 'You can remove all transactions, funds & history and start game again.'});              
         settings_row({ target: 'game', type:'select',  key: 'contributor', info: 'If you want to help builiding better application select yes', values: ['yes','no'] });
+        settings_row({ target: 'game', type:'logout',  key: 'logout', info: 'If you want to disconnect your portfolio' });
 
         settings_row({ target: 'design',  type: 'select', key: 'theme',              info: 'Choose your favorite color version', values: ['light','dark'] });     
         settings_row({ target: 'design',  type: 'sounds', key: 'sounds',             info: 'Choose if you want to mute on/off sounds on buttons.' });     
