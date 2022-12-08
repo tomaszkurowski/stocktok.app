@@ -3646,3 +3646,6 @@ body.editable .my-notes .note .actions {
 .leaf.dragging {
     z-index:2;
 }
+.connect-first {
+    max-width:160% !important;
+}
