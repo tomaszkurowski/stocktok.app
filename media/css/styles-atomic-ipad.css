@@ -3,9 +3,13 @@
     .screen [data-view="grid"] .leaf { width: calc(25% - 10px); }
     .screen [data-view="boxes"] .leaf { width: calc(33.3333% - 10px); }
     
-   .players .box { 
-       width:calc(33.3333% - 10px); 
-   }    
+    .players .box { 
+        width:calc(33.3333% - 10px); 
+    }
+    
+    .connect-first {
+        max-width:100% !important;
+    }   
 
 }
 
