@@ -12,9 +12,7 @@
     $('.quiz-container').html("");
     $.ajax({
         url: config.api_url,
-        data: { 
-            endpoint: '/quizes'
-        },
+        data: { endpoint: '/quizes' },
         type: 'get',
         dataType: 'JSON',
         cache: false,
@@ -23,22 +21,19 @@
              if (config.debug) console.log('Quizes:',data.quizes);
              
              $.each(data.quizes,function(i,quiz){
+                 
+                if (quiz.debug && config.mode === 'production') return;
+                
                 let el = $('<div class="quiz"></div>')
                     .append('<div class="img-container"><img src="'+quiz.img+'?ver=1.0" /></div>')
                     .append('<h2>'+quiz.name+'</h2>')
                     .append('<p> '+quiz.desc+'</p>')
                     .append('<div class="actions"></div>');
 
-                    if (quiz.debug){
-                        $(el).find('.actions').append($('<div class="btn primary">Quiz: Soon</div>').bind('click',function(){
-                            load_page('/learn/quiz/'+quiz.code,true);
-                        }));                        
-                    }else{
-                        $(el).find('.actions').append($('<div class="btn primary'+(quiz.collected ? ' active' : '')+'">Quiz'+(quiz.collected ? ' '+quiz.collect+'$ <span class="icon-check"></span>' : (me ? ' collect: Virtual '+quiz.collect+'$' : '') )+'</div>').bind('click',function(){
-                            load_page('/learn/quiz/'+quiz.code,true);
-                        }));                        
-                    }
-
+                    $(el).find('.actions').append($('<div class="btn primary'+(quiz.collected ? ' active' : '')+'">Quiz'+(quiz.collected ? ' '+quiz.collect+'$ <span class="icon-check"></span>' : (me ? ' collect: Virtual '+quiz.collect+'$' : '') )+'</div>').bind('click',function(){
+                        load_page('/learn/quiz/'+quiz.code,true);
+                    }));                        
+                    
                 if (quiz.learn){
                     $(el).find('.actions').append($('<div class="btn primary">Learn</div>').bind('click',function(){
                         load_page('/learn/lesson/'+quiz.code,true);

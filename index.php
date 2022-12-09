@@ -118,7 +118,8 @@ include('config.php'); ?>
             base_url:       '<?= $config['base_url'] ?>',            
             title_prefix:   '<?= $config['title_prefix'] ?>',            
             minify:         <?= $config['minify'] ?>,            
-            debug:          <?= $config['debug'] ?>,            
+            debug:          <?= $config['debug'] ?>,
+            mode:           '<?= $config['mode'] ?>',
             api_url:        '/api.php',
             
             browser:        navigator.userAgent || navigator.vendor || window.opera,
