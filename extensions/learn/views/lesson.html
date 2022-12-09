@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="/extensions/cms/media/css/content.css?v=0.0.31" />
+
+<div id="src"></div>
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/lesson',
+                code: mvc.controller
+            },
+            type: 'get',
+            cache: false,
+            success: function(data){                
+                $('#src').html(data);
+            },
+            error: function(response){ if (config.debug) console.log(response); }
+        });           
+    });
+
+</script>

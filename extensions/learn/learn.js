@@ -2,7 +2,7 @@
     mvc.path = 'quizes';
     
     if (mvc.view === 'quiz'){ mvc.path = 'quiz'; }
-    if (mvc.view === 'lesson' && mvc.controller){ mvc.path='lesson/'+mvc.controller; }
+    if (mvc.view === 'lesson' && mvc.controller){ mvc.path = 'lesson'; }
     
     $.ajax({
         url:"/extensions/learn/views/"+mvc.path+".html",
