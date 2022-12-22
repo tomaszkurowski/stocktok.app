@@ -20,7 +20,8 @@
              if (!data.quizes) return;
              if (config.debug) console.log('Quizes:',data.quizes);
              
-             $.each(data.quizes,function(i,quiz){
+             let quizes = sortJsonByKey(data.quizes,'created_at');             
+             $.each(quizes,function(i,quiz){
                  
                 if (quiz.debug && config.mode === 'production') return;
                 
