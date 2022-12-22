@@ -475,4 +475,11 @@
             var result = (a[property] > b[property]) ? -1 : (a[property] < b[property]) ? 1 : 0;
             return result * sortOrder;
         };
-    }    
+    }
+    
+    function sortJsonByKey(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+        });
+    }
