@@ -1,0 +1,96 @@
+<div class="chat">
+    <div class="intro">
+        <div class="main-icon icon-ChatGPT slow-rotating"></div>
+        <h2>AI Chat</h2>
+        <p>Chat is based on one of most popular and most powerful model called ChatGPT which interacts in a conversational way. Just try.
+    </div>
+    <div class="responses"></div>
+    <div class="actions">
+        <input type="text" placeholder="Ask me anything" id="human-question" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    
+    var speedOfTyping = 50;
+    
+    function chatReload(){
+        let query = $('.chat #human-question').val();
+        $('.chat #human-question').val('');
+                                
+        let queryResponse = $('<div class="response-box"></div>').html(query);
+        if ($('.nav .avatar-image')){ $(queryResponse).prepend($('.nav .avatar-container').html()); }
+        $('<div class="response human"></div>').html($(queryResponse)).appendTo('.responses');
+        
+        $('<div class="loader icon-loader rotating"></div>').appendTo('.responses');
+        $('#human-question').focus();
+        
+        $('html, body').animate({ scrollTop: $(document).height() }, 50);
+        
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/ai/chat',
+                query: query
+            },
+            type: 'post',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                console.log('AI',response);
+
+                if (response.choices){
+                    $('.chat .loader').remove();       
+                    
+                    $('<div class="response ai"></div>').html(
+                        $('<div class="response-box"></div>').attr('id',response.id).
+                        prepend('<div class="icon-ChatGPT"></div>'))
+                    .appendTo('.responses');
+
+                    var i = 0;
+
+                    function typeWriter() {
+                      if (i < response.choices[0].text.length) {
+                        document.getElementById(response.id).innerHTML += response.choices[0].text.charAt(i);
+                        $('html, body').animate({ scrollTop: $(document).height() }, 50);
+                        i++;
+                        setTimeout(typeWriter, speedOfTyping);
+                      }
+                    } 
+                    typeWriter();
+                }else{
+                    console.log('AI',response);
+                }
+            },
+            error: function(response){
+                $('.chat .loader').remove();
+                if (config.debug) console.log(response); 
+            }
+        });
+    }
+    
+    $(document).ready(function(){
+        
+        button({ class: 'icon-btn icon-settings' }, function(){
+            if ($('.popup-chat-config').length){
+                $('.popup-btn').remove(); 
+                $('body').removeClass('with-popup').removeClass('with-blur'); 
+                return;
+            }
+            $('body').addClass('with-popup with-blur');                            
+            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+                $.ajax({ url:"/extensions/learn/views/popups/chat-config.html", cache:false, success: function(data){ $("#popup").html(data); }, error: function(e){ if (config.debug) console.log(e); }});
+        });  
+        button({ class: 'icon-btn icon-paper-plane' }, function(){                        
+            chatReload();
+        });        
+        
+        $('#human-question').off('keyup');
+        $('#human-question').on('keyup', function(e){
+           if (e.key === 'Enter' || e.keyCode === 13){
+               chatReload();
+           } 
+        });
+        
+    });
+</script>
