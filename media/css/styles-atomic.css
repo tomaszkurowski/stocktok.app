@@ -344,12 +344,13 @@ body:not(.with-popup) .heading > *:first-child { margin-left:20px; }
 .heading .actions .btn.change-view        { display:none; }
 .heading .actions .btn.change-view.active { display:flex; }
 
-.heading .icon-filter {
-    font-size:26px;
-}
+.heading .icon-filter { font-size:26px; }
+.heading .icon-btn.icon-paper-plane   { font-size:24px; }
+
 .heading .actions .icon-bookmarks { font-size:26px; } /* Find better icon or more elegant solution */
 .heading .actions .icon-create { font-size:30px; }
 .heading .actions .icon-fullscreen { font-size:37px; }
+
 .heading [data-icon="icon-address"] { 
     font-size:26px; 
     margin-right:5px; 
@@ -2382,6 +2383,9 @@ input:checked + .switch:before {
         -webkit-transform: rotate(360deg);
     }
 }
+.rotating       { -webkit-animation: rotating 2s linear infinite; }
+.slow-rotating  { -webkit-animation: rotating 10s linear infinite; }
+
 
 .highcharts-loading { opacity: 1 !important; }
 .highcharts-loading-inner {
@@ -3648,4 +3652,87 @@ body.editable .my-notes .note .actions {
 }
 .connect-first {
     max-width:160% !important;
+}
+
+.chat {
+    padding-bottom:95px;
+}
+.chat .actions {
+    position: fixed;
+    bottom: 10px;
+    right: 50px;
+    width: calc(100% - 100px);
+    left: 15px;
+}
+.chat .actions input {
+    border: 0;
+    border-radius: var(--border-radius2);
+    background-color: var(--color-bg2);
+    font-size: var(--size-medium);
+    padding: 21px 25px;
+    width: 100%;
+    color:var(--color-text);
+    -webkit-box-shadow: 18px 16px 18px -20px rgb(66 68 90);
+    -moz-box-shadow: 18px 16px 18px -20px rgba(66, 68, 90, 1);
+    box-shadow: -10px -15px 18px -20px rgb(66 68 90);         
+}
+.chat .response {        
+    margin: 15px 15px 0;
+    display: inline-flex;
+    align-items: center;
+    width: calc(100% - 30px);
+}
+.chat .response-box {
+    display:inline-flex;
+    align-items:center;
+    padding: 15px;
+    background-color: var(--color-bg2);
+    border-radius: var(--border-radius1);
+    line-height: 30px; 
+    -webkit-box-shadow: 18px 16px 18px -28px rgb(66 68 90);
+    -moz-box-shadow: 18px 16px 18px -28px rgba(66, 68, 90, 1);
+    box-shadow: 18px 16px 18px -28px rgb(66 68 90);        
+}
+.chat .response.human {
+    width: auto;
+    font-weight: 800;       
+}
+.chat .response .avatar-image {
+    width:40px;
+    border-radius:50%;
+    margin-right:15px;
+}
+.chat .response .icon-ChatGPT {
+    color:var(--color-base);
+    font-size:40px;
+    margin-right:15px;
+}
+.chat .loader {
+    width: 33px;
+    margin-top: 15px;
+    margin-left: 15px;
+    font-size: 33px;
+    color: var(--color-base);
+}
+.chat .intro .main-icon {
+    font-size:60px;
+    color:var(--color-base);
+    margin-top:15px;
+}
+.chat .intro {
+    align-items: center;
+    padding: 15px;
+    background-color: var(--color-bg2);
+    border-radius: var(--border-radius1);
+    line-height: 30px;
+    -webkit-box-shadow: 18px 16px 18px -28px rgb(66 68 90);
+    -moz-box-shadow: 18px 16px 18px -28px rgba(66, 68, 90, 1);
+    box-shadow: 18px 16px 18px -28px rgb(66 68 90);
+    flex-direction: column;
+    text-align: center;
+    margin: 15px;              
+}
+.chat .intro h2 {
+    font-size: 28px;
+    margin-top: 40px;        
 }

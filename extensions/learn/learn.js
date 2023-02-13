@@ -1,6 +1,8 @@
 
-    mvc.path = 'quizes';
+    mvc.path = 'dashboard';
     
+    if (mvc.view === 'chat'){ mvc.path = 'chat'; }
+    if (mvc.view === 'quizes'){ mvc.path = 'quizes'; }
     if (mvc.view === 'quiz'){ mvc.path = 'quiz'; }
     if (mvc.view === 'lesson' && mvc.controller){ mvc.path = 'lesson'; }
     

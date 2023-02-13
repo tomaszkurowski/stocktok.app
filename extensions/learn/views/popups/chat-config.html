@@ -1,0 +1,47 @@
+<div class="popup active popup-chat-config popup-chat-config">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Adjust to your needs</h2>
+        </div>        
+        <div class="form">
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Logic</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="graph_type"><b>Speed of Typing:</b><br />How fast AI will be typing responses.</label>
+                        <select id="graph_type" onChange="speedOfTyping = parseInt(this.value)"> <!-- stockactions.js -->
+                            <option value="50">Slow</option>
+                            <option value="25">Medium</option>
+                            <option value="10">Fast</option>
+                        </select>
+                    </div>                     
+                </div>
+            </div>              
+            <div class="tab-container">
+                <div class="tab-header">
+                    <h2>Look & Feel</h2>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                    <div class="changer-v2">
+                        <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                        <select id="theme" onChange="reload_theme($(this).val());"> <!-- stockactions.js -->
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        //reloadChangers(); // ui
+    });     
+</script>
