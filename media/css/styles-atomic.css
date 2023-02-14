@@ -3661,7 +3661,7 @@ body.editable .my-notes .note .actions {
     position: fixed;
     bottom: 10px;
     right: 50px;
-    width: calc(100% - 180px);
+    width: calc(100% - 145px);
     left: 15px;
 }
 .chat .actions input {

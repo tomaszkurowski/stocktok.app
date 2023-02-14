@@ -12,7 +12,8 @@
 
 <script type="text/javascript">
     
-    var speedOfTyping = 50;
+    var speedOfTyping = 10;
+    
     
     function chatReload(){
         let query = $('.chat #human-question').val();
@@ -67,10 +68,11 @@
                 if (config.debug) console.log(response); 
             }
         });
+        /* */
     }
     
     $(document).ready(function(){
-        
+        /*
         button({ class: 'icon-btn icon-settings' }, function(){
             if ($('.popup-chat-config').length){
                 $('.popup-btn').remove(); 
@@ -80,7 +82,8 @@
             $('body').addClass('with-popup with-blur');                            
             button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
                 $.ajax({ url:"/extensions/learn/views/popups/chat-config.html", cache:false, success: function(data){ $("#popup").html(data); }, error: function(e){ if (config.debug) console.log(e); }});
-        });  
+        });
+        */  
         button({ class: 'icon-btn icon-paper-plane' }, function(){                        
             chatReload();
         });        
