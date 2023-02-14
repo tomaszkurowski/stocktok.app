@@ -161,12 +161,12 @@ include('config.php'); ?>
                 border_radius2:     '5px'
             },
             
-            ai:{
-               speed_of_typing: 30,
-               temperature: 1.2 // Focus 0-2. Higher = More random vs Lower = more deterministic and focused
-               
-            },
-            
+            ai_model: 'text-curie-001',
+            ai_temperature: 0.9,
+            ai_presence_penalty: 0.5,
+            ai_frequency_penalty: 0.5,
+            ai_top_p: 0.1,
+                    
             mute:1,
             contributor: 'no',
             rememberMe: true,

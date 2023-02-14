@@ -683,6 +683,7 @@ border-radius: 50%;
     min-width:40px;
     margin-right:10px;
     overflow:hidden;
+    line-height:26px;
 }
 .popup .changer-v2 label b{
     font-size:var(--size-regular);
@@ -3656,13 +3657,15 @@ body.editable .my-notes .note .actions {
 
 .chat {
     padding-bottom:95px;
+    max-width:750px;
+    margin:0px auto;
 }
 .chat .actions {
     position: fixed;
     bottom: 10px;
-    right: 50px;
-    width: calc(100% - 145px);
-    left: 15px;
+    width: calc(100% - 180px);
+    max-width:750px;
+    margin:0px auto;
 }
 .chat .actions input {
     border: 0;
