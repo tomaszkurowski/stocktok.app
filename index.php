@@ -159,7 +159,14 @@ include('config.php'); ?>
                 hand_preference:    'right',
                 border_radius1:     '5px',
                 border_radius2:     '5px'
-            },            
+            },
+            
+            ai:{
+               speed_of_typing: 30,
+               temperature: 1.2 // Focus 0-2. Higher = More random vs Lower = more deterministic and focused
+               
+            },
+            
             mute:1,
             contributor: 'no',
             rememberMe: true,
