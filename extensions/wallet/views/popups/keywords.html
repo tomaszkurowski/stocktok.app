@@ -1,0 +1,146 @@
+<div class="popup active popup-keywords">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2 data-src="name"></h2>
+        </div>        
+        <div class="tab-container views-container active">
+            <div class="tab-header">
+                <h2>Edit Keywords</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            <div class="tab-content" data-src="available-keywords"></div>
+        </div>
+        <div class="tab-container views-container active">
+            <div class="tab-header">
+                <h2>New Keyword</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            <div class="tab-content form">
+                <div class="changer-v2">
+                    <label for="keyword-name"><b>Name</b></label>
+                    <input type="text" id="keyword-name" name="keyword-name" />
+                </div>
+                <div class="changer-v2">
+                    <label for="keyword-color"><b>Color</b></label>
+                    <input type="color" id="keyword-color" name="keyword-color" />
+                </div> 
+                
+                <input type="hidden" id="keyword-code" value="" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        keywordsReload();
+    });
+    
+    
+    function addKeyword(keyword){
+        
+        let code  = $('#keyword-code').val();
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/wallet/observed/keyword',
+                name:  keyword.name,
+                color: keyword.color,
+                code: code
+            },
+            type: 'POST',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                observedReload();
+                keywordsReload();
+            },
+            error: function(response){
+                if (config.debug) console.log(response);
+            }
+        });        
+    }
+    
+    function removeKeyword(id){
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/wallet/keywords',
+                id: id
+            },
+            type: 'DELETE',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){
+                observedReload();
+                keywordsReload();
+            },
+            error: function(response){
+                if (config.debug) console.log(response);
+            }
+        }); 
+    }
+    
+    function keywordsReload(){
+        
+        var code = $('#keyword-code').val();
+        $.ajax({
+            url: config.api_url,
+            data: { 
+                endpoint: '/wallet/keywords'
+            },
+            type: 'GET',
+            dataType: 'JSON',
+            cache: false,
+            success: function(response){  
+                                                
+                if (!response.keywords){
+                    $('[data-src="available-keywords').html('You don\'t have any keywords yet.');
+                    return;
+                } 
+                if (config.debug) console.log('All Keywords',response);
+                
+                $('[data-src="available-keywords').html('');
+                $.each(response.keywords,function(i,keyword){
+                    
+                    if ($('[data-name="'+keyword.name+'"][data-color="'+keyword.color+'"]').length){ 
+                        if (keyword.code === code) $('[data-name="'+keyword.name+'"][data-color="'+keyword.color+'"] input').prop('checked',true);
+                        return; 
+                    }
+                    
+                    let keywordChanger = $('<div class="changer-v2 short"></div>').attr('data-name',keyword.name).attr('data-color',keyword.color); 
+                    $(keywordChanger).append('<label for="'+keyword.name+'"><span class="keyword-color" style="background-color:'+keyword.color+'"></span><b>'+keyword.name+'</b></label>');
+                    $(keywordChanger).append($('<label class="switch-slider"><span class="switch"></span></label>'));
+                    
+                    $(keywordChanger).find('.switch-slider').prepend($('<input type="checkbox"'+(code === keyword.code ? ' checked="CHECKED"' : '')+' />').bind('click',function(){
+                        if ($(this).prop('checked') === true){                            
+                            addKeyword({ name: keyword.name, color: keyword.color })                            
+                        }else{
+                            removeKeyword(keyword.id);
+                        };
+                    }));
+                    
+                    $('[data-src="available-keywords"]').append($(keywordChanger));
+                });
+                
+            },
+            error: function(response){
+                if (config.debug) console.log(response);
+            }
+        });   
+        
+    }
+    
+    $(document).off('keyup','#keyword-name');
+    $(document).on('keyup','#keyword-name',function(){
+        
+        let name  = $('#keyword-name').val();
+        let color = $('#keyword-color').val();        
+        
+        if (name.length>2){ button({ class: "popup-btn keyword-add icon-btn icon-check1" }, function(){            
+            addKeyword({ name: name, color: color });            
+        });            
+        }else{ if ($('.keyword-add').length>0) $('.keyword-add').remove(); }
+        
+    });
+</script>

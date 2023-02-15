@@ -150,6 +150,7 @@ include('config.php'); ?>
             wallet_show_active:     true,
             wallet_show_sold:       true,
             wallet_show_grouped:    false,
+            wallet_edit_keywords:   false,
             
             design:{
                 size_small:         '12px',
