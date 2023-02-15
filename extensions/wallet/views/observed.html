@@ -31,18 +31,18 @@
                 error: function(e){ if (config.debug) console.log(e); }
             });                                
         }); 
-        /*
+
         button({ 
         class: 'icon-btn icon-settings' }, 
         function(){                        
             $.ajax({
-                url:"/extensions/wallet/views/popups/config.html",
+                url:"/extensions/wallet/views/popups/configObserved.html",
                 cache:false,
                 success: function(data){ openPopup(data); button({ class: 'icon-btn popup-btn icon-clear' }, function(){ closePopup(); }); },
                 error: function(e){ if (config.debug) console.log(e); }
             });                                
         });              
-        */
+        
     });      
     
     $(document).off('click','.leafs.empty');

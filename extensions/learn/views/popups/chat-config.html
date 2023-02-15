@@ -10,14 +10,49 @@
                     <div class="expand icon-expand_more"></div>
                 </div>
                 <div class="tab-content">
+                    
+                    <div class="changer-v2">
+                        <label for="ai_model"><b>AI Model</b><br />Model determines capability & performance. More aboutChatGPT Models <a href="https://platform.openai.com/docs/models/overview" target="_blank">Here</a></label>
+                        <select id="ai_model" onChange="updateSettings('ai_model',$(this).val());"> <!-- stockactions.js -->
+                            <option value="text-davinci-003">Da Vinci</option>
+                            <option value="text-curie-001">Curie</option>
+                            <option value="text-babbage-001">Babbage</option>
+                            <option value="text-ada-001">Ada</option>
+                        </select>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label for="ai_temperature" style="width:280px"><b>Focus</b><br />Random vs Deterministic</label>
+                        <div id="ai_temperature" style="margin-top:30px; width:450px;"></div>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label for="ai_presence_penalty" style="width:280px"><b>Creativity</b><br />Likelihood to talk about new topics</label>
+                        <div id="ai_presence_penalty" style="margin-top:30px; width:450px;"></div>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label for="ai_frequency_penalty" style="width:280px"><b>Repeatability</b><br />Likelihood to repeat the same</label>
+                        <div id="ai_frequency_penalty" style="margin-top:30px; width:450px;"></div>
+                    </div>
+                    
+                    <div class="changer-v2">
+                        <label for="ai_top_p" style="width:280px"><b>Uniqueness</b><br />Likelihood to repeat the same</label>
+                        <div id="ai_top_p" style="margin-top:30px; width:450px;"></div>
+                    </div>
+                                        
+                    <div class="changer-v2" style="height:30px"></div>
+                    
+                    <!--
                     <div class="changer-v2">
                         <label for="graph_type"><b>Speed of Typing:</b><br />How fast AI will be typing responses.</label>
-                        <select id="graph_type" onChange="speedOfTyping = parseInt(this.value)"> <!-- stockactions.js -->
+                        <select id="graph_type" onChange="speedOfTyping = parseInt(this.value)"> 
                             <option value="50">Slow</option>
                             <option value="25">Medium</option>
                             <option value="10">Fast</option>
                         </select>
                     </div>                     
+                    -->
                 </div>
             </div>              
             <div class="tab-container">
@@ -42,6 +77,49 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
+        
+        $('#ai_model').val(settings.ai_model);
+        
+        var slider = document.getElementById('ai_temperature');
+        noUiSlider.create(slider, {
+            start: settings.ai_temperature,
+            connect: true, tooltips: true,
+            range: { 'min': 0, 'max': 2 }, pips: { mode: 'range',density: 5, values: 2 }
+        });
+        slider.noUiSlider.on('end', function (values, handle) {
+            updateSettings('ai_temperature',values[0]);
+        });
+        
+        var slider = document.getElementById('ai_presence_penalty');
+        noUiSlider.create(slider, {
+            start: settings.ai_presence_penalty,
+            connect: true, tooltips: true,
+            range: { 'min': -2, 'max': 2 }, pips: { mode: 'range',density: 5, values: 2 }
+        });
+        slider.noUiSlider.on('end', function (values, handle) {
+            updateSettings('ai_presence_penalty',values[0]);
+        });
+        
+        var slider = document.getElementById('ai_frequency_penalty');
+        noUiSlider.create(slider, {
+            start: settings.ai_frequency_penalty,
+            connect: true, tooltips: true,
+            range: { 'min': -2, 'max': 2 }, pips: { mode: 'range',density: 5, values: 2 }
+        });
+        slider.noUiSlider.on('end', function (values, handle) {
+            updateSettings('ai_frequency_penalty',values[0]);
+        });
+        
+        var slider = document.getElementById('ai_top_p');
+        noUiSlider.create(slider, {
+            start: settings.ai_top_p,
+            connect: true, tooltips: true,
+            range: { 'min': 0.1, 'max': 1 }, pips: { mode: 'range',density: 5, values: 2 }
+        });
+        slider.noUiSlider.on('end', function (values, handle) {
+            updateSettings('ai_top_p',values[0]);
+        });
+        
         //reloadChangers(); // ui
     });     
 </script>

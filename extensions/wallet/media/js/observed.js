@@ -53,6 +53,7 @@ function observedReload(){
                     let el = $('<tr class="leaf drag-item"></tr>')
                     .attr('data-id',item.wallet_entities_id)
                     .attr('data-code',item.symbol+'.'+item.market)
+                    .attr('data-name',item.name)
                     .attr('data-symbol',item.symbol)
                     .attr('data-market',item.market)
                     .attr('data-type',item.type_of_transaction);
@@ -76,7 +77,22 @@ function observedReload(){
                             .append(item.logo ? '<td class="logo'+(settings.wallet_show_price ? '' : ' center')+'"><img src="'+item.logo+'" /></td>' : '<td class="symbol'+(settings.wallet_show_price ? '' : ' center')+'" data-title="Symbol">'+item.symbol+'</td>')
                             .append('<td class="name" data-title="Name">'+item.name+'</td>')
                             .append('<td class="price'+(settings.wallet_show_price === false ? ' hide' : '')+'"><label data-src="last_updated_at">-</label><span data-src="price">-</span><a>'+item.market_currency+'</a></div></td>')
-                            .append('<td class="graph'+(settings.wallet_show_graph === false ? ' hide' : '')+'" id="graph-'+item.id+'"></td>');                    
+                            .append('<td class="graph'+(settings.wallet_show_graph === false ? ' hide' : '')+'" id="graph-'+item.id+'"></td>');
+                    
+                    
+                            // Keywords
+                            let keywords = $('<td class="keywords"></td>');
+                            $(keywords).append('<span class="active">All</span>');
+                            if (item.keywords.length>0){
+                                $.each(item.keywords,function(i,keyword){
+                                    $(keywords).append('<span style="border-color:'+keyword.color+'">'+keyword.name+'</span>');
+                                });
+                            }
+                            if (settings.wallet_edit_keywords){
+                                $(keywords).append('<div class="icon-create keyword-add"></div>');
+                            }
+                            $(el).append($(keywords));
+                            
                         break;
                     }
                     $(el).find('.logo,.name,.graph,.results,.total,.symbol')
@@ -187,3 +203,29 @@ function observedReload(){
     });        
 }
 
+$(document).off('click','.keywords .keyword-add');
+$(document).on('click','.keywords .keyword-add',function(){
+    if ($('.popup-config-observed').length){
+        $('#popup').html(''); $('.popup-btn').remove(); 
+        $('body').removeClass('with-popup'); 
+        $('body').removeClass('with-blur'); 
+        return;
+    }
+    $('body').addClass('with-popup with-blur');                            
+
+    var code = $(this).parents('.leaf').attr('data-code');
+    var name = $(this).parents('.leaf').attr('data-name');
+
+    $('.popup-btn.icon-clear').remove();
+    button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+    $.ajax({
+        url:"/extensions/wallet/views/popups/keywords.html",
+        cache:false,
+        success: function(data){ 
+            $("#popup").html(data); 
+            $('[data-src="name"]').html(name);
+            $('#keyword-code').val(code);  
+        },
+        error: function(e){ if (config.debug) console.log(e); }
+    });    
+});
