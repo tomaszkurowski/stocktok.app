@@ -1,0 +1,75 @@
+<div class="popup active popup-config-xtb">
+    <div class="popup-body padding-side-regular">
+        <div class="header">                    
+            <h2>Adjust to your needs</h2>
+        </div>    
+        <div class="tab-container">
+            <div class="tab-header">
+                <h2>Manage</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            <div class="tab-content">
+                <div class="changer-v2">
+                    <label for="wallet_xtb_revert"><b>Revert Mode</b><br/>Revert Mode shows everything opposite. Profit as loss. Red as green. It could be psychology trick for beginners.</label>
+                    <label class="switch-slider">
+                        <input id="wallet_xtb_revert" type="checkbox" onClick="updateSettings('wallet_xtb_revert',this.checked); connect()"/> 
+                        <span class="switch"></span>
+                    </label>
+                </div>                                       
+            </div>
+        </div>        
+        <div class="tab-container">
+            <div class="tab-header">
+                <h2>Look & Feel</h2>
+                <div class="expand icon-expand_more"></div>
+            </div>
+            <div class="tab-content">
+                <div class="changer-v2">
+                    <label for="theme"><b>Theme</b><br/>Change theme to your preferred colors</label>
+                    <select id="theme" onChange="reload_theme($(this).val());">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+                <div class="changer-v2">
+                    <label><b>Fullscreen:</b><br/>Switch to fullscreen to get maximum space to view</label>
+                    <label class="switch-slider">
+                        <input id="fullscreen" type="checkbox" onClick="toggleFullscreen()"/> 
+                        <span class="switch"></span>
+                    </label>
+                </div>                                       
+            </div>
+        </div>        
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        if (settings.wallet_xtb_revert === true) $('#wallet_xtb_revert').prop('checked',true);
+    });
+    
+    function reload_theme(theme){
+        switch (theme){
+            case 'dark':
+                settings.design.color_bg = '#000000';
+                settings.design.color_bg2 = '#1a1a1a';
+                settings.design.color_text = '#ffffff';
+                settings.design.color_label = '#f2f2f2';
+                settings.design.color_base = '#f5b30c';
+                settings.design.color_base_invert = '#000000';
+            break;              
+            case 'light':
+                settings.design.color_bg = '#f2f2f2';
+                settings.design.color_bg2 = '#ffffff';
+                settings.design.color_text = '#000000';
+                settings.design.color_label = '#1a1a1a';
+                settings.design.color_base = '#0004f5';
+                settings.design.color_base_invert = '#ffffff';                                                
+            break;
+        }
+        settings.theme = theme;
+        updateSettings('theme',theme);
+        load_layout();     
+    }
+    
+</script>

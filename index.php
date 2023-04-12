@@ -75,9 +75,11 @@ include('config.php'); ?>
     <script src="/media/js/external/kmturley/dragDrop.js"></script> 
     <script src="/media/js/external/kmturley/RequestAnimationFrame.js"></script>
     <script src="/media/js/external/leongersen/nouislider.js"></script>
+    
+    
     <script src="/media/js/external/TradingView/tv.js?v=0.0.2"></script>
     <script type="text/javascript" src="/media/js/external/TradingView/charting_library/charting_library.standalone.js"></script>
-        
+    
     <script src="/media/js/internal.js?version=<?= $config['version_js'] ?>"></script>
     <script src="/media/js/internal/app<?= $config['minify']==='true' ? '.min' : '' ?>.js?version=<?= $config['version_js'] ?>"></script>          
     <script src="/media/js/external.js?version=<?= $config['version_js'] ?>"></script>
@@ -151,6 +153,7 @@ include('config.php'); ?>
             wallet_show_sold:       true,
             wallet_show_grouped:    false,
             wallet_edit_keywords:   false,
+            wallet_xtb_revert:      false,
             
             design:{
                 size_small:         '12px',
@@ -170,6 +173,8 @@ include('config.php'); ?>
                     
             mute:1,
             contributor: 'no',
+            xtb_integration: 'no',
+            subscription: 'no',
             rememberMe: true,
             screener: {}
         };        
