@@ -1,0 +1,267 @@
+<div class="site">
+    
+    <div class="panel hide-scroll">
+        <div class="tab-group">
+            <div class="tab-container overview active">
+                <div class="tab-header">          
+                    <h2 data-src="wallet.username"></h2>                   
+                    <div class="avatar-container" data-src="wallet.avatar"></div>
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content">
+                </div>
+            </div>             
+            <div class="tab-container wallet">
+                <div class="tab-header">
+                    <h2>Balance</h2>   
+                    <div class="counter neutral margin hide" data-color="neutral" data-src="xtbBalance">0,00 pln</div>                      
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content"></div>
+            </div>
+            <div class="tab-container wallet">
+                <div class="tab-header">
+                    <h2>Open Trades</h2>   
+                    <div class="counter neutral margin" data-color="neutral" data-src="xtbOpenProfit">0,00 pln</div>                      
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content"></div>
+            </div> 
+            <div class="tab-container wallet">
+                <div class="tab-header">
+                    <h2>Close Trades</h2>   
+                    <div class="counter neutral margin hide" data-color="neutral" data-src="xtbClosedProfit">0,00 pln</div>                      
+                    <div class="expand icon-expand_more"></div>
+                </div>
+                <div class="tab-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="screen">
+        <div class="xtb-login-container">
+            <div class="cms-form xtb-login">
+
+                <img src="/media/img/partners/xtb.png" />  
+                
+                <p>Stocktok <b>is not storing any data</b>. Its passing it directly to XTB API. </p>
+                
+                <input type="text" class="input" id="xtb_user_id" placeholder="XTB User ID" />
+                <input type="password" class="input" id="xtb_password" placeholder="XTB Password" />
+
+                <div class="actions">
+                    <div class="btn primary" onClick="connect()">Safe Login</div>
+                </div>
+
+            </div>
+        </div>
+        <div class="after-login hide">
+            <table class="leafs" data-src="openTrades" data-view="grid"><thead></thead><tbody></tbody></table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Our websocket
+    var ws;
+    var openTransactions;
+    var init = true;
+    var liveTimeout;
+    
+    
+    
+    $(document).ready(function() {
+        
+        $('[data-src="wallet.username"]').text($('nav .username').text());
+        if ($('nav .avatar-container img')){
+            $('[data-src="wallet.avatar"]').html($('nav .avatar-container').html()).find('img').addClass('avatar');           
+        }            
+
+        //connect();
+        button({ class: 'icon-btn icon-settings' }, function(){
+            if ($('.popup-chat-config').length){
+                $('.popup-btn').remove(); 
+                $('body').removeClass('with-popup').removeClass('with-blur'); 
+                return;
+            }
+            $('body').addClass('with-popup with-blur');                            
+            button({ class: 'icon-btn popup-btn icon-clear' }, function(){ $('#popup').html(''); $('.popup-btn').remove(); $('body').removeClass('with-popup'); $('body').removeClass('with-blur'); $('.quick-tools .actions > div').removeClass('active'); });                            
+                $.ajax({ url:"/extensions/wallet/views/popups/configXtb.html", cache:false, success: function(data){ $("#popup").html(data); }, error: function(e){ if (config.debug) console.log(e); }});
+        });        
+        
+    });
+    
+    // For now
+    $(document).off('click','.overview');
+    $(document).on('click','.overview',function(){
+        load_page('/wallet',true);
+    });
+    
+    
+    function liveOpenTrades() {           
+        getOpenTrades();
+        liveTimeout = setTimeout(liveOpenTrades, 1000);
+    }
+    
+    function connect() {
+        
+        var url = "wss://ws.xtb.com/real";
+        console.log('Connecting to: ' + url);
+        
+        ws = new WebSocket(url);
+        ws.onopen = function() { safeLogin(); };
+        ws.onmessage = function(evt) {
+            //console.log("Received: ",evt.data);
+
+            try {
+                var response = JSON.parse(evt.data);
+                if(response.status === true){
+                    
+                    // tu poszlo info ze sie zalogowalem
+                    if(response.streamSessionId != undefined) {
+                        getOpenTrades();
+                    }
+                    
+                    // tu dostalem odpowiedz z senda (aktualnie getOpenTrades()
+                    if (response.returnData != undefined){
+                        openTransactions = response.returnData;
+                        if (init){
+                            parseOpenTrades();
+                            init = false;
+                            setTimeout(liveOpenTrades, 1000);
+                        }else{
+                            parseOpenTradesResults();
+                        }
+                        
+                    }
+                    
+                }else{
+                    if (config.debug) alert(response.errorDescr);
+                }
+            }catch(Exception){
+                if (config.debug) console.log('Fatal error while receiving data! :(');
+            }
+        };
+        ws.onclose = function() {
+          console.log('Connection closed');
+        };
+    };
+    function disconnect() {
+      ws.close();
+    }
+    function send(jsonMessage) {
+      try {
+        var msg = JSON.stringify(jsonMessage);
+        ws.send(msg);
+        //console.log('Sent ' + msg.length + ' bytes of data: ' + msg);
+      } catch(Exception) {
+        console.error('Error while sending data: ' + Exception.message);
+      }
+    }
+    function safeLogin() {
+        
+        var msg = {};
+        msg.command = "login";
+        
+        var arguments = {};
+        arguments.userId = $('#xtb_user_id').val();
+        arguments.password = $('#xtb_password').val();
+      
+        if (arguments.userId.length>2 && arguments.password.length>2){
+            msg.arguments = arguments;
+            send(msg);
+        }
+    }
+    function getOpenTrades() {
+      var msg = {};
+      msg.command = "getTrades";
+      var arguments = {};
+      arguments.openedOnly = true;
+      msg.arguments = arguments;    
+      //console.log('Getting list of my Trades');
+      send(msg);
+    }
+
+    function parseOpenTradesResults() {
+
+        // @TODO: Semantics: variables
+        var returnData = openTransactions;
+        var total_profit = 0;  
+        for (var i = returnData.length - 1; i >= 0; i--) {
+            
+            let marginXTB = parseFloat(returnData[i].profit);
+            if (settings.wallet_xtb_revert) marginXTB = returnData[i].profit * (-1);
+            
+            $('.leaf[data-order="'+returnData[i].order+'"]')
+            .find('.marginXTB').html('<span data-color="'+(marginXTB>0 ? 'green' : 'red')+'">'+ marginXTB + ' pln</span>');
+
+            total_profit   += marginXTB;          
+        }
+        $('[data-src="xtbOpenProfit"]').attr('data-color',(total_profit > 0 ? 'green' : 'red')).text(format_price(total_profit,2)+' pln');        
+    }    
+    function parseOpenTrades(){
+        
+        $('.xtb-login-container').addClass('hide');
+        $('.after-login').removeClass('hide');
+        
+        // @TODO: Semantics: variables
+        var returnData = openTransactions;
+                
+        console.log('My Trades',returnData);
+        var total_profit = 0;
+
+        $('[data-src="openTrades"] tbody').html('');
+        for (var i = returnData.length - 1; i >= 0; i--) {
+            
+            let leaf = $('<tr class="leaf"></tr>')
+                .attr('data-order',returnData[i].order)
+                //.append('<td class="symbol">'+ returnData[i].symbol +'</td>');
+                
+                                                        
+            // @TODO: JOIN        
+            let tvSymbol = 'CURRENCYCOM:US100';
+            if (returnData[i].symbol === 'MBK.PL_4'){ tvSymbol = 'GPW:MBK'; }
+                
+            let tvOptions = {
+                "symbol": tvSymbol,
+                "width": "100%",
+                "height": 220,
+                "locale": "en",
+                "dateRange": "1D",
+                "colorTheme": "light",
+                "trendLineColor": "rgba(41, 98, 255, 1)",
+                "underLineColor": "rgba(41, 98, 255, 0.11)",
+                "underLineBottomColor": "rgba(41, 98, 255, 0)",
+                "isTransparent": true,
+                "autosize": false,
+                "largeChartUrl": ""
+            };
+            let tvUrl = encodeURIComponent(JSON.stringify(tvOptions));
+            $(leaf).append('<td><iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=en#'+tvUrl+'" class="tvGraph"></iframe></td>');
+
+            $(leaf)
+            //.append('<td>'+ returnData[i].open_price +'</td>')
+            //.append('<td>'+ returnData[i].close_price +'</td>')
+            
+    
+            let marginXTB   = parseFloat(returnData[i].profit);            
+            let cmd         = returnData[i].cmd ? 'Sell: ' : 'Buy: ';
+            
+            if (settings.wallet_xtb_revert) cmd = returnData[i].cmd ? 'Buy: ' : 'Sell: ';
+            if (settings.wallet_xtb_revert) marginXTB = returnData[i].profit * (-1);
+            
+            $(leaf)
+            .append('<td class="volume">'+ cmd +returnData[i].volume +'</td>')
+            .append('<td class="marginXTB"><span data-color="'+(marginXTB>0 ? 'green' : 'red')+'">'+ marginXTB + ' pln</span></td>');
+            
+            total_profit   += marginXTB;
+
+            $('[data-src="openTrades"] tbody').append($(leaf));
+        };  
+        
+        $('[data-src="xtbOpenProfit"]').attr('data-color',(total_profit > 0 ? 'green' : 'red')).text(format_price(total_profit,2)+' pln');
+
+    }
+    
+</script>

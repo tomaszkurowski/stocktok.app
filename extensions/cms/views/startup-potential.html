@@ -1,0 +1,216 @@
+<link rel="stylesheet" type="text/css" href="/extensions/cms/media/css/content.css?v=0.0.39" />
+
+<div class="content" style="opacity:0">
+    
+    <div class="breadcrumbs">Stocktok</div>
+    
+    <div class="row" data-columns="1" data-chapter="1">
+        <div class="column banner">
+            <h1>Startup potential</h1>
+            <p>From founder perspective: Facts, my story, strong & weak sides of startup</p>
+            <div class="icon-btn icon-expand_more"></div>        
+        </div>
+    </div>
+     
+    <div class="row" data-columns="1" data-chapter="2">
+        <div class="column" style="text-align:left">
+            <h2>My Story </h2>
+            
+            <p>
+                
+                I've been investor for a very long time (almost 15 years already). I'm still from Warren Buffet school and as him
+                I believe in long-term growth, based on quality, strong management & solid fundamentals of companies (not just stocks).
+                I have used more than 10 brokers in my life and I was also using a lot of other apps. I have quite deep understanding of investors & traders needs.
+                <br /><br />
+                
+                My work experience is related with Ecom. I've been working on roles like salesman, project manager, director, leader, head-of-commerce and I worked on one of the biggest ecommerce projects for international enterprise customers like
+                Volkswagen & Smyk in Poland, Cora in Romania, Mayborn in UK & US, Fero-Term in Croatia and many more. More about me on <a href="https://www.linkedin.com/in/tomasz-kurowski-598106a0/" target="_blank">linkedin</a> and me personally on <a href="https://www.instagram.com/tomasz.kurowski" target="_blank">instagram</a>.
+                <br /><br />
+                
+                My main goal of this startup was to connect passion I have for investing with experience I have from my work, into a product.
+                There are two important reasons why I started doing Stocktok:<br /><br />
+                
+                <b>a) Solving my own problem</b><br/><br />
+                I wanted to have app that fulfills all my needs and I really couldn't find it.
+                I needed elegant portfolio with very flexible & simple UX where I can easily manage my assets. All of competitors have got
+                really poor UX or don't have all features. To give some examples: 
+            </p>
+            <ul>
+                <li>Investing.com - One of the biggest players. UX is like from 90s, they don't have all markets (for eg. I have FCB token in my wallet)</li>
+                <li>TradingView - The best player. But its simply overcomplicated (its for professionals who loves technical-analysis) and they are focused on serving data.
+                    Portfolio features are very poor. U cannot measure (visualize) for eg. whole portfolio performance historically (only separately, stock by stock)</li>
+                <li>Binance - Its only for crypto. But first interesting try of changing investing app into a game</li>
+                <li>XTB/Plus500 - Its for professionals, UX is focused on showing price & graph. These are typical brokers, with goal - let's be very honest - squeeze money from your transactions, not learn u investing. Plus they don't have all markets</li>
+                <li>Google/Yahoo - Very good approach for data & news, but again - don't have handled things like portfolio management or learning center.
+            </ul>
+            <p>    
+                Taking experience from Ecom, I would say that stock market is incomparably immature vs ecom (number of platforms/developers/companies/agencies & quality of UX, customer journeys)
+                + There is next young-generation coming into market. Future will be going in similar direction as in very mature ecom. At the moment there is no big open-source platform for investors. There are only few platforms with multiconnection approach. There are not a lot of PWA. There are plenty old-fashioned systems, etc. etc. 
+                For eg. now very hot topic is AI and chatGPT. I did integration on stocktok within day for it (try <a href="https://stg-app.stocktok.online/learn/chat" target="_blank">here</a>. For other competitors its like next project for weeks/months.
+            </p>
+            <p>
+                <b>b) Business niche</b><br /><br />               
+                Good quality data is still one of the most valuable asset in the internet.<br /><br />
+                
+                Taking for eg. just NASDAQ,NYSE (US exchanges) and data from them, it is cost of +50k $/yearly (<a href="">source</a>)<br />
+                GPW is +50k PLN/yearly (<a href="https://www.gpw.pl/pub/GPW/files/PDF/cennik/FeeSchedule_01012023.pdf" target="_blank">source</a>)<br /><br />
+                
+                The alternative option is to take data from external providers (most of them are unicorns like Yahoo, Google, IEX, AlphaVantage, Pologyn, Intrinio etc.).<br />
+                Prices with some sensible range & limits starts from 99$/mo. (eg. <a href="https://eodhistoricaldata.com/" target="_blank">source</a> <- the best provider I found in terms of price, limits etc.)<br /><br />
+                
+                In Stocktok, I already have this data due to multi-source (different apis, scraping) approach.
+                And my costs are riddiculusly small (only server & domains) comparing to competitors who are mostly companies with tens or houndreds of people (tradingView is +1000 corporation).
+            </p>
+                       
+        </div>
+    </div>    
+    
+    
+    <div class="row" data-columns="2" data-chapter="2">
+        <div class="column">
+
+            <h2>Implementation</h2>
+            <ul>
+                <li>Technologies: PWA (JS+HTML+CSS), API (PHP), Websockets (PHP), Digger (NodeJS)</li>
+                <li>Github: <a href="https://github.com/tomaszkurowski/stocktok.app" target="_blank">PWA source code</a></li>
+                <li>API: <a href="https://stocktok.website/api/" target="_blank">Documentation</a></li>
+                <li>Project (incl. roadmap): <a href="https://stocktok.website/" target="_blank">Website</a></li>
+                <li>Timespent so far for MVP: 190MD (March - December 2022)</li> 
+            </ul>
+
+            <h2>What's inside? </h2>
+            
+            <ul>
+                <li><b>PWA & Admin panel</b><br />On my framework, very fast, minimalistic, modular</li>
+		
+                <li><b>Websocket server</b></li>
+		
+                <li><b>Digger engine</b><br />Independent scripts, which in background scrape/dowload data from external sources<br />
+                    <ul>
+                        <li>via puppeter&proxy-chain from web</li>
+                        <li>via multi-api approach from api providers</li>
+                    </ul>
+                </li>
+			
+                <li><b>API for data access</b></li>
+		
+                <li><b>WebAuth server</b><br />
+                    Server to sign in/up via fingerprint (still as a part of webapp).  At the moment turned off (but can be presented)</li>
+                
+                <li><b>MIX</b><br />
+                    2 VPS servers (from Cyberfolks), 4 domains (.app .pl .website .online), Full UX (logo, atomic elements etc), Project plans</li>
+            </ul>                                    
+                       
+        </div>
+    
+        <div class="column" style="justify-content:flex-start">
+            
+            <h2>PWA main features</h2>
+            <ul>
+                <li>Portfolio management & dymanic trend graph</li>
+                <li>Easy drag n drop sorting/filtering observed assets or portfolio</li>
+                <li>Learning center (lessons & quizes)</li>
+                <li>Game mode (get virtual $ by learning and invest)</li>
+                <li>AI chat (integrated with chatGPT)</li>
+                <li>Screeners</li>
+                <li>Graphs (including technical analysis & drawing tools)</li>
+                <li>News system (3 sources)</li>
+                <li>Fundamentals, Technical Analysis, Management of companies, Additional Info</li>
+                <li>Virtual Broker system (buying/selling tools).</li>
+                <li>Live pricing</li>
+                <li>Admin panel</li>
+                <li>Fancy settings (avatars, sounds, theme)</li>
+                <li>Contributor mode</li>
+                <li>Players, Rankings (on game mode)</li>
+                <li>Staging/Production mode</li>
+                <li>Proof-Of-Concept - Broker integration (XTB)</li>
+            </ul>
+        </div>
+    </div> 
+    
+    
+    <div class="row" data-columns="1" data-chapter="2">
+        <div class="column" style="text-align:left">
+            <h2>Digital Marketing</h2>
+            
+            <p>
+                After MVP version of product I focused on trying to find first potential users.
+                In 2 months I've been able to gather:
+            <ul>
+                <li><a href="https://www.instagram.com/stocktok.app/">Instagram: 605 followers</a> </li>
+                <li><a href="https://twitter.com/Stocktok5">Twitter: 100 followers</a></li>                                    
+            </ul>
+            <p>
+            I tried content marketing, discussions & ads. All targeted <b>only in US</b>.
+            And I spent approx. 10k pln (mostly instagram & FB, different posts).<br />
+            Effects are rather poor:<br />
+            </p>
+            <ul>
+                <li>It generated 415 users</li>
+                <li>Around 30 accounts</li>
+                <li>Around 5 users who were playing with app and came back later (not counting friends in this)</li>
+                <li>Around 2 really engaged users at some moment</li>
+            </ul>
+            <p>
+                My idea of monetization was related with features and limits, similar as with competitors. But numbers above shows
+                that to get to conversion it requires much more confident, conceptual and simply stronger marketing. Bringing traffic 
+                was never my strong side. That's why here I did a pause in project and I'm searching for connections.<br /><br />
+                
+                I'm happy to share google-analytics, social-media reports or more details about campaigns I tried.
+            </p>    
+                                       
+        </div>
+    </div> 
+    
+    
+    
+    <div class="row" data-columns="2" data-chapter="2">
+        <div class="column">
+            <h2>Strong sides </h2>
+            
+            <ul>
+                <li>Extremly tiny costs of maintenance (only VPS, domains) vs competitors (companies with big development teams) that in the end has got similar features</li>
+                <li>Development with very strong & confident understanding of financial markets & trading</li>
+                <li>Very light & fresh PWA platform vs old-overcomplicated & already outdated and not prepared for flexible development platforms who now keep a lot of users</li>
+                <li>Never-ending growing market (which is constatly proving by competitors like XTB, Binance, Trading-View etc.). Trading itself has got +100y history and number of investors keeps growing fast.</li>
+            </ul>
+            
+            <h2>Weak sides </h2>
+            <ul>
+                <li>Digital Marketing. Its hard to get attention. Startup requires Mentor in this area</li>
+                <li>Legal perspective. There is a thin line, between learning investing and convincing to it. At the moment Stocktok is not gathering ANY data from users, its for free and very neutral. In case of monetization it would need to have solid legal support.</li>                
+            </ul>
+            
+        </div>
+    
+        <div class="column" style="justify-content:flex-start">
+            <h2>What am I searching for?</h2>
+            <ul>
+                <li>Investors with similar passion to trading/investing, who can have a vision for Digital Marketing</li>
+                <li>Investors who are interested in product itself and wants to buy it or somehow merge into their companies</li>
+                <li>Mentors in startups who wants to help guide me in correct direction</li>
+                <li>Companies/CEO/CTO who already have got customers and they are interested in refreshing/rebuild their systems for sth simpler</li>
+                <li>Companies who already have got audience or apps and want to extend their business (for eg. api providers, screeners, financial portals</li>               
+            </ul>
+            <p>I'm happy to give majority package to strong investors and together work on business plan</p>
+        </div>
+    </div> 
+    
+    
+        
+       
+</div>
+
+<script type="text/javascript">
+
+    $(window).scroll(function(){        
+        if (mvc.view==='Startup potential'){
+            if ($(this).scrollTop()>$('[data-chapter="1"]').offset().top && $(this).scrollTop()<$('[data-chapter="2"]').offset().top) $('.content .breadcrumbs').text('What is Stocktok?');
+            if ($(this).scrollTop()>$('[data-chapter="2"]').offset().top && $(this).scrollTop()<$('[data-chapter="3"]').offset().top) $('.content .breadcrumbs').text('Key Features');
+            if ($(this).scrollTop()>$('[data-chapter="3"]').offset().top && $(this).scrollTop()<$('[data-chapter="4"]').offset().top) $('.content .breadcrumbs').text('For Who?');
+
+            if(Math.round($(window).scrollTop() + $(window).height()) > $(document).height()-1) $('.content .breadcrumbs').text('Find more on social');
+        }
+    });    
+
+</script>

@@ -6,5 +6,5 @@ $(document).ready(function(){
     $.getScript('/media/js/external/moment.min.js?version=2.29.4',function(){
         $.getScript('/media/js/external/moment-timezone.min.js?version=0.2');        
     }); 
-    $.getScript('https://unpkg.com/dayjs@1.8.21/dayjs.min.js');               
+    //$.getScript('https://unpkg.com/dayjs@1.8.21/dayjs.min.js');               hmmmm
 });

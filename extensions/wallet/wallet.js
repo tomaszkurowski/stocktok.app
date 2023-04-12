@@ -1,5 +1,7 @@
 
     mvc.path = 'dashboard';
+    if (mvc.view === 'xtb')         mvc.path = 'xtb';
+    if (mvc.view === 'xtb2')         mvc.path = 'xtb2';
     if (mvc.view === 'observed')    mvc.path = 'observed';
     if (mvc.view === 'trend')       mvc.path = 'trend';
 

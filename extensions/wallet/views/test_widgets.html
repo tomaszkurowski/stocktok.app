@@ -1,0 +1,37 @@
+<div class="tv-widget"></div>
+<script type="text/javascript">
+    let technicalAnalysisOptions = {
+        "symbol": "FX:EURUSD",
+        "width": "100%",
+        "height": 220,
+        "locale": "en",
+        "dateRange": "1D",
+        "colorTheme": "light",
+        "trendLineColor": "rgba(41, 98, 255, 1)",
+        "underLineColor": "rgba(41, 98, 255, 0.11)",
+        "underLineBottomColor": "rgba(41, 98, 255, 0)",
+        "isTransparent": true,
+        "autosize": false,
+        "largeChartUrl": ""
+    };
+    let technicalAnalysisUrl = encodeURIComponent(JSON.stringify(technicalAnalysisOptions));
+    $('.tv-widget').html('<iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/mini-symbol-overview/?locale=en#'+technicalAnalysisUrl+'" style="box-sizing: border-box; height: 100%; width: 100%;"></iframe>');
+    
+</script>
+<!--
+<script type="text/javascript">
+    let technicalAnalysisOptions = {
+        "interval": "1m",
+        "width": "100%",
+        "isTransparent": true,
+        "height": "100%",
+        "symbol": "NASDAQ:AAPL", 
+        "showIntervalTabs": true, 
+        "locale": "en", 
+        "colorTheme": settings.theme
+    };
+    let technicalAnalysisUrl = encodeURIComponent(JSON.stringify(technicalAnalysisOptions));
+    $('.tv-widget').html('<iframe scrolling="no" allowtransparency="true" frameborder="0" src="https://s.tradingview.com/embed-widget/technical-analysis/?locale=en#'+technicalAnalysisUrl+'" style="box-sizing: border-box; height: 100%; width: 100%;"></iframe>');
+    
+</script>
+-->
