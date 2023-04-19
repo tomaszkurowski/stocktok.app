@@ -4,7 +4,7 @@
     
     <div class="breadcrumbs">Terms & Conditions and Privacy Policy</div>
     
-    <div class="row" data-columns="1" data-chapter="2">
+    <div class="row" data-columns="1" data-chapter="1">
         <div class="column" style="text-align:left">
             <h2>Terms & Conditions</h2>
             
@@ -49,7 +49,7 @@
             <br /><br />
             
             <h3>DATA PRIVACY AND SECURITY</h3><br />
-            <p>We are committed to protecting your privacy and the security of your personal information. <a href="">Our privacy policy</a> outlines how we collect, store, and use your personal information. By using the mobile app, you agree to <a href="">our privacy policy.</a></p>
+            <p>We are committed to protecting your privacy and the security of your personal information. <a onclick="scrollToPrivacyPolicy()">Our privacy policy</a> outlines how we collect, store, and use your personal information. By using the mobile app, you agree to <a onclick="scrollToPrivacyPolicy()">our privacy policy.</a></p>
             <p>Data on Stocktok is provided by following partners:</p>
 
             <ul>
@@ -111,6 +111,7 @@
 
 <script type="text/javascript">
 
+    /*
     $(window).scroll(function(){        
         if (mvc.view==='terms-and-privacy-policy'){
             if ($(this).scrollTop()>$('[data-chapter="1"]').offset().top && $(this).scrollTop()<$('[data-chapter="2"]').offset().top) $('.content .breadcrumbs').text('What is Stocktok?');
@@ -120,5 +121,9 @@
             if(Math.round($(window).scrollTop() + $(window).height()) > $(document).height()-1) $('.content .breadcrumbs').text('Find more on social');
         }
     });    
+    */
+    function scrollToPrivacyPolicy(){
+        window.scrollTo(0,parseInt($('[data-chapter="2"]').offset().top));
+    }
 
 </script>
