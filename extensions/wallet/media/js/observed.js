@@ -23,7 +23,7 @@ function observedReload(){
             
             if (config.debug) console.log('wallet',wallet);
 
-            if (!wallet.items || wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-bookmark"></div><h3>You don\'t observe anything yet</h3></td></tr>'); return; }
+            if (!wallet.items || wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-bookmark"></div><h3>You don\'t observe anything yet</h3><p>To find some first companies: <div class="btn primary" onclick="location.href=\'/market/search?market-is-nasdaq&sort-DESC-volume\'">click here</div></p></td></tr>'); return; }
             $('.screen').html('<table class="leafs" data-view="grid" data-src="all"><tbody></tbody></table>');
 
             var apexcharts = {};

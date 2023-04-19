@@ -3,19 +3,30 @@
         <div class="profile" onclick="load_page('/me/login/?ref='+window.location.pathname,true);">
             <div class="avatar-container"></div>
             <div class="info">
-                <span class="username">Not logged</span>
-                <span class="rank">Sign up to get started</span>
+                <span class="username">Guest</span>
+                <span class="rank">Connect for better experience</span>
             </div>
         </div>
+        
+        <div class="hr-menu"></div>
+        
+        <div class="btn-menu" onclick="load_page('/cms/terms-and-privacy-policy',true)">
+            <span class="icon icon-security"></span>
+            <span class="info">Terms & Privacy Policy<br /><span class="label">Terms & Conditions and Privacy Policy</span></span>                    
+        </div>        
         <div class="btn-menu" onclick="load_page('/cms/what-is-stocktok',true)">
             <span class="icon icon-logo1"></span>
             <span class="info">What is Stocktok?<br /><span class="label">Learn more about App</span></span>                    
-        </div> 
+        </div>
+        
         <div class="btn-menu" onclick="load_page('/cms/startup-potential',true)">
             <span class="icon icon-stocks"></span>
             <span class="info">Startup potential<br /><span class="label">If you want to invest in stocktok</span></span>                    
         </div> 
-        <div class="btn-menu" onclick="load_page('/settings',true)">
+        
+        <div class="hr-menu"></div>
+        
+        <div class="btn-menu btn-menu-settings" onclick="load_page('/settings',true)">
             <span class="icon icon-settings"></span>
             <span class="info">Settings<br /><span class="label">Adjust app to your needs</span></span>                    
         </div> 

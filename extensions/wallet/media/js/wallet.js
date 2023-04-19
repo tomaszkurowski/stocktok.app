@@ -225,6 +225,18 @@ function movesReload(){
 function walletReload(){
 
     wallet.username = mvc.view ? mvc.view : (sessionStorage.getItem('username') ? sessionStorage.getItem('username') : Cookies.get('username'));
+    
+    if (wallet.username === undefined){
+        
+        console.log('no username case');
+        $('[data-src="wallet.username"]').text('Guest');
+        $('[data-src="wallet.avatar"]').html('<span class="no-avatar icon-user-secret"></span>');                
+        
+        $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-hourglass_empty"></div><h3>Your portfolio is empty</h3><p>To find some first companies: <div class="btn primary" onclick="location.href=\'/market/search?market-is-nasdaq&sort-DESC-volume\'">click here</div></p></td></tr>');
+        
+        return;
+    }
+    
 
     $.ajax({
         url: config.api_url,
@@ -252,7 +264,7 @@ function walletReload(){
                 $('[data-src="wallet.funds"]').parents('.row').removeClass('hide');
             }
 
-            if (wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-hourglass_empty"></div><h3>Your portfolio is empty.</h3></td></tr>'); return; }
+            if (wallet.items.length === 0){ $('[data-src="all"]').addClass('empty').html('<tr><td><div class="icon icon-hourglass_empty"></div><h3>Your portfolio is empty</h3><p>To find some first companies: <div class="btn primary" onclick="location.href=\'/market/search?market-is-nasdaq&sort-DESC-volume\'">click here</div></p></td></tr>'); return; }
             $('.screen').html('<table class="leafs" data-view="'+settings.view_wallet+'" data-src="all"><thead></thead><tbody></tbody></table>');
 
             $('.wallet[data-type="active"] .switch-slider input').prop('checked',settings.wallet_show_active);
