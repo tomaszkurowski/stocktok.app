@@ -103,30 +103,35 @@
                         if (me.mode && me.mode === 'game'){
                             $('[data-mode="game"]').removeClass('hide');
                         }
+                        $('.nav .btn-menu.btn-menu-settings').show();
                         
                     }else{
-                        $('.nav .username').text("Not logged");
+                        $('.nav .username').text("Guest");
                         $('.nav .btn-menu.me').attr('onclick',"load_page('/me/login/?ref='+window.location.pathname,true)").find('.info').html('Login/Register<br /><span class="label">Here you can login or register</span>');
-                        $('.nav .rank').html("Login to get started");
+                        $('.nav .rank').html("Login for better experience");
                         $('.nav .avatar-container').html("");                        
+                        $('.nav .btn-menu.btn-menu-settings').hide();
                     }
 
-                    // ACL 
-                    
+                    // ACL just for testing purposes                     
+                    /*
                     if (me || 
                         mvc.model === 'entities' || 
                         mvc.model === 'market' || 
                         mvc.model === 'cms' ||
                         mvc.model === 'learn'
                     ){
+                    */
                         $.getScript('/extensions/'+mvc.model+'/'+mvc.model+'.js?version='+config.version).fail(function(){
                             mvc.view = '404';
                             $.getScript('/extensions/cms/cms.js?version='+config.version);
-                        });                        
+                        });                                                
+                    /*    
                     }else{
                         mvc.view = 'not_logged';
                         $.getScript('/extensions/cms/cms.js?version='+config.version);                        
                     }
+                    */
 
                 },
                 error: function(e){ if (config.debug) console.log(e); }

@@ -7,12 +7,16 @@
     <div class="row" data-columns="2" data-chapter="2" style="justify-content:center; padding-top:30px">         
         <div class="column">
             <div class="img-container"><img src="/media/img/cms/portfolio.jpg?v=1" /></div>
-            <h2>Sign In/Up</h2>
-            <p class="infoNote" style="display:none; margin-bottom:15px"></p>
+            <h2>Connect</h2>
+            <p class="infoNote" style="margin-bottom:25px; margin-top:0px">
+                Give some name to your portfolio. If you already created one, you will be asked for password. If not, you can create new one.
+            </p>
             
             <div class="cms-form">
-                <input id="username" type="text" placeholder="Your nickname" autocomplete="off" />
-                <input id="password" class="password" type="password" placeholder="Your password" style="display:none" />
+                <input id="username" type="text" placeholder="Portfolio name" autocomplete="off" />
+                <div class="password-container" style="display:none">
+                    <input id="password" type="password" placeholder="Your password" />
+                </div>
 
                 <div class="actions">
                     <div class="icon-btn icon-fingerprint" data-action="step2"></div>

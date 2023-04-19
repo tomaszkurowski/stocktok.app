@@ -64,7 +64,8 @@ $(document).on('click', '[data-action="step2"]', function(){
                     }
                 });
             }else{
-                $('#password').show().focus();
+                $('.password-container').show();
+                $('#password').focus();
             }
         }else{                           
             $.ajax({
@@ -75,8 +76,19 @@ $(document).on('click', '[data-action="step2"]', function(){
                 cache:false,
                 success: function(response){
                     
+                    // response.success
+                    // 0 = no such account
+                    // 1 = there is such account ...
+                    
+                    
+                    if (response.success !== 0){
+                        $('.infoNote').addClass('active').show().html('There is already portfolio with this name. You can log in if its yours, or You can try different name.'); 
+                    }else{
+                        $('.infoNote').addClass('active').show().html('That name is available. Please set up some password to be able to log in future.'); 
+                    }
                     $(btn).attr('data-step',2);                    
-                    $('#password').show().focus();
+                    $('.password-container').show();
+                    $('#password').focus();
 
                 }
             });     
@@ -87,7 +99,7 @@ $(document).off('keyup', '#username');
 $(document).on('keyup','#username',function(){
     if ($('[data-action="step2"]').attr('data-step') === "2"){
         $('[data-action="step2"]').attr('data-step',"1");
-        $('#password').hide();
-        $('.infoNote').hide();        
+        $('.password-container').hide();
+        $('.infoNote').removeClass('active').html('Portfolio is like your virtual wallet where you can keep, manage & observe all your assets (stocks, currencies, tokens etc.)');        
     }
 });
